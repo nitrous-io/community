@@ -4,11 +4,11 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"path/filepath"
 
 	"github.com/jmoiron/sqlx"
 	"github.com/julienschmidt/httprouter"
 	_ "github.com/lib/pq"
+	"github.com/nitrous-io/community/data"
 	"github.com/nitrous-io/community/handlers"
 )
 
@@ -20,7 +20,6 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-
 	dbURL := os.Getenv("DB_URL")
 	if dbURL == "" {
 		panic("DB_URL not set")
@@ -40,7 +39,12 @@ func main() {
 	}
 	defer db.Close()
 
+	data.Db = db
+
 	router := httprouter.New()
+
+	//router.ServeFiles("/css/*filepath", http.Dir(cwd+"github.com/nitrous-io/community/public/css"))
+	//router.ServeFiles("/js/*filepath", http.Dir(cwd+"github.com/nitrous-io/community/public/js"))
 
 	router.GET("/community", handler.HomeIndexPage)
 
@@ -53,13 +57,10 @@ func main() {
 	//router.GET("/community/tutorials", handler.TutorialIndexPage)
 	//router.GET("/community/tutorials/:name", handler.TutorialShowPage)
 	//router.GET("/community/tutorials/:name/edit", handler.TutorialEditPage)
-	//router.PATCH("/community/tutorials/:name", handler.TutorialUpdate)
+	//router.PUT("/community/tutorials/:name", handler.TutorialUpdate)
 	//router.GET("/community/tutorials/new", handler.TutorialNewPage)
 	//router.POST("/community/tutorials/create", handler.TutorialCreate)
 	//router.DELETE("/community/tutorials/:name/delete", handler.TutorialDelete)
-
-	http.Handle("/templates/", http.StripPrefix("/templates/", http.FileServer(http.Dir(filepath.Join(cwd, "/github.com/nitrous-io/community/templates")))))
-	//http.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir(filepath.Join(cwd, "/github.com/nitrous-io/community/public")))))
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

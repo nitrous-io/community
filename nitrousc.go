@@ -51,8 +51,8 @@ func main() {
 	router.GET("/community/login", handler.LoginPage)
 	router.POST("/community/login", handler.Login)
 	router.GET("/community/signup", handler.SignupPage)
-	//router.POST("/community/signup", handler.Signup)
-	//router.DELETE("/logout", handler.Logout)
+	router.POST("/community/signup", handler.Signup)
+	router.GET("/community/logout", handler.Logout)
 
 	//router.GET("/community/tutorials", handler.TutorialIndexPage)
 	//router.GET("/community/tutorials/:name", handler.TutorialShowPage)

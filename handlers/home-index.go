@@ -4,14 +4,13 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"path/filepath"
 
 	"github.com/julienschmidt/httprouter"
 )
 
 var (
-	// FIXME: Set test environment so that test files compile with the right path to templates.
-	//homeTmpl *template.Template = template.Must(template.New("home").ParseFiles("github.com/nitrous-io/community/templates/home-index.html"))
-	homeTmpl *template.Template = template.Must(template.New("home").ParseFiles("../templates/home-index.html"))
+	homeTmpl *template.Template = template.Must(template.New("home").ParseFiles(filepath.Join(pwd, "/github.com/nitrous-io/community/templates/home-index.html")))
 )
 
 type User struct {

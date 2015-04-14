@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 
 	"github.com/julienschmidt/httprouter"
 )
@@ -14,8 +15,7 @@ import (
 var signupAPI string = os.Getenv("NITROUS_API") + "/users"
 
 var (
-	//signupTmpl *template.Template = template.Must(template.New("signup").ParseFiles("github.com/nitrous-io/community/templates/signup.html"))
-	signupTmpl *template.Template = template.Must(template.New("signup").ParseFiles("../templates/signup.html"))
+	signupTmpl *template.Template = template.Must(template.New("signup").ParseFiles(filepath.Join(pwd, "/github.com/nitrous-io/community/templates/signup.html")))
 )
 
 func SignupPage(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {

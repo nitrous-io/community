@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 
 	"github.com/julienschmidt/httprouter"
 )
@@ -16,8 +17,7 @@ import (
 var loginAPI string = os.Getenv("NITROUS_API") + "/oauth/token"
 
 var (
-	//loginTmpl *template.Template = template.Must(template.New("login").ParseFiles("github.com/nitrous-io/community/templates/login.html"))
-	loginTmpl *template.Template = template.Must(template.New("login").ParseFiles("../templates/login.html"))
+	loginTmpl *template.Template = template.Must(template.New("login").ParseFiles(filepath.Join(pwd, "/github.com/nitrous-io/community/templates/login.html")))
 )
 
 func LoginPage(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {

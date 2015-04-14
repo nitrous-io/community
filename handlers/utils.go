@@ -2,9 +2,12 @@ package handler
 
 import (
 	"net/http"
+	"os"
 
 	"github.com/gorilla/securecookie"
 )
+
+var pwd string = os.Getenv("PWD_PATH")
 
 // http://www.gorillatoolkit.org/pkg/securecookie.
 

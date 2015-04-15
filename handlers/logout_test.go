@@ -11,7 +11,7 @@ import (
 	"github.com/nitrous-io/community/handlers"
 )
 
-var devLogoutAPI string = os.Getenv("NITROUS_DEV_API") + "/logout"
+var devLogoutAPI = os.Getenv("NITROUS_DEV_API") + "/logout"
 
 func setupServerSignup() (*httptest.Server, error) {
 	router := httprouter.New()
@@ -47,6 +47,6 @@ func TestLogout(t *testing.T) {
 	}
 	expectedBody := `{"error":"invalid_request","error_description":"auth token is required"}`
 	if string(b) != expectedBody {
-		t.Errorf("%s - Expected body %s, Got %s", expectedBody, string(b))
+		t.Errorf("%s - Expected body %s, Got %s", devLogoutAPI, expectedBody, string(b))
 	}
 }

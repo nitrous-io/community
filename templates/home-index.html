@@ -5,9 +5,16 @@
     <title>Nitrous</title>
   </head>
   <body>
-    <h1>Welcome {{.Username}}</h1>
+  {{if .Authed}}
+    <a href="community/logout">Logout</a>
+  {{else}}
+    <h1>{{.Username}}</h1>
     <a href="community/login">Login</a>
     <a href="community/signup">Signup</a>
-    <a href="community/logout">Logout</a>
+  {{end}}
+
+  {{if .Admin}}
+    <a href="community/tutorial/new">New Tutorial</a>
+  {{end}}
   </body>
 </html>

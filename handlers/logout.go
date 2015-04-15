@@ -8,7 +8,7 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-var logoutAPI string = os.Getenv("NITROUS_API") + "/logout"
+var logoutAPI = os.Getenv("NITROUS_API") + "/logout"
 
 func Logout(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	result, err := http.NewRequest("DELETE", logoutAPI, nil)

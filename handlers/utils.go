@@ -7,7 +7,9 @@ import (
 	"github.com/gorilla/securecookie"
 )
 
-var pwd string = os.Getenv("PWD_PATH")
+// Set pwd path as environment variable to form absolute path to templates so that test files and source files can compile templates.
+var pwd = os.Getenv("PWD_PATH")
+var nitrousAPI = os.Getenv("NITROUS_API")
 
 // http://www.gorillatoolkit.org/pkg/securecookie.
 
@@ -15,18 +17,18 @@ var cookieHandler = securecookie.New(
 	securecookie.GenerateRandomKey(64),
 	securecookie.GenerateRandomKey(32))
 
-func setSession(username, token string, w http.ResponseWriter) {
+func setSession(username, token, usertype string, w http.ResponseWriter) {
 	value := map[string]string{
 		"username": username,
 		"token":    token,
-		//"usertype": "admin",
+		"usertype": usertype, // usertype can be "admin" or ""
 	}
 	// Default MaxAge is 86400 * 30 (30 days).
 	if encoded, err := cookieHandler.Encode("user-session", value); err == nil {
 		cookie := &http.Cookie{
 			Name:  "user-session",
 			Value: encoded,
-			Path:  "/",
+			Path:  "/community",
 		}
 		http.SetCookie(w, cookie)
 	}
@@ -37,25 +39,8 @@ func clearSession(w http.ResponseWriter) {
 	cookie := &http.Cookie{
 		Name:   "user-session",
 		Value:  "",
-		Path:   "/",
+		Path:   "/community",
 		MaxAge: -1,
 	}
 	http.SetCookie(w, cookie)
-}
-
-func getUsername(r *http.Request) (string, error) {
-	var username string
-	if cookie, err := r.Cookie("user-session"); err != nil {
-		// Not logged in.
-		return "", err
-	} else {
-		// Logged in.
-		cookieValue := make(map[string]string)
-		if err = cookieHandler.Decode("user-session", cookie.Value, &cookieValue); err == nil {
-			username = cookieValue["username"]
-			return username, nil
-		} else {
-			return "", err
-		}
-	}
 }

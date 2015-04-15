@@ -10,7 +10,7 @@ import (
 	"github.com/nitrous-io/community/handlers"
 )
 
-var devSignupAPI string = os.Getenv("NITROUS_DEV_API") + "/users"
+var devSignupAPI = os.Getenv("NITROUS_DEV_API") + "/users"
 
 func setupServerSignup() (*httptest.Server, error) {
 	router := httprouter.New()

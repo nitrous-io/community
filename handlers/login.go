@@ -8,16 +8,16 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
 	"path/filepath"
 
 	"github.com/julienschmidt/httprouter"
 )
 
-var loginAPI string = os.Getenv("NITROUS_API") + "/oauth/token"
+var loginAPI = nitrousAPI + "/oauth/token"
+var tokenAuthAPI = nitrousAPI + "/user"
 
 var (
-	loginTmpl *template.Template = template.Must(template.New("login").ParseFiles(filepath.Join(pwd, "/github.com/nitrous-io/community/templates/login.html")))
+	loginTmpl = template.Must(template.New("login").ParseFiles(filepath.Join(pwd, "/github.com/nitrous-io/community/templates/login.html")))
 )
 
 func LoginPage(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
@@ -29,22 +29,29 @@ func LoginPage(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 func Login(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	var token string
-
+	// Ping Nitrous login API.
 	if res, err := authenticateLogin(r); err != nil {
 		fmt.Println(err)
 		http.Redirect(w, r, "/community/login", 302)
 	} else {
-		token = getJSONToken(res)
+		token = getToken(res)
 	}
 
-	// TODO: Convert email to username if logged in with email.
-	username := r.FormValue("username")
-	setSession(username, token, w)
+	// Ping Nitrous token auth API with token to get username and usertype (admin or non-admin).
+	var usertype, username string
+	if res, err := authenticateByToken(token); err != nil {
+		fmt.Println(err)
+	} else {
+		username, usertype = getUserProfile(res)
+	}
+
+	setSession(username, token, usertype, w)
 
 	http.Redirect(w, r, "/community", 302)
 }
 
-// Ping Nitrous login URL.
+// Ping Nitrous login API.
+// If successful, returns {"access_token":"","token_type":"Bearer"}.
 func authenticateLogin(r *http.Request) (*http.Response, error) {
 	loginURL := fmt.Sprintf("%s?grant_type=%s&username=%s&password=%s",
 		loginAPI,
@@ -54,7 +61,7 @@ func authenticateLogin(r *http.Request) (*http.Response, error) {
 
 	res, err := http.Post(loginURL, "", nil)
 	if err != nil {
-		log.Fatal("HTTP POST Request: ", err)
+		log.Fatal("authenticateLogin HTTP POST Request: ", err)
 	}
 	if res.StatusCode != http.StatusOK {
 		return nil, errors.New("Incorrect login credentials")
@@ -63,10 +70,10 @@ func authenticateLogin(r *http.Request) (*http.Response, error) {
 	return res, nil
 }
 
-func getJSONToken(res *http.Response) string {
+func getToken(res *http.Response) string {
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
-		log.Fatal("ReadAll: ", err)
+		log.Fatal("getToken ReadAll: ", err)
 	}
 	defer res.Body.Close()
 
@@ -81,4 +88,54 @@ func getJSONToken(res *http.Response) string {
 	}
 
 	return l.Token
+}
+
+// Ping Nitrous token auth API.
+// If successful, returns {"user":{"id": ,"name": ,"username":"","email": ,"admin":bool,(other container details)}}.
+func authenticateByToken(token string) (*http.Response, error) {
+	client := &http.Client{}
+	req, err := http.NewRequest("GET", tokenAuthAPI, nil)
+	if err != nil {
+		log.Fatal("authenticateByToken HTTP NewRequest: ", err)
+	}
+
+	req.Header.Set("Authorization", "Bearer "+token)
+
+	res, reqErr := client.Do(req)
+	if err != nil {
+		log.Fatal("authenticateByToken Do: ", reqErr)
+	}
+
+	if res.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("authenticateByToken: Expected %v, Got %v", http.StatusOK, res.StatusCode)
+	}
+
+	return res, nil
+}
+
+func getUserProfile(res *http.Response) (string, string) {
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		log.Fatal("getUserProfile ReadAll: ", err)
+	}
+	defer res.Body.Close()
+
+	type ProfileResp struct {
+		User struct {
+			Username string `json:"username"`
+			Admin    bool   `json:"admin"`
+		}
+	}
+	var p ProfileResp
+	readErr := json.Unmarshal(body, &p)
+	if readErr != nil {
+		log.Fatal(readErr)
+	}
+
+	usertype := ""
+	if p.User.Admin {
+		usertype = "admin"
+	}
+
+	return p.User.Username, usertype
 }

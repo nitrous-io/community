@@ -12,17 +12,13 @@ import (
 	"github.com/nitrous-io/community/handlers"
 )
 
-var cwd, dbURL, addr string
+var cwd, addr string
 
 func init() {
 	var err error
 	cwd, err = os.Getwd()
 	if err != nil {
 		panic(err)
-	}
-	dbURL := os.Getenv("DB_URL")
-	if dbURL == "" {
-		panic("DB_URL not set")
 	}
 
 	port := os.Getenv("PORT")
@@ -33,6 +29,11 @@ func init() {
 }
 
 func main() {
+	dbURL := os.Getenv("DB_URL")
+	if dbURL == "" {
+		panic("DB_URL not set")
+	}
+
 	db, err := sqlx.Open("postgres", dbURL)
 	if err != nil {
 		log.Fatal(err)
@@ -54,12 +55,13 @@ func main() {
 	router.POST("/community/signup", handler.Signup)
 	router.GET("/community/logout", handler.Logout)
 
-	//router.GET("/community/tutorials", handler.TutorialIndexPage)
+	router.GET("/community/tutorial/new", handler.TutorialNewPage)
+	router.POST("/community/tutorial", handler.TutorialCreate)
+
+	router.GET("/community/tutorials", handler.TutorialIndexPage)
 	//router.GET("/community/tutorials/:name", handler.TutorialShowPage)
 	//router.GET("/community/tutorials/:name/edit", handler.TutorialEditPage)
 	//router.PUT("/community/tutorials/:name", handler.TutorialUpdate)
-	//router.GET("/community/tutorials/new", handler.TutorialNewPage)
-	//router.POST("/community/tutorials/create", handler.TutorialCreate)
 	//router.DELETE("/community/tutorials/:name/delete", handler.TutorialDelete)
 
 	log.Fatal(http.ListenAndServe(":8080", router))

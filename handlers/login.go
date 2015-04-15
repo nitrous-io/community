@@ -38,14 +38,15 @@ func Login(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	}
 
 	// Ping Nitrous token auth API with token to get username and usertype (admin or non-admin).
+	var userid int64
 	var usertype, username string
 	if res, err := authenticateByToken(token); err != nil {
 		fmt.Println(err)
 	} else {
-		username, usertype = getUserProfile(res)
+		userid, username, usertype = getUserProfile(res)
 	}
 
-	setSession(username, token, usertype, w)
+	setSession(userid, username, usertype, w)
 
 	http.Redirect(w, r, "/community", 302)
 }
@@ -113,7 +114,7 @@ func authenticateByToken(token string) (*http.Response, error) {
 	return res, nil
 }
 
-func getUserProfile(res *http.Response) (string, string) {
+func getUserProfile(res *http.Response) (int64, string, string) {
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
 		log.Fatal("getUserProfile ReadAll: ", err)
@@ -122,6 +123,7 @@ func getUserProfile(res *http.Response) (string, string) {
 
 	type ProfileResp struct {
 		User struct {
+			ID       int64  `json:"id"`
 			Username string `json:"username"`
 			Admin    bool   `json:"admin"`
 		}
@@ -137,5 +139,5 @@ func getUserProfile(res *http.Response) (string, string) {
 		usertype = "admin"
 	}
 
-	return p.User.Username, usertype
+	return p.User.ID, p.User.Username, usertype
 }

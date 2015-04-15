@@ -7,7 +7,7 @@ import (
 	"github.com/gorilla/securecookie"
 )
 
-// Set pwd path as environment variable to form absolute path to templates so that test files and source files can compile templates.
+// Set pwd path as environment variable to form absolute path to templates so that test and source files can compile templates.
 var pwd = os.Getenv("PWD_PATH")
 var nitrousAPI = os.Getenv("NITROUS_API")
 
@@ -17,10 +17,10 @@ var cookieHandler = securecookie.New(
 	securecookie.GenerateRandomKey(64),
 	securecookie.GenerateRandomKey(32))
 
-func setSession(username, token, usertype string, w http.ResponseWriter) {
-	value := map[string]string{
+func setSession(userid int64, username, usertype string, w http.ResponseWriter) {
+	value := map[string]interface{}{
+		"userid":   userid,
 		"username": username,
-		"token":    token,
 		"usertype": usertype, // usertype can be "admin" or ""
 	}
 	// Default MaxAge is 86400 * 30 (30 days).

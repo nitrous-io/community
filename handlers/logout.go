@@ -3,12 +3,11 @@ package handler
 import (
 	"fmt"
 	"net/http"
-	"os"
 
 	"github.com/julienschmidt/httprouter"
 )
 
-var logoutAPI = os.Getenv("NITROUS_API") + "/logout"
+var logoutAPI = nitrousAPI + "/logout"
 
 func Logout(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	result, err := http.NewRequest("DELETE", logoutAPI, nil)

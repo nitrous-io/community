@@ -16,6 +16,11 @@ var (
 )
 
 func TutorialNewPage(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	if _, err := decodeCookie(r, "user-session"); err != nil {
+		fmt.Println(err)
+		http.Redirect(w, r, "/community", 302)
+	}
+
 	err := tutorialNewTmpl.ExecuteTemplate(w, "tutorial-new.html", nil)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -23,34 +28,25 @@ func TutorialNewPage(w http.ResponseWriter, r *http.Request, _ httprouter.Params
 }
 
 func TutorialCreate(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	title := r.FormValue("title")
-	post := r.FormValue("post")
 	var userid int64
 	var username string
-
-	if cookie, err := r.Cookie("user-session"); err == nil {
-		cookieValue := make(map[string]interface{})
-		if err = cookieHandler.Decode("user-session", cookie.Value, &cookieValue); err == nil {
-			userid = cookieValue["userid"].(int64)
-			username = cookieValue["username"].(string)
-		} else {
-			fmt.Println(err)
-		}
-	} else {
+	if cookieValue, err := decodeCookie(r, "user-session"); err != nil {
 		fmt.Println(err)
+		http.Redirect(w, r, "/community", 302)
+	} else {
+		userid = cookieValue["userid"].(int64)
+		username = cookieValue["username"].(string)
 	}
 
 	t := data.Tutorial{
-		UserID:   userid,
-		Author:   username,
-		Title:    title,
-		Post:     post,
-		Approved: false,
+		UserID: userid,
+		Author: username,
+		Title:  r.FormValue("title"),
+		Post:   r.FormValue("post"),
 	}
-
 	// Insert into db.
 	if err := t.Insert(); err != nil {
-		fmt.Println("TutorialCreate - t.Insert():", err)
+		fmt.Println("TutorialCreate: ", err)
 		// TODO: Flash error messages.
 		http.Redirect(w, r, "/community/tutorial/new", 302)
 	}
@@ -60,10 +56,10 @@ func TutorialCreate(w http.ResponseWriter, r *http.Request, _ httprouter.Params)
 }
 
 func TutorialIndexPage(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	type tutorialsVars struct {
+	type ttrlVars struct {
 		Tutorials []data.Tutorial
 	}
-	tv := tutorialsVars{}
+	tv := ttrlVars{}
 	if err := data.Db.Select(&tv.Tutorials, "SELECT * FROM tutorials;"); err != nil {
 		fmt.Println(err)
 	}

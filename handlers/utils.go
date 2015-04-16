@@ -44,3 +44,17 @@ func clearSession(w http.ResponseWriter) {
 	}
 	http.SetCookie(w, cookie)
 }
+
+func decodeCookie(r *http.Request, cookieName string) (map[string]interface{}, error) {
+	if cookie, err := r.Cookie(cookieName); err == nil {
+		cookieValue := make(map[string]interface{})
+		if err = cookieHandler.Decode(cookieName, cookie.Value, &cookieValue); err == nil {
+			return cookieValue, nil
+		} else {
+			return nil, err
+		}
+	} else {
+		// No user-session - not logged in.
+		return nil, err
+	}
+}

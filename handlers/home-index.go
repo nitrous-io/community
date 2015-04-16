@@ -21,25 +21,18 @@ type sessionVars struct {
 
 func HomeIndexPage(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	var sv sessionVars
-
-	if cookie, err := r.Cookie("user-session"); err == nil {
-		cookieValue := make(map[string]interface{})
-		if err = cookieHandler.Decode("user-session", cookie.Value, &cookieValue); err == nil {
-			sv.Username = cookieValue["username"].(string)
-			sv.Authed = true
-			if cookieValue["usertype"] == "admin" {
-				sv.Admin = true
-			}
-		} else {
-			fmt.Println(err)
-		}
-	} else {
-		// sv.Authed defaults to false if no user-session.
+	if cookieValue, err := decodeCookie(r, "user-session"); err != nil {
 		fmt.Println(err)
+	} else {
+		sv.Username = cookieValue["username"].(string)
+		sv.Authed = true
+		if cookieValue["usertype"] == "admin" {
+			sv.Admin = true
+		}
 	}
 
-	err := homeTmpl.ExecuteTemplate(w, "home-index.html", sv)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+	tmplErr := homeTmpl.ExecuteTemplate(w, "home-index.html", sv)
+	if tmplErr != nil {
+		http.Error(w, tmplErr.Error(), http.StatusInternalServerError)
 	}
 }

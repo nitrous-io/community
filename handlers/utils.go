@@ -3,6 +3,8 @@ package handler
 import (
 	"net/http"
 	"os"
+	"regexp"
+	"strings"
 
 	"github.com/gorilla/securecookie"
 )
@@ -57,4 +59,16 @@ func decodeCookie(r *http.Request, cookieName string) (map[string]interface{}, e
 		// No user-session - not logged in.
 		return nil, err
 	}
+}
+
+// Converts 'title to url' to 'title-to-url' format.
+func beautifyURL(title string) (string, error) {
+	reg, err := regexp.Compile("[^a-zA-Z0-9]+")
+	if err != nil {
+		return "", err
+	}
+	prettyurl := reg.ReplaceAllString(title, "-")
+	prettyurl = strings.ToLower(strings.Trim(prettyurl, "-"))
+
+	return prettyurl, nil
 }

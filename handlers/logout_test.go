@@ -13,7 +13,7 @@ import (
 
 var devLogoutAPI = os.Getenv("NITROUS_DEV_API") + "/logout"
 
-func setupServerSignup() (*httptest.Server, error) {
+func setupServerLogout() (*httptest.Server, error) {
 	router := httprouter.New()
 	router.GET("/community/logout", handler.Logout)
 	return httptest.NewServer(router), nil

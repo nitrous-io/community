@@ -1,6 +1,7 @@
 package data
 
 import (
+	"database/sql"
 	"fmt"
 	"time"
 
@@ -11,6 +12,7 @@ type Tutorial struct {
 	ID        int64      `db:"id"`
 	UserID    int64      `db:"user_id"`
 	Author    string     `db:"author"`
+	PrettyURL string     `db:"pretty_url"`
 	Title     string     `db:"title"`
 	Post      string     `db:"post"`
 	Approved  bool       `db:"approved"`
@@ -20,8 +22,8 @@ type Tutorial struct {
 
 func (t *Tutorial) Insert() error {
 	nstmt, err := Db.PrepareNamed(`INSERT INTO tutorials
-		(user_id, author, title, post, approved, created_at, updated_at)
-		VALUES (:user_id, :author, :title, :post, :approved, now(), now())
+	(user_id, author, pretty_url, title, post, approved, created_at, updated_at)
+	VALUES (:user_id, :author, :pretty_url, :title, :post, :approved, now(), now())
 		RETURNING *;
 		`)
 	if err != nil {
@@ -35,4 +37,16 @@ func (t *Tutorial) Insert() error {
 	}
 
 	return err
+}
+
+func (t *Tutorial) GetByPrettyURL(prettyurl string) error {
+	err := Db.Get(t, "SELECT * FROM tutorials WHERE pretty_url = $1 LIMIT 1;", prettyurl)
+	switch err {
+	case nil:
+		return nil
+	case sql.ErrNoRows:
+		return err
+	default:
+		return err
+	}
 }

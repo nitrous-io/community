@@ -53,13 +53,13 @@ func main() {
 	router.POST("/community/login", handler.Login)
 	router.GET("/community/signup", handler.SignupPage)
 	router.POST("/community/signup", handler.Signup)
-	router.GET("/community/logout", handler.Logout)
+	router.GET("/community/logout", handler.Logout) // Authed.
 
-	router.GET("/community/tutorial/new", handler.TutorialNewPage)
-	router.POST("/community/tutorial", handler.TutorialCreate)
-
+	router.GET("/community/tutorials/new", handler.TutorialNewPage) // Admin Authed.
+	router.POST("/community/tutorials", handler.TutorialCreate)     // Admin Authed.
 	router.GET("/community/tutorials", handler.TutorialIndexPage)
-	//router.GET("/community/tutorials/:name", handler.TutorialShowPage)
+
+	router.GET("/community/tutorial/:prettyurl", handler.TutorialShowPage)
 	//router.GET("/community/tutorials/:name/edit", handler.TutorialEditPage)
 	//router.PUT("/community/tutorials/:name", handler.TutorialUpdate)
 	//router.DELETE("/community/tutorials/:name/delete", handler.TutorialDelete)

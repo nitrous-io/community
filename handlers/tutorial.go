@@ -38,11 +38,17 @@ func TutorialCreate(w http.ResponseWriter, r *http.Request, _ httprouter.Params)
 		username = cookieValue["username"].(string)
 	}
 
+	prettyurl, err := beautifyURL(r.FormValue("title"))
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	t := data.Tutorial{
-		UserID: userid,
-		Author: username,
-		Title:  r.FormValue("title"),
-		Post:   r.FormValue("post"),
+		UserID:    userid,
+		Author:    username,
+		PrettyURL: prettyurl,
+		Title:     r.FormValue("title"),
+		Post:      r.FormValue("post"),
 	}
 	// Insert into db.
 	if err := t.Insert(); err != nil {
@@ -68,4 +74,12 @@ func TutorialIndexPage(w http.ResponseWriter, r *http.Request, _ httprouter.Para
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
+}
+
+func TutorialShowPage(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	t := data.Tutorial{}
+
+	prettyurl := ps.ByName("prettyurl")
+
+	t.GetByPrettyURL(prettyurl)
 }

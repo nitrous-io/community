@@ -11,7 +11,8 @@ import (
 )
 
 var (
-	tutorialNewTmpl = template.Must(template.New("signup").ParseFiles(filepath.Join(pwd, "/github.com/nitrous-io/community/templates/tutorial-new.html")))
+	tutorialNewTmpl   = template.Must(template.New("tutorial").ParseFiles(filepath.Join(pwd, "/github.com/nitrous-io/community/templates/tutorial-new.html")))
+	tutorialIndexTmpl = template.Must(template.New("tutorial").ParseFiles(filepath.Join(pwd, "/github.com/nitrous-io/community/templates/tutorial-index.html")))
 )
 
 func TutorialNewPage(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
@@ -56,4 +57,19 @@ func TutorialCreate(w http.ResponseWriter, r *http.Request, _ httprouter.Params)
 
 	// Successful submission: Flash success message and inform user that submission will be reviewed.
 	http.Redirect(w, r, "/community", 302)
+}
+
+func TutorialIndexPage(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	type tutorialsVars struct {
+		Tutorials []data.Tutorial
+	}
+	tv := tutorialsVars{}
+	if err := data.Db.Select(&tv.Tutorials, "SELECT * FROM tutorials;"); err != nil {
+		fmt.Println(err)
+	}
+
+	err := tutorialIndexTmpl.ExecuteTemplate(w, "tutorial-index.html", tv)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
 }

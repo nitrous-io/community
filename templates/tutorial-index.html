@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Nitrous</title>
+    <link rel="stylesheet" type="text/css" href="/css/user.css" />
+  </head>
+  <body>
+    <h1>Tutorials</h1>
+
+    {{with .Tutorials}}
+      {{range .}}
+        <h2>{{.Title}}</h2>
+        <p>{{.Post}}</p>
+        <small>{{.Author}}</small>
+      {{end}}
+    {{end}}
+
+  </body>
+</html>

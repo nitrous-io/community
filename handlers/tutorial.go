@@ -13,6 +13,7 @@ import (
 var (
 	tutorialNewTmpl   = template.Must(template.New("tutorial").ParseFiles(filepath.Join(pwd, "/github.com/nitrous-io/community/templates/tutorial-new.html")))
 	tutorialIndexTmpl = template.Must(template.New("tutorial").ParseFiles(filepath.Join(pwd, "/github.com/nitrous-io/community/templates/tutorial-index.html")))
+	tutorialShowTmpl  = template.Must(template.New("tutorial").ParseFiles(filepath.Join(pwd, "/github.com/nitrous-io/community/templates/tutorial-show.html")))
 )
 
 func TutorialNewPage(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
@@ -77,9 +78,13 @@ func TutorialIndexPage(w http.ResponseWriter, r *http.Request, _ httprouter.Para
 }
 
 func TutorialShowPage(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	t := data.Tutorial{}
-
 	prettyurl := ps.ByName("prettyurl")
 
+	t := data.Tutorial{}
 	t.GetByPrettyURL(prettyurl)
+
+	err := tutorialShowTmpl.ExecuteTemplate(w, "tutorial-show.html", t)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
 }

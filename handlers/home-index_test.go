@@ -9,6 +9,11 @@ import (
 	"github.com/nitrous-io/community/handlers"
 )
 
+//
+// Tests the following:
+// - GET HomeIndexPage: simple get request should return correct status code.
+//
+
 func setupServerHomeIndex() (*httptest.Server, error) {
 	router := httprouter.New()
 	router.GET("/community", handler.HomeIndexPage)

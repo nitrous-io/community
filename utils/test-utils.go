@@ -1,4 +1,4 @@
-package testhelpers
+package utils
 
 import (
 	"fmt"
@@ -11,19 +11,21 @@ import (
 	"github.com/mattes/migrate/migrate"
 )
 
+//
+// Sets up mock DB for testing purposes only.
+//
+
 func SetupDB(t *testing.T) *sqlx.DB {
 	dbURL := os.Getenv("TEST_DB_URL")
 	if dbURL == "" {
-		panic("DB_URL not set")
+		panic("TEST_DB_URL not set")
 	}
-	// open the db
 	db, err := sqlx.Open("postgres", dbURL)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	// run pending migrations
-	// assumes path for migrations is data/migrations
+	// Run pending migrations.
 	t.Log("Starting database migrations...")
 	pwd, _ := os.Getwd()
 	errs, ok := migrate.UpSync(dbURL, filepath.Join(pwd, "/../data/migrations"))
@@ -35,7 +37,7 @@ func SetupDB(t *testing.T) *sqlx.DB {
 	}
 	t.Log("Completed database migrations")
 
-	// truncate tables
+	// Truncate tables.
 	t.Log("Truncating tables...")
 	tables := []string{}
 	q := "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_name <> 'schema_migrations';"

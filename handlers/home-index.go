@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 
 	"github.com/julienschmidt/httprouter"
+	"github.com/nitrous-io/community/utils"
 )
 
 var (
@@ -21,7 +22,7 @@ type sessionVars struct {
 
 func HomeIndexPage(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	var sv sessionVars
-	if cookieValue, err := DecodeCookie(r, "user-session"); err != nil {
+	if cookieValue, err := utils.DecodeCookie(r, "user-session"); err != nil {
 		fmt.Println(err)
 	} else {
 		sv.Username = cookieValue["username"].(string)

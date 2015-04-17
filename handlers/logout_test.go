@@ -4,14 +4,13 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
-	"os"
 	"testing"
 
 	"github.com/julienschmidt/httprouter"
 	"github.com/nitrous-io/community/handlers"
 )
 
-var devLogoutAPI = os.Getenv("NITROUS_DEV_API") + "/logout"
+var devLogoutAPI = nitrousDevAPI + "/logout"
 
 func setupServerLogout() (*httptest.Server, error) {
 	router := httprouter.New()

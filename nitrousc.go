@@ -33,7 +33,6 @@ func main() {
 	if dbURL == "" {
 		panic("DB_URL not set")
 	}
-
 	db, err := sqlx.Open("postgres", dbURL)
 	if err != nil {
 		log.Fatal(err)
@@ -50,15 +49,19 @@ func main() {
 	router.GET("/community", handler.HomeIndexPage)
 
 	router.GET("/community/login", handler.LoginPage)
-	router.POST("/community/login", handler.Login)
 	router.GET("/community/signup", handler.SignupPage)
+	router.POST("/community/login", handler.Login)
 	router.POST("/community/signup", handler.Signup)
-	router.GET("/community/logout", handler.Logout) // Authed.
 
-	router.GET("/community/tutorials/new", handler.TutorialNewPage) // Admin Authed.
-	router.POST("/community/tutorials", handler.TutorialCreate)     // Admin Authed.
 	router.GET("/community/tutorials", handler.TutorialIndexPage)
 	router.GET("/community/tutorial/:prettyurl", handler.TutorialShowPage)
+
+	// Protected: Authed.
+	router.GET("/community/logout", handler.Logout)
+
+	// Protected: Admin Authed.
+	router.GET("/community/tutorials/new", handler.TutorialNewPage)
+	router.POST("/community/tutorials", handler.TutorialCreate)
 
 	//router.GET("/community/tutorials/:name/edit", handler.TutorialEditPage)
 	//router.PUT("/community/tutorials/:name", handler.TutorialUpdate)

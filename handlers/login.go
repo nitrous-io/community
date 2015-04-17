@@ -8,9 +8,24 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"path/filepath"
 
 	"github.com/julienschmidt/httprouter"
+	"github.com/nitrous-io/community/utils"
+)
+
+//
+// User fills in credentials on a form on Nitrous community.
+// Logs user in by pinging login API on Nitrous Pro.
+// Login API returns an access token in JSON format.
+// Use token value to ping tokenAuth API on Nitrous Pro to get session values.
+// Sets session values in encrypted cookie stored on client side.
+//
+
+var (
+	pwd        = os.Getenv("PWD_PATH")
+	nitrousAPI = os.Getenv("NITROUS_API")
 )
 
 var loginAPI = nitrousAPI + "/oauth/token"
@@ -46,7 +61,7 @@ func Login(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		userid, username, usertype = getUserProfile(res)
 	}
 
-	SetSession(userid, username, usertype, w)
+	utils.SetSession(userid, username, usertype, w)
 
 	http.Redirect(w, r, "/community", 302)
 }
@@ -71,6 +86,7 @@ func authenticateLogin(r *http.Request) (*http.Response, error) {
 	return res, nil
 }
 
+// getToken derives Token value from the JSON response returned by the login API.
 func getToken(res *http.Response) string {
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
@@ -91,7 +107,7 @@ func getToken(res *http.Response) string {
 	return l.Token
 }
 
-// Ping Nitrous token auth API.
+// Ping Nitrous tokenAuth API.
 // If successful, returns {"user":{"id": ,"name": ,"username":"","email": ,"admin":bool,(other container details)}}.
 func authenticateByToken(token string) (*http.Response, error) {
 	client := &http.Client{}
@@ -114,6 +130,7 @@ func authenticateByToken(token string) (*http.Response, error) {
 	return res, nil
 }
 
+// getUserProfile derives ID, Username, and Admin values from the JSON response returned by the tokenAuth API.
 func getUserProfile(res *http.Response) (int64, string, string) {
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {

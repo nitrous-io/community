@@ -10,7 +10,14 @@ import (
 	"github.com/nitrous-io/community/handlers"
 )
 
-var devLoginAPI = os.Getenv("NITROUS_DEV_API") + "/oauth/token"
+//
+// Tests the following:
+// - GET LoginPage: simple get request should return correct status code.
+// - POST Login: successful and unsuccessful test cases should return correct status code.
+//
+
+var nitrousDevAPI = os.Getenv("NITROUS_DEV_API")
+var devLoginAPI = nitrousDevAPI + "/oauth/token"
 
 func setupServerLogin() (*httptest.Server, error) {
 	router := httprouter.New()

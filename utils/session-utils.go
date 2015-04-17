@@ -1,32 +1,30 @@
-package handler
+package utils
 
 import (
 	"net/http"
-	"os"
-	"regexp"
-	"strings"
 
 	"github.com/gorilla/securecookie"
 )
 
-// Set pwd path as environment variable to form absolute path to templates so that test and source files can compile templates.
-var pwd = os.Getenv("PWD_PATH")
-
-var nitrousAPI = os.Getenv("NITROUS_API")
-
+//
+// Implements a client side session storage with Gorilla securecookie package.
 // http://www.gorillatoolkit.org/pkg/securecookie.
+//
 
+// Initialize secure cookie handler.
 var CookieHandler = securecookie.New(
 	securecookie.GenerateRandomKey(64),
-	securecookie.GenerateRandomKey(32))
+	securecookie.GenerateRandomKey(32),
+)
 
+// Store session values in a map in a single cookie.
 func SetSession(userid int64, username, usertype string, w http.ResponseWriter) {
 	value := map[string]interface{}{
 		"userid":   userid,
 		"username": username,
 		"usertype": usertype, // usertype can be "admin" or ""
 	}
-	// Default MaxAge is 86400 * 30 (30 days).
+	// Cookie duration is set to the default MaxAge which is 86400 * 30 (30 days).
 	if encoded, err := CookieHandler.Encode("user-session", value); err == nil {
 		cookie := &http.Cookie{
 			Name:  "user-session",
@@ -37,8 +35,8 @@ func SetSession(userid int64, username, usertype string, w http.ResponseWriter) 
 	}
 }
 
-func clearSession(w http.ResponseWriter) {
-	// Delete cookie.
+// Delete cookie.
+func ClearSession(w http.ResponseWriter) {
 	cookie := &http.Cookie{
 		Name:   "user-session",
 		Value:  "",
@@ -60,16 +58,4 @@ func DecodeCookie(r *http.Request, cookieName string) (map[string]interface{}, e
 		// No user-session - not logged in.
 		return nil, err
 	}
-}
-
-// Converts 'title to url' to 'title-to-url' format.
-func BeautifyURL(title string) (string, error) {
-	reg, err := regexp.Compile("[^a-zA-Z0-9]+")
-	if err != nil {
-		return "", err
-	}
-	prettyurl := reg.ReplaceAllString(title, "-")
-	prettyurl = strings.ToLower(strings.Trim(prettyurl, "-"))
-
-	return prettyurl, nil
 }

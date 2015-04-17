@@ -11,6 +11,13 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
+//
+// User signs up on a form on Nitrous community.
+// Signs up user by pinging signup API on Nitrous Pro.
+// If successful, log in user automatically by calling Login function, which will set session values.
+// Else if unsuccessful, redirect to signup page.
+//
+
 var signupAPI = nitrousAPI + "/users"
 
 var (

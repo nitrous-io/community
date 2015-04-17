@@ -5,7 +5,13 @@ import (
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
+	"github.com/nitrous-io/community/utils"
 )
+
+//
+// Deletes token from Nitrous DB upon logout by calling Nitrous logout API.
+// Session cookie on Nitrous community is also deleted.
+//
 
 var logoutAPI = nitrousAPI + "/logout"
 
@@ -25,7 +31,7 @@ func Logout(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		fmt.Println("did not log out")
 	}
 
-	clearSession(w)
+	utils.ClearSession(w)
 
 	http.Redirect(w, r, "/community", 302)
 }

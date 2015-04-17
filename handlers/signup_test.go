@@ -3,14 +3,19 @@ package handler_test
 import (
 	"net/http"
 	"net/http/httptest"
-	"os"
 	"testing"
 
 	"github.com/julienschmidt/httprouter"
 	"github.com/nitrous-io/community/handlers"
 )
 
-var devSignupAPI = os.Getenv("NITROUS_DEV_API") + "/users"
+//
+// Tests the following:
+// - GET SignupPage: simple get request should return correct status code.
+// - POST Signup: unsuccessful test cases should return correct status code.
+//
+
+var devSignupAPI = nitrousDevAPI + "/users"
 
 func setupServerSignup() (*httptest.Server, error) {
 	router := httprouter.New()

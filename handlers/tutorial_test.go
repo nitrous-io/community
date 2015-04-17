@@ -10,8 +10,16 @@ import (
 	"github.com/julienschmidt/httprouter"
 	"github.com/nitrous-io/community/data"
 	"github.com/nitrous-io/community/handlers"
-	"github.com/nitrous-io/community/testhelpers"
+	"github.com/nitrous-io/community/utils"
 )
+
+//
+// Tests the following:
+// - GET TutorialNewPage: authenticated and unauthenticated access should return correct status code.
+// - POST Tutorial: authenticated access should return correct status code.
+// - GET TutorialIndexPage: should return correct status code and contain byte value of a submitted tutorial in response body.
+// - GET TutorialShowPage: should return correct status code when called with prettyurl and contain byte value of a submitted tutorial in response body.
+//
 
 func setupServerTutorial() (*httptest.Server, error) {
 	router := httprouter.New()
@@ -34,13 +42,13 @@ func TestTutorialNew(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	// Authenticated Access.
+	// Test authenticated access.
 	value := map[string]interface{}{
 		"userid":   1,
 		"username": "bighero",
 		"usertype": "admin",
 	}
-	if encoded, eErr := handler.CookieHandler.Encode("user-session", value); eErr == nil {
+	if encoded, eErr := utils.CookieHandler.Encode("user-session", value); eErr == nil {
 		cookie := &http.Cookie{
 			Name:  "user-session",
 			Value: encoded,
@@ -49,7 +57,7 @@ func TestTutorialNew(t *testing.T) {
 		req.AddCookie(cookie)
 	}
 
-	if _, dErr := handler.DecodeCookie(req, "user-session"); dErr != nil {
+	if _, dErr := utils.DecodeCookie(req, "user-session"); dErr != nil {
 		t.Logf("dErr: %s", dErr)
 	}
 
@@ -63,7 +71,7 @@ func TestTutorialNew(t *testing.T) {
 		t.Errorf("/community/tutorials/new - Expected status code %v, Got %v", http.StatusOK, res.StatusCode)
 	}
 
-	// Unauthenticated access.
+	// Test unauthenticated access.
 	unauthRes, UErr := http.Get(ts.URL + "/community/tutorials/new")
 	if UErr != nil {
 		t.Fatal(UErr)
@@ -80,7 +88,7 @@ func TestTutorialCreate(t *testing.T) {
 	}
 	defer ts.Close()
 
-	db := testhelpers.SetupDB(t)
+	db := utils.SetupDB(t)
 	defer db.Close()
 
 	data.Db = db
@@ -90,15 +98,14 @@ func TestTutorialCreate(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	// Authenticated Access.
-	var n int64
-	n = 1
+	// Test authenticated access.
+	var n int64 = 1
 	value := map[string]interface{}{
 		"userid":   n,
 		"username": "bighero",
 		"usertype": "admin",
 	}
-	if encoded, eErr := handler.CookieHandler.Encode("user-session", value); eErr == nil {
+	if encoded, eErr := utils.CookieHandler.Encode("user-session", value); eErr == nil {
 		cookie := &http.Cookie{
 			Name:  "user-session",
 			Value: encoded,
@@ -107,29 +114,26 @@ func TestTutorialCreate(t *testing.T) {
 		req.AddCookie(cookie)
 	}
 
-	var userid int64
-	var username string
-	if cookieValue, err := handler.DecodeCookie(req, "user-session"); err != nil {
+	cookieValue, err := utils.DecodeCookie(req, "user-session")
+	if err != nil {
 		t.Fatalf("%s", err)
-	} else {
-		userid = cookieValue["userid"].(int64)
-		username = cookieValue["username"].(string)
+	}
+	userid := cookieValue["userid"].(int64)
+	username := cookieValue["username"].(string)
+
+	prettyurl, cErr := handler.ConvertToPrettyURL("How to build a robot")
+	if cErr != nil {
+		t.Logf("%s", cErr)
 	}
 
-	prettyurl, perr := handler.BeautifyURL("How to build a robot")
-	if perr != nil {
-		t.Logf("%s", perr)
-	}
-
-	ttr := data.Tutorial{
+	ttrl := data.Tutorial{
 		UserID:    userid,
 		Author:    username,
 		PrettyURL: prettyurl,
 		Title:     "How to build a robot",
 		Post:      "baymax",
 	}
-	// Insert into db.
-	if dbErr := ttr.Insert(db); dbErr != nil {
+	if dbErr := ttrl.Insert(db); dbErr != nil {
 		t.Fatalf("%s", dbErr)
 	}
 
@@ -142,7 +146,6 @@ func TestTutorialCreate(t *testing.T) {
 	if res.StatusCode != http.StatusCreated {
 		t.Errorf("/community/tutorials - Expected status code %v, Got %v", http.StatusOK, res.StatusCode)
 	}
-
 }
 
 func TestTutorialShow(t *testing.T) {
@@ -152,7 +155,7 @@ func TestTutorialShow(t *testing.T) {
 	}
 	defer ts.Close()
 
-	db := testhelpers.SetupDB(t)
+	db := utils.SetupDB(t)
 	defer db.Close()
 
 	data.Db = db
@@ -164,7 +167,6 @@ func TestTutorialShow(t *testing.T) {
 		Title:     "How to build a robot",
 		Post:      "baymax",
 	}
-	// Insert into db.
 	if dbErr := ttr.Insert(db); dbErr != nil {
 		t.Fatalf("%s", dbErr)
 	}
@@ -198,7 +200,7 @@ func TestTutorialndexPage(t *testing.T) {
 	}
 	defer ts.Close()
 
-	db := testhelpers.SetupDB(t)
+	db := utils.SetupDB(t)
 	defer db.Close()
 
 	data.Db = db

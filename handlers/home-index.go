@@ -21,7 +21,7 @@ type sessionVars struct {
 
 func HomeIndexPage(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	var sv sessionVars
-	if cookieValue, err := decodeCookie(r, "user-session"); err != nil {
+	if cookieValue, err := DecodeCookie(r, "user-session"); err != nil {
 		fmt.Println(err)
 	} else {
 		sv.Username = cookieValue["username"].(string)

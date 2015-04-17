@@ -46,7 +46,7 @@ func Login(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		userid, username, usertype = getUserProfile(res)
 	}
 
-	setSession(userid, username, usertype, w)
+	SetSession(userid, username, usertype, w)
 
 	http.Redirect(w, r, "/community", 302)
 }

@@ -11,22 +11,23 @@ import (
 
 // Set pwd path as environment variable to form absolute path to templates so that test and source files can compile templates.
 var pwd = os.Getenv("PWD_PATH")
+
 var nitrousAPI = os.Getenv("NITROUS_API")
 
 // http://www.gorillatoolkit.org/pkg/securecookie.
 
-var cookieHandler = securecookie.New(
+var CookieHandler = securecookie.New(
 	securecookie.GenerateRandomKey(64),
 	securecookie.GenerateRandomKey(32))
 
-func setSession(userid int64, username, usertype string, w http.ResponseWriter) {
+func SetSession(userid int64, username, usertype string, w http.ResponseWriter) {
 	value := map[string]interface{}{
 		"userid":   userid,
 		"username": username,
 		"usertype": usertype, // usertype can be "admin" or ""
 	}
 	// Default MaxAge is 86400 * 30 (30 days).
-	if encoded, err := cookieHandler.Encode("user-session", value); err == nil {
+	if encoded, err := CookieHandler.Encode("user-session", value); err == nil {
 		cookie := &http.Cookie{
 			Name:  "user-session",
 			Value: encoded,
@@ -47,10 +48,10 @@ func clearSession(w http.ResponseWriter) {
 	http.SetCookie(w, cookie)
 }
 
-func decodeCookie(r *http.Request, cookieName string) (map[string]interface{}, error) {
+func DecodeCookie(r *http.Request, cookieName string) (map[string]interface{}, error) {
 	if cookie, err := r.Cookie(cookieName); err == nil {
 		cookieValue := make(map[string]interface{})
-		if err = cookieHandler.Decode(cookieName, cookie.Value, &cookieValue); err == nil {
+		if err = CookieHandler.Decode(cookieName, cookie.Value, &cookieValue); err == nil {
 			return cookieValue, nil
 		} else {
 			return nil, err
@@ -62,7 +63,7 @@ func decodeCookie(r *http.Request, cookieName string) (map[string]interface{}, e
 }
 
 // Converts 'title to url' to 'title-to-url' format.
-func beautifyURL(title string) (string, error) {
+func BeautifyURL(title string) (string, error) {
 	reg, err := regexp.Compile("[^a-zA-Z0-9]+")
 	if err != nil {
 		return "", err

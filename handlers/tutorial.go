@@ -17,7 +17,7 @@ var (
 )
 
 func TutorialNewPage(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	if _, err := decodeCookie(r, "user-session"); err != nil {
+	if _, err := DecodeCookie(r, "user-session"); err != nil {
 		fmt.Println(err)
 		http.Redirect(w, r, "/community", 302)
 	}
@@ -31,7 +31,7 @@ func TutorialNewPage(w http.ResponseWriter, r *http.Request, _ httprouter.Params
 func TutorialCreate(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	var userid int64
 	var username string
-	if cookieValue, err := decodeCookie(r, "user-session"); err != nil {
+	if cookieValue, err := DecodeCookie(r, "user-session"); err != nil {
 		fmt.Println(err)
 		http.Redirect(w, r, "/community", 302)
 	} else {
@@ -39,7 +39,7 @@ func TutorialCreate(w http.ResponseWriter, r *http.Request, _ httprouter.Params)
 		username = cookieValue["username"].(string)
 	}
 
-	prettyurl, err := beautifyURL(r.FormValue("title"))
+	prettyurl, err := BeautifyURL(r.FormValue("title"))
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -52,24 +52,29 @@ func TutorialCreate(w http.ResponseWriter, r *http.Request, _ httprouter.Params)
 		Post:      r.FormValue("post"),
 	}
 	// Insert into db.
-	if err := t.Insert(); err != nil {
+	if err := t.Insert(data.Db); err != nil {
 		fmt.Println("TutorialCreate: ", err)
 		// TODO: Flash error messages.
 		http.Redirect(w, r, "/community/tutorial/new", 302)
 	}
 
+	w.WriteHeader(http.StatusCreated)
 	// Successful submission: Flash success message and inform user that submission will be reviewed.
 	http.Redirect(w, r, "/community", 302)
 }
 
 func TutorialIndexPage(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	type ttrlVars struct {
-		Tutorials []data.Tutorial
+		Tutorials []*data.Tutorial
 	}
-	tv := ttrlVars{}
-	if err := data.Db.Select(&tv.Tutorials, "SELECT * FROM tutorials;"); err != nil {
-		fmt.Println(err)
+	var tv ttrlVars
+
+	var ts []*data.Tutorial
+	tx, dbErr := data.GetAllTutorials(ts, data.Db)
+	if dbErr != nil {
+		fmt.Println(dbErr)
 	}
+	tv.Tutorials = tx
 
 	err := tutorialIndexTmpl.ExecuteTemplate(w, "tutorial-index.html", tv)
 	if err != nil {

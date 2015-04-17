@@ -58,8 +58,8 @@ func main() {
 	router.GET("/community/tutorials/new", handler.TutorialNewPage) // Admin Authed.
 	router.POST("/community/tutorials", handler.TutorialCreate)     // Admin Authed.
 	router.GET("/community/tutorials", handler.TutorialIndexPage)
-
 	router.GET("/community/tutorial/:prettyurl", handler.TutorialShowPage)
+
 	//router.GET("/community/tutorials/:name/edit", handler.TutorialEditPage)
 	//router.PUT("/community/tutorials/:name", handler.TutorialUpdate)
 	//router.DELETE("/community/tutorials/:name/delete", handler.TutorialDelete)

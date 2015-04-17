@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/jmoiron/sqlx"
 	"github.com/lib/pq"
 )
 
@@ -20,8 +21,8 @@ type Tutorial struct {
 	UpdatedAt *time.Time `db:"updated_at"`
 }
 
-func (t *Tutorial) Insert() error {
-	nstmt, err := Db.PrepareNamed(`INSERT INTO tutorials
+func (t *Tutorial) Insert(db *sqlx.DB) error {
+	nstmt, err := db.PrepareNamed(`INSERT INTO tutorials
 	(user_id, author, pretty_url, title, post, approved, created_at, updated_at)
 	VALUES (:user_id, :author, :pretty_url, :title, :post, :approved, now(), now())
 		RETURNING *;
@@ -37,6 +38,13 @@ func (t *Tutorial) Insert() error {
 	}
 
 	return err
+}
+
+func GetAllTutorials(t []*Tutorial, db *sqlx.DB) ([]*Tutorial, error) {
+	if err := db.Select(&t, "SELECT * FROM tutorials;"); err != nil {
+		return nil, err
+	}
+	return t, nil
 }
 
 func (t *Tutorial) GetByPrettyURL(prettyurl string) error {

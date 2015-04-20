@@ -1,7 +1,6 @@
 package data
 
 import (
-	"database/sql"
 	"fmt"
 	"time"
 
@@ -34,27 +33,26 @@ func (t *Tutorial) Insert(db *sqlx.DB) error {
 
 	err = nstmt.QueryRow(t).StructScan(t)
 	if err, ok := err.(*pq.Error); ok {
-		return fmt.Errorf("%s", err) // TODO: Check err.Code.Name() for unique_violation error, foreign_key_violation error.
+		return err
 	}
 
 	return err
 }
 
-func GetAllTutorials(t []*Tutorial, db *sqlx.DB) ([]*Tutorial, error) {
-	if err := db.Select(&t, "SELECT * FROM tutorials;"); err != nil {
+func GetAllTutorials(db *sqlx.DB) ([]*Tutorial, error) {
+	var ts []*Tutorial
+	if err := db.Select(&ts, "SELECT * FROM tutorials;"); err != nil {
 		return nil, err
 	}
-	return t, nil
+	return ts, nil
 }
 
-func (t *Tutorial) GetByPrettyURL(prettyurl string) error {
-	err := Db.Get(t, "SELECT * FROM tutorials WHERE pretty_url = $1 LIMIT 1;", prettyurl)
-	switch err {
-	case nil:
-		return nil
-	case sql.ErrNoRows:
-		return err
-	default:
-		return err
+func GetByPrettyURL(db *sqlx.DB, prettyurl string) (*Tutorial, error) {
+	t := &Tutorial{}
+	err := db.Get(t, "SELECT * FROM tutorials WHERE pretty_url = $1 LIMIT 1;", prettyurl)
+	if err != nil {
+		return t, err
 	}
+
+	return t, nil
 }

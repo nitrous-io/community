@@ -92,8 +92,7 @@ func TutorialIndexPage(w http.ResponseWriter, r *http.Request, _ httprouter.Para
 	}
 	var tv ttrlVars
 
-	var ts []*data.Tutorial
-	ttrls, dbErr := data.GetAllTutorials(ts, data.Db)
+	ttrls, dbErr := data.GetAllTutorials(data.Db)
 	if dbErr != nil {
 		fmt.Println(dbErr)
 	}
@@ -107,11 +106,13 @@ func TutorialIndexPage(w http.ResponseWriter, r *http.Request, _ httprouter.Para
 
 func TutorialShowPage(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	prettyurl := ps.ByName("prettyurl")
-	t := data.Tutorial{}
-	t.GetByPrettyURL(prettyurl)
-
-	err := tutorialShowTmpl.ExecuteTemplate(w, "tutorial-show.html", t)
+	t, err := data.GetByPrettyURL(data.Db, prettyurl)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		fmt.Println(err)
+	}
+
+	tErr := tutorialShowTmpl.ExecuteTemplate(w, "tutorial-show.html", t)
+	if tErr != nil {
+		http.Error(w, tErr.Error(), http.StatusInternalServerError)
 	}
 }

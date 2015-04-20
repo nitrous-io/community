@@ -11,6 +11,7 @@ import (
 	"github.com/julienschmidt/httprouter"
 	"github.com/nitrous-io/community/data"
 	"github.com/nitrous-io/community/utils"
+	"github.com/russross/blackfriday"
 )
 
 //
@@ -23,9 +24,14 @@ import (
 
 var (
 	tutorialNewTmpl   = template.Must(template.New("tutorial").ParseFiles(filepath.Join(pwd, "/github.com/nitrous-io/community/templates/tutorial-new.html")))
-	tutorialIndexTmpl = template.Must(template.New("tutorial").ParseFiles(filepath.Join(pwd, "/github.com/nitrous-io/community/templates/tutorial-index.html")))
-	tutorialShowTmpl  = template.Must(template.New("tutorial").ParseFiles(filepath.Join(pwd, "/github.com/nitrous-io/community/templates/tutorial-show.html")))
+	tutorialIndexTmpl = template.Must(template.New("tutorial").Funcs(map[string]interface{}{"ToHtml": ToHtml}).ParseFiles(filepath.Join(pwd, "/github.com/nitrous-io/community/templates/tutorial-index.html")))
+	tutorialShowTmpl  = template.Must(template.New("tutorial").Funcs(map[string]interface{}{"ToHtml": ToHtml}).ParseFiles(filepath.Join(pwd, "/github.com/nitrous-io/community/templates/tutorial-show.html")))
 )
+
+// Escape HTML.
+func ToHtml(s string) template.HTML {
+	return template.HTML(s)
+}
 
 // Protected page: Admin access only.
 func TutorialNewPage(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
@@ -55,12 +61,15 @@ func TutorialCreate(w http.ResponseWriter, r *http.Request, _ httprouter.Params)
 		fmt.Println(err)
 	}
 
+	posthtml := blackfriday.MarkdownBasic([]byte(r.FormValue("post")))
+
 	t := data.Tutorial{
-		UserID:    cookieValue["userid"].(int64),
-		Author:    cookieValue["username"].(string),
-		PrettyURL: prettyurl,
-		Title:     r.FormValue("title"),
-		Post:      r.FormValue("post"),
+		UserID:       cookieValue["userid"].(int64),
+		Author:       cookieValue["username"].(string),
+		PrettyURL:    prettyurl,
+		Title:        r.FormValue("title"),
+		PostMarkdown: r.FormValue("post"),
+		PostHTML:     string(posthtml),
 		// TODO: Implement approved status.
 	}
 	if err := t.Insert(data.Db); err != nil {
@@ -68,7 +77,6 @@ func TutorialCreate(w http.ResponseWriter, r *http.Request, _ httprouter.Params)
 		// TODO: Flash error messages.
 		http.Redirect(w, r, "/community/tutorial/new", 302)
 	}
-	w.WriteHeader(http.StatusCreated)
 
 	// Successful submission: Flash success message and inform user that submission will be reviewed.
 	http.Redirect(w, r, "/community", 302)

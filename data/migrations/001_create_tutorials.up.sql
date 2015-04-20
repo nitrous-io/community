@@ -4,7 +4,8 @@ CREATE TABLE tutorials (
   author character varying(255) NOT NULL,
   pretty_url character varying(255) NOT NULL,
   title character varying(255) NOT NULL,
-  post text NOT NULL,
+  post_markdown text NOT NULL,
+  post_html text,
   approved bool NOT NULL,
   created_at timestamp without time zone DEFAULT now(),
   updated_at timestamp without time zone DEFAULT now()

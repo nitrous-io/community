@@ -1,7 +1,6 @@
 package data
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/jmoiron/sqlx"
@@ -9,21 +8,22 @@ import (
 )
 
 type Tutorial struct {
-	ID        int64      `db:"id"`
-	UserID    int64      `db:"user_id"`
-	Author    string     `db:"author"`
-	PrettyURL string     `db:"pretty_url"`
-	Title     string     `db:"title"`
-	Post      string     `db:"post"`
-	Approved  bool       `db:"approved"`
-	CreatedAt *time.Time `db:"created_at"`
-	UpdatedAt *time.Time `db:"updated_at"`
+	ID           int64      `db:"id"`
+	UserID       int64      `db:"user_id"`
+	Author       string     `db:"author"`
+	PrettyURL    string     `db:"pretty_url"`
+	Title        string     `db:"title"`
+	PostMarkdown string     `db:"post_markdown"`
+	PostHTML     string     `db:"post_html"`
+	Approved     bool       `db:"approved"`
+	CreatedAt    *time.Time `db:"created_at"`
+	UpdatedAt    *time.Time `db:"updated_at"`
 }
 
 func (t *Tutorial) Insert(db *sqlx.DB) error {
 	nstmt, err := db.PrepareNamed(`INSERT INTO tutorials
-	(user_id, author, pretty_url, title, post, approved, created_at, updated_at)
-	VALUES (:user_id, :author, :pretty_url, :title, :post, :approved, now(), now())
+	(user_id, author, pretty_url, title, post_markdown, post_html, approved, created_at, updated_at)
+	VALUES (:user_id, :author, :pretty_url, :title, :post_markdown, :post_html, :approved, now(), now())
 		RETURNING *;
 		`)
 	if err != nil {

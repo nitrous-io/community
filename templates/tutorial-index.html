@@ -11,7 +11,7 @@
     {{with .Tutorials}}
       {{range .}}
         <a href="/community/tutorial/{{.PrettyURL}}">{{.Title}}</a>
-        <p>{{.Post}}</p>
+        <p>{{ToHtml .PostHTML}}</p>
         <small>{{.Author}}</small>
       {{end}}
     {{end}}

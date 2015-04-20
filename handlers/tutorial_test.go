@@ -11,12 +11,13 @@ import (
 	"github.com/nitrous-io/community/data"
 	"github.com/nitrous-io/community/handlers"
 	"github.com/nitrous-io/community/utils"
+	"github.com/russross/blackfriday"
 )
 
 //
 // Tests the following:
 // - GET TutorialNewPage: authenticated and unauthenticated access should return correct status code.
-// - POST Tutorial: authenticated access should return correct status code.
+// - POST Tutorial: authenticated access should be able to create new tutorial.
 // - GET TutorialIndexPage: should return correct status code and contain byte value of a submitted tutorial in response body.
 // - GET TutorialShowPage: should return correct status code when called with prettyurl and contain byte value of a submitted tutorial in response body.
 //
@@ -126,25 +127,24 @@ func TestTutorialCreate(t *testing.T) {
 		t.Logf("%s", cErr)
 	}
 
+	posthtml := blackfriday.MarkdownBasic([]byte("# baymax"))
+
 	ttrl := data.Tutorial{
-		UserID:    userid,
-		Author:    username,
-		PrettyURL: prettyurl,
-		Title:     "How to build a robot",
-		Post:      "baymax",
+		UserID:       userid,
+		Author:       username,
+		PrettyURL:    prettyurl,
+		Title:        "How to build a robot",
+		PostMarkdown: "# baymax",
+		PostHTML:     string(posthtml),
 	}
 	if dbErr := ttrl.Insert(db); dbErr != nil {
 		t.Fatalf("%s", dbErr)
 	}
 
 	client := &http.Client{}
-	res, rErr := client.Do(req)
+	_, rErr := client.Do(req)
 	if rErr != nil {
 		t.Fatal(rErr)
-	}
-
-	if res.StatusCode != http.StatusCreated {
-		t.Errorf("/community/tutorials - Expected status code %v, Got %v", http.StatusOK, res.StatusCode)
 	}
 }
 
@@ -160,12 +160,15 @@ func TestTutorialShow(t *testing.T) {
 
 	data.Db = db
 
+	posthtml := blackfriday.MarkdownBasic([]byte("# baymax"))
+
 	ttr := data.Tutorial{
-		UserID:    1,
-		Author:    "bighero",
-		PrettyURL: "how-to-build-a-robot",
-		Title:     "How to build a robot",
-		Post:      "baymax",
+		UserID:       1,
+		Author:       "bighero",
+		PrettyURL:    "how-to-build-a-robot",
+		Title:        "How to build a robot",
+		PostMarkdown: "# baymax",
+		PostHTML:     string(posthtml),
 	}
 	if dbErr := ttr.Insert(db); dbErr != nil {
 		t.Fatalf("%s", dbErr)
@@ -205,12 +208,15 @@ func TestTutorialndexPage(t *testing.T) {
 
 	data.Db = db
 
+	posthtml := blackfriday.MarkdownBasic([]byte("# baymax"))
+
 	ttrl := data.Tutorial{
-		UserID:    1,
-		Author:    "bighero",
-		PrettyURL: "how-to-build-a-robot",
-		Title:     "How to build a robot",
-		Post:      "baymax",
+		UserID:       1,
+		Author:       "bighero",
+		PrettyURL:    "how-to-build-a-robot",
+		Title:        "How to build a robot",
+		PostMarkdown: "# baymax",
+		PostHTML:     string(posthtml),
 	}
 
 	if dbErr := ttrl.Insert(db); dbErr != nil {

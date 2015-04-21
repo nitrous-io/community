@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Nitrous</title>
+    <link rel="stylesheet" type="text/css" href="/css/user.css" />
+  </head>
+  <body>
+    <h1>Tutorials</h1>
+
+      {{range $i, $t := .Tutorials}}
+        <a href="/community/tutorial/{{.PrettyURL}}">{{.Title}}</a>
+        <p>{{ToHtml $t.PostHTML}}</p>
+        <small>{{$t.Author}}</small>
+      Tags:
+        {{range $tag := index $.Tags $i}}
+          <a href="/community/tags/{{$tag}}">{{$tag}}</a>
+        {{end}}
+      {{end}}
+
+  </body>
+</html>

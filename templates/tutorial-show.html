@@ -6,8 +6,15 @@
     <link rel="stylesheet" type="text/css" href="/css/user.css" />
   </head>
   <body>
-    <h1>{{.Title}}</h1>
-    {{ToHtml .PostHTML}}
-    <small>{{.Author}}</small>
+    {{with .Tutorial}}
+      <h1>{{.Title}}</h1>
+      {{ToHtml .PostHTML}}
+      <small>{{.Author}}</small>
+    {{end}}
+
+    Tags:
+    {{range .Tags}}
+      <a href="/community/tags/{{.}}">{{.}}</a>
+    {{end}}
   </body>
 </html>

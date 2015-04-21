@@ -136,6 +136,7 @@ func TestTutorialCreate(t *testing.T) {
 		Title:        "How to build a robot",
 		PostMarkdown: "# baymax",
 		PostHTML:     string(posthtml),
+		Tags:         `{"apple", "orange"}`,
 	}
 	if dbErr := ttrl.Insert(db); dbErr != nil {
 		t.Fatalf("%s", dbErr)
@@ -169,6 +170,7 @@ func TestTutorialShow(t *testing.T) {
 		Title:        "How to build a robot",
 		PostMarkdown: "# baymax",
 		PostHTML:     string(posthtml),
+		Tags:         `{"apple", "orange"}`,
 	}
 	if dbErr := ttr.Insert(db); dbErr != nil {
 		t.Fatalf("%s", dbErr)
@@ -196,7 +198,7 @@ func TestTutorialShow(t *testing.T) {
 	}
 }
 
-func TestTutorialndexPage(t *testing.T) {
+func TestTutorialIndexPage(t *testing.T) {
 	ts, err := setupServerTutorial()
 	if err != nil {
 		t.Fatal(err)
@@ -217,6 +219,7 @@ func TestTutorialndexPage(t *testing.T) {
 		Title:        "How to build a robot",
 		PostMarkdown: "# baymax",
 		PostHTML:     string(posthtml),
+		Tags:         `{"apple", "orange"}`,
 	}
 
 	if dbErr := ttrl.Insert(db); dbErr != nil {

@@ -56,6 +56,8 @@ func main() {
 	router.GET("/community/tutorials", handler.TutorialIndexPage)
 	router.GET("/community/tutorial/:prettyurl", handler.TutorialShowPage)
 
+	router.GET("/community/tags/:tag", handler.TutorialTagIndexPage)
+
 	// Protected: Authed.
 	router.GET("/community/logout", handler.Logout)
 

@@ -63,6 +63,9 @@ func TutorialCreate(w http.ResponseWriter, r *http.Request, _ httprouter.Params)
 
 	posthtml := blackfriday.MarkdownBasic([]byte(r.FormValue("post")))
 
+	// This is a stand-in solution to the current lack of support for postgres arrays: https://github.com/jmoiron/sqlx/issues/106.
+	tagArray := fmt.Sprintf("{%v}", r.FormValue("tags"))
+
 	t := data.Tutorial{
 		UserID:       cookieValue["userid"].(int64),
 		Author:       cookieValue["username"].(string),
@@ -70,6 +73,7 @@ func TutorialCreate(w http.ResponseWriter, r *http.Request, _ httprouter.Params)
 		Title:        r.FormValue("title"),
 		PostMarkdown: r.FormValue("post"),
 		PostHTML:     string(posthtml),
+		Tags:         tagArray,
 		// TODO: Implement approved status.
 	}
 	if err := t.Insert(data.Db); err != nil {
@@ -97,6 +101,7 @@ func ConvertToPrettyURL(title string) (string, error) {
 func TutorialIndexPage(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	type ttrlVars struct {
 		Tutorials []*data.Tutorial
+		Tags      [][]string
 	}
 	var tv ttrlVars
 
@@ -106,10 +111,23 @@ func TutorialIndexPage(w http.ResponseWriter, r *http.Request, _ httprouter.Para
 	}
 	tv.Tutorials = ttrls
 
+	for _, ttrl := range ttrls {
+		tags := convertTagsToSlice(ttrl)
+		tv.Tags = append(tv.Tags, tags)
+	}
+
 	err := tutorialIndexTmpl.ExecuteTemplate(w, "tutorial-index.html", tv)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
+}
+
+// TODO: Find a cleaner solution to driver's lack of support for postgres arrays.
+func convertTagsToSlice(ttrl *data.Tutorial) []string {
+	a := ([]byte(ttrl.Tags))
+	b := (string(a[1 : len(a)-1]))
+	tags := strings.Split(b, ",")
+	return tags
 }
 
 func TutorialShowPage(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
@@ -119,7 +137,17 @@ func TutorialShowPage(w http.ResponseWriter, r *http.Request, ps httprouter.Para
 		fmt.Println(err)
 	}
 
-	tErr := tutorialShowTmpl.ExecuteTemplate(w, "tutorial-show.html", t)
+	type ttrlVars struct {
+		Tutorial *data.Tutorial
+		Tags     []string
+	}
+	var tv ttrlVars
+	tv.Tutorial = t
+
+	tags := convertTagsToSlice(t)
+	tv.Tags = tags
+
+	tErr := tutorialShowTmpl.ExecuteTemplate(w, "tutorial-show.html", tv)
 	if tErr != nil {
 		http.Error(w, tErr.Error(), http.StatusInternalServerError)
 	}

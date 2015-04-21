@@ -2,7 +2,7 @@ CREATE TABLE tutorials (
   id bigserial PRIMARY KEY NOT NULL,
   user_id bigint NOT NULL,
   author character varying(255) NOT NULL,
-  pretty_url character varying(255) NOT NULL,
+  pretty_url character varying(255) NOT NULL UNIQUE,
   title character varying(255) NOT NULL,
   post_markdown text NOT NULL,
   post_html text,

@@ -60,7 +60,7 @@ func GetByPrettyURL(db *sqlx.DB, prettyurl string) (*Tutorial, error) {
 
 func GetByTag(db *sqlx.DB, tag string) ([]*Tutorial, error) {
 	var ts []*Tutorial
-	if err := db.Select(&ts, "SELECT * FROM tutorials WHERE tags && ARRAY[$1];", tag); err != nil {
+	if err := db.Select(&ts, "SELECT * FROM tutorials WHERE tags @> ARRAY[$1]::varchar[];", tag); err != nil {
 		return nil, err
 	}
 

@@ -10,13 +10,18 @@
 
       {{range $i, $t := .Tutorials}}
         <a href="/community/tutorial/{{.PrettyURL}}">{{.Title}}</a>
-        <p>{{ToHtml $t.PostHTML}}</p>
-        <small>{{$t.Author}}</small>
+        <div>{{ToHtml $t.PostHTML}}</div>
+        <small>By: {{$t.Author}}</small>
+        <div>
         Tags:
         {{range $tag := index $.Tags $i}}
           <a href="/community/tags/{{$tag}}">{{$tag}}</a>
         {{end}}
+        </div>
       {{end}}
+
+    <br>
+    <a href="/community">Home</a>
 
   </body>
 </html>

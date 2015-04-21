@@ -53,12 +53,18 @@ func Login(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	}
 
 	// Ping Nitrous token auth API with token to get username and usertype (admin or non-admin).
-	var userid int64
-	var usertype, username string
+	var p ProfileResp
 	if res, err := authenticateByToken(token); err != nil {
 		fmt.Println(err)
 	} else {
-		userid, username, usertype = getUserProfile(res)
+		p = getUserProfile(res)
+	}
+
+	userid := p.User.ID
+	username := p.User.Username
+	usertype := ""
+	if p.User.Admin {
+		usertype = "admin"
 	}
 
 	utils.SetSession(userid, username, usertype, w)
@@ -130,31 +136,27 @@ func authenticateByToken(token string) (*http.Response, error) {
 	return res, nil
 }
 
+type ProfileResp struct {
+	User struct {
+		ID       int64  `json:"id"`
+		Username string `json:"username"`
+		Admin    bool   `json:"admin"`
+	}
+}
+
 // getUserProfile derives ID, Username, and Admin values from the JSON response returned by the tokenAuth API.
-func getUserProfile(res *http.Response) (int64, string, string) {
+func getUserProfile(res *http.Response) ProfileResp {
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
 		log.Fatal("getUserProfile ReadAll: ", err)
 	}
 	defer res.Body.Close()
 
-	type ProfileResp struct {
-		User struct {
-			ID       int64  `json:"id"`
-			Username string `json:"username"`
-			Admin    bool   `json:"admin"`
-		}
-	}
 	var p ProfileResp
 	readErr := json.Unmarshal(body, &p)
 	if readErr != nil {
 		log.Fatal(readErr)
 	}
 
-	usertype := ""
-	if p.User.Admin {
-		usertype = "admin"
-	}
-
-	return p.User.ID, p.User.Username, usertype
+	return p
 }

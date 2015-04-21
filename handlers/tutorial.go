@@ -23,6 +23,8 @@ import (
 //
 
 var (
+	prettyURLRegex = regexp.MustCompile("[^a-zA-Z0-9]+")
+
 	tutorialNewTmpl   = template.Must(template.New("tutorial").ParseFiles(filepath.Join(pwd, "/github.com/nitrous-io/community/templates/tutorial-new.html")))
 	tutorialIndexTmpl = template.Must(template.New("tutorial").Funcs(map[string]interface{}{"ToHtml": ToHtml}).ParseFiles(filepath.Join(pwd, "/github.com/nitrous-io/community/templates/tutorial-index.html")))
 	tutorialShowTmpl  = template.Must(template.New("tutorial").Funcs(map[string]interface{}{"ToHtml": ToHtml}).ParseFiles(filepath.Join(pwd, "/github.com/nitrous-io/community/templates/tutorial-show.html")))
@@ -88,11 +90,7 @@ func TutorialCreate(w http.ResponseWriter, r *http.Request, _ httprouter.Params)
 
 // Converts 'Title To URL' to 'title-to-url' format.
 func ConvertToPrettyURL(title string) (string, error) {
-	reg, err := regexp.Compile("[^a-zA-Z0-9]+")
-	if err != nil {
-		return "", err
-	}
-	prettyurl := reg.ReplaceAllString(title, "-")
+	prettyurl := prettyURLRegex.ReplaceAllString(title, "-")
 	prettyurl = strings.ToLower(strings.Trim(prettyurl, "-"))
 
 	return prettyurl, nil

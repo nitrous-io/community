@@ -46,6 +46,7 @@ func ClearSession(w http.ResponseWriter) {
 	http.SetCookie(w, cookie)
 }
 
+// If a common pattern emerges add a helper to return a struct of UserID and Username from cookie.
 func DecodeCookie(r *http.Request, cookieName string) (map[string]interface{}, error) {
 	if cookie, err := r.Cookie(cookieName); err == nil {
 		cookieValue := make(map[string]interface{})

@@ -7,6 +7,9 @@ gem 'unicorn'
 # Use postgresql as the database for Active Record
 gem 'pg'
 
+# HTTP requests
+gem 'httparty'
+
 # Front-end stack
 gem 'sass-rails', '~> 5.0'
 gem 'slim-rails'

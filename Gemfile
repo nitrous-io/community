@@ -30,6 +30,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.0'
   gem 'web-console', '~> 2.0'
   gem 'spring'
+  gem 'shoulda-matchers'
 end
 
 # Use ActiveModel has_secure_password

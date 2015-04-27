@@ -14,9 +14,12 @@ class ApplicationController < ActionController::Base
   def authenticate_user
     if session[:user_id]
       redirect_to root_path
-      return true
-    else 
-      return false
+    end
+  end
+
+  def authenticate_admin
+    if session[:admin] != true
+      redirect_to root_path
     end
   end
 

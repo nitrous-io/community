@@ -10,6 +10,9 @@ gem 'pg'
 # HTTP requests
 gem 'httparty'
 
+# Session store backed by Active Record class.
+gem 'activerecord-session_store'
+
 # Front-end stack
 gem 'sass-rails', '~> 5.0'
 gem 'slim-rails'

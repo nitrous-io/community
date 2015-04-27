@@ -6,6 +6,7 @@ class TokenAPIService
   
   def initialize(token)
     # Only the rocket symbol works here.
+    # TODO: Use concern/mixin.
     @options = { headers: { "Authorization" => "Bearer "+token} }
   end
 

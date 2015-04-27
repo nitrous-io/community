@@ -4,7 +4,12 @@ nav.header
       - if @current_user.nil?
         li
           = button_to "login", login_path, method: :get
-        li
+
       - else
+        li 
+          = @current_user
         li
           = button_to "logout", logout_path, :method => :delete
+
+        - if @admin == true
+          = button_to "New Tutorial", login_path, method: :get

@@ -1,4 +1,5 @@
 class SessionsController < ApplicationController
+  before_action :authenticate_user, :only => [:new, :create]
 
   def new
   end
@@ -12,16 +13,21 @@ class SessionsController < ApplicationController
 
       access_token = login_res["access_token"]
       token_res = TokenAPIService.new(access_token).ping
+      puts token_res
 
-      session[:user_id] = token_res["user"]["id"]
-      session[:username] = token_res["user"]["username"]
-      session[:admin] = token_res["user"]["admin"]
-      session[:token] = access_token 
+      if token_res["error"].present? 
+        # Eg. {"error"=>"confirmation_lapsed", "error_description"=>"confirmation token has lapsed"}
+        flash[:error] = token_res["error_description"]
+      else 
+        session[:user_id] = token_res["user"]["id"]
+        session[:username] = token_res["user"]["username"]
+        session[:admin] = token_res["user"]["admin"]
+        session[:token] = access_token 
+      end
 
       redirect_to root_path
     else
-      # TODO: Implement in layouts.
-      flash[:notice] = login_res["error_description"]
+      flash[:error] = login_res["error_description"]
       redirect_to login_path
     end
   end
@@ -30,8 +36,6 @@ class SessionsController < ApplicationController
     logout_res = LogoutAPIService.new(session[:token]).ping
     if logout_res.code == 200
       reset_session
-    else
-      puts logout_res
     end
     redirect_to root_path
   end

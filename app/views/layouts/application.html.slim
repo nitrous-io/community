@@ -1,5 +1,4 @@
 doctype html
-
 html lang="en"
 
   head
@@ -14,8 +13,10 @@ html lang="en"
       = csrf_meta_tags
 
   body
-
     .container.main-container
+      - flash.each do |name, message|
+        = message
+
       = render 'components/header'
 
       = yield

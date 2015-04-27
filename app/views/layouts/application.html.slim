@@ -15,7 +15,7 @@ html lang="en"
   body
     .container.main-container
       - flash.each do |name, message|
-        = message
+        = message.humanize
 
       = render 'components/header'
 

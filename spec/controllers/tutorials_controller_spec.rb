@@ -22,4 +22,11 @@ RSpec.describe TutorialsController, type: :controller do
     end
   end
 
+  describe "GET #index" do
+    # TODO: Test response body contents.
+    before { get :index }
+    it { expect(response).to render_template(:index) }
+    it { expect(response).to be_success }
+  end
+
 end

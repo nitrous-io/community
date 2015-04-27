@@ -11,5 +11,5 @@ nav.header
         li
           = button_to "logout", logout_path, :method => :delete
 
-        - if @admin == true
+        - if @admin
           = button_to "New Tutorial", tutorial_path, method: :get

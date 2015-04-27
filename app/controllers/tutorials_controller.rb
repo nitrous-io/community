@@ -20,6 +20,10 @@ class TutorialsController < ApplicationController
     end
   end
 
+  def index
+    @tutorials = Tutorial.all
+  end
+
   private
 
   def tutorial_params

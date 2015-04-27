@@ -1,6 +1,6 @@
 h1 Login
 
-= form_for :user, :url => login_path, :html => {:class => "form"} do |f|
+= form_for :user, url: login_path, html: {class: "form"} do |f|
   = f.label :username_or_email
   = f.text_field :username_or_email
 

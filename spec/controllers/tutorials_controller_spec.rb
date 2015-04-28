@@ -18,16 +18,17 @@ RSpec.describe TutorialsController, type: :controller do
 #      it { is_expected.to render_template(:new) }
 #    end
     context "when non-admin" do
-      before { post :create, tutorial: attributes_for(:tutorial) }
+      before { post :create }
       it { expect(response).to redirect_to(root_path) }
     end
   end
 
   describe "GET #index" do
-    # TODO: Test response body contents.
     before { get :index }
     it { expect(response).to render_template(:index) }
     it { expect(response).to be_success }
+    render_views
+    it { expect(response.body).to include("<h1>content</h1>")}
   end
 
   describe "GET #show" do
@@ -35,6 +36,8 @@ RSpec.describe TutorialsController, type: :controller do
       before { get :show, slug: "this-is-a-slug" }
       it { expect(response).to render_template(:show) }
       it { expect(response).to be_success }
+      render_views
+      it { expect(response.body).to include("<h1>content</h1>")}
     end
   end
 

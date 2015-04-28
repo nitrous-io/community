@@ -1,8 +1,7 @@
 h3 Title:
 = @tutorial.title
 p Content:
-/ TODO: Change this after implementing markdown conversion to HTML.
-= @tutorial.content_markdown
+= @tutorial.content_html.html_safe
 p Author:
 = @tutorial.author
 br

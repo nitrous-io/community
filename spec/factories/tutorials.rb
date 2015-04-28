@@ -2,11 +2,11 @@ FactoryGirl.define do
   factory :tutorial do
     user_id 1
     admin false
-    author "MyString"
+    author "author"
     slug "this-is-a-slug"
-    title "MyString"
-    content_markdown "MyText"
-    content_html "MyText"
+    title "title"
+    content_markdown "#content"
+    content_html "<h1>content</h1>"
     approved false
   end
 

@@ -16,6 +16,9 @@ gem 'activerecord-session_store'
 # Generate pretty-URL
 gem 'friendly_id', '~> 5.1.0'
 
+# Markdown to HTML
+gem 'redcarpet'
+
 # Front-end stack
 gem 'sass-rails', '~> 5.0'
 gem 'slim-rails'

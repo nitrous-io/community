@@ -3,7 +3,7 @@ FactoryGirl.define do
     user_id 1
     admin false
     author "MyString"
-    slug "MyString"
+    slug "this-is-a-slug"
     title "MyString"
     content_markdown "MyText"
     content_html "MyText"

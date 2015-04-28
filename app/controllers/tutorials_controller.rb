@@ -24,6 +24,10 @@ class TutorialsController < ApplicationController
     @tutorials = Tutorial.all
   end
 
+  def show
+    @tutorial = Tutorial.friendly.find(params[:slug])
+  end
+
   private
 
   def tutorial_params

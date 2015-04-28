@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe TutorialsController, type: :controller do
-  let (:tutorial) { create(:tutorial) }
+
+  let!(:tutorial) { create(:tutorial) }
 
   describe "GET #new" do
     context "when non-admin" do 
@@ -27,6 +28,14 @@ RSpec.describe TutorialsController, type: :controller do
     before { get :index }
     it { expect(response).to render_template(:index) }
     it { expect(response).to be_success }
+  end
+
+  describe "GET #show" do
+    context "with valid slug" do
+      before { get :show, slug: "this-is-a-slug" }
+      it { expect(response).to render_template(:show) }
+      it { expect(response).to be_success }
+    end
   end
 
 end

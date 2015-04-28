@@ -13,6 +13,9 @@ gem 'httparty'
 # Session store backed by Active Record class.
 gem 'activerecord-session_store'
 
+# Generate pretty-URL
+gem 'friendly_id', '~> 5.1.0'
+
 # Front-end stack
 gem 'sass-rails', '~> 5.0'
 gem 'slim-rails'
@@ -32,9 +35,6 @@ group :development, :test do
   gem 'spring'
   gem 'shoulda-matchers'
 end
-
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

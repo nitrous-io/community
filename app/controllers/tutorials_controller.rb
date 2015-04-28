@@ -10,8 +10,8 @@ class TutorialsController < ApplicationController
     @tutorial.user_id = session[:user_id]
     @tutorial.author = session[:username]
     @tutorial.admin = session[:admin]
-    @tutorial.content_html = MarkdownService.new(params[:tutorial][:content_markdown]).convert_to_html
     @tutorial.tag_list = params[:tutorial][:tag_list]
+    @tutorial.content_html = MarkdownService.new.convert_to_html(params[:tutorial][:content_markdown])
 
     if @tutorial.save
       flash[:success] = "Tutorial has been submitted"

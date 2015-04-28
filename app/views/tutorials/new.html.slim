@@ -1,0 +1,12 @@
+h1 New Tutorial 
+
+= @tutorial.errors.full_messages.first if @tutorial.errors.any?
+
+= form_for @tutorial, url: tutorial_path, html: {class: "form"} do |f|
+  = f.label :title
+  = f.text_field :title
+
+  = f.label :content
+  = f.text_area :content_markdown
+
+  = f.submit "Submit new tutorial"

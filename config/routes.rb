@@ -1,4 +1,17 @@
 Rails.application.routes.draw do
+
+  root 'pages#home'
+
+  # Authentication
+  get    'login'  => 'sessions#new'
+  post   'login'  => 'sessions#create'
+  delete 'logout' => 'sessions#destroy'
+
+  # Tutorials
+  get    'tutorial'  => 'tutorials#new'
+  post   'tutorial'  => 'tutorials#create'
+  get    'tutorials' => 'tutorials#index'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

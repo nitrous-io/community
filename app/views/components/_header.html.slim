@@ -1,0 +1,15 @@
+nav.header
+  .container
+    ul
+      - if @current_user.nil?
+        li
+          = button_to "login", login_path, method: :get
+
+      - else
+        li 
+          = @current_user
+        li
+          = button_to "logout", logout_path, :method => :delete
+
+        - if @admin
+          = button_to "New Tutorial", tutorial_path, method: :get

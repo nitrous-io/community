@@ -7,6 +7,12 @@ gem 'unicorn'
 # Use postgresql as the database for Active Record
 gem 'pg'
 
+# HTTP requests
+gem 'httparty'
+
+# Session store backed by Active Record class.
+gem 'activerecord-session_store'
+
 # Front-end stack
 gem 'sass-rails', '~> 5.0'
 gem 'slim-rails'
@@ -24,6 +30,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.0'
   gem 'web-console', '~> 2.0'
   gem 'spring'
+  gem 'shoulda-matchers'
 end
 
 # Use ActiveModel has_secure_password

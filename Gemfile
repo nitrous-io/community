@@ -19,6 +19,9 @@ gem 'friendly_id', '~> 5.1.0'
 # Markdown to HTML
 gem 'redcarpet'
 
+# Tagging
+gem 'acts-as-taggable-on', '~> 3.4'
+
 # Front-end stack
 gem 'sass-rails', '~> 5.0'
 gem 'slim-rails'

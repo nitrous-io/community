@@ -11,6 +11,7 @@ class TutorialsController < ApplicationController
     @tutorial.author = session[:username]
     @tutorial.admin = session[:admin]
     @tutorial.content_html = MarkdownService.new(params[:tutorial][:content_markdown]).convert_to_html
+    @tutorial.tag_list = params[:tutorial][:tag_list]
 
     if @tutorial.save
       flash[:success] = "Tutorial has been submitted"
@@ -32,6 +33,6 @@ class TutorialsController < ApplicationController
   private
 
   def tutorial_params
-    params.require(:tutorial).permit(:title, :content_markdown)
+    params.require(:tutorial).permit(:title, :content_markdown, :tag_list)
   end
 end

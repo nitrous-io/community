@@ -8,6 +8,8 @@ FactoryGirl.define do
     content_markdown "#content"
     content_html "<h1>content</h1>"
     approved false
+
+    tag_list "haskell, scala"
   end
 
   trait :invalid do

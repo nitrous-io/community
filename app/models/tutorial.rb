@@ -7,4 +7,7 @@ class Tutorial < ActiveRecord::Base
   include FriendlyId
   friendly_id :title, use: :slugged
 
+  # Stored in tag_list
+  acts_as_taggable_on :tags
+
 end

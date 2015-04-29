@@ -7,5 +7,5 @@ p Author:
 p Tags:
 - if @tutorial.tags.present?
   - @tutorial.tags.each do |tag|
-    = tag.name
+    = link_to tag.name, tutorials_tagged_path(tag: tag.name)
 br

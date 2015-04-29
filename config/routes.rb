@@ -9,7 +9,8 @@ Rails.application.routes.draw do
 
   # Tutorials
   resources :tutorials, only: [:new, :create, :index]
-  get 'tutorial/:slug' => 'tutorials#show', as: :tutorial
+  get 'tutorial/:slug'        => 'tutorials#show', as: :tutorial
+  get 'tutorials/tagged/:tag' => 'tutorials#index', as: :tutorials_tagged
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

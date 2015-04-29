@@ -10,6 +10,8 @@ class TutorialsController < ApplicationController
     @tutorial.user_id = session[:user_id]
     @tutorial.author = session[:username]
     @tutorial.admin = session[:admin]
+    @tutorial.tag_list = params[:tutorial][:tag_list]
+    @tutorial.content_html = MarkdownService.new.convert_to_html(params[:tutorial][:content_markdown])
 
     if @tutorial.save
       flash[:success] = "Tutorial has been submitted"
@@ -24,9 +26,13 @@ class TutorialsController < ApplicationController
     @tutorials = Tutorial.all
   end
 
+  def show
+    @tutorial = Tutorial.friendly.find(params[:slug])
+  end
+
   private
 
   def tutorial_params
-    params.require(:tutorial).permit(:title, :content_markdown)
+    params.require(:tutorial).permit(:title, :content_markdown, :tag_list)
   end
 end

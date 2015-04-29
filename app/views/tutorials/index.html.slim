@@ -1,9 +1,12 @@
 - @tutorials.each do |tutorial|
   h3 Title:
-  = tutorial.title
+  = link_to tutorial.title, tutorial_path(slug: tutorial.slug)
   p Content:
-  / TODO: Change this after implementing markdown conversion to HTML.
-  = tutorial.content_markdown
+  = tutorial.content_html.html_safe
   p Author:
   = tutorial.author
+  p Tags:
+  - if tutorial.tags.present?
+    - tutorial.tags.each do |tag|
+      = tag.name
   br

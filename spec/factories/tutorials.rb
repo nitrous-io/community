@@ -2,12 +2,14 @@ FactoryGirl.define do
   factory :tutorial do
     user_id 1
     admin false
-    author "MyString"
-    slug "MyString"
-    title "MyString"
-    content_markdown "MyText"
-    content_html "MyText"
+    author "author"
+    slug "this-is-a-slug"
+    title "title"
+    content_markdown "#content"
+    content_html "<h1>content</h1>"
     approved false
+
+    tag_list "haskell, scala"
   end
 
   trait :invalid do

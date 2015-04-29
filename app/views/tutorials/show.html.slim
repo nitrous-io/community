@@ -1,0 +1,11 @@
+h3 Title:
+= @tutorial.title
+p Content:
+= @tutorial.content_html.html_safe
+p Author:
+= @tutorial.author
+p Tags:
+- if @tutorial.tags.present?
+  - @tutorial.tags.each do |tag|
+    = tag.name
+br

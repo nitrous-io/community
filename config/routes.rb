@@ -8,9 +8,8 @@ Rails.application.routes.draw do
   delete 'logout' => 'sessions#destroy'
 
   # Tutorials
-  get    'tutorial'  => 'tutorials#new'
-  post   'tutorial'  => 'tutorials#create'
-  get    'tutorials' => 'tutorials#index'
+  resources :tutorials, only: [:new, :create, :index]
+  get 'tutorial/:slug' => 'tutorials#show', as: :tutorial
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

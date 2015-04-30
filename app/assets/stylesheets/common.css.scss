@@ -1,0 +1,19 @@
+@import 'variables';
+
+.container {
+  font-family: Helvetica;
+}
+
+.tags a {
+  background: $tag-color;
+  color: $dark-grey;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 13px;
+  padding: 2px 7px;
+}
+
+// Fenced code blocks
+pre {
+  width: 500px;
+}

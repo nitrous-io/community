@@ -1,11 +1,12 @@
-h3 Title:
-= @tutorial.title
-p Content:
-= @tutorial.content_html.html_safe
-p Author:
-= @tutorial.author
-p Tags:
-- if @tutorial.tags.present?
-  - @tutorial.tags.each do |tag|
-    = link_to tag.name, tutorials_tagged_path(tag: tag.name)
-br
+.tutorial-show
+  h1.title
+    = @tutorial.title
+  .content
+    = @tutorial.content_html.html_safe
+  .author-signature
+    = @tutorial.author
+  .tags
+    - if @tutorial.tags.present?
+      - @tutorial.tags.each do |tag|
+        = link_to tag.name, tutorials_tagged_path(tag: tag.name)
+  br

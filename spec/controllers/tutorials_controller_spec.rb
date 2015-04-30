@@ -28,7 +28,7 @@ RSpec.describe TutorialsController, type: :controller do
     it { expect(response).to render_template(:index) }
     it { expect(response).to be_success }
     render_views
-    it { expect(response.body).to include("<h1>content</h1>")}
+    it { expect(response.body).to include("title")}
     it { expect(response.body).to include("haskell")}
     it { expect(response.body).to include("scala")}
   end

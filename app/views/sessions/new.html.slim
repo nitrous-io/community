@@ -1,10 +1,18 @@
-h1 Login
+- flash.each do |name, message|
+  div class="login #{name}"
+    = message.humanize
 
-= form_for :user, url: login_path, html: {class: "form"} do |f|
-  = f.label :username_or_email
-  = f.text_field :username_or_email
+.login-card
+  .card-header
+    h2 Login
 
-  = f.label :password
-  = f.password_field :password
+  = form_for :user, url: login_path do |f|
+    .card-entry
+      label Username or Email
+      = f.text_field :username_or_email
 
-  = f.submit "Log in"
+      label Password
+      = f.password_field :password
+
+    .card-login-btn
+      = f.submit "LOG IN"

@@ -1,7 +1,28 @@
 @import 'variables';
 
-.container {
-  font-family: Helvetica;
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  background: $background-off-white !important;
+  margin-bottom: 100px !important;
+  font-family: helvetica;
+}
+
+.header-container {
+  .container-fluid {
+    padding: 0px !important;
+    margin: 0px !important;
+  }
+}
+
+.main-container {
+  .container-fluid {
+    padding: 0 30px !important;
+    margin: 0 30px !important;
+  }
 }
 
 .tags a {

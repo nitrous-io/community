@@ -14,8 +14,12 @@ html lang="en"
 
   body
 
-    = render 'components/header'
+    .header-container
+      .container-fluid
+        = render 'components/header'
 
-    .container
+    .main-container
+      .container-fluid
+        = yield
 
-      = yield
+    = render 'components/footer'

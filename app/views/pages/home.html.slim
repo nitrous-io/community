@@ -1,6 +1,7 @@
 .home-tutorial-index
   .row
-    h1.section-title Tutorials
+    h1.section-title 
+      = link_to "Tutorials", tutorials_path
     .section-desc Get started on Nitrous with these tutorials
   .row
     - @tutorials.each do |tutorial|

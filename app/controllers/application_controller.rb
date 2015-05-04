@@ -12,9 +12,16 @@ class ApplicationController < ActionController::Base
    @admin = session[:admin]
   end
 
-  def authenticate_user
+  def authenticate_logged_in_session
     if session[:user_id]
       redirect_to root_path
+    end
+  end
+
+  def authenticate_logged_in_blog
+    if session[:user_id].nil?
+      flash[:error] = "You need to log in"
+      redirect_to blogs_path
     end
   end
 

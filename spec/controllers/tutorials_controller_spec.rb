@@ -37,7 +37,7 @@ RSpec.describe TutorialsController, type: :controller do
     context "with valid slug" do
       before { get :show, slug: "this-is-a-slug" }
       it { expect(response).to render_template(:show) }
-      it { expect(response).to be_success }
+      it { expect(response).to have_http_status(:success) }
       render_views
       it { expect(response.body).to include("<h1>content</h1>")}
       it { expect(response.body).to include("haskell")}

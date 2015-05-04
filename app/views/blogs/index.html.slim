@@ -1,0 +1,22 @@
+- flash.each do |name, message|
+  div class="new-blog-post #{name}"
+    = message.humanize
+
+.blog-index
+  = link_to "New Blog Post", new_blog_path
+
+  - @blogs.each do |blog|
+    h1.title
+      = link_to blog.title, blog_path(slug: blog.slug)
+    .author-signature
+      | By 
+    = blog.author
+      .time-signature
+        | Published 
+        = time_ago_in_words(blog.created_at)
+        |  ago
+    .tags
+      - if blog.tags.present?
+        - blog.tags.each do |tag|
+          = link_to tag.name, blogs_tagged_path(tag: tag.name)
+    br

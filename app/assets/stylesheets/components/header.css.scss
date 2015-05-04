@@ -11,6 +11,16 @@
     font-size: 18px;
     text-decoration: none;
   }
+  .section-links {
+      display: inline;
+    li {
+      display: inline;
+      margin-left: 15px;
+      a {
+        color: black;
+      }
+    }
+  }
   ul.unauthed { 
     margin-right: 60px;
     li.login.btn a {

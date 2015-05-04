@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  before_action :authenticate_user, :only => [:new, :create]
+  before_action :authenticate_logged_in_session, :only => [:new, :create]
 
   def new
   end

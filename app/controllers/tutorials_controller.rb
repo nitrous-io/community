@@ -23,7 +23,11 @@ class TutorialsController < ApplicationController
   end
 
   def index
-    @tutorials = Tutorial.all
+    if params[:tag]
+      @tutorials = Tutorial.tagged_with(params[:tag])
+    else
+      @tutorials = Tutorial.all
+    end
   end
 
   def show

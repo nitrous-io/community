@@ -1,12 +1,15 @@
 - @tutorials.each do |tutorial|
-  h3 Title:
-  = link_to tutorial.title, tutorial_path(slug: tutorial.slug)
-  p Content:
-  = tutorial.content_html.html_safe
-  p Author:
-  = tutorial.author
-  p Tags:
+  h1.title
+    = link_to tutorial.title, tutorial_path(slug: tutorial.slug)
+  .author-signature
+    | By 
+    = tutorial.author
+    .time-signature
+      | Published 
+      = time_ago_in_words(tutorial.created_at)
+      |  ago
   - if tutorial.tags.present?
     - tutorial.tags.each do |tag|
-      = tag.name
+      span.tags
+        = link_to tag.name, tutorials_tagged_path(tag: tag.name)
   br

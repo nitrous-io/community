@@ -1,15 +1,25 @@
-nav.header
-  .container
-    ul
-      - if @current_user.nil?
-        li
-          = button_to "login", login_path, method: :get
+.header
+  span.logo 
+    = link_to "NITROUS Community", root_path
+  - if @current_user.nil?
+    ul.unauthed.pull-right
+      li.login.btn.btn-default.navbar-btn
+        = link_to "Log In", login_path
 
-      - else
-        li 
-          = @current_user
-        li
-          = button_to "logout", logout_path, :method => :delete
+  - else
+    ul.authed.pull-right
+      li.dropdown.pull-right
+        button#dropdownMenu1.btn.btn-default.dropdown-toggle aria-expanded="true" data-toggle="dropdown" type="button" 
+          span.username
+            = @current_user
+          span.caret
+        ul.dropdown-menu aria-labelledby="dropdownMenu1" role="menu" 
+          li role="presentation" 
+            = link_to "logout", logout_path, :method => :delete
 
-        - if @admin
-          = button_to "New Tutorial", new_tutorial_path, method: :get
+      - if @admin
+        li.new-tutorial.btn.btn-default.navbar-btn
+          = link_to "New Tutorial", new_tutorial_path
+
+      li.tutorials.pull-right
+        = link_to "Tutorials", tutorials_path

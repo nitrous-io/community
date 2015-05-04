@@ -8,15 +8,18 @@ html lang="en"
 
     title Nitrous Community 
 
-      = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
-      = javascript_include_tag 'application', 'data-turbolinks-track' => true
-      = csrf_meta_tags
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
 
   body
-    .container.main-container
-      - flash.each do |name, message|
-        = message.humanize
 
-      = render 'components/header'
+    .header-container
+      .container-fluid
+        = render 'components/header'
 
-      = yield
+    .main-container
+      .container-fluid
+        = yield
+
+    = render 'components/footer'

@@ -1,5 +1,5 @@
 class BlogsController < ApplicationController
-  before_action :authenticate_logged_in, :only => [:new, :create]
+  before_action :verify_logged_in, only: [:new, :create]
 
   def new
     @blog = Blog.new
@@ -7,13 +7,13 @@ class BlogsController < ApplicationController
 
   def create
     @blog = Blog.new(blog_params)
-    @blog.author = session[:username]
-    @blog.content_html = MarkdownService.new.convert_to_html(params[:blog][:content_markdown])
-    @blog.tag_list = params[:blog][:tag_list]
+    @blog.author = current_username 
+    @blog.content_html = MarkdownService.new.convert_to_html(blog_params[:content_markdown])
+    @blog.tag_list = blog_params[:tag_list]
 
     if @blog.save
       flash[:success] = "Blog has been uploaded"
-      redirect_to blogs_path 
+      redirect_to blogs_path
     else 
       flash[:error] = "Unable to upload blog"
       render :new

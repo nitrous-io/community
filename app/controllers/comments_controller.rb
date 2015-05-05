@@ -1,13 +1,12 @@
 class CommentsController < ApplicationController
-  before_action :authenticate_logged_in
+  before_action :verify_logged_in
 
   def create
-    tutorial = Tutorial.new
-    @comment = tutorial.comments.build(comment_params)
-    @comment.author = session[:username] 
-    @comment.tutorial_id = params[:tutorial_id] 
+    tutorial = Tutorial.find(params[:tutorial_id])
+    comment = tutorial.comments.build(comment_params)
+    comment.author = current_username 
 
-    if @comment.save
+    if comment.save
       flash[:success] = "Your comment has been posted"
     else
       flash[:error] = "Your comment has not been posted"

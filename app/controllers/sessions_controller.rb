@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  before_action :authenticate_logged_out, :only => [:new, :create]
+  before_action :verify_logged_out, only: [:new, :create]
 
   def new
   end

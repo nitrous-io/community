@@ -1,5 +1,5 @@
 class TutorialsController < ApplicationController
-  before_action :authenticate_admin, :only => [:new, :create]
+  before_action :verify_admin, only: [:new, :create]
 
   def new
     @tutorial = Tutorial.new
@@ -8,10 +8,10 @@ class TutorialsController < ApplicationController
   def create
     @tutorial = Tutorial.new(tutorial_params)
     @tutorial.user_id = session[:user_id]
-    @tutorial.author = session[:username]
+    @tutorial.author = current_username 
     @tutorial.admin = session[:admin]
-    @tutorial.tag_list = params[:tutorial][:tag_list]
-    @tutorial.content_html = MarkdownService.new.convert_to_html(params[:tutorial][:content_markdown])
+    @tutorial.tag_list = tutorial_params[:tag_list]
+    @tutorial.content_html = MarkdownService.new.convert_to_html(tutorial_params[:content_markdown])
 
     if @tutorial.save
       flash[:success] = "Tutorial has been submitted"

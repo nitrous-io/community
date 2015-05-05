@@ -11,5 +11,6 @@ class Tutorial < ActiveRecord::Base
   acts_as_taggable_on :tags
 
   has_many :comments, dependent: :destroy
+  has_many :likes, dependent: :destroy
 
 end

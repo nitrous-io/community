@@ -1,4 +1,8 @@
 .tutorial-show
+
+  - flash.each do |name, message|
+    = message
+
   h1.title
     = @tutorial.title
   .content
@@ -31,7 +35,11 @@
           | By 
           = comment.author
           .time-signature
-            | Published 
+            | Commented 
             = time_ago_in_words(comment.created_at)
-            |  ago
-    br
+            | ago
+  br
+  .vote
+    = button_to "hearts", likes_path(tutorial_id: @tutorial.id, slug: @tutorial.slug), method: :post
+
+  = @tutorial.score

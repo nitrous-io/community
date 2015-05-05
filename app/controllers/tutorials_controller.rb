@@ -32,6 +32,9 @@ class TutorialsController < ApplicationController
 
   def show
     @tutorial = Tutorial.friendly.find(params[:slug])
+
+    @comment = Comment.new
+    @comments = @tutorial.comments
   end
 
   private

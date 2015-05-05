@@ -11,7 +11,7 @@ RSpec.describe BlogsController, type: :controller do
     end
     context "when not logged in" do
       before { get :new, session[:user_id] = nil }
-      it { expect(response).to redirect_to(blogs_path) }
+      it { expect(response).to redirect_to(login_path) }
     end
   end
 
@@ -20,7 +20,7 @@ RSpec.describe BlogsController, type: :controller do
     #it { expect(response).to have_http_status(:success) }
     context "when not logged in" do
       before { post :create }
-      it { expect(response).to redirect_to(blogs_path) }
+      it { expect(response).to redirect_to(login_path) }
     end
 
   end

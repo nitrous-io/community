@@ -1,5 +1,5 @@
 class BlogsController < ApplicationController
-  before_action :authenticate_logged_in_blog, :only => [:new, :create]
+  before_action :authenticate_logged_in, :only => [:new, :create]
 
   def new
     @blog = Blog.new

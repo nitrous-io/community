@@ -1,6 +1,13 @@
 .header
   span.logo 
     = link_to "NITROUS Community", root_path
+  
+  .section-links 
+    li
+      = link_to "Tutorials", tutorials_path
+    li
+      = link_to "Blog", blogs_path
+
   - if @current_user.nil?
     ul.unauthed.pull-right
       li.login.btn.btn-default.navbar-btn
@@ -21,5 +28,3 @@
         li.new-tutorial.btn.btn-default.navbar-btn
           = link_to "New Tutorial", new_tutorial_path
 
-      li.tutorials.pull-right
-        = link_to "Tutorials", tutorials_path

@@ -10,10 +10,10 @@ FactoryGirl.define do
     approved false
 
     tag_list "haskell, scala"
+
+    trait :invalid do
+      title ""
+    end
   end
 
-  trait :invalid do
-    title ""
-  end
-
-end
+ end

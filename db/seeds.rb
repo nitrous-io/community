@@ -55,12 +55,33 @@ $ rails server -b 0.0.0.0
     slug: "web-ide-overview",
     title: "Web IDE Overview",
     content_markdown: "#filler",
-    content_html: "<p>The IDE is a powerful, one stop shop for (almost) all of your development needs.</p><h3>File Browser</h3><p>Like most IDEs, the file browser sits at the left-hand side of the window. You'll see the box-name at the top of the file browser, followed by a directory tree of your application.</p><p>Like most IDEs, the file browser sits at the left-hand side of the window. You'll see the box-name at the top of the file browser, followed by a directory tree of your application.</p>",
+    content_html: "<p>The IDE is a powerful, one stop shop for (almost) all of your development needs.</p><h3>File Browser</h3><p>Like most IDEs, the file browser sits at the left-hand side of the window. You'll see the box-name at the top of the file browser, followed by a directory tree of your application.</p>",
     tag_list: "ruby, IDE",
   ],
+]
 
+comments = [
+  [
+    author: "mary",
+    tutorial_id: 1,
+    content: "This is a great post, thanks.",
+  ],
+  [
+    author: "john",
+    tutorial_id: 1,
+    content: "A helpful post.",
+  ],
+  [
+    author: "mary",
+    tutorial_id: 2,
+    content: "Awesome post.",
+  ],
 ]
 
 tutorials.each do |tutorial|
   Tutorial.create(tutorial)
+end
+
+comments.each do |comment|
+  Comment.create(comment)
 end

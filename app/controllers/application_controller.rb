@@ -8,17 +8,28 @@ class ApplicationController < ActionController::Base
   private 
 
   def header
-   @current_user = session[:username]
-   @admin = session[:admin]
+    @current_user = session[:username]
+    @admin = session[:admin]
   end
 
-  def authenticate_user
+  def current_username
+    session[:username]
+  end
+
+  def verify_logged_out
     if session[:user_id]
       redirect_to root_path
     end
   end
 
-  def authenticate_admin
+  def verify_logged_in
+    if session[:user_id].nil?
+      flash[:error] = "You need to log in"
+      redirect_to login_path
+    end
+  end
+
+  def verify_admin
     if session[:admin] != true
       redirect_to root_path
     end

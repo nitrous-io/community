@@ -1,4 +1,8 @@
 .tutorial-show
+
+  - flash.each do |name, message|
+    = message
+
   h1.title
     = @tutorial.title
   .content
@@ -10,3 +14,32 @@
       - @tutorial.tags.each do |tag|
         = link_to tag.name, tutorials_tagged_path(tag: tag.name)
   br
+
+  h2.comment-title Comments
+
+  = form_for @comment, url: comments_path(tutorial_id: @tutorial.id, slug: @tutorial.slug) do |f|
+    .row 
+      = f.label :comment
+    .row.content
+      = f.text_area :content
+
+    .row
+      = f.submit "Post comment"
+
+  .comment-list
+    - @comments.each do |comment|
+      .row
+        .content
+          = comment.content
+        .author-signature
+          | By 
+          = comment.author
+          .time-signature
+            | Commented 
+            = time_ago_in_words(comment.created_at)
+            | ago
+  br
+  .vote
+    = button_to "hearts", likes_path(tutorial_id: @tutorial.id, slug: @tutorial.slug), method: :post
+
+  = @tutorial.score

@@ -12,6 +12,17 @@ Rails.application.routes.draw do
   get 'tutorial/:slug'        => 'tutorials#show', as: :tutorial
   get 'tutorials/tagged/:tag' => 'tutorials#index', as: :tutorials_tagged
 
+  # Blog
+  resources :blogs, only: [:new, :create, :index]
+  get 'blog/:slug'        => 'blogs#show', as: :blog
+  get 'blogs/tagged/:tag' => 'blogs#index', as: :blogs_tagged
+
+  # Comment
+  resources :comments, only: [:create]
+
+  # Vote
+  resources :likes, only: [:create]
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

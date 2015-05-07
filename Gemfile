@@ -18,6 +18,8 @@ gem 'friendly_id', '~> 5.1.0'
 
 # Markdown to HTML
 gem 'redcarpet'
+# Syntax highlighting
+gem 'rouge'
 
 # Tagging
 gem 'acts-as-taggable-on', '~> 3.4'

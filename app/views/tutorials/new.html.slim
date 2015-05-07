@@ -5,9 +5,14 @@
   .row 
     .col-xs-12.col-md-8.col-lg-8.col-md-offset-2.col-lg-offset-2
       h1.title New Tutorial 
-      .desc Submit your tutorials in markdown format. Fenced code blocks are supported.
+      .desc 
+        | Submit your tutorials in markdown format. Fenced code blocks are supported.
+        br
+        | To include an image, upload the image below and copy ![name of image](image URL)
 
   = form_for @tutorial, url: tutorials_path do |f|
+    .row 
+      .dropzone-previews
     .row 
       .col-xs-12.col-md-8.col-lg-8.col-md-offset-2.col-lg-offset-2
         .card-entry
@@ -30,3 +35,15 @@
       .col-xs-4.col-md-4.col-lg-4.col-md-offset-5.col-lg-offset-5
         .card-submit-btn
           = f.submit "Submit new tutorial"
+
+.row
+  .col-xs-12.col-md-8.col-lg-8.col-md-offset-2.col-lg-offset-2
+    = form_tag '/image_contents', method: :post, class: "dropzone form", id: "image-dropzone" do
+      .fallback
+        = file_field_tag "images", multiple: true
+
+.row style=("margin-top: 25px;") 
+  .col-xs-12.col-md-8.col-lg-8.col-md-offset-2.col-lg-offset-2
+    .well
+      .row
+        #image-contents.col-lg-12

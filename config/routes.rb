@@ -17,11 +17,14 @@ Rails.application.routes.draw do
   get 'blog/:slug'        => 'blogs#show', as: :blog
   get 'blogs/tagged/:tag' => 'blogs#index', as: :blogs_tagged
 
-  # Comment
+  # Comments
   resources :comments, only: [:create]
 
-  # Vote
+  # Likes 
   resources :likes, only: [:create]
+
+  # Images Upload
+  resources :image_contents, only: [:create]
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

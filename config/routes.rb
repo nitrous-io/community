@@ -26,6 +26,9 @@ Rails.application.routes.draw do
   # Image uploads
   resources :image_contents, only: [:create]
 
+  # Markdown preview
+  post '/preview'    => 'preview#convert'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

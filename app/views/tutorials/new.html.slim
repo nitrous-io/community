@@ -11,7 +11,7 @@
         | To upload an image, drag and drop it into the textarea. 
 
   = form_for @tutorial, url: tutorials_path do |f|
-    .row 
+    .row
       .col-xs-12.col-md-8.col-lg-8.col-md-offset-2.col-lg-offset-2
         .card-entry
           .row
@@ -22,7 +22,7 @@
           .row
             = f.label :content
           .row.content
-            = f.text_area :content_markdown
+            = f.text_area :content_markdown, class: "markdown-text-js"
 
           .row
             = f.label :tag_list
@@ -33,3 +33,9 @@
       .col-xs-4.col-md-4.col-lg-4.col-md-offset-5.col-lg-offset-5
         .card-submit-btn
           = f.submit "Submit new tutorial"
+
+  .row.preview-btn-js
+    | Click to preview markdown post
+
+  .row 
+    .preview-content-js

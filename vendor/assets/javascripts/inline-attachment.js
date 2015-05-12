@@ -131,12 +131,12 @@
      * Extension which will be used when a file extension could not
      * be detected
      */
-    defualtExtension: 'png',
+    defaultExtension: 'png',
 
     /**
      * JSON field which refers to the uploaded file URL
      */
-    jsonFieldName: 'filename',
+    jsonFieldName: 'file_name',
 
     /**
      * Allowed MIME types
@@ -239,7 +239,7 @@
       }
     }
 
-    var remoteFilename = "image-" + Date.now() + "." + extension;
+    var remoteFilename = file.name;
     if (typeof settings.remoteFilename === 'function') {
       remoteFilename = settings.remoteFilename(file);
     }
@@ -305,7 +305,7 @@
         filename = result[this.settings.jsonFieldName];
 
       if (result && filename) {
-        var newValue = this.settings.urlText.replace(this.filenameTag, filename);
+        var newValue = this.settings.urlText.replace(this.filenameTag, filename.url);
         var text = this.editor.getValue().replace(this.lastValue, newValue);
         this.editor.setValue(text);
       }

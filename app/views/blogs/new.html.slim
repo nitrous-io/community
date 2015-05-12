@@ -5,7 +5,10 @@
   .row 
     .col-xs-12.col-md-8.col-lg-8.col-md-offset-2.col-lg-offset-2
       h1.title New Blog Post 
-      .desc Upload your blog post in markdown format. Fenced code blocks are supported.
+      .desc 
+        | Upload your blog post in markdown format. Fenced code blocks are supported.
+        br
+        | To upload an image, drag and drop it into the textarea. 
 
   = form_for @blog, url: blogs_path do |f|
     .row 

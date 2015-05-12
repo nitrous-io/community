@@ -5,7 +5,7 @@ class MarkdownService
 
   def initialize
     options = { filter_html: true, hard_wrap: true, prettify: true }
-    extensions = { fenced_code_blocks: true, autolink: true, strikethrough: true,}
+    extensions = { fenced_code_blocks: true, autolink: true, strikethrough: true }
 
     renderer = HTML.new(options)
     @markdown = Redcarpet::Markdown.new(renderer, extensions)

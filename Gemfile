@@ -25,7 +25,6 @@ gem 'rouge'
 gem 'acts-as-taggable-on', '~> 3.4'
 
 # Image upload with drag and drop
-gem 'dropzonejs-rails'
 gem 'carrierwave'
 # Upload to s3
 # gem 'fog', '~> 1.0.0'

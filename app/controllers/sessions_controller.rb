@@ -13,7 +13,6 @@ class SessionsController < ApplicationController
 
       access_token = login_res["access_token"]
       token_res = TokenAPIService.new(access_token).ping
-      puts token_res
 
       if token_res["error"].present? 
         # Eg. {"error"=>"confirmation_lapsed", "error_description"=>"confirmation token has lapsed"}

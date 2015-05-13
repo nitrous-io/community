@@ -5,6 +5,7 @@ class TutorialsController < ApplicationController
     @tutorial = Tutorial.new
   end
 
+
   def create
     @tutorial = Tutorial.new(tutorial_params)
     @tutorial.user_id = session[:user_id]

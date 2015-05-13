@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.2.0'
 gem 'rails', '4.2.0'
+gem 'foreman', '~> 0.78.0'
 
 # Use postgresql as the database for Active Record
 gem 'pg'

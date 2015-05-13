@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.2.1'
 gem 'rails', '4.2.0'
-gem 'unicorn'
+gem 'foreman', '~> 0.78.0'
 
 # Use postgresql as the database for Active Record
 gem 'pg'
@@ -49,5 +49,6 @@ group :development, :test do
   gem 'shoulda-matchers'
 end
 
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
+group :production do
+  gem 'unicorn', '~> 4.8.3'
+end

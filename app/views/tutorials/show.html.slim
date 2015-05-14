@@ -1,45 +1,56 @@
-.tutorial-show
+- flash.each do |name, message|
+  = message
 
-  - flash.each do |name, message|
-    = message
 
-  h1.title
-    = @tutorial.title
-  .content
-    = @tutorial.content_html.html_safe
-  .author-signature
-    = @tutorial.author
-  .tags
-    - if @tutorial.tags.present?
-      - @tutorial.tags.each do |tag|
-        = link_to tag.name, tutorials_tagged_path(tag: tag.name)
-  br
+.row
+  .col-xs
 
-  h2.comment-title Comments
+    section
+      h2.section-title
+        = @tutorial.title
+      .content
+        = @tutorial.content_html.html_safe
+      .author-signature
+        = @tutorial.author
 
-  = form_for @comment, url: comments_path(tutorial_id: @tutorial.id, slug: @tutorial.slug) do |f|
-    .row 
-      = f.label :comment
-    .row.content
-      = f.text_area :content
+      .tags
+        - if @tutorial.tags.present?
+          - @tutorial.tags.each do |tag|
+            = link_to tag.name, tutorials_tagged_path(tag: tag.name), { :class => "tag"}
 
-    .row
-      = f.submit "Post comment"
 
-  .comment-list
-    - @comments.each do |comment|
-      .row
-        .content
-          = comment.content
-        .author-signature
-          | By 
-          = comment.author
-          .time-signature
-            | Commented 
-            = time_ago_in_words(comment.created_at)
-            | ago
-  br
-  .vote
-    = button_to "hearts", likes_path(tutorial_id: @tutorial.id, slug: @tutorial.slug), method: :post
+.row.darker
+  .col-xs
+    section
+      h2.section-title
+        | Comments
 
-  = @tutorial.score
+      = form_for @comment, url: comments_path(tutorial_id: @tutorial.id, slug: @tutorial.slug) do |f|
+        .row
+          = f.label :comment
+        .row.content
+          = f.text_area :content
+
+        .row
+          = f.submit "Post comment"
+
+      .comment-list
+        - @comments.each do |comment|
+          .row
+            .content
+              = comment.content
+            .author-signature
+              | By
+              = comment.author
+              .time-signature
+                | Commented
+                = time_ago_in_words(comment.created_at)
+                | ago
+
+
+.row
+  .col-xs
+    section
+      .vote
+        = button_to "hearts", likes_path(tutorial_id: @tutorial.id, slug: @tutorial.slug), method: :post
+      = @tutorial.score

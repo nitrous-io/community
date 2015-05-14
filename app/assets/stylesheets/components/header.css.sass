@@ -1,0 +1,106 @@
+@import '_variables'
+
+body > header
+  height: 48px
+  background: $blue
+  line-height: 48px
+
+  a
+    color: rgba(#FFF, .8)
+    display: block
+    font-weight: 200
+
+  h1.logo, nav
+    display: flex
+    justify-content: flex-start
+
+  // Logo
+  h1.logo
+    em, small
+      text-transform: uppercase
+      display: inline-block
+      position: relative
+
+    em
+      font-weight: bold
+
+    small
+      font-size: 10px
+      font-weight: 200
+      padding-left: 8px
+      margin-left: 6px
+
+      &:before
+        content: ''
+        position: absolute
+        left: 0
+        top: 11px
+        height: 26px
+        border-left: 1px solid rgba(255,255,255,.4)
+
+
+  // Nav
+  nav
+    display: none
+
+    @media screen and (min-width: $break-medium)
+      display: flex
+      margin-left: 40px
+
+    li
+      float: left
+
+      &.active
+        color: #FFF
+        background: rgba(255,255,255,.1)
+
+      a
+        padding: 0 14px
+
+
+  // Mobile menu + Actions
+  #menu, .actions
+    justify-content: flex-end
+    flex: 1 1 0%
+    text-align: end
+
+
+  .actions
+    display: none
+    @media screen and (min-width: $break-medium)
+      display: flex
+
+
+
+  #menu, #mobile-menu
+    display: none
+
+  #menu
+    @media screen and (max-width: $break-medium)
+      display: flex
+
+    a.trigger
+      width: 58px
+      display: block
+      background: image_url('nav-hamburger.svg') center right no-repeat
+
+  #mobile-menu
+    // display: block
+    position: fixed
+    top: 48px
+    left: 0
+    right: 0
+    bottom: 0
+    background: $blue
+    color: rgba(255,255,255,.6)
+    border-top: 1px solid rgba(255,255,255,.3)
+
+    ul.nav
+      padding: 30px
+
+    .separator
+      margin: 10px 0
+      border-top: 1px solid rgba(255,255,255,.3)
+
+    p
+      font-size: 12px

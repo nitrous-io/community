@@ -17,7 +17,7 @@ tutorials = [
     content_html: "<h3>Generate a new SSH key</h3>
     <p>This is seeded data. On your personal computer (i.e. not on your Nitrous box) enter the code below. We want the default settings so when asked to enter a file in which to save the key, just press enter.
     <pre><code class='prettyprint'>
-ssh-keygen -t rsa -C 
+ssh-keygen -t rsa -C
 # Creates a new ssh key using the provided email
 #
 # # Generating public/private rsa key pair.
@@ -38,7 +38,7 @@ ssh-keygen -t rsa -C
     <p>Run the following code to copy the key to your clipboard.</p>",
     tag_list: "rails, ruby",
   ],
-  [ 
+  [
     author: "john",
     slug: "preview-your-app",
     title: "Preview Your App",
@@ -50,7 +50,7 @@ $ rails server -b 0.0.0.0
     <p>In the console you will see the Rails app start up on 0.0.0.0:3000.</p>",
     tag_list: "rails, scala",
   ],
-  [ 
+  [
     author: "john",
     slug: "web-ide-overview",
     title: "Web IDE Overview",

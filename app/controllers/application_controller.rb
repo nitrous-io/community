@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   # TODO: Refresh this from API every x seconds denoted by a session[:refreshed_data]
   before_action :header
 
-  private 
+  private
 
   def header
     @current_user = session[:username]
@@ -34,5 +34,4 @@ class ApplicationController < ActionController::Base
       redirect_to root_path
     end
   end
-
 end

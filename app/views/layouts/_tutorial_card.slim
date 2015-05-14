@@ -1,0 +1,13 @@
+.col-xs-12.col-sm.tutorial.card
+  .visual
+    a href=(tutorial_path(slug: tutorial.slug))
+
+  h3.title
+    = link_to tutorial.title, tutorial_path(slug: tutorial.slug)
+  .card-footer
+    .author
+      = tutorial.author.capitalize
+    - if tutorial.tags.present?
+      - tutorial.tags.each do |tag|
+        .tags
+          = link_to tag.name, tutorials_tagged_path(tag: tag.name), { :class => "tag"}

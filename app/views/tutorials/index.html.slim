@@ -1,15 +1,11 @@
-- @tutorials.each do |tutorial|
-  h1.title
-    = link_to tutorial.title, tutorial_path(slug: tutorial.slug)
-  .author-signature
-    | By 
-    = tutorial.author
-    .time-signature
-      | Published 
-      = time_ago_in_words(tutorial.created_at)
-      |  ago
-  - if tutorial.tags.present?
-    - tutorial.tags.each do |tag|
-      span.tags
-        = link_to tag.name, tutorials_tagged_path(tag: tag.name)
-  br
+.row.center-xs.title
+  .col-xs
+    h2.section-title
+      | Tutorials
+    p.desc
+      | Get started on Nitrous with these tutorials
+
+
+.row.around-xs.grid
+  - @tutorials.each do |tutorial|
+    = render partial: 'layouts/tutorial_card', locals: { tutorial: tutorial }

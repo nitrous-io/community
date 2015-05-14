@@ -1,0 +1,12 @@
+.col-xs-12.col-sm-3.blog.card
+  .visual
+
+  h3.title
+    = link_to blog.title, blog_path(slug: blog.slug)
+  .card-footer
+    .author-signature
+      = blog.author
+      .time-signature
+        | Published
+        = time_ago_in_words(blog.created_at)
+        |  ago

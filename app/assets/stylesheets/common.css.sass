@@ -1,0 +1,114 @@
+@import '_reset'
+@import '_grid'
+@import '_variables'
+
+
+body
+  font-family: $opensans
+  font-size: 14px
+  line-height: 26px
+  color: $dark-grey
+
+.wrap
+  max-width: 1080px
+  min-width: 220px
+  margin: 0 auto
+
+.flex
+  display: flex
+
+.row
+  &.darker
+    background: $bg-grey
+    
+main
+  padding: 60px 0
+
+a
+  text-decoration: none
+  color: $blue
+
+pre
+  white-space: pre-wrap
+  word-wrap: break-word
+
+section
+  margin-bottom: 40px
+
+
+main
+  .row
+    &.title
+      cursor: default
+
+    &.grid
+      padding: 40px 0 60px 0
+
+  .section-title
+    font-size: 32px
+    line-height: 44px
+    font-weight: 200
+
+  p.desc
+    font-size: 16px
+    font-weight: 200
+    color: $light-grey
+
+
+  // Cards
+  .card
+    @media screen and (min-width: $break-medium)
+      margin: 0 10px
+    @media screen and (max-width: $break-medium)
+      margin: 0 0 20px 0
+
+    h3.title a
+      font-family: $montserrat
+      font-size: 16px
+      color: $dark-grey
+
+    .card-footer
+      border-top: 1px solid rgba(0,0,0,.05)
+      margin-top: 10px
+      padding-top: 10px
+
+    .author
+      float: left
+      cursor: default
+
+    .tags
+      float: right
+
+    .visual
+      margin: -20px -20px 20px -20px
+      border-radius: 2px 2px 0 0
+
+      a
+        display: block
+        border-radius: 2px 2px 0 0
+        background: $dark-blue
+
+
+    &.tutorial
+      border-radius: 2px
+      padding: 20px
+      box-shadow: 0 1px 1px rgba(0,0,0,.1)
+
+      .visual a
+        height: 144px
+
+    &.blog
+      .visual a
+        height: 172px
+
+
+  // Tags
+  .tag
+    line-height: 22px
+    border: 1px solid $blue
+    color: $blue
+    padding: 0 6px
+    border-radius: 22px
+    font-size: 11px
+    display: inline-block
+    margin-left: 6px

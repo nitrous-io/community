@@ -3,31 +3,31 @@ Rails.application.routes.draw do
   root 'pages#home'
 
   # Authentication
-  get    'login'  => 'sessions#new'
-  post   'login'  => 'sessions#create'
+  get 'login' => 'sessions#new'
+  post 'login' => 'sessions#create'
   delete 'logout' => 'sessions#destroy'
 
   # Tutorials
   resources :tutorials, only: [:new, :create, :index]
-  get 'tutorial/:slug'        => 'tutorials#show', as: :tutorial
+  get 'tutorials/:slug' => 'tutorials#show', as: :tutorial
   get 'tutorials/tagged/:tag' => 'tutorials#index', as: :tutorials_tagged
 
   # Blog
   resources :blogs, only: [:new, :create, :index]
-  get 'blog/:slug'        => 'blogs#show', as: :blog
+  get 'blogs/:slug' => 'blogs#show', as: :blog
   get 'blogs/tagged/:tag' => 'blogs#index', as: :blogs_tagged
 
   # Comments
   resources :comments, only: [:create]
 
-  # Likes 
+  # Likes
   resources :likes, only: [:create]
 
   # Image uploads
   resources :image_contents, only: [:create]
 
   # Markdown preview
-  post '/preview'    => 'preview#convert'
+  post '/preview' => 'preview#convert'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

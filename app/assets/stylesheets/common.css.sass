@@ -46,9 +46,18 @@ pre
   white-space: pre-wrap
   word-wrap: break-word
 
-section
+section, article
   margin-bottom: 40px
 
+
+article
+  .section-title
+    padding-bottom: 40px
+
+  h3
+    font-weight: 600
+    font-size: 20px
+    padding: 6px 0 12px
 
 main
   .row
@@ -82,68 +91,22 @@ main
 
     input
       width: 100%
-      height: 38px
-      font-size: 14px
+      height: 46px
+      font-size: 15px
       padding: 0 10px
       border: 0
       background: #FFF
       border-radius: 2px
       display: block
+      outline: none
 
       &[type="submit"]
-        height: 42px
+        height: 48px
         cursor: pointer
         background: $blue
+        font-size: 16px
         color: #FFF
         margin-top: 20px
-
-
-
-  // Cards
-  .card
-    @media screen and (min-width: $break-medium)
-      margin: 0 10px 20px 10px
-    @media screen and (max-width: $break-medium)
-      margin: 0 0 20px 0
-
-    h3.title a
-      font-family: $montserrat
-      font-size: 16px
-      color: $dark-grey
-
-    .card-footer
-      border-top: 1px solid rgba(0,0,0,.05)
-      margin-top: 10px
-      padding-top: 10px
-
-    .author
-      float: left
-      cursor: default
-
-    .tags
-      float: right
-
-    .visual
-      margin: -20px -20px 20px -20px
-      border-radius: 2px 2px 0 0
-
-      a
-        display: block
-        border-radius: 2px 2px 0 0
-        background: $dark-blue
-
-
-    &.tutorial
-      border-radius: 2px
-      padding: 20px
-      box-shadow: 0 1px 1px rgba(0,0,0,.1)
-
-      .visual a
-        height: 144px
-
-    &.blog
-      .visual a
-        height: 172px
 
 
   // Tags
@@ -156,3 +119,22 @@ main
     font-size: 11px
     display: inline-block
     margin-left: 6px
+    transition: all .10s ease-in
+
+    &:hover
+      color: #FFF
+      background: $blue
+
+
+// Dropdown
+.dropdown-menu
+  min-width: 120px
+  position: absolute
+  display: none
+  top: 0
+  right: 0
+  text-align: left
+  padding: 0 14px
+  background: $blue
+  border-radius: 0 0 4px 4px
+  box-shadow: 0 2px 1px rgba(0,0,0,.1)

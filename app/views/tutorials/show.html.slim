@@ -5,7 +5,7 @@
 .row
   .col-xs
 
-    section
+    article
       h2.section-title
         = @tutorial.title
       .content
@@ -21,7 +21,8 @@
 
 .row.darker
   .col-xs
-    section
+
+    article
       h2.section-title
         | Comments
 
@@ -50,7 +51,8 @@
 
 .row
   .col-xs
-    section
+
+    article
       .vote
-        = button_to "hearts", likes_path(tutorial_id: @tutorial.id, slug: @tutorial.slug), method: :post
+        = button_to "Heart", likes_path(tutorial_id: @tutorial.id, slug: @tutorial.slug), method: :post
       = @tutorial.score

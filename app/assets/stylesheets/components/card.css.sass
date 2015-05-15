@@ -1,0 +1,94 @@
+@import '_variables'
+
+// Cards
+.card
+  @media screen and (min-width: $break-medium)
+    margin: 0 10px 20px 10px
+  @media screen and (max-width: $break-medium)
+    margin: 0 0 20px 0
+
+  &:hover .visual:after
+    transform: scale(1.2)
+    opacity: .6
+
+  h3.title a
+    font-family: $montserrat
+    font-size: 16px
+    color: $dark-grey
+
+  .card-footer
+    border-top: 1px solid rgba(0,0,0,.05)
+    margin-top: 10px
+    padding-top: 10px
+
+  .author
+    float: left
+    cursor: default
+
+  .tags
+    float: right
+
+  .visual
+    margin: -20px -20px 20px -20px
+    border-radius: 2px 2px 0 0
+    position: relative
+    overflow: hidden
+
+    img
+      display: block
+      z-index: 2
+
+    &:after
+      transition: all .25s ease-in-out
+
+    &.overlay-1, &.overlay-2, &.overlay-3, &.overlay-4, &.overlay-5
+      &:after
+        content: ""
+        position: absolute
+        top: 0
+        left: 0
+        right: 0
+        height: 100%
+        background: red
+        border-radius: inherit
+        pointer-events: none
+        opacity: .4
+        z-index: 1
+
+    &.overlay-1:after
+      background: image_url("tutorial-overlay-1.svg") center center / cover no-repeat
+    &.overlay-2:after
+      background: image_url("tutorial-overlay-2.svg") center center / cover no-repeat
+    &.overlay-3:after
+      background: image_url("tutorial-overlay-3.svg") center center / cover no-repeat
+    &.overlay-4:after
+      background: image_url("tutorial-overlay-4.svg") center center / cover no-repeat
+    &.overlay-5:after
+      background: image_url("tutorial-overlay-5.svg") center right / cover no-repeat
+
+    a
+      display: block
+      border-radius: 2px 2px 0 0
+      background: $dark-blue
+
+  &.ruby .visual a
+    background: $ruby
+
+  &.ruby-on-rails .visual a
+    background: $ruby-on-rails
+
+  &.django .visual a
+    background: $django
+
+
+  &.tutorial
+    border-radius: 2px
+    padding: 20px
+    box-shadow: 0 1px 1px rgba(0,0,0,.1)
+
+    .visual a
+      height: 144px
+
+  &.blog
+    .visual a
+      height: 172px

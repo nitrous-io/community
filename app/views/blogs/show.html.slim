@@ -8,4 +8,3 @@ h1.title
   - if @blog.tags.present?
     - @blog.tags.each do |tag|
       = link_to tag.name, blogs_tagged_path(tag: tag.name)
-br

@@ -4,6 +4,7 @@ body > footer
   border-top: 1px solid rgba(0,0,0,.05)
   margin-top: 60px
   padding-top: 60px
+  padding-bottom: 60px
 
   .row, a
     color: rgba($dark-grey, .8)
@@ -12,6 +13,30 @@ body > footer
     font-size: 18px
     color: $dark-grey
     padding-bottom: 10px
+
+  a.nitrous-logo
+    width: 120px
+    height: 14px
+    display: inline-block
+    font-weight: bold
+    margin-top: 6px
+    text-indent: -999999px
+    background: image_url('footer-logo.svg') top left no-repeat
+
+  .copyright
+    font-size: 12px
+    margin-top: -16px
+    padding-bottom: 10px
+    color: rgba($dark-grey,.8)
+
+  a
+    color: rgba($dark-grey,.5)
+    &:hover
+      color: rgba($dark-grey,1)
+
+
+  .row
+    line-height: 32px
 
   @media screen and (max-width: $break-medium)
     .row > div

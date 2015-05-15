@@ -1,12 +1,10 @@
-- flash.each do |name, message|
-  div class="login #{name}"
-    = message.humanize
-
-
 .row.center-xs.title
   .col-xs
     h2.section-title
       | Log In
+    p.desc
+      - flash.each do |name, message|
+        = message.humanize
 
 
 .row.center-xs

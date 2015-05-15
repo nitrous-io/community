@@ -5,10 +5,10 @@
     p.desc
       | Get started on Nitrous with these tutorials
 
+
 .row.around-xs.grid
   - @tutorials.each do |tutorial|
     = render partial: 'layouts/tutorial_card', locals: { tutorial: tutorial }
-
 
 .row.center-xs.title
   .col-xs

@@ -1,6 +1,17 @@
-= require jquery
-= require jquery_ujs
-= require inline-attachment
-= require jquery.inline-attachment
-= require bootstrap-sprockets
-= require_tree .
+// = require jquery
+// = require jquery_ujs
+// = require_tree .
+
+$(function(){
+
+  var dropdownToggle = $(".dropdown-toggle");
+  var dropdownMenu = $(".dropdown-menu");
+
+  dropdownToggle.hover(function(){
+    $(this).next(dropdownMenu).show();
+  }, function(){
+    $(this).next(dropdownMenu).hide();
+  });
+
+
+});

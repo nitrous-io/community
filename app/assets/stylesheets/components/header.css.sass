@@ -22,7 +22,13 @@ body > header
       position: relative
 
     em
+      width: 120px
+      height: 14px
+      top: 18px
+      display: inline-block
       font-weight: bold
+      text-indent: -999999px
+      background: image_url('nav-logo.svg') center left no-repeat
 
     small
       font-size: 10px
@@ -67,9 +73,16 @@ body > header
 
   .actions
     display: none
+    position: relative
+
     @media screen and (min-width: $break-medium)
       display: flex
 
+    .dropdown-toggle
+      padding: 0 14px 6px 14px
+
+    .dropdown-menu
+      top: 48px
 
 
   #menu, #mobile-menu

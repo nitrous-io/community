@@ -6,27 +6,38 @@ RSpec.describe BlogsController, type: :controller do
 
   describe "GET #new" do
     context "when logged in" do
-      before { get :new, session[:user_id] = "1" }
+      before { session[:admin] = true }
+      before { get :new }
+      it { expect(response).to render_template(:new) }
       it { expect(response).to have_http_status(:success) }
     end
     context "when not logged in" do
-      before { get :new, session[:user_id] = nil }
-      it { expect(response).to redirect_to(login_path) }
+      before { get :new }
+      it { expect(response).to redirect_to(root_path) }
     end
   end
 
   describe "POST #create" do
-    #before { post :create, session[:user_id] = "1" }
-    #it { expect(response).to have_http_status(:success) }
-    context "when not logged in" do
-      before { post :create }
-      it { expect(response).to redirect_to(login_path) }
+    context "when logged in as admin, valid params" do
+      before { session[:admin] = true }
+      before { post :create, blog: attributes_for(:blog) }
+      it { expect(response).to redirect_to(blogs_path) }
+    end
+    context "when logged in as admin, invalid params" do
+      before { session[:admin] = true }
+      before { post :create, blog: attributes_for(:blog, :invalid) }
+      it { expect(response).to render_template(:new) }
+    end
+    context "when not logged in as admin" do
+      before { post :create, blog: attributes_for(:blog) }
+      it { expect(response).to redirect_to(root_path) }
     end
 
   end
 
   describe "GET #index" do
     before { get :index }
+    it { expect(response).to render_template(:index) }
     it { expect(response).to have_http_status(:success) }
   end
 

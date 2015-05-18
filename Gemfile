@@ -47,6 +47,7 @@ group :development, :test do
   gem 'spring'
   gem 'shoulda-matchers', require: false
   gem 'spring-commands-rspec'
+  gem 'dotenv-rails', '~> 2.0.1'
 end
 
 group :production do

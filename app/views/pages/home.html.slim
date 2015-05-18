@@ -1,18 +1,18 @@
-.row.center-xs.title
-  .col-xs
-    h2.section-title
-      | Tutorials
-    p.desc
-      | Get started on Nitrous with these tutorials
+.main
+  .container
 
+    .title.centered
+      h2
+        | Tutorials
+      p.desc
+        | Get started on Nitrous with these tutorials
 
-.row.around-xs.grid
-  - @tutorials.each do |tutorial|
-    = render partial: 'layouts/tutorial_card', locals: { tutorial: tutorial }
+    section.tutorials.cards
+      - @tutorials.each do |t|
+        = render partial: 'layouts/tutorial_card', locals: { tutorial: t }
 
-.row.center-xs.title
-  .col-xs
-    h2.section-title
-      | Blog posts
-    p.desc
-      | Anouncements, tutorials, and use-cases
+    .title.centered
+      h2
+        | Blog posts
+      p.desc
+        | Anouncements, tutorials, and use-cases

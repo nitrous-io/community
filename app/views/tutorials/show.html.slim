@@ -1,13 +1,13 @@
-- flash.each do |name, message|
-  = message
+.main
+  .container
 
-
-.row
-  .col-xs
+    - flash.each do |name, message|
+      = message
 
     article
-      h2.section-title
-        = @tutorial.title
+      .title
+        h2
+          = @tutorial.title
       .content
         = @tutorial.content_html.html_safe
       .author-signature
@@ -19,8 +19,8 @@
             = link_to tag.name, tutorials_tagged_path(tag: tag.name), { :class => "tag"}
 
 
-.row.darker
-  .col-xs
+.main.darker
+  .container
 
     article
       h2.section-title
@@ -48,9 +48,6 @@
                 = time_ago_in_words(comment.created_at)
                 | ago
 
-
-.row
-  .col-xs
 
     article
       .vote

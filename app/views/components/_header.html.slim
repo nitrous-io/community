@@ -1,38 +1,42 @@
-h1.logo
-  a href=(root_path)
-    span
-      em Nitrous
-      '
-      small Community
-nav
-  ul
-    li class=(controller.controller_name == 'tutorials' ? 'active' : nil)
-      = link_to "Tutorials", tutorials_path
-    li class=(controller.controller_name == 'blogs' ? 'active' : nil)
-      = link_to "Blog", blogs_path
+header
+  .container
+    h1.logo
+      a href=(root_path)
+        span
+          em Nitrous
+          '
+          small Community
 
-.actions
-  - if @current_user.nil?
-    = link_to "Log In", login_path
+    nav
+      ul
+        li class=(controller.controller_name == 'tutorials' ? 'active' : nil)
+          = link_to "Tutorials", tutorials_path
+        li class=(controller.controller_name == 'blogs' ? 'active' : nil)
+          = link_to "Blog", blogs_path
 
-  - else
-    a.btn.dropdown-toggle href="#"
-      span
-        = @current_user
-      i.fa.fa-caret
+    .actions
+      .desktop
+        - if @current_user.nil?
+          = link_to "Log In", login_path
 
-    ul.dropdown-menu role="menu"
-      / - if @admin
-      li
-        = link_to "New Blog Post", new_blog_path
-      li
-        = link_to "New Tutorial", new_tutorial_path
-      li
-        = link_to "Log Out", logout_path, :method => :delete
+        - else
+          .dropdown
+            .dropdown-toggle href="#"
+              span
+                = @current_user
+              i.fa.fa-caret
 
+              ul.dropdown-menu role="menu"
+                / - if @admin
+                li
+                  = link_to "New Blog Post", new_blog_path
+                li
+                  = link_to "New Tutorial", new_tutorial_path
+                li
+                  = link_to "Log Out", logout_path, :method => :delete
 
-#menu
-  a.trigger href="#"
+      .menu-btn.mobile
+        a.trigger href="#"
 
 
 #mobile-menu
@@ -43,12 +47,18 @@ nav
       = link_to "Blog", blogs_path
     li
       a href="/" Search
-    li.separator
+
     - if @current_user.nil?
+      li.separator
       li
         = link_to "Log In", login_path
       li
-        a href="/" Sign up
+        a href="https://pro.nitrous.io/app/#/signup" Sign Up
+    - else
+      li.separator
+      li
+        = link_to "Log Out", logout_path, :method => :delete
+
     li.separator
     li
       a href="https://twitter.com/nitrous.io" target="_blank" Follow @NitrousIO

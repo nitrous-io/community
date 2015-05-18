@@ -1,14 +1,14 @@
-.row.center-xs.title
-  .col-xs
-    h2.section-title
-      | Log In
-    p.desc
-      - flash.each do |name, message|
-        = message.humanize
+.main
+  .container
+
+    .title.centered
+      h2
+        | Log In
+      p.desc
+        - flash.each do |name, message|
+          = message.humanize
 
 
-.row.center-xs
-  .col-xs-4
     .form-wrapper
       = form_for :user, url: login_path do |f|
         .row
@@ -19,3 +19,7 @@
 
         .row
           = f.submit "Log In"
+
+    .sign-up
+      ' No account?
+      a href="https://pro.nitrous.io/app/#/signup" Sign Up

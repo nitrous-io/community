@@ -1,25 +1,32 @@
 @import '_reset'
 @import '_variables'
 
+*
+  box-sizing: border-box
 
 body
   font-family: $opensans
-  font-size: 14px
-  line-height: 26px
+  font-size: 16px
+  line-height: 30px
   color: $dark-grey
+  @media screen and (min-width: $break-medium)
+    font-size: 14px
+    line-height: 26px
 
-.wrap
-  max-width: 1080px
-  min-width: 220px
+.container
+  max-width: 1024px
   margin: 0 auto
+  padding-right: 2rem
+  padding-left: 2rem
 
-.flex
-  display: flex
+.main
+  padding: 60px 0
 
-.row
+  &:last-of-type
+    padding-bottom: 80px
+
   &.darker
     background: $bg-grey
-
 
 ::-webkit-input-placeholder
   color: $placeholder
@@ -33,9 +40,6 @@ body
 \:-ms-input-placeholder
   color: $placeholder
 
-main
-  padding: 60px 0
-
 a
   text-decoration: none
   color: $blue
@@ -48,34 +52,26 @@ pre
 section, article
   margin-bottom: 40px
 
+section + .title
+  padding-top: 60px
 
-article
-  .section-title
+.centered
+  text-align: center
+
+.main
+
+  .title
     padding-bottom: 40px
 
-  h3
-    font-weight: 600
-    font-size: 20px
-    padding: 6px 0 12px
+    h2
+      font-size: 32px
+      line-height: 44px
+      font-weight: 200
 
-main
-  .row
-    &.title
-      cursor: default
-
-    &.grid
-      padding: 40px 0 60px 0
-
-  .section-title
-    font-size: 32px
-    line-height: 44px
-    font-weight: 200
-
-  p.desc
-    font-size: 16px
-    font-weight: 200
-    color: $light-grey
-
+    p.desc
+      font-size: 16px
+      font-weight: 200
+      color: $light-grey
 
   // Form
   .form-wrapper
@@ -127,7 +123,7 @@ main
 
 // Dropdown
 .dropdown-menu
-  min-width: 120px
+  min-width: 140px
   position: absolute
   display: none
   top: 0
@@ -137,3 +133,6 @@ main
   background: $blue
   border-radius: 0 0 4px 4px
   box-shadow: 0 2px 1px rgba(0,0,0,.1)
+
+  a:hover
+    color: #FFF

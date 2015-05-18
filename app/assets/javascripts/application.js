@@ -7,10 +7,32 @@ $(function(){
   var dropdownToggle = $(".dropdown-toggle");
   var dropdownMenu = $(".dropdown-menu");
 
+
   dropdownToggle.hover(function(){
-    $(this).next(dropdownMenu).show();
+    $(this).addClass("active");
+    $(this).find(dropdownMenu).show();
   }, function(){
-    $(this).next(dropdownMenu).hide();
+    $(this).removeClass("active");
+    $(this).find(dropdownMenu).hide();
+  });
+
+
+  var mobileTrigger = $("a.trigger");
+  var mobileMenu = $("#mobile-menu");
+
+  var showMobileMenu = function(){
+    if(mobileMenu.is(":visible")) {
+      mobileMenu.hide();
+      mobileTrigger.removeClass("close");
+    }
+    else {
+      mobileMenu.show();
+      mobileTrigger.addClass("close");
+    }
+  };
+
+  mobileTrigger.click(function(){
+    showMobileMenu();
   });
 
 

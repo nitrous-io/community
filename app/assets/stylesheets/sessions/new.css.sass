@@ -1,23 +1,49 @@
 @import '_variables'
 
 html.sessions.new
+
   body
     background: $blue
     color: rgba(#FFF,.8)
 
+  .main
+    > .container
+      display: flex
+      align-items: center
+      flex-direction: column
 
-  p.desc
-    color: rgba(#FFF,.6)
+  .title
+    p.desc
+      color: rgba(#FFF,.6)
 
   .form-wrapper
+    width: 100%
     background: #FFF
 
+    @media screen and (min-width: $break-medium)
+      width: 40%
+
     input[type="text"], input[type="password"]
-      background: rgba($bg-grey,.6)
+      background: $bg-grey
+      border: 1px solid transparent
+      border-radius: 4px
+
+      &:focus
+        border: 1px solid $blue
+
+  .sign-up
+    padding-top: 20px
+    color: rgba(#FFF,.5)
+    a
+      color: rgba(#FFF,.8)
+      font-weight: 500
 
   footer
-    &, a, .copyright
+    &, a
       color: rgba(#FFF,.8)
+
+    .copyright
+      color: rgba(#FFF,.5)
 
     h4, h4 a
       color: #FFF

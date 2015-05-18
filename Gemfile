@@ -48,6 +48,8 @@ group :development, :test do
   gem 'shoulda-matchers', require: false
   gem 'spring-commands-rspec'
   gem 'dotenv-rails', '~> 2.0.1'
+  gem 'pry-rails'
+  gem 'webmock', '~> 1.21.0'
 end
 
 group :production do

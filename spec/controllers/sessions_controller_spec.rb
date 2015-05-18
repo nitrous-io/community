@@ -8,6 +8,8 @@ RSpec.describe SessionsController, type: :controller do
     end
 
     context "when user not logged in" do
+      render_views
+
       it 'renders new template' do
         do_request
         is_expected.to render_template(:new)
@@ -30,41 +32,61 @@ RSpec.describe SessionsController, type: :controller do
   end
 
   describe "POST create" do
-    def do_request(params)
+    let(:username) { 'bighero' }
+    let(:password) { 'baymaxxy' }
+    let(:token) { 'T0K3N' }
+    let(:oauth_url) { sprintf('%s/oauth/token?grant_type=password&password=%s&username=%s', ENV['NITROUS_URL'], password, username) }
+    let(:user_url) { sprintf('%s/user', ENV['NITROUS_URL']) }
+
+    def do_request(params =  {username_or_email: username, password: password})
       post :create, user: params
     end
 
     context "with success" do
-      let(:query_string) { 'grant_type=password&password=baymaxxy&username=bighero' }
-      let(:login_response_body) { JSON.dump('access_token' => 'T0K3N', 'token_type' => 'Bearer') }
+      let(:login_response_body) { JSON.dump({'access_token' => token, 'token_type' => 'Bearer'}) }
       let(:token_response_body) { JSON.dump({'user'=>{'id'=>67, 'username'=>'bighero', 'email'=>'nitrousbighero@gmail.com', 'admin'=>false}}) }
 
       before do
-        stub_request(:post, sprintf('%s/oauth/token?%s', ENV['NITROUS_URL'], query_string)).
-            to_return(status: 200, headers: {}, body: login_response_body)
-        stub_request(:get, sprintf('%s/user', ENV['NITROUS_URL'])).
-            to_return(status: 200, headers: {}, body: token_response_body)
+        stub_request(:post, oauth_url).
+            to_return(status: 200, headers: {'content-type'=>['application/json; charset=utf-8']}, body: login_response_body)
+        stub_request(:get, user_url).
+            with(headers: { 'Authorization' => 'Bearer %s' % token }).
+            to_return(status: 200, headers: {'content-type'=>['application/json; charset=utf-8']}, body: token_response_body)
       end
 
-
       it 'redirects to home page' do
-        do_request({username_or_email: "bighero", password: "baymaxxy"})
+        do_request
         expect(response).to redirect_to(root_path)
+      end
+
+      it 'sets session' do
+        do_request
+        expect(session[:username]).to eq(username)
+        expect(session[:user_id]).to eq(67)
+        expect(session[:admin]).to eq(false)
+        expect(session[:token]).to eq('T0K3N')
       end
     end
 
-    context "with invalid params" do
-      let(:query_string) { 'grant_type=password&password=fakepw&username=fakehero' }
-      let(:login_response_body) { JSON.dump('error' => 'invalid_grant', 'error_description' => 'incorrect username or password') }
+    context "with failure" do
+      let(:login_response_body) { JSON.dump({'error' => 'invalid_grant', 'error_description' => 'incorrect username or password'}) }
 
       before do
-        stub_request(:post, sprintf('%s/oauth/token?%s', ENV['NITROUS_URL'], query_string)).
-            to_return(status: 400, headers: {}, body: login_response_body)
+        stub_request(:post, sprintf('%s/oauth/token?grant_type=password&password=%s&username=%s', ENV['NITROUS_URL'], password, username)).
+            to_return(status: 400, headers: {'content-type'=>['application/json; charset=utf-8']}, body: login_response_body)
       end
 
       it 'redirects to login page' do
-        do_request({username_or_email: "fakehero", password: "fakepw"})
+        do_request
         expect(response).to redirect_to(login_path)
+      end
+
+      it 'does not set session' do
+        do_request
+        expect(session[:username]).to eq(nil)
+        expect(session[:user_id]).to eq(nil)
+        expect(session[:admin]).to eq(nil)
+        expect(session[:token]).to eq(nil)
       end
     end
   end
@@ -74,7 +96,8 @@ RSpec.describe SessionsController, type: :controller do
       delete :destroy
     end
 
-    let(:token) { 'faketoken' }
+    let(:token) { 'token' }
+
     before do
       stub_request(:delete, sprintf('%s/logout', ENV['NITROUS_URL'])).
           with(headers: { 'Authorization' => 'Bearer %s' % token }).
@@ -85,6 +108,24 @@ RSpec.describe SessionsController, type: :controller do
     it 'redirects to home page' do
       do_request
       expect(response).to redirect_to(root_path)
+    end
+
+    it 'resets session' do
+      do_request
+      expect(session).to be_blank
+    end
+
+    context 'with failture' do
+      before do
+        stub_request(:delete, sprintf('%s/logout', ENV['NITROUS_URL'])).
+            with(headers: { 'Authorization' => 'Bearer %s' % token }).
+            to_return(status: 400, headers: {}, body: '')
+      end
+
+      it 'resets session' do
+        do_request
+        expect(session).to_not be_blank
+      end
     end
   end
 end

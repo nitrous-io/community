@@ -137,7 +137,6 @@ GEM
     raindrops (0.13.0)
     rake (10.4.2)
     rdoc (4.2.0)
-      json (~> 1.4)
     redcarpet (3.2.3)
     rouge (1.8.0)
     rspec-core (3.2.3)
@@ -179,6 +178,8 @@ GEM
       railties (>= 3.1, < 5.0)
       slim (~> 3.0)
     spring (1.3.4)
+    spring-commands-rspec (1.0.4)
+      spring (>= 0.9.1)
     sprockets (3.0.1)
       rack (~> 1.0)
     sprockets-rails (2.2.4)
@@ -232,6 +233,7 @@ DEPENDENCIES
   shoulda-matchers
   slim-rails
   spring
+  spring-commands-rspec
   turbolinks
   uglifier (>= 1.3.0)
   unicorn (~> 4.8.3)

@@ -13,12 +13,12 @@ RSpec.describe TutorialsController, type: :controller do
 
   describe "POST #create" do
     context "when admin, valid tutorial" do
-      before { session[:admin] = true }
+      before { sign_in_as_admin }
       before { post :create, tutorial: attributes_for(:tutorial) }
       it { expect(response).to redirect_to(root_path) }
     end
     context "when admin, invalid tutorial" do
-      before { session[:admin] = true }
+      before { sign_in_as_admin }
       before { post :create, tutorial: attributes_for(:tutorial, :invalid) }
       it { is_expected.to render_template(:new) }
     end

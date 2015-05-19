@@ -21,7 +21,6 @@ RSpec.describe LikesController, type: :controller do
         expect(response).to redirect_to(tutorial_path("a-slug"))
       end
 
-      #FIXME: expected #score to have changed from 0 to 1, but did not change.
       it do
         expect { do_request }.to change { tutorial.reload.score }.from(0).to(1)
       end

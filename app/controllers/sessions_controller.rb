@@ -16,11 +16,11 @@ class SessionsController < ApplicationController
       if token_res["error"].present?
         # Eg. {"error"=>"confirmation_lapsed", "error_description"=>"confirmation token has lapsed"}
         flash[:error] = token_res["error_description"]
-      else 
+      else
         session[:user_id] = token_res["user"]["id"]
         session[:username] = token_res["user"]["username"]
         session[:admin] = token_res["user"]["admin"]
-        session[:token] = access_token 
+        session[:token] = access_token
       end
 
       redirect_to root_path

@@ -2,37 +2,26 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
-  # TODO: Refresh this from API every x seconds denoted by a session[:refreshed_data]
-  before_action :header
+  helper_method :current_user
 
-  private 
+  private
 
-  def header
-    @current_user = session[:username]
-    @admin = session[:admin]
-  end
-
-  def current_username
-    session[:username]
+  def current_user
+    @current_user ||= session[:user_id] ? UserService.new(session) : nil
   end
 
   def verify_logged_out
-    if session[:user_id]
-      redirect_to root_path
-    end
+    redirect_to root_path if current_user
   end
 
   def verify_logged_in
-    if session[:user_id].nil?
+    unless current_user
       flash[:error] = "You need to log in"
       redirect_to login_path
     end
   end
 
   def verify_admin
-    if session[:admin] != true
-      redirect_to root_path
-    end
+    redirect_to root_path unless current_user.try(:admin)
   end
-
 end

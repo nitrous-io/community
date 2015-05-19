@@ -37,6 +37,7 @@ RSpec.describe SessionsController, type: :controller do
     let(:token) { 'T0K3N' }
     let(:oauth_url) { sprintf('%s/oauth/token?grant_type=password&password=%s&username=%s', ENV['NITROUS_URL'], password, username) }
     let(:user_url) { sprintf('%s/user', ENV['NITROUS_URL']) }
+    let(:user_info) { {'id'=>67, 'username'=>'bighero', 'email'=>'nitrousbighero@gmail.com', 'admin'=>false} }
 
     def do_request(params =  {username_or_email: username, password: password})
       post :create, user: params
@@ -44,7 +45,7 @@ RSpec.describe SessionsController, type: :controller do
 
     context "with success" do
       let(:login_response_body) { JSON.dump({'access_token' => token, 'token_type' => 'Bearer'}) }
-      let(:token_response_body) { JSON.dump({'user'=>{'id'=>67, 'username'=>'bighero', 'email'=>'nitrousbighero@gmail.com', 'admin'=>false}}) }
+      let(:token_response_body) { JSON.dump({'user'=>user_info}) }
 
       before do
         stub_request(:post, oauth_url).

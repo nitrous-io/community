@@ -22,7 +22,7 @@ RSpec.describe SessionsController, type: :controller do
     end
 
     context "when user logged in" do
-      before { session[:user_id] = '1' }
+      before { sign_in }
 
       it 'redirects to home page' do
         do_request
@@ -62,10 +62,16 @@ RSpec.describe SessionsController, type: :controller do
 
       it 'sets session' do
         do_request
-        expect(session[:username]).to eq(username)
         expect(session[:user_id]).to eq(67)
-        expect(session[:admin]).to eq(false)
-        expect(session[:token]).to eq('T0K3N')
+      end
+
+      it 'creates a user' do
+        expect { do_request }.to change(User, :count).by(1)
+        u = User.last
+        expect(u.id).to eq(user_info['id'])
+        expect(u.username).to eq(user_info['username'])
+        expect(u.email).to eq(user_info['email'])
+        expect(u.admin).to eq(user_info['admin'])
       end
     end
 
@@ -84,10 +90,7 @@ RSpec.describe SessionsController, type: :controller do
 
       it 'does not set session' do
         do_request
-        expect(session[:username]).to eq(nil)
         expect(session[:user_id]).to eq(nil)
-        expect(session[:admin]).to eq(nil)
-        expect(session[:token]).to eq(nil)
       end
     end
   end
@@ -103,7 +106,8 @@ RSpec.describe SessionsController, type: :controller do
       stub_request(:delete, sprintf('%s/logout', ENV['NITROUS_URL'])).
           with(headers: { 'Authorization' => 'Bearer %s' % token }).
           to_return(status: 200, headers: {}, body: '')
-      session[:token] = token
+      u = create(:user, nitrous_oauth_token: token)
+      session[:user_id] = u.id
     end
 
     it 'redirects to home page' do
@@ -114,19 +118,6 @@ RSpec.describe SessionsController, type: :controller do
     it 'resets session' do
       do_request
       expect(session).to be_blank
-    end
-
-    context 'with failture' do
-      before do
-        stub_request(:delete, sprintf('%s/logout', ENV['NITROUS_URL'])).
-            with(headers: { 'Authorization' => 'Bearer %s' % token }).
-            to_return(status: 400, headers: {}, body: '')
-      end
-
-      it 'resets session' do
-        do_request
-        expect(session).to_not be_blank
-      end
     end
   end
 end

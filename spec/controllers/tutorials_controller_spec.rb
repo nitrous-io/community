@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe TutorialsController, type: :controller do
 
-  let!(:tutorial) { create(:tutorial) }
+  let!(:tutorial) { create(:tutorial, slug: "this-is-a-slug") }
 
   describe "GET #new" do
     context "when non-admin" do 

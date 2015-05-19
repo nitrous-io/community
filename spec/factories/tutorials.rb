@@ -1,10 +1,9 @@
 FactoryGirl.define do
   factory :tutorial do
-    id 1
     user_id 1
     admin false
     author "author"
-    slug "this-is-a-slug"
+    sequence(:slug)  { |n| "this-is-a-slug-#{n}" }
     title "title"
     content_markdown "#content"
     content_html "<h1>content</h1>"

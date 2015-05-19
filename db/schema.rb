@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150506094059) do
+ActiveRecord::Schema.define(version: 20150519073128) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "citext"
 
   create_table "blogs", force: :cascade do |t|
     t.string   "author"
@@ -111,6 +112,14 @@ ActiveRecord::Schema.define(version: 20150506094059) do
   end
 
   add_index "tutorials", ["slug"], name: "index_tutorials_on_slug", unique: true, using: :btree
+
+  create_table "users", id: false, force: :cascade do |t|
+    t.integer "id",                                  null: false
+    t.citext  "username",                            null: false
+    t.string  "email",                               null: false
+    t.string  "nitrous_oauth_token"
+    t.boolean "admin",               default: false, null: false
+  end
 
   add_foreign_key "comments", "tutorials"
   add_foreign_key "likes", "tutorials"

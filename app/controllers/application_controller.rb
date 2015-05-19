@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   private
 
   def current_user
-    @current_user ||= session[:user_id] ? UserService.new(session) : nil
+    @current_user ||= session[:user_id] ? User.find_by_id(session[:user_id]) : nil
   end
 
   def verify_logged_out

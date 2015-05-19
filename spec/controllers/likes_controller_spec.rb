@@ -3,13 +3,11 @@ require 'rails_helper'
 RSpec.describe LikesController, type: :controller do
 
   let!(:tutorial) { create(:tutorial) }
-  let!(:like ) { create(:like) }
+  let!(:like) { create(:like) }
 
   describe "POST #create" do
     context "when logged in, user has not voted before" do
-      before do
-        session[:user_id] = 2
-      end
+      before { sign_in }
 
       def do_request
         post :create, tutorial_id: tutorial.id, slug: "a-slug", like: attributes_for(:like)
@@ -26,8 +24,8 @@ RSpec.describe LikesController, type: :controller do
       end
     end
     context "when logged in, user has voted before" do
-      before { session[:user_id] = 1 }
-      before { post :create, tutorial_id: 1, slug: "a-slug", like: attributes_for(:like) }
+      before { sign_in }
+      before { post :create, tutorial_id: tutorial.id, slug: "a-slug", like: attributes_for(:like) }
       #TODO: Change test result when refactor to use AJAX.
       it { expect(response).to redirect_to(tutorial_path("a-slug")) }
     end

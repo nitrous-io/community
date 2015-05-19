@@ -22,7 +22,7 @@
           .row
             = f.label :content
           .row.content
-            = f.text_area :content_markdown, class: "markdown-text-js"
+            = f.text_area :content_markdown, class: "markdown-text-js", 'data-attachment-allowed' => true
 
           .row
             = f.label :tag_list

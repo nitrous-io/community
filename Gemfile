@@ -26,7 +26,7 @@ gem 'acts-as-taggable-on', '~> 3.4'
 # Image upload with drag and drop
 gem 'carrierwave'
 # Upload to s3
-# gem 'fog', '~> 1.0.0'
+gem 'fog'
 
 # Front-end stack
 gem 'sass-rails', '~> 5.0'

@@ -1,5 +1,5 @@
 class BlogsController < ApplicationController
-  before_action :verify_logged_in, only: [:new, :create]
+  before_action :verify_admin, only: [:new, :create]
 
   def new
     @blog = Blog.new

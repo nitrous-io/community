@@ -12,13 +12,18 @@ RSpec.describe TutorialsController, type: :controller do
   end
 
   describe "POST #create" do
-    # FIXME: session["admin"] cannot be set to true. Requires string.
-#    context "when admin, invalid tutorial" do
-#      before { post :create, tutorial: attributes_for(:tutorial, :invalid), session["admin"] = true }
-#      it { is_expected.to render_template(:new) }
-#    end
+    context "when admin, valid tutorial" do
+      before { session[:admin] = true }
+      before { post :create, tutorial: attributes_for(:tutorial) }
+      it { expect(response).to redirect_to(root_path) }
+    end
+    context "when admin, invalid tutorial" do
+      before { session[:admin] = true }
+      before { post :create, tutorial: attributes_for(:tutorial, :invalid) }
+      it { is_expected.to render_template(:new) }
+    end
     context "when non-admin" do
-      before { post :create }
+      before { post :create, tutorial: attributes_for(:tutorial) }
       it { expect(response).to redirect_to(root_path) }
     end
   end
@@ -26,7 +31,7 @@ RSpec.describe TutorialsController, type: :controller do
   describe "GET #index" do
     before { get :index }
     it { expect(response).to render_template(:index) }
-    it { expect(response).to be_success }
+    it { expect(response).to have_http_status(:success) }
     render_views
     it { expect(response.body).to include("title")}
     it { expect(response.body).to include("haskell")}

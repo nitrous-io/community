@@ -1,15 +1,13 @@
 class ImageContentsController < ApplicationController
   before_action :verify_admin
-  # TODO: Find a better solution to csrf authenticity token issue.
-  skip_before_filter :verify_authenticity_token
+  skip_before_filter :verify_authenticity_token, only: [:create]
 
   def create
     image = Image.new(file_name: params[:file])
-    if image.save!
-      respond_to do |format|
-        format.json{ render json: image }
-      end
+    if image.save
+      render json: image
+    else
+      render json: { message: image.errors.full_messages.join(',') }, status: :forbidden
     end
   end
-
 end

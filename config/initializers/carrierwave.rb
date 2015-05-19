@@ -17,6 +17,8 @@ else
     config.enable_processing = false
   end
 
+  Dir[Rails.root.join('app/uploaders/*.rb')].each { |f| require f }
+
   CarrierWave::Uploader::Base.descendants.each do |klass|
     next if klass.anonymous?
     klass.class_eval do

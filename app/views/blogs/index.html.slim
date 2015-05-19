@@ -15,17 +15,4 @@
 
     section.tutorials.cards
       - @blogs.each do |blog|
-        .blog.card
-          h3.title
-            = link_to blog.title, blog_path(slug: blog.slug)
-          .author-signature
-            | By
-          = blog.author
-            .time-signature
-              | Published
-              = time_ago_in_words(blog.created_at)
-              |  ago
-          .tags
-            - if blog.tags.present?
-              - blog.tags.each do |tag|
-                = link_to tag.name, blogs_tagged_path(tag: tag.name)
+        = render partial: 'layouts/blog_card', locals: { blog: blog }

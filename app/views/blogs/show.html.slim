@@ -1,13 +1,46 @@
 .main
   .container
 
-    h1.title
-      = @blog.title
-    .content
-      = @blog.content_html.html_safe
-    .author-signature
-      = @blog.author
-    .tags
-      - if @blog.tags.present?
-        - @blog.tags.each do |tag|
-          = link_to tag.name, blogs_tagged_path(tag: tag.name)
+    article
+      .title
+        h2
+          = @blog.title
+
+      .meta
+        .author
+          span
+            = @blog.author.capitalize
+
+        span &bull;
+
+        .timestamp
+          span
+            | 2 days ago
+
+        - if @blog.tags.present?
+          span &bull;
+
+          .tags
+            - @blog.tags.each do |tag|
+              = link_to tag.name, blogs_tagged_path(tag: tag.name)
+
+
+      .content
+        = @blog.content_html.html_safe
+
+      .footer
+        .gravatar
+          img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=retro&amp;f=y"
+
+        .author
+          span
+            = @blog.author
+
+        .status
+          a.hearts href="#"
+            span 6
+          a.comments href="#"
+            span 6
+
+          a.share href="#"
+            span Share

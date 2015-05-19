@@ -105,8 +105,6 @@
     float: right
 
   .visual
-    margin: -20px -20px 10px -20px
-    border-radius: 2px 2px 0 0
     position: relative
     overflow: hidden
 
@@ -203,14 +201,37 @@
     background: $rust
 
 
+  // Tutorial
   &.tutorial .content
     border-radius: 2px
     padding: 20px
     box-shadow: 0 1px 1px rgba(0,0,0,.1), 0 0 1px rgba(0,0,0,.1)
 
-    .visual a
-      height: 144px
+    .visual
+      margin: -20px -20px 10px -20px
+      border-radius: 2px 2px 0 0
 
-  &.blog .content
-    .visual a
-      height: 172px
+      a
+        height: 144px
+
+
+  // Blog
+  &.blog
+    .content
+      // WIP
+
+    .visual
+      border-radius: 3px
+      margin-bottom: 10px
+
+      a
+        height: 172px
+
+    h3 a
+      font-size: 22px
+      line-height: 26px
+    p
+      font-size: 16px
+      line-height: 26px
+      color: $light-grey
+      font-weight: 300

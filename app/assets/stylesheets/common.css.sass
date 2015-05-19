@@ -48,6 +48,7 @@ a
   &.btn.bordered
     height: 40px
     line-height: 40px
+    display: inline-block
     text-transform: uppercase
     border: 1px solid $light-grey
     padding: 0 26px
@@ -85,6 +86,14 @@ section + .title
       font-size: 16px
       font-weight: 200
       color: $light-grey
+
+
+  .pagination
+    padding: 0 0 80px 0
+
+    a
+      margin-top: 0
+
 
   // Form
   .form-wrapper
@@ -159,78 +168,90 @@ section + .title
     color: #FFF
 
 
-.show
+.tutorials.show, .blogs.show
   .content
     h3
       font-weight: bold
       font-size: 20px
       padding: 12px 0 10px 0
 
+  article
+    .title
+      padding-bottom: 4px
 
-  .article-footer
-    margin-top: 20px
-    padding-top: 20px
-    border-top: 1px solid rgba(0,0,0,.05)
-    line-height: 42px
-    display: flex
-
-    .gravatar, .author, .status
-      margin: 0 10px 0 0
-      padding: 0
-      display: block
+    .meta
+      padding-bottom: 40px
       display: flex
 
-    .gravatar
-      img
-        width: 42px
-        height: 42px
-        border-radius: 3px
-
-    .author
-
-    .status
-      top: 1px
-      padding-top: 8px
-      position: relative
-      margin-left: 12px
-      flex-grow: 1
-      display: flex
-      flex-direction: row
-
-      a
-        height: 18px
+      > div, div + span
         margin-right: 10px
         color: $light-grey
-        position: relative
-        background: image_url('article-status.png') 0 0 no-repeat
-        background-size: 18px 108px
-        padding-left: 22px
-        top: 4px
-        margin-right: 10px
-        overflow: hidden
-        line-height: 18px
+
+    .footer
+      margin-top: 40px
+      padding-top: 20px
+      border-top: 1px solid rgba(0,0,0,.05)
+      line-height: 42px
+      display: flex
+
+      .gravatar, .author, .status
+        margin: 0 10px 0 0
+        padding: 0
+        display: block
         display: flex
 
-        &.hearts
-          background-position: 0 0
+      .gravatar
+        img
+          width: 42px
+          height: 42px
+          border-radius: 3px
 
-        &.hearts.active
-          background-position: 0 -18px
+      .author
+        // WIP
 
-        &.comments
-          background-position: 0 -36px
-          flex-grow: 1
+      .status
+        top: 1px
+        padding-top: 8px
+        position: relative
+        margin-left: 12px
+        flex-grow: 1
+        display: flex
+        flex-direction: row
 
-        &.comments.active
-          background-position: 0 -54px
+        a
+          height: 18px
+          margin-right: 10px
+          color: $light-grey
+          position: relative
+          background: image_url('article-status.png') 0 0 no-repeat
+          background-size: 18px 108px
+          padding-left: 22px
+          top: 4px
+          margin-right: 10px
+          overflow: hidden
+          line-height: 18px
+          display: flex
 
-        &.share
-          background-position: 0 -72px
-          margin-right: 0
+          &.hearts
+            background-position: 0 0
 
-        &.share:hover, &.share.active
-          color: $blue
-          background-position: 0 -90px
+          &.hearts.active
+            background-position: 0 -18px
+
+          &.comments
+            background-position: 0 -36px
+            flex-grow: 1
+
+          &.comments.active
+            background-position: 0 -54px
+
+          &.share
+            background-position: 0 -72px
+            margin-right: 0
+
+          &.share:hover, &.share.active
+            color: $blue
+            background-position: 0 -90px
 
 
   .comment-list
@@ -245,7 +266,8 @@ section + .title
           float: left
           margin-right: 10px
           color: $dark-grey
-        .time
+        .timestamp
           color: $light-grey
 
       .content
+        // WIP

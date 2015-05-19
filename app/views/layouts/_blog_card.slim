@@ -1,11 +1,10 @@
 .blog.card
-  .visual
-    a href=(blog_path(slug: blog.slug))
+  .content
+    .visual
+      a href=(blog_path(slug: blog.slug))
 
-  h3.card-title
-    = link_to blog.title, blog_path(slug: blog.slug)
-  .card-footer
-    .author
-      .gravatar
-        img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=retro&amp;f=y"
-      = blog.author
+    h3.card-title
+      = link_to blog.title, blog_path(slug: blog.slug)
+
+    p
+      | Nulla vitae elit libero, a pharetra augue. Donec sed odio dui.

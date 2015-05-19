@@ -15,9 +15,10 @@
 
     .card-footer
       .author
+        = tutorial.author
         .gravatar
           img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=retro&amp;f=y"
-        = tutorial.author.capitalize
+        = tutorial.author.titleize
       - if tutorial.tags.present?
         - tutorial.tags.each do |tag|
           .tags

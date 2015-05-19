@@ -8,8 +8,7 @@ html lang="en" class=([full_controller_action_name, @html_class].compact.join(' 
 
     title Nitrous Community
 
-    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
-    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = stylesheet_link_tag 'application', media: 'all'
     = csrf_meta_tags
 
   body
@@ -19,3 +18,5 @@ html lang="en" class=([full_controller_action_name, @html_class].compact.join(' 
     = yield
 
     = render 'components/footer'
+
+    = javascript_include_tag 'application'

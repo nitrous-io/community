@@ -8,27 +8,38 @@
       .title
         h2
           = @tutorial.title
+
+      .meta
+        .author
+          span
+            = @tutorial.author.capitalize
+        span &bull;
+        .timestamp
+          span
+            | 2 days ago
+
+
       .content
         = @tutorial.content_html.html_safe
 
 
-    .article-footer
-      .gravatar
-        img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=retro&amp;f=y"
+      .footer
+        .gravatar
+          img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=retro&amp;f=y"
 
-      .author
-        span
-          = @tutorial.author
-
-      .status
-        a.hearts href="#"
+        .author
           span
-            = @tutorial.score
-        a.comments href="#"
-          span 6
+            = @tutorial.author
 
-        a.share href="#"
-          span Share
+        .status
+          a.hearts href="#"
+            span
+              = @tutorial.score
+          a.comments href="#"
+            span 6
+
+          a.share href="#"
+            span Share
 
       / .tags
       /   - if @tutorial.tags.present?
@@ -56,8 +67,8 @@
           .comment
             .meta
               .author
-                = comment.author
-              .time
+                = comment.author.capitalize
+              .timestamp
                 = time_ago_in_words(comment.created_at)
                 '  ago
             .content

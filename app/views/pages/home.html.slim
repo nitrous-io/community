@@ -11,8 +11,11 @@
       - @tutorials.each do |t|
         = render partial: 'layouts/tutorial_card', locals: { tutorial: t }
 
+    .pagination.centered
       a.btn.bordered href="#"
         | More tutorials
+
+
 
     .title.centered
       h2
@@ -22,5 +25,9 @@
 
     section.blog.cards
 
+      - @blogs.each do |b|
+        = render partial: 'layouts/blog_card', locals: { blog: b }
+
+    .pagination.centered
       a.btn.bordered href="#"
         | More posts

@@ -17,15 +17,18 @@ $(function(){
   });
 
 
+  var header = $("header");
   var mobileTrigger = $("a.trigger");
   var mobileMenu = $("#mobile-menu");
 
   var showMobileMenu = function(){
     if(mobileMenu.is(":visible")) {
+      header.removeClass("fixed");
       mobileMenu.hide();
       mobileTrigger.removeClass("close");
     }
     else {
+      header.addClass("fixed");
       mobileMenu.show();
       mobileTrigger.addClass("close");
     }

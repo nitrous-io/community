@@ -18,15 +18,26 @@ html.sessions.new
 
   .form-wrapper
     width: 100%
+    margin: 60px 0 0 0
+    padding: 20px
+    border-radius: 4px
     background: #FFF
+    box-shadow: 0 1px 1px rgba(0,0,0,.1)
 
     @media screen and (min-width: $break-medium)
       width: 40%
+
+    input
+      height: 46px
+
+      &[type="submit"]
+        height: 48px
 
     input[type="text"], input[type="password"]
       background: $bg-grey
       border: 1px solid transparent
       border-radius: 4px
+      color: $dark-grey
 
       &:focus
         border: 1px solid $blue

@@ -11,8 +11,16 @@
       - @tutorials.each do |t|
         = render partial: 'layouts/tutorial_card', locals: { tutorial: t }
 
+      a.btn.bordered href="#"
+        | More tutorials
+
     .title.centered
       h2
         | Blog posts
       p.desc
-        | Anouncements, tutorials, and use-cases
+        | Anouncements, product news, and use-cases
+
+    section.blog.cards
+
+      a.btn.bordered href="#"
+        | More posts

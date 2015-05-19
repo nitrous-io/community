@@ -2,11 +2,12 @@
   .content
     .visual class=("overlay-#{rand(1..5)}")
       a href=(tutorial_path(slug: tutorial.slug))
+        = image_tag 'tutorial-visual-nitrous.png', class:"for-visual"
 
     h3.card-title
       = link_to tutorial.title, tutorial_path(slug: tutorial.slug)
 
-    .card-status
+    .status
       a.hearts href="#"
         span 2
       a.comments href="#"

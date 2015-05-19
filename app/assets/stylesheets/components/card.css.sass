@@ -33,8 +33,7 @@
     font-size: 16px
     color: $dark-grey
 
-  .card-status
-
+  .status
     a
       height: 11px
       padding-left: 14px
@@ -115,6 +114,13 @@
       display: block
       z-index: 2
 
+    .for-visual
+      height: 60px
+      margin: 0 auto
+      position: relative
+      top: 50%
+      transform: translateY(-50%)
+
     &:after
       transition: all .25s ease-in-out
 
@@ -157,11 +163,50 @@
   &.django .visual a
     background: $django
 
+  &.nodejs .visual a
+    background: $nodejs
+
+  &.meteor .visual a
+    background: $meteor
+
+  &.html5 .visual a
+    background: $html5
+
+  &.php .visual a
+    background: $php
+
+  &.golang .visual a
+    background: $golang
+
+  &.java .visual a
+    background: $java
+
+  &.wordpress .visual a
+    background: $wordpress
+
+  &.iojs .visual a
+    background: $iojs
+
+  &.laravel .visual a
+    background: $laravel
+
+  &.ubuntu .visual a
+    background: $ubuntu
+
+  &.asp .visual a
+    background: $asp
+
+  &.docker .visual a
+    background: $docker
+
+  &.rust .visual a
+    background: $rust
+
 
   &.tutorial .content
     border-radius: 2px
     padding: 20px
-    box-shadow: 0 1px 1px rgba(0,0,0,.1)
+    box-shadow: 0 1px 1px rgba(0,0,0,.1), 0 0 1px rgba(0,0,0,.1)
 
     .visual a
       height: 144px

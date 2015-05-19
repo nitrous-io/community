@@ -4,23 +4,25 @@
     / .errors
     /   = @blog.errors.full_messages.first if @blog.errors.any?
 
-
-    = form_for @blog, url: blogs_path do |f|
-      .card-entry
+    .form-wrapper
+      = form_for @blog, url: blogs_path do |f|
         .row
           = f.label :title
+
         .row
           = f.text_field :title
 
         .row
           = f.label :content
-        .row.content
+
+        .row
           = f.text_area :content_markdown, class: "markdown-text-js"
 
         .row
           = f.label :tag_list
+
         .row
           = f.text_field :tag_list, placeholder: "eg. ruby, rails"
 
-      .card-submit-btn
-        = f.submit "Upload new blog post"
+        .row
+          = f.submit "Publish blog post"

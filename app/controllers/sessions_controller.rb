@@ -10,11 +10,10 @@ class SessionsController < ApplicationController
 
     login_res = LoginAPIService.new(username_or_email, password).ping
     if login_res.code == 200
-
       access_token = login_res["access_token"]
       token_res = TokenAPIService.new(access_token).ping
 
-      if token_res["error"].present? 
+      if token_res["error"].present?
         # Eg. {"error"=>"confirmation_lapsed", "error_description"=>"confirmation token has lapsed"}
         flash[:error] = token_res["error_description"]
       else 

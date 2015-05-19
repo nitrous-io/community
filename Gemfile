@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-ruby '2.2.0'
 gem 'rails', '4.2.0'
 gem 'foreman', '~> 0.78.0'
 
@@ -46,7 +45,11 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.0'
   gem 'web-console', '~> 2.0'
   gem 'spring'
-  gem 'shoulda-matchers'
+  gem 'shoulda-matchers', require: false
+  gem 'spring-commands-rspec'
+  gem 'dotenv-rails', '~> 2.0.1'
+  gem 'pry-rails'
+  gem 'webmock', '~> 1.21.0'
 end
 
 group :production do

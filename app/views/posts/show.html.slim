@@ -1,0 +1,12 @@
+.blog-show
+  h1.title
+    = @post.title
+  .content
+    = @post.content_html.html_safe
+  .author-signature
+    = @post.user.username
+  .tags
+    - if @post.tags.present?
+      - @post.tags.each do |tag|
+        = link_to tag.name, posts_tagged_path(tag: tag.name)
+  br

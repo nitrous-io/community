@@ -14,5 +14,4 @@ class MarkdownService
   def convert_to_html(markdown_text)
     @markdown.render(markdown_text)
   end
-
 end

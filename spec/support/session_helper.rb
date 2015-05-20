@@ -12,9 +12,7 @@ module SessionHelper
     session[:user_id] = opt.fetch(:user_id, 1)
     user = User.find_by_id(session[:user_id])
     if user
-      if user.admin
-        user.update_attribute(:admin, true)
-      end
+      user.update_attribute(:admin, true) unless user.admin
     else
       create(:user, id: session[:user_id], admin: true)
     end

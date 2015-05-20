@@ -17,6 +17,11 @@ Rails.application.routes.draw do
   get 'blog/:slug'        => 'blogs#show', as: :blog
   get 'blogs/tagged/:tag' => 'blogs#index', as: :blogs_tagged
 
+  # Posts
+  resources :posts, only: [:new, :create, :index, :show]
+  get 'posts/:slug'       => 'posts#show', as: :posts_slugged
+  get 'posts/tagged/:tag' => 'posts#index', as: :posts_tagged
+
   # Comments
   resources :comments, only: [:create]
 

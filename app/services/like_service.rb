@@ -1,10 +1,10 @@
 class LikeService 
 
-  def like(user_id, tutorial_id)
-    tutorial = Tutorial.find(tutorial_id)
+  def like(user_id, post_id)
+    tutorial = Post.find(post_id)
     like = tutorial.likes.build(user_id: user_id)
     if like.save
-      Tutorial.increment_counter(:score, tutorial_id)
+      Post.increment_counter(:score, post_id)
       return true
     else
       return false

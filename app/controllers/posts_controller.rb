@@ -15,10 +15,10 @@ class PostsController < ApplicationController
     @post.user_id = current_user.id
 
     if @post.save
-      flash[:success] = "Blog has been uploaded"
+      flash[:success] = '%s has been uploaded' % @post.type.titleize
       redirect_to posts_path
     else
-      flash[:error] = "Unable to upload blog"
+      flash[:error] = 'Unable to upload %s' % @post.type.titleize
       render :new
     end
   end
@@ -31,6 +31,9 @@ class PostsController < ApplicationController
 
   def show
     @post = Post.friendly.find(params[:slug])
+
+    @comment = Comment.new
+    @comments = @post.comments
   end
 
   protected

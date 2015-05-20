@@ -4,6 +4,8 @@ class Post < ActiveRecord::Base
   self.inheritance_column = :_type_disabled
 
   belongs_to :user
+  has_many :comments, dependent: :destroy
+  has_many :likes, dependent: :destroy
 
   validates :title, :content_markdown, presence: true
   validates :slug, uniqueness: true

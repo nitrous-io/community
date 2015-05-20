@@ -4,7 +4,7 @@ class CommentsController < ApplicationController
   def create
     tutorial = Tutorial.find(params[:tutorial_id])
     comment = tutorial.comments.build(comment_params)
-    comment.author = current_username 
+    comment.author = current_user.username
 
     if comment.save
       flash[:success] = "Your comment has been posted"

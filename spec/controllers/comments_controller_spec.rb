@@ -3,12 +3,11 @@ require 'rails_helper'
 RSpec.describe CommentsController, type: :controller do
 
   let!(:tutorial) { create(:tutorial) }
-  let!(:comment) { create(:comment) }
 
   describe "POST #create" do
     context "when user is logged in" do
-      before { session[:user_id] = 1 }
-      before { post :create, tutorial_id: 1, slug: "a-slug", comment: attributes_for(:comment) }
+      before { sign_in }
+      before { post :create, tutorial_id: tutorial.id, slug: "a-slug", comment: attributes_for(:comment) }
 
       # TODO: Refactor when replaced by AJAX.
       it { expect(response).to redirect_to(tutorial_path("a-slug")) }

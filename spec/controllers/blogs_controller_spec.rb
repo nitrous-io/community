@@ -5,34 +5,59 @@ RSpec.describe BlogsController, type: :controller do
   let!(:blog) { create(:blog) }
 
   describe "GET #new" do
-    context "when logged in" do
-      before { session[:admin] = true }
-      before { get :new }
-      it { expect(response).to render_template(:new) }
-      it { expect(response).to have_http_status(:success) }
+    def do_request
+      get :new
     end
+
+    context "when logged in" do
+      before { sign_in_as_admin }
+
+      it 'renders new template' do
+        do_request
+        expect(response).to render_template(:new)
+      end
+
+      it 'renders successfully' do
+        do_request
+        expect(response).to have_http_status(:success)
+      end
+    end
+
     context "when not logged in" do
-      before { get :new }
-      it { expect(response).to redirect_to(root_path) }
+      it 'redirects to home page' do
+        do_request
+        expect(response).to redirect_to(root_path)
+      end
     end
   end
 
   describe "POST #create" do
-    context "when logged in as admin, valid params" do
-      before { session[:admin] = true }
-      before { post :create, blog: attributes_for(:blog) }
-      it { expect(response).to redirect_to(blogs_path) }
-    end
-    context "when logged in as admin, invalid params" do
-      before { session[:admin] = true }
-      before { post :create, blog: attributes_for(:blog, :invalid) }
-      it { expect(response).to render_template(:new) }
-    end
-    context "when not logged in as admin" do
-      before { post :create, blog: attributes_for(:blog) }
-      it { expect(response).to redirect_to(root_path) }
+    def do_request(params = {})
+      post :create, { blog: attributes_for(:blog) }.merge(params)
     end
 
+    context 'when a user is admin' do
+      before { sign_in_as_admin }
+
+      context 'with valid parameters' do
+        it 'redirects to blog index page' do
+          do_request
+          expect(response).to redirect_to(blogs_path)
+        end
+      end
+
+      context 'with invalid params' do
+        it 'renders new template' do
+          do_request(blog: attributes_for(:blog, :invalid))
+          expect(response).to render_template(:new)
+        end
+      end
+    end
+
+    it 'redirects to home page' do
+      do_request
+      expect(response).to redirect_to(root_path)
+    end
   end
 
   describe "GET #index" do

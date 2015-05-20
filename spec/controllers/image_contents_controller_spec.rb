@@ -11,7 +11,7 @@ RSpec.describe ImageContentsController, type: :controller do
     end
 
     context "when logged in as admin" do
-      before { session[:admin] = true }
+      before { sign_in_as_admin }
 
       it 'succeeds' do
         do_request

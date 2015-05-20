@@ -7,7 +7,7 @@ class BlogsController < ApplicationController
 
   def create
     @blog = Blog.new(blog_params)
-    @blog.author = current_username 
+    @blog.author = current_user.username
     @blog.content_html = MarkdownService.new.convert_to_html(blog_params[:content_markdown])
     @blog.tag_list = blog_params[:tag_list]
 

@@ -49,6 +49,9 @@ group :development, :test do
   gem 'spring-commands-rspec'
   gem 'dotenv-rails', '~> 2.0.1'
   gem 'pry-rails'
+end
+
+group :test do
   gem 'webmock', '~> 1.21.0'
 end
 

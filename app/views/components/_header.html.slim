@@ -8,7 +8,7 @@
     li
       = link_to "Blog", blogs_path
 
-  - if @current_user.nil?
+  - if current_user.nil?
     ul.unauthed.pull-right
       li.login.btn.btn-default.navbar-btn
         = link_to "Log In", login_path
@@ -18,13 +18,13 @@
       li.dropdown.pull-right
         button#dropdownMenu1.btn.btn-default.dropdown-toggle aria-expanded="true" data-toggle="dropdown" type="button" 
           span.username
-            = @current_user
+            = current_user.username
           span.caret
         ul.dropdown-menu aria-labelledby="dropdownMenu1" role="menu" 
           li role="presentation" 
-            = link_to "logout", logout_path, :method => :delete
+            = link_to "logout", sessions_path, :method => :delete
 
-      - if @admin
+      - if current_user.admin
         li.new-tutorial.btn.btn-default.navbar-btn
           = link_to "New Tutorial", new_tutorial_path
 

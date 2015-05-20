@@ -1,12 +1,10 @@
 - flash.each do |name, message|
-  div class="new-blog-post #{name}"
+  div class="alert alert-#{name}"
     = message.humanize
 
 .blog-index
-  = link_to 'New Post', new_blog_path
-
   - @posts.each do |post|
-    h1.title
+    h2.title
       = link_to post.title, posts_slugged_path(slug: post.slug)
     .author-signature
       | By
@@ -18,5 +16,5 @@
     .tags
       - if post.tags.present?
         - post.tags.each do |tag|
-          = link_to tag.name, posts_tagged_path(tag: tag.name)
+          = link_to tag.name, posts_tagged_path(type: @type, tag: tag.name)
     br

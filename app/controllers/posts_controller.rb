@@ -1,8 +1,13 @@
 class PostsController < ApplicationController
+  DEFAULT_TYPE=:blog
+
   before_action :verify_admin, only: [:new, :create]
 
   def new
     @post = Post.new
+    if params[:type]
+      @post.type = params[:type]
+    end
   end
 
   def create
@@ -19,7 +24,9 @@ class PostsController < ApplicationController
   end
 
   def index
-    @posts = Post.all
+    @type = params.fetch(:type, DEFAULT_TYPE)
+    @posts = Post.where(type: @type)
+    @posts = @posts.tagged_with(params[:tag]) if params[:tag]
   end
 
   def show

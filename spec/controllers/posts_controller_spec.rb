@@ -99,10 +99,13 @@ describe PostsController do
   describe 'GET #index' do
     render_views
 
-    let!(:p) { create(:post) }
+    let!(:rails_blog) { create(:post, type: :blog, tag_list: [:rails, :ruby]) }
+    let!(:go_blog) { create(:post, type: :blog, tag_list: [:go, :martini]) }
+    let!(:ruby_tutorial) { create(:post, type: :tutorial, tag_list: [:ruby]) }
+    let!(:go_tutorial) { create(:post, type: :tutorial, tag_list: [:go]) }
 
-    def do_request
-      get :index
+    def do_request(params = {})
+      get :index, params
     end
 
     it 'renders' do
@@ -110,10 +113,37 @@ describe PostsController do
       expect(response).to have_http_status(:success)
     end
 
-    it 'assgisn posts' do
+    it 'assigns blogs' do
       do_request
+      expect(assigns(:posts)).to contain_exactly(rails_blog, go_blog)
+    end
 
-      expect(assigns(:posts)).to(eq([p]))
+    context 'type is blog' do
+      it 'assigns blogs' do
+        do_request(type: :blog)
+        expect(assigns(:posts)).to contain_exactly(rails_blog, go_blog)
+      end
+
+      context 'tag is specified' do
+        it 'assigns blogs that have specified tag' do
+          do_request(type: :blog, tag: 'go')
+          expect(assigns(:posts)).to contain_exactly(go_blog)
+        end
+      end
+    end
+
+    context 'type is tutorial' do
+      it 'assigns tutorials' do
+        do_request(type: :tutorial)
+        expect(assigns(:posts)).to contain_exactly(ruby_tutorial, go_tutorial)
+      end
+
+      context 'tag is specified' do
+        it 'assigns tutorials that have specified tag' do
+          do_request(type: :tutorial, tag: 'ruby')
+          expect(assigns(:posts)).to contain_exactly(ruby_tutorial)
+        end
+      end
     end
   end
 

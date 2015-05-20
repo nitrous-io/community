@@ -19,15 +19,18 @@ class SessionsController < ApplicationController
         u = User.find_by_id(user.id)
         if u
           u.username = user.username
+          u.name = user.name
           u.email = user.email
           u.nitrous_oauth_token = client.token
           u.admin = user.admin
         else
-          u = User.new(id:              user.id,
-                   username:            user.username,
-                   email:               user.email,
-                   nitrous_oauth_token: client.token,
-                   admin:               user.admin)
+          u = User.new(
+              id:                  user.id,
+              name:                user.name,
+              username:            user.username,
+              email:               user.email,
+              nitrous_oauth_token: client.token,
+              admin:               user.admin)
         end
 
         flash[:error] = u.errors.full_messages.join(',') unless u.save

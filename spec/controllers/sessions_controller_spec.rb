@@ -3,12 +3,13 @@ require 'rails_helper'
 RSpec.describe SessionsController, type: :controller do
 
   describe "GET new" do
+    render_views
+
     def do_request
       get :new
     end
 
     context "when user not logged in" do
-      render_views
 
       it 'renders new template' do
         do_request
@@ -37,7 +38,7 @@ RSpec.describe SessionsController, type: :controller do
     let(:token) { 'T0K3N' }
     let(:oauth_url) { sprintf('%s/oauth/token?grant_type=password&password=%s&username=%s', ENV['NITROUS_URL'], password, username) }
     let(:user_url) { sprintf('%s/user', ENV['NITROUS_URL']) }
-    let(:user_info) { {'id'=>67, 'username'=>'bighero', 'email'=>'nitrousbighero@gmail.com', 'admin'=>false} }
+    let(:user_info) { {'id'=>67, 'name' => '', 'username'=>'bighero', 'email'=>'nitrousbighero@gmail.com', 'admin'=>false} }
 
     def do_request(params =  {username_or_email: username, password: password})
       post :create, user: params
@@ -69,9 +70,26 @@ RSpec.describe SessionsController, type: :controller do
         expect { do_request }.to change(User, :count).by(1)
         u = User.last
         expect(u.id).to eq(user_info['id'])
+        expect(u.name).to eq(user_info['name'])
         expect(u.username).to eq(user_info['username'])
         expect(u.email).to eq(user_info['email'])
         expect(u.admin).to eq(user_info['admin'])
+        expect(u.email_md5).to eq(Digest::MD5.hexdigest(user_info['email']))
+      end
+
+      context 'the user exists' do
+        before { create(:user, id: 67) }
+
+        it 'updates the user' do
+          expect { do_request }.not_to change(User, :count)
+          u = User.find_by_id(67)
+          expect(u.id).to eq(user_info['id'])
+          expect(u.name).to eq(user_info['name'])
+          expect(u.username).to eq(user_info['username'])
+          expect(u.email).to eq(user_info['email'])
+          expect(u.admin).to eq(user_info['admin'])
+          expect(u.email_md5).to eq(Digest::MD5.hexdigest(user_info['email']))
+        end
       end
     end
 

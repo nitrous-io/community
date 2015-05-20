@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150519073128) do
+ActiveRecord::Schema.define(version: 20150520030041) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,6 +66,19 @@ ActiveRecord::Schema.define(version: 20150519073128) do
 
   add_index "likes", ["tutorial_id"], name: "index_likes_on_tutorial_id", using: :btree
 
+  create_table "posts", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "type"
+    t.string   "slug"
+    t.string   "title"
+    t.text     "content_markdown"
+    t.text     "content_html"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "posts", ["slug"], name: "index_posts_on_slug", unique: true, using: :btree
+
   create_table "sessions", force: :cascade do |t|
     t.string   "session_id", null: false
     t.text     "data"
@@ -115,11 +128,15 @@ ActiveRecord::Schema.define(version: 20150519073128) do
 
   create_table "users", id: false, force: :cascade do |t|
     t.integer "id",                                  null: false
+    t.string  "name"
     t.citext  "username",                            null: false
     t.string  "email",                               null: false
+    t.string  "email_md5",                           null: false
     t.string  "nitrous_oauth_token"
     t.boolean "admin",               default: false, null: false
   end
+
+  add_index "users", ["id"], name: "index_users_on_id", unique: true, using: :btree
 
   add_foreign_key "comments", "tutorials"
   add_foreign_key "likes", "tutorials"

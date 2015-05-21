@@ -36,6 +36,6 @@
             | ago
   br
   .vote
-    = button_to "hearts", likes_path(post_id: @post.id, slug: @post.slug), method: :post
+    = button_to "hearts", post_likes_path(post_id: @post.id, slug: @post.slug), method: :post
 
   = @post.score

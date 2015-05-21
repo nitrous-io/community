@@ -8,15 +8,14 @@ Rails.application.routes.draw do
   delete 'sessions' => 'sessions#destroy'
 
   # Posts
-  resources :posts, only: [:new, :create, :index]
+  resources :posts, only: [:new, :create, :index] do
+    resources :likes, only: [:create]
+  end
   get 'posts/:slug', to: 'posts#show', as: :posts_slugged
   get 'posts/:type/tagged/:tag', to: 'posts#index', as: :posts_tagged
 
   # Comments
   resources :comments, only: [:create]
-
-  # Likes 
-  resources :likes, only: [:create]
 
   # Image uploads
   resources :image_contents, only: [:create]

@@ -15,6 +15,21 @@ class Post < ActiveRecord::Base
 
   before_save :set_html_from_markdown
 
+  def upvote(user_id)
+    ActiveRecord::Base.transaction do
+      like = self.likes.new(user_id: user_id)
+      if like.save
+        Post.increment_counter(:score, self.id)
+        return true
+      end
+    end
+    false
+  end
+
+  def is_upvoted_by?(user_id)
+    self.likes.where(user_id: user_id).exists?
+  end
+
   def set_html_from_markdown
     self.content_html = markdown.render(self.content_markdown)
   end

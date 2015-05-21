@@ -4,26 +4,18 @@ class LikesController < ApplicationController
   def create
     user_id = session[:user_id]
     post_id = params[:post_id]
+    post = Post.find(post_id)
 
-    if user_has_liked?(user_id, post_id)
-      flash[:error] = "You have already sent hearts on this post."
+    if post.is_upvoted_by(post_id)
+      flash[:error] = 'You have already sent hearts on this post.'
     else
-      liked = LikeService.new.like(user_id, post_id)
-      if liked 
-        flash[:success] = "Thank you for sending hearts!"
+      if post.upvote(user_id)
+        flash[:success] = 'Thank you for sending hearts!'
       else
-        flash[:error] = "Sorry, an error occurred. Please try again."
+        flash[:error] = 'Sorry, an error occurred. Please try again.'
       end
     end
 
-    # TODO: Use AJAX.
-    redirect_to posts_slugged_path(slug: params[:slug])
+    redirect_to posts_slugged_path(slug: post.slug)
   end
-
-  private
-
-  def user_has_liked?(user_id, post_id)
-    return Like.where(user_id: user_id, post_id: post_id).exists?
-  end
-
 end

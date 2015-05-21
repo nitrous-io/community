@@ -27,14 +27,14 @@ RSpec.describe LikesController, type: :controller do
           }.to change(Like, :count).by(1)
 
           like = Like.last
-          expect(like.post).to(eq(p))
+          expect(like.parent).to(eq(p))
           expect(like.user).to(eq(user))
         end
       end
 
       context 'user has voted before' do
         before do
-          create(:like, user: user, post: p)
+          create(:like, user: user, parent: p)
         end
 
         it 'redirects to the post page' do

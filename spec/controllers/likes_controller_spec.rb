@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe LikesController, type: :controller do
   let!(:p) { create(:post) }
-  let(:user) { create(:user) }
+  let!(:user) { create(:user) }
 
   describe "POST #create" do
     def do_request
@@ -10,7 +10,7 @@ RSpec.describe LikesController, type: :controller do
     end
 
     context 'when logged in' do
-      before { sign_in(user_id: user.id) }
+      before { sign_in(user) }
 
 
       context 'user has not voted before' do
@@ -43,6 +43,7 @@ RSpec.describe LikesController, type: :controller do
         end
 
         it 'does not upvote the post' do
+
           expect {
             expect {
               do_request

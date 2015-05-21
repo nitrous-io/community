@@ -6,7 +6,7 @@ class LikesController < ApplicationController
     post_id = params[:post_id]
     post = Post.find(post_id)
 
-    if post.is_upvoted_by(post_id)
+    if post.is_upvoted_by?(user_id)
       flash[:error] = 'You have already sent hearts on this post.'
     else
       if post.upvote(user_id)

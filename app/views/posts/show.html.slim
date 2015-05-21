@@ -13,7 +13,7 @@
 
   h2.comment-title Comments
 
-  = form_for @comment, url: comments_path(post_id: @post.id, slug: @post.slug) do |f|
+  = form_for @comment, url: post_comments_path(post_id: @post.id) do |f|
     .row
       = f.label :comment
     .row.content
@@ -29,13 +29,13 @@
           = comment.content
         .author-signature
           | By
-          = comment.author
+          = comment.user.username
           .time-signature
             | Commented
             = time_ago_in_words(comment.created_at)
             | ago
   br
   .vote
-    = button_to "hearts", post_likes_path(post_id: @post.id, slug: @post.slug), method: :post
+    = button_to "hearts", post_likes_path(post_id: @post.id), method: :post
 
   = @post.score

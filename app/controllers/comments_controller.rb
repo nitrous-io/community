@@ -4,7 +4,7 @@ class CommentsController < ApplicationController
   def create
     post = Post.find(params[:post_id])
     comment = post.comments.build(comment_params)
-    comment.author = current_user.username
+    comment.user_id = current_user.id
 
     if comment.save
       flash[:success] = "Your comment has been posted"
@@ -12,7 +12,7 @@ class CommentsController < ApplicationController
       flash[:error] = "Your comment has not been posted"
     end
 
-    redirect_to posts_slugged_path(slug: params[:slug])
+    redirect_to posts_slugged_path(slug: post.slug)
   end
 
   private 

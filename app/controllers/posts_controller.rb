@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  DEFAULT_TYPE=:blog
+  DEFAULT_TYPE=:post
 
   before_action :verify_admin, only: [:new, :create]
 

@@ -6,7 +6,7 @@
     li
       = link_to 'Tutorials', posts_path(type: :tutorial)
     li
-      = link_to 'Blog', posts_path(type: :blog)
+      = link_to 'Posts', posts_path(type: :post)
 
   - if current_user.nil?
     ul.unauthed.pull-right
@@ -26,7 +26,7 @@
 
       - if current_user.admin
         li.new-tutorial.btn.btn-default.navbar-btn
-          = link_to "New Blog", new_post_path(type: :blog)
+          = link_to "New Post", new_post_path(type: :post)
         li.new-tutorial.btn.btn-default.navbar-btn
           = link_to "New Tutorial", new_post_path(type: :tutorial)
 

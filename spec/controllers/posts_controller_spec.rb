@@ -63,7 +63,7 @@ describe PostsController do
             expect {
               do_request(
                   post: {
-                      type:             'blog',
+                      type:             'post',
                       title:            'post title',
                       content_markdown: 'content markdown',
                       tag_list:         'ruby'
@@ -72,7 +72,7 @@ describe PostsController do
             }.to change(Post, :count).by(1)
 
             p = Post.last
-            expect(p.type).to eq('blog')
+            expect(p.type).to eq('post')
             expect(p.slug).to eq('post-title')
             expect(p.title).to eq('post title')
             expect(p.content_markdown).to eq('content markdown')
@@ -80,7 +80,7 @@ describe PostsController do
             expect(p.tag_list).to eq(['ruby'])
           end
 
-          it 'redirects to blog index page' do
+          it 'redirects to post index page' do
             do_request
             expect(response).to redirect_to(posts_path)
           end
@@ -99,8 +99,8 @@ describe PostsController do
   describe 'GET #index' do
     render_views
 
-    let!(:rails_blog) { create(:post, type: :blog, tag_list: [:rails, :ruby]) }
-    let!(:go_blog) { create(:post, type: :blog, tag_list: [:go, :martini]) }
+    let!(:rails_post) { create(:post, type: :post, tag_list: [:rails, :ruby]) }
+    let!(:go_post) { create(:post, type: :post, tag_list: [:go, :martini]) }
     let!(:ruby_tutorial) { create(:post, type: :tutorial, tag_list: [:ruby]) }
     let!(:go_tutorial) { create(:post, type: :tutorial, tag_list: [:go]) }
 
@@ -113,21 +113,21 @@ describe PostsController do
       expect(response).to have_http_status(:success)
     end
 
-    it 'assigns blogs' do
+    it 'assigns posts' do
       do_request
-      expect(assigns(:posts)).to contain_exactly(rails_blog, go_blog)
+      expect(assigns(:posts)).to contain_exactly(rails_post, go_post)
     end
 
-    context 'type is blog' do
-      it 'assigns blogs' do
-        do_request(type: :blog)
-        expect(assigns(:posts)).to contain_exactly(rails_blog, go_blog)
+    context 'type is post' do
+      it 'assigns posts' do
+        do_request(type: :post)
+        expect(assigns(:posts)).to contain_exactly(rails_post, go_post)
       end
 
       context 'tag is specified' do
-        it 'assigns blogs that have specified tag' do
-          do_request(type: :blog, tag: 'go')
-          expect(assigns(:posts)).to contain_exactly(go_blog)
+        it 'assigns posts that have specified tag' do
+          do_request(type: :post, tag: 'go')
+          expect(assigns(:posts)).to contain_exactly(go_post)
         end
       end
     end

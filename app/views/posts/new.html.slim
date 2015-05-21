@@ -17,8 +17,6 @@
           .row
             = f.label :title
           .row
-            = f.select :type, options_for_select([%w(Post post), %w(Tutorial tutorial)], @post.type || 'post')
-          .row
             = f.text_field :title
           .row
             = f.label :content

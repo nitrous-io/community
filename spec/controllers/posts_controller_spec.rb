@@ -8,90 +8,32 @@ describe PostsController do
       get :new
     end
 
-    it 'redirects to home page' do
-      do_request
-      expect(response).to redirect_to(root_path)
-    end
-
-    context 'when logged in' do
-      before { sign_in }
-
-      it 'redirects to home page' do
-        do_request
-        expect(response).to redirect_to(root_path)
-      end
-
-      context 'when a user is admin' do
-        before { sign_in_as_admin }
-
-        it 'renders new template' do
-          do_request
-          expect(response).to render_template(:new)
-        end
-
-        it 'renders successfully' do
-          do_request
-          expect(response).to have_http_status(:success)
-        end
-      end
-    end
+    it_behaves_like 'admin new page'
   end
 
   describe 'POST #create' do
+    let(:item) { :post }
+    let(:model_class) { Post }
+    let(:index_path) { posts_path }
+
     def do_request(params = {})
       post :create, { post: attributes_for(:post) }.merge(params)
     end
 
-    it 'redirects to home page' do
-      do_request
-      expect(response).to redirect_to(root_path)
-    end
+    it_behaves_like 'admin create'
 
-    context 'when logged in' do
-      before { sign_in }
+    context 'when a user logged in as an admin' do
+      before { sign_in_as_admin }
 
-      it 'redirects to home page' do
-        do_request
-        expect(response).to redirect_to(root_path)
-      end
-
-      context 'when a user is admin' do
-        before { sign_in_as_admin }
-
-        context 'with valid parameters' do
-          it 'creates a post' do
-            expect {
-              do_request(
-                  post: {
-                      type:             'post',
-                      title:            'post title',
-                      content_markdown: 'content markdown',
-                      tag_list:         'ruby'
-                  }
-              )
-            }.to change(Post, :count).by(1)
-
-            p = Post.last
-            expect(p.type).to eq('post')
-            expect(p.slug).to eq('post-title')
-            expect(p.title).to eq('post title')
-            expect(p.content_markdown).to eq('content markdown')
-            expect(p.content_html).to match('<p>content markdown</p>')
-            expect(p.tag_list).to eq(['ruby'])
-          end
-
-          it 'redirects to post index page' do
-            do_request
-            expect(response).to redirect_to(posts_path)
-          end
-        end
-
-        context 'with invalid params' do
-          it 'renders new template' do
-            expect { do_request(post: attributes_for(:post, :invalid)) }.not_to change(Post, :count)
-            expect(response).to render_template(:new)
-          end
-        end
+      it 'creates a post' do
+        do_request(post: { type: 'post', title: 'post title', content_markdown: 'content markdown', tag_list: 'ruby' })
+        p = Post.last
+        expect(p.type).to eq('post')
+        expect(p.slug).to eq('post-title')
+        expect(p.title).to eq('post title')
+        expect(p.content_markdown).to eq('content markdown')
+        expect(p.content_html).to match('<p>content markdown</p>')
+        expect(p.tag_list).to eq(['ruby'])
       end
     end
   end
@@ -99,10 +41,8 @@ describe PostsController do
   describe 'GET #index' do
     render_views
 
-    let!(:rails_post) { create(:post, type: :post, tag_list: [:rails, :ruby]) }
-    let!(:go_post) { create(:post, type: :post, tag_list: [:go, :martini]) }
-    let!(:ruby_tutorial) { create(:post, type: :tutorial, tag_list: [:ruby]) }
-    let!(:go_tutorial) { create(:post, type: :tutorial, tag_list: [:go]) }
+    let!(:rails_post) { create(:post, tag_list: [:rails, :ruby]) }
+    let!(:go_post) { create(:post, tag_list: [:go, :martini]) }
 
     def do_request(params = {})
       get :index, params
@@ -114,35 +54,14 @@ describe PostsController do
     end
 
     it 'assigns posts' do
-      do_request
+      do_request(type: :post)
       expect(assigns(:posts)).to contain_exactly(rails_post, go_post)
     end
 
-    context 'type is post' do
-      it 'assigns posts' do
-        do_request(type: :post)
-        expect(assigns(:posts)).to contain_exactly(rails_post, go_post)
-      end
-
-      context 'tag is specified' do
-        it 'assigns posts that have specified tag' do
-          do_request(type: :post, tag: 'go')
-          expect(assigns(:posts)).to contain_exactly(go_post)
-        end
-      end
-    end
-
-    context 'type is tutorial' do
-      it 'assigns tutorials' do
-        do_request(type: :tutorial)
-        expect(assigns(:posts)).to contain_exactly(ruby_tutorial, go_tutorial)
-      end
-
-      context 'tag is specified' do
-        it 'assigns tutorials that have specified tag' do
-          do_request(type: :tutorial, tag: 'ruby')
-          expect(assigns(:posts)).to contain_exactly(ruby_tutorial)
-        end
+    context 'tag is specified' do
+      it 'assigns posts that have specified tag' do
+        do_request(type: :post, tag: 'go')
+        expect(assigns(:posts)).to contain_exactly(go_post)
       end
     end
   end

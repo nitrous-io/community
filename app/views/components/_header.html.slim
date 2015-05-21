@@ -4,9 +4,9 @@
   
   .section-links 
     li
-      = link_to 'Tutorials', posts_path(type: :tutorial)
+      = link_to 'Tutorials', tutorials_path
     li
-      = link_to 'Posts', posts_path(type: :post)
+      = link_to 'Posts', posts_path
 
   - if current_user.nil?
     ul.unauthed.pull-right
@@ -26,7 +26,7 @@
 
       - if current_user.admin
         li.new-tutorial.btn.btn-default.navbar-btn
-          = link_to "New Post", new_post_path(type: :post)
+          = link_to "New Post", new_post_path
         li.new-tutorial.btn.btn-default.navbar-btn
-          = link_to "New Tutorial", new_post_path(type: :tutorial)
+          = link_to "New Tutorial", new_tutorial_path
 

@@ -1,13 +1,8 @@
 class PostsController < ApplicationController
-  DEFAULT_TYPE=:post
-
   before_action :verify_admin, only: [:new, :create]
 
   def new
     @post = Post.new
-    if params[:type]
-      @post.type = params[:type]
-    end
   end
 
   def create
@@ -15,18 +10,20 @@ class PostsController < ApplicationController
     @post.user_id = current_user.id
 
     if @post.save
-      flash[:success] = '%s has been uploaded' % @post.type.titleize
+      flash[:success] = 'Post has been uploaded'
       redirect_to posts_path
     else
-      flash[:error] = 'Unable to upload %s' % @post.type.titleize
+      flash[:error] = 'Unable to upload post'
       render :new
     end
   end
 
   def index
-    @type = params.fetch(:type, DEFAULT_TYPE)
-    @posts = Post.where(type: @type)
-    @posts = @posts.tagged_with(params[:tag]) if params[:tag]
+    if params[:tag]
+      @posts = Post.tagged_with(params[:tag])
+    else
+      @posts = Post.all
+    end
   end
 
   def show

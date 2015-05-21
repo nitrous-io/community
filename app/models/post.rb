@@ -3,13 +3,13 @@ class Post < ActiveRecord::Base
   include Likable
   include Markdownable
 
-  self.inheritance_column = :_type_disabled
-
   belongs_to :user
   has_many :comments, as: :parent, dependent: :destroy
 
   validates :title, :content_markdown, presence: true
   validates :slug, uniqueness: true
+
+  self.inheritance_column = :_type_disabled
 
   friendly_id :title, use: :slugged
   acts_as_taggable_on :tags

@@ -16,5 +16,5 @@
     .tags
       - if post.tags.present?
         - post.tags.each do |tag|
-          = link_to tag.name, posts_tagged_path(type: @type, tag: tag.name)
+          = link_to tag.name, posts_tagged_path(tag: tag.name)
     br

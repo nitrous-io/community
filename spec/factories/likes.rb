@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :like do
     user
-    tutorial
+    post
 
     trait :invalid do
       user_id nil 

@@ -1,27 +1,21 @@
 Rails.application.routes.draw do
 
-  root 'pages#home'
+  root 'posts#index'
 
   # Authentication
   get 'login' => 'sessions#new'
   post 'sessions' => 'sessions#create'
   delete 'sessions' => 'sessions#destroy'
 
-  # Tutorials
-  resources :tutorials, only: [:new, :create, :index]
-  get 'tutorial/:slug'        => 'tutorials#show', as: :tutorial
-  get 'tutorials/tagged/:tag' => 'tutorials#index', as: :tutorials_tagged
+  # Posts
+  resources :posts, only: [:new, :create, :index] do
+    resources :likes, only: [:create]
+    resources :comments, only: [:create]
+  end
+  get 'posts/:slug', to: 'posts#show', as: :posts_slugged
+  get 'posts/:type/tagged/:tag', to: 'posts#index', as: :posts_tagged
 
-  # Blog
-  resources :blogs, only: [:new, :create, :index]
-  get 'blog/:slug'        => 'blogs#show', as: :blog
-  get 'blogs/tagged/:tag' => 'blogs#index', as: :blogs_tagged
 
-  # Comments
-  resources :comments, only: [:create]
-
-  # Likes 
-  resources :likes, only: [:create]
 
   # Image uploads
   resources :image_contents, only: [:create]

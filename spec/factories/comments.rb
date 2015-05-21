@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :comment do
     author "MyString"
-    tutorial
+    post
     content "MyText"
 
     trait :invalid do

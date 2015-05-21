@@ -11,33 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150520030041) do
+ActiveRecord::Schema.define(version: 20150521025751) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "citext"
 
-  create_table "blogs", force: :cascade do |t|
-    t.string   "author"
-    t.string   "slug"
-    t.string   "title"
-    t.text     "content_markdown"
-    t.text     "content_html"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-  end
-
-  add_index "blogs", ["slug"], name: "index_blogs_on_slug", unique: true, using: :btree
-
   create_table "comments", force: :cascade do |t|
-    t.string   "author"
-    t.integer  "tutorial_id"
+    t.integer  "post_id"
     t.text     "content"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "user_id",    null: false
   end
 
-  add_index "comments", ["tutorial_id"], name: "index_comments_on_tutorial_id", using: :btree
+  add_index "comments", ["post_id"], name: "index_comments_on_post_id", using: :btree
 
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",                      null: false
@@ -59,12 +47,12 @@ ActiveRecord::Schema.define(version: 20150520030041) do
 
   create_table "likes", force: :cascade do |t|
     t.integer  "user_id"
-    t.integer  "tutorial_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.integer  "post_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  add_index "likes", ["tutorial_id"], name: "index_likes_on_tutorial_id", using: :btree
+  add_index "likes", ["post_id"], name: "index_likes_on_post_id", using: :btree
 
   create_table "posts", force: :cascade do |t|
     t.integer  "user_id"
@@ -73,8 +61,9 @@ ActiveRecord::Schema.define(version: 20150520030041) do
     t.string   "title"
     t.text     "content_markdown"
     t.text     "content_html"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.integer  "score",            default: 0
   end
 
   add_index "posts", ["slug"], name: "index_posts_on_slug", unique: true, using: :btree
@@ -110,22 +99,6 @@ ActiveRecord::Schema.define(version: 20150520030041) do
 
   add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree
 
-  create_table "tutorials", force: :cascade do |t|
-    t.integer  "user_id"
-    t.boolean  "admin"
-    t.string   "author"
-    t.string   "slug"
-    t.string   "title"
-    t.text     "content_markdown"
-    t.text     "content_html"
-    t.boolean  "approved"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-    t.integer  "score",            default: 0
-  end
-
-  add_index "tutorials", ["slug"], name: "index_tutorials_on_slug", unique: true, using: :btree
-
   create_table "users", id: false, force: :cascade do |t|
     t.integer "id",                                  null: false
     t.string  "name"
@@ -138,6 +111,4 @@ ActiveRecord::Schema.define(version: 20150520030041) do
 
   add_index "users", ["id"], name: "index_users_on_id", unique: true, using: :btree
 
-  add_foreign_key "comments", "tutorials"
-  add_foreign_key "likes", "tutorials"
 end

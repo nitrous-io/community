@@ -78,7 +78,7 @@ RSpec.describe LikesController, type: :controller do
             create(:like, user: user, parent: tutorial)
           end
 
-          it 'redirects to the post page' do
+          it 'redirects to the tutorial page' do
             do_request(tutorial_id: tutorial.id, post_id: nil)
             expect(response).to redirect_to(tutorials_slugged_path(slug: tutorial.slug))
           end

@@ -83,34 +83,19 @@ RSpec.describe SessionsController, type: :controller do
       context 'the user exists' do
         let!(:user) { create(:user, id: 67) }
 
-        context 'a user was fetched a hour ago' do
-          before { user.update_attribute(:last_fetched_at, 1.hour.ago) }
+        before { user.update_attribute(:last_fetched_at, 2.days.ago) }
 
-          it 'does not updates' do
-            Timecop.freeze do
-              expect { do_request }.not_to change(User, :count)
-              u = User.find_by_id(67)
-              expect(u.email).not_to eq(user_info['username'])
-              expect(u.last_fetched_at.to_i).to be(1.hour.ago.to_i)
-            end
-          end
-        end
-
-        context 'a user was fetched 2 days ago' do
-          before { user.update_attribute(:last_fetched_at, 2.days.ago) }
-
-          it 'updates the user' do
-            Timecop.freeze do
-              expect { do_request }.not_to change(User, :count)
-              u = User.find_by_id(67)
-              expect(u.id).to eq(user_info['id'])
-              expect(u.name).to eq(user_info['name'])
-              expect(u.username).to eq(user_info['username'])
-              expect(u.email).to eq(user_info['email'])
-              expect(u.admin).to eq(user_info['admin'])
-              expect(u.email_md5).to eq(Digest::MD5.hexdigest(user_info['email']))
-              expect(u.last_fetched_at.to_i).to eq(Time.now.to_i)
-            end
+        it 'updates the user' do
+          Timecop.freeze do
+            expect { do_request }.not_to change(User, :count)
+            u = User.find_by_id(67)
+            expect(u.id).to eq(user_info['id'])
+            expect(u.name).to eq(user_info['name'])
+            expect(u.username).to eq(user_info['username'])
+            expect(u.email).to eq(user_info['email'])
+            expect(u.admin).to eq(user_info['admin'])
+            expect(u.email_md5).to eq(Digest::MD5.hexdigest(user_info['email']))
+            expect(u.last_fetched_at.to_i).to eq(Time.now.to_i)
           end
         end
       end

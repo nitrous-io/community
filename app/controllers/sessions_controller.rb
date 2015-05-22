@@ -18,7 +18,7 @@ class SessionsController < ApplicationController
         session[:user_id] = user.id
         u = User.find_by_id(user.id)
         if u
-          u = fetch_user(u, client) if u.outdated?
+          u = fetch_user(u, client)
         else
           u = User.new(
               id:                  user.id,

@@ -4,12 +4,33 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   helper_method :current_user
 
-  private
-
   def current_user
-    @current_user ||= session[:user_id] ? User.find_by_id(session[:user_id]) : nil
+    return @current_user if @current_user
+    user = session[:user_id] ? User.find_by_id(session[:user_id]) : nil
+    return nil if user.nil?
+    @current_user = user.outdated? ? fetch_user(user) : user
   end
 
+  def fetch_user(user, client = nil)
+    client ||= Nitrous::OauthClient.new(user.nitrous_oauth_token)
+    client.fetch_user
+    if client.success?
+      user.username            = client.user.username
+      user.name                = client.user.name
+      user.email               = client.user.email
+      user.nitrous_oauth_token = client.token
+      user.admin               = client.user.admin
+      user.last_fetched_at     = Time.now
+      unless user.save
+        Rails.logger.info("Failed to update user(#{user.inspect}) information: #{user.errors.full_messages.join(',')}")
+      end
+    else
+      Rails.logger.info("Failed to update user(#{user.inspect}) information: #{client.last_error_description}")
+    end
+    user
+  end
+
+  protected
   def verify_logged_out
     redirect_to root_path if current_user
   end

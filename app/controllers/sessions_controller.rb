@@ -18,11 +18,7 @@ class SessionsController < ApplicationController
         session[:user_id] = user.id
         u = User.find_by_id(user.id)
         if u
-          u.username = user.username
-          u.name = user.name
-          u.email = user.email
-          u.nitrous_oauth_token = client.token
-          u.admin = user.admin
+          u = fetch_user(u, client) if u.outdated?
         else
           u = User.new(
               id:                  user.id,
@@ -30,10 +26,12 @@ class SessionsController < ApplicationController
               username:            user.username,
               email:               user.email,
               nitrous_oauth_token: client.token,
-              admin:               user.admin)
+              admin:               user.admin,
+              last_fetched_at:     Time.now)
+          u.save
         end
 
-        flash[:error] = u.errors.full_messages.join(',') unless u.save
+        flash[:error] = u.errors.full_messages.join(',') unless u.valid?
       else
         flash[:error] = client.last_error_description
       end

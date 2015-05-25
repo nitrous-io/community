@@ -34,12 +34,11 @@ class PostsController < ApplicationController
   end
 
   def index
-    @posts = Post.active
-    @posts = @posts.tagged_with(params[:tag]) if params[:tag]
+    @posts = params[:tag] ? collection.tagged_with(params[:tag]) : collection
   end
 
   def show
-    @post = Post.active.find_by_slug(params[:slug])
+    @post = collection.find_by_slug(params[:slug])
     if @post
       @comment = Comment.new
       @comments = @post.comments
@@ -84,5 +83,9 @@ class PostsController < ApplicationController
   protected
   def post_params
     params.require(:post).permit(:title, :content_markdown, :tag_list)
+  end
+
+  def collection
+    @collection ||= current_user.try(:admin?) ? Post.unscoped : Post.active
   end
 end

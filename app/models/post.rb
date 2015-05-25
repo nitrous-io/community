@@ -14,7 +14,7 @@ class Post < ActiveRecord::Base
 
   enum state: [ :draft, :published, :deleted ]
 
-  scope :active, -> { where.not(state: self.states[:deleted]) }
+  scope :active, -> { where(state: self.states[:published]) }
 
   protected
   # To update slug when title get updated

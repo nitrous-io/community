@@ -1,6 +1,10 @@
 .col-sm-6.col-md-4
   h3
     = link_to item.title, sprintf('%s/%s', url_prefix, item.slug)
+    - unless item.published?
+      span.label.label-info
+        | #{item.state}
+
   .author-signature
     = "By #{item.user.username}"
   p

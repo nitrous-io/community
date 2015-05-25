@@ -114,8 +114,8 @@ describe PostsController do
   describe 'GET #index' do
     render_views
 
-    let!(:rails_post) { create(:post, tag_list: [:rails, :ruby]) }
-    let!(:go_post) { create(:post, tag_list: [:go, :martini]) }
+    let!(:rails_post) { create(:published_post, tag_list: [:rails, :ruby]) }
+    let!(:go_post) { create(:published_post, tag_list: [:go, :martini]) }
 
     def do_request(params = {})
       get :index, params
@@ -138,20 +138,16 @@ describe PostsController do
       end
     end
 
-    context 'some tutorials are deleted' do
-      before { go_post.deleted! }
-
-      it 'does not assign deleted post' do
-        do_request
-        expect(assigns(:posts)).to contain_exactly(rails_post)
-      end
+    it_behaves_like 'admin index' do
+      let(:collection) { [rails_post, go_post]}
+      let(:collection_name) { :posts }
     end
   end
 
   describe "GET #show" do
     render_views
 
-    let!(:p) { create(:post) }
+    let!(:p) { create(:published_post) }
 
     def do_request
       get :show, slug: p.slug
@@ -162,12 +158,8 @@ describe PostsController do
       expect(response).to have_http_status(:success)
     end
 
-    context 'the post is delted' do
-      before { p.deleted! }
-      it 'returns 404' do
-        do_request
-        expect(response).to have_http_status(:not_found)
-      end
+    it_behaves_like 'admin show' do
+      let(:item) { p }
     end
   end
 end

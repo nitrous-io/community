@@ -123,8 +123,8 @@ describe TutorialsController do
   describe 'GET #index' do
     render_views
 
-    let!(:ruby_tutorial) { create(:tutorial, tag_list: [:ruby]) }
-    let!(:go_tutorial) { create(:tutorial, tag_list: [:go]) }
+    let!(:ruby_tutorial) { create(:published_tutorial, tag_list: [:ruby]) }
+    let!(:go_tutorial) { create(:published_tutorial, tag_list: [:go]) }
 
     def do_request(params = {})
       get :index, params
@@ -147,20 +147,16 @@ describe TutorialsController do
       end
     end
 
-    context 'some tutorials are deleted' do
-      before { go_tutorial.deleted! }
-
-      it 'does not assign deleted tutorial' do
-        do_request
-        expect(assigns(:tutorials)).to contain_exactly(ruby_tutorial)
-      end
+    it_behaves_like 'admin index' do
+      let(:collection) { [ruby_tutorial, go_tutorial]}
+      let(:collection_name) { :tutorials }
     end
   end
 
   describe 'GET #show' do
     render_views
 
-    let!(:tutorial) { create(:tutorial) }
+    let!(:tutorial) { create(:published_tutorial) }
 
     def do_request
       get :show, slug: tutorial.slug
@@ -168,13 +164,8 @@ describe TutorialsController do
 
     it { expect(response).to have_http_status(:success) }
 
-    context 'the tutorial is delted' do
-      before { tutorial.deleted! }
-
-      it 'returns 404' do
-        do_request
-        expect(response).to have_http_status(:not_found)
-      end
+    it_behaves_like 'admin show' do
+      let(:item) { tutorial }
     end
   end
 end

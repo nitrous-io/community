@@ -34,12 +34,11 @@ class TutorialsController < ApplicationController
   end
 
   def index
-    @tutorials = Tutorial.active
-    @tutorials = Tutorial.tagged_with(params[:tag]) if params[:tag]
+    @tutorials = params[:tag] ? collection.tagged_with(params[:tag]) : collection
   end
 
   def show
-    @tutorial = Tutorial.active.find_by_slug(params[:slug])
+    @tutorial = collection.find_by_slug(params[:slug])
     if @tutorial
       @comment = Comment.new
       @comments = @tutorial.comments
@@ -84,5 +83,9 @@ class TutorialsController < ApplicationController
   protected
   def tutorial_params
     params.require(:tutorial).permit(:title, :content_markdown, :tag_list)
+  end
+
+  def collection
+    @collection ||= current_user.try(:admin?) ? Tutorial.unscoped : Tutorial.active
   end
 end

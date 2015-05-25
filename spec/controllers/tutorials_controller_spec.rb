@@ -64,7 +64,7 @@ describe TutorialsController do
     subject { create(:tutorial) }
 
     def do_request(params = {})
-      put :update, { id: subject.id, tutorial: attributes_for(:post) }.merge(params)
+      put :update, { id: subject.id, tutorial: attributes_for(:tutorial) }.merge(params)
     end
 
     it_behaves_like 'admin update'
@@ -72,7 +72,7 @@ describe TutorialsController do
     context 'when a user logged in as an admin' do
       before { sign_in_as_admin }
 
-      it 'updates a post' do
+      it 'updates a tutorial' do
         do_request(id: subject.id, tutorial: { title: 'updated tutorial title', content_markdown: 'updated content markdown', tag_list: 'rails' })
         subject.reload
         expect(subject.title).to eq('updated tutorial title')
@@ -85,7 +85,6 @@ describe TutorialsController do
   end
 
   describe 'DELETE #destroy' do
-    let(:item) { :post }
     let(:index_path) { tutorials_path }
 
     subject { create(:tutorial) }
@@ -95,6 +94,30 @@ describe TutorialsController do
     end
 
     it_behaves_like 'admin delete'
+  end
+
+  describe 'PUT #publish' do
+    let(:index_path) { tutorials_path }
+
+    subject { create(:tutorial) }
+
+    def do_request(params = {})
+      put :publish, { id: subject.id }.merge(params)
+    end
+
+    it_behaves_like 'admin publish'
+  end
+
+  describe 'PUT #unpublish' do
+    let(:index_path) { tutorials_path }
+
+    subject { create(:tutorial) }
+
+    def do_request(params = {})
+      put :unpublish, { id: subject.id }.merge(params)
+    end
+
+    it_behaves_like 'admin unpublish'
   end
 
   describe 'GET #index' do
@@ -127,7 +150,7 @@ describe TutorialsController do
     context 'some tutorials are deleted' do
       before { go_tutorial.deleted! }
 
-      it 'does not assign deleted post' do
+      it 'does not assign deleted tutorial' do
         do_request
         expect(assigns(:tutorials)).to contain_exactly(ruby_tutorial)
       end
@@ -145,7 +168,7 @@ describe TutorialsController do
 
     it { expect(response).to have_http_status(:success) }
 
-    context 'the post is delted' do
+    context 'the tutorial is delted' do
       before { tutorial.deleted! }
 
       it 'returns 404' do

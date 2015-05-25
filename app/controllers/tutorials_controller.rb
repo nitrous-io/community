@@ -39,10 +39,10 @@ class TutorialsController < ApplicationController
   end
 
   def show
-    @post = Tutorial.active.find_by_slug(params[:slug])
-    if @post
+    @tutorial = Tutorial.active.find_by_slug(params[:slug])
+    if @tutorial
       @comment = Comment.new
-      @comments = @post.comments
+      @comments = @tutorial.comments
     else
       not_found
     end
@@ -55,6 +55,28 @@ class TutorialsController < ApplicationController
       redirect_to tutorials_path
     else
       flash[:error] = 'Unable to delete tutorial'
+      redirect_to :back
+    end
+  end
+
+  def publish
+    @tutorial = Tutorial.find_by_id(params[:id].to_i)
+    if @tutorial && @tutorial.published!
+      flash[:success] = 'Tutorial has been published'
+      redirect_to tutorials_path
+    else
+      flash[:error] = 'Unable to publish tutorial'
+      redirect_to :back
+    end
+  end
+
+  def unpublish
+    @tutorial = Tutorial.find_by_id(params[:id].to_i)
+    if @tutorial && @tutorial.draft!
+      flash[:success] = 'Tutorial has been unpublished'
+      redirect_to tutorials_path
+    else
+      flash[:error] = 'Unable to unpublish tutorial'
       redirect_to :back
     end
   end

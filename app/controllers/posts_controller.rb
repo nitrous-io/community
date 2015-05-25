@@ -49,12 +49,34 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    @post = Post.find(params[:id].to_i)
+    @post = Post.find_by_id(params[:id].to_i)
     if @post && @post.deleted!
       flash[:success] = 'Post has been deleted'
       redirect_to posts_path
     else
       flash[:error] = 'Unable to delete post'
+      redirect_to :back
+    end
+  end
+
+  def publish
+    @post = Post.find_by_id(params[:id].to_i)
+    if @post && @post.published!
+      flash[:success] = 'Post has been published'
+      redirect_to posts_path
+    else
+      flash[:error] = 'Unable to publish post'
+      redirect_to :back
+    end
+  end
+
+  def unpublish
+    @post = Post.find_by_id(params[:id].to_i)
+    if @post && @post.draft!
+      flash[:success] = 'Post has been unpublished'
+      redirect_to posts_path
+    else
+      flash[:error] = 'Unable to unpublish post'
       redirect_to :back
     end
   end

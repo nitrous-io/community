@@ -76,7 +76,6 @@ describe PostsController do
   end
 
   describe 'DELETE #destroy' do
-    let(:item) { :post }
     let(:index_path) { posts_path }
 
     subject { create(:post) }
@@ -86,6 +85,30 @@ describe PostsController do
     end
 
     it_behaves_like 'admin delete'
+  end
+
+  describe 'PUT #publish' do
+    let(:index_path) { posts_path }
+
+    subject { create(:post) }
+
+    def do_request(params = {})
+      put :publish, { id: subject.id }.merge(params)
+    end
+
+    it_behaves_like 'admin publish'
+  end
+
+  describe 'PUT #unpublish' do
+    let(:index_path) { posts_path }
+
+    subject { create(:post) }
+
+    def do_request(params = {})
+      put :unpublish, { id: subject.id }.merge(params)
+    end
+
+    it_behaves_like 'admin unpublish'
   end
 
   describe 'GET #index' do

@@ -142,22 +142,82 @@ shared_examples 'admin delete' do
     before { sign_in }
 
     it 'redirects to home page' do
-      do_request
+      expect { do_request }.not_to change { subject.reload.deleted? }
       expect(response).to redirect_to(root_path)
     end
 
     context 'when a user is admin' do
       before { sign_in_as_admin }
 
-      context 'with valid parameters' do
-        it 'sets as deleted' do
-          expect { do_request }.to change { subject.reload.deleted? }.from(false).to(true)
-        end
+      it 'sets as deleted' do
+        expect { do_request }.to change { subject.reload.deleted? }.from(false).to(true)
+      end
 
-        it 'redirects to index page' do
-          do_request
-          expect(response).to redirect_to(index_path)
-        end
+      it 'redirects to index page' do
+        do_request
+        expect(response).to redirect_to(index_path)
+      end
+    end
+  end
+end
+
+shared_examples 'admin publish' do
+  it 'redirects to home page' do
+    do_request
+    expect(response).to redirect_to(root_path)
+  end
+
+  before { subject.draft! }
+
+  context 'when logged in' do
+    before { sign_in }
+
+    it 'redirects to home page' do
+      expect { do_request }.not_to change { subject.reload.published? }
+      expect(response).to redirect_to(root_path)
+    end
+
+    context 'when a user is admin' do
+      before { sign_in_as_admin }
+
+      it 'sets as published' do
+        expect { do_request }.to change { subject.reload.published? }.from(false).to(true)
+      end
+
+      it 'redirects to index page' do
+        do_request
+        expect(response).to redirect_to(index_path)
+      end
+    end
+  end
+end
+
+shared_examples 'admin unpublish' do
+  it 'redirects to home page' do
+    do_request
+    expect(response).to redirect_to(root_path)
+  end
+
+  before { subject.published! }
+
+  context 'when logged in' do
+    before { sign_in }
+
+    it 'redirects to home page' do
+      expect { do_request }.not_to change { subject.reload.published? }
+      expect(response).to redirect_to(root_path)
+    end
+
+    context 'when a user is admin' do
+      before { sign_in_as_admin }
+
+      it 'sets as unpublished' do
+        expect { do_request }.to change { subject.reload.published? }.from(true).to(false)
+      end
+
+      it 'redirects to index page' do
+        do_request
+        expect(response).to redirect_to(index_path)
       end
     end
   end

@@ -92,13 +92,13 @@ describe PostsController do
     end
 
     it 'assigns posts' do
-      do_request(type: :post)
+      do_request
       expect(assigns(:posts)).to contain_exactly(rails_post, go_post)
     end
 
     context 'tag is specified' do
       it 'assigns posts that have specified tag' do
-        do_request(type: :post, tag: 'go')
+        do_request(tag: 'go')
         expect(assigns(:posts)).to contain_exactly(go_post)
       end
     end

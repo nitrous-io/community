@@ -4,7 +4,7 @@
     .col-xs-12.col-md-8.col-lg-8.col-md-offset-2.col-lg-offset-2
       h1.title Edit Post
 
-  = form_for @post, url: posts_path(@post.id), method: :put do |f|
+  = form_for @post, url: post_path(@post.id), method: :put do |f|
     = render partial: 'posts/form', locals: { f: f }
 
     .row

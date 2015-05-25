@@ -47,7 +47,7 @@ shared_examples 'admin edit page' do
     context 'when a user is admin' do
       before { sign_in_as_admin }
 
-      it 'renders new template' do
+      it 'renders edit template' do
         do_request
         expect(response).to render_template(:edit)
       end
@@ -92,6 +92,40 @@ shared_examples 'admin create' do
         it 'renders new template' do
           expect { do_request(item => attributes_for(item, :invalid)) }.not_to change(model_class, :count)
           expect(response).to render_template(:new)
+        end
+      end
+    end
+  end
+end
+
+shared_examples 'admin update' do
+  it 'redirects to home page' do
+    do_request
+    expect(response).to redirect_to(root_path)
+  end
+
+  context 'when logged in' do
+    before { sign_in }
+
+    it 'redirects to home page' do
+      do_request
+      expect(response).to redirect_to(root_path)
+    end
+
+    context 'when a user is admin' do
+      before { sign_in_as_admin }
+
+      context 'with valid parameters' do
+        it 'redirects to post index page' do
+          do_request
+          expect(response).to redirect_to(index_path)
+        end
+      end
+
+      context 'with invalid params' do
+        it 'render edit template' do
+          do_request(item => attributes_for(item, :invalid))
+          expect(response).to render_template(:edit)
         end
       end
     end

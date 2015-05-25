@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :verify_admin, only: [:new, :create, :edit]
+  before_action :verify_admin, only: [:new, :create, :edit, :update]
 
   def new
     @post = Post.new
@@ -20,6 +20,17 @@ class PostsController < ApplicationController
 
   def edit
     @post = Post.find(params[:id])
+  end
+
+  def update
+    @post = Post.find(params[:id])
+    if @post.update_attributes(post_params)
+      flash[:success] = 'Post has been updated'
+      redirect_to posts_path
+    else
+      flash[:error] = 'Unable to update post'
+      render :edit
+    end
   end
 
   def index

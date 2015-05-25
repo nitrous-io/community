@@ -14,6 +14,8 @@ class Tutorial < ActiveRecord::Base
 
   enum state: [ :draft, :published, :deleted ]
 
+  scope :active, -> { where.not(state: self.states[:deleted]) }
+
   protected
   # To update slug when title get updated
   def should_generate_new_friendly_id?

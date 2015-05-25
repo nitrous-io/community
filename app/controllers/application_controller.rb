@@ -31,6 +31,12 @@ class ApplicationController < ActionController::Base
     user
   end
 
+  # FIXME: I will remove it once we have our error page
+  def not_found
+    render :file => 'public/404.html', status: :not_found, layout: nil
+  end
+
+
   protected
   def verify_logged_out
     redirect_to root_path if current_user

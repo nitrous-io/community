@@ -114,13 +114,37 @@ describe PostsController do
         expect(assigns(:posts)).to contain_exactly(go_post)
       end
     end
+
+    context 'some tutorials are deleted' do
+      before { go_post.deleted! }
+
+      it 'does not assign deleted post' do
+        do_request
+        expect(assigns(:posts)).to contain_exactly(rails_post)
+      end
+    end
   end
 
   describe "GET #show" do
     render_views
 
     let!(:p) { create(:post) }
-    before { get :show, slug: p.slug }
-    it { expect(response).to have_http_status(:success) }
+
+    def do_request
+      get :show, slug: p.slug
+    end
+
+    it 'renders' do
+      do_request
+      expect(response).to have_http_status(:success)
+    end
+
+    context 'the post is delted' do
+      before { p.deleted! }
+      it 'returns 404' do
+        do_request
+        expect(response).to have_http_status(:not_found)
+      end
+    end
   end
 end

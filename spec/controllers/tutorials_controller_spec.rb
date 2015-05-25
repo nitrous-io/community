@@ -123,13 +123,35 @@ describe TutorialsController do
         expect(assigns(:tutorials)).to contain_exactly(ruby_tutorial)
       end
     end
+
+    context 'some tutorials are deleted' do
+      before { go_tutorial.deleted! }
+
+      it 'does not assign deleted post' do
+        do_request
+        expect(assigns(:tutorials)).to contain_exactly(ruby_tutorial)
+      end
+    end
   end
 
   describe 'GET #show' do
     render_views
 
-    let!(:p) { create(:tutorial) }
-    before { get :show, slug: p.slug }
+    let!(:tutorial) { create(:tutorial) }
+
+    def do_request
+      get :show, slug: tutorial.slug
+    end
+
     it { expect(response).to have_http_status(:success) }
+
+    context 'the post is delted' do
+      before { tutorial.deleted! }
+
+      it 'returns 404' do
+        do_request
+        expect(response).to have_http_status(:not_found)
+      end
+    end
   end
 end

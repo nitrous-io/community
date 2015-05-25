@@ -34,18 +34,18 @@ class PostsController < ApplicationController
   end
 
   def index
-    if params[:tag]
-      @posts = Post.tagged_with(params[:tag])
-    else
-      @posts = Post.all
-    end
+    @posts = Post.active
+    @posts = @posts.tagged_with(params[:tag]) if params[:tag]
   end
 
   def show
-    @post = Post.friendly.find(params[:slug])
-
-    @comment = Comment.new
-    @comments = @post.comments
+    @post = Post.active.find_by_slug(params[:slug])
+    if @post
+      @comment = Comment.new
+      @comments = @post.comments
+    else
+      not_found
+    end
   end
 
   def destroy

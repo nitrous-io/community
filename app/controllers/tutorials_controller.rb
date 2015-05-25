@@ -34,18 +34,18 @@ class TutorialsController < ApplicationController
   end
 
   def index
-    if params[:tag]
-      @tutorials = Tutorial.tagged_with(params[:tag])
-    else
-      @tutorials = Tutorial.all
-    end
+    @tutorials = Tutorial.active
+    @tutorials = Tutorial.tagged_with(params[:tag]) if params[:tag]
   end
 
   def show
-    @tutorial = Tutorial.friendly.find(params[:slug])
-
-    @comment = Comment.new
-    @comments = @tutorial.comments
+    @post = Tutorial.active.find_by_slug(params[:slug])
+    if @post
+      @comment = Comment.new
+      @comments = @post.comments
+    else
+      not_found
+    end
   end
 
   def destroy

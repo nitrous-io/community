@@ -10,5 +10,3 @@
         - if item.tags.present?
           - item.tags.each do |tag|
             = link_to tag.name, sprintf('%s/tagged/%s', url_prefix, tag.name)
-  = link_to 'Edit', sprintf('%s/%s/edit', url_prefix, item.id) , role: 'button', class: 'btn btn-default'
-  a.btn.btn-danger href="#" role="button"  Delete

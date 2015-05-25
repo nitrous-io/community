@@ -1,6 +1,7 @@
 .post-show
   h1.title
     = @post.title
+  = link_to 'Edit', edit_post_path(@post.id) , role: 'button', class: 'btn btn-default'
   .content
     = @post.content_html.html_safe
   .author-signature

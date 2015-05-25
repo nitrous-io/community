@@ -11,6 +11,17 @@ describe PostsController do
     it_behaves_like 'admin new page'
   end
 
+  describe 'GET #edit' do
+    subject { create(:post) }
+    render_views
+
+    def do_request
+      get :edit, id: subject.id
+    end
+
+    it_behaves_like 'admin edit page'
+  end
+
   describe 'POST #create' do
     let(:item) { :post }
     let(:model_class) { Post }

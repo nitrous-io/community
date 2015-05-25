@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :verify_admin, only: [:new, :create]
+  before_action :verify_admin, only: [:new, :create, :edit]
 
   def new
     @post = Post.new
@@ -16,6 +16,10 @@ class PostsController < ApplicationController
       flash[:error] = 'Unable to upload post'
       render :new
     end
+  end
+
+  def edit
+    @post = Post.find(params[:id])
   end
 
   def index

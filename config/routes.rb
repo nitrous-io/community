@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   delete 'sessions' => 'sessions#destroy'
 
   # Posts
-  resources :posts, only: [:new, :create, :index] do
+  resources :posts, only: [:new, :create, :index, :edit] do
     resources :likes, only: [:create]
     resources :comments, only: [:create]
   end

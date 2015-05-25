@@ -82,7 +82,7 @@ shared_examples 'admin create' do
           expect { do_request }.to change(model_class, :count).by(1)
         end
 
-        it 'redirects to post index page' do
+        it 'redirects to post page' do
           do_request
           expect(response).to redirect_to(index_path)
         end
@@ -116,7 +116,7 @@ shared_examples 'admin update' do
       before { sign_in_as_admin }
 
       context 'with valid parameters' do
-        it 'redirects to post index page' do
+        it 'redirects to index page' do
           do_request
           expect(response).to redirect_to(index_path)
         end
@@ -126,6 +126,37 @@ shared_examples 'admin update' do
         it 'render edit template' do
           do_request(item => attributes_for(item, :invalid))
           expect(response).to render_template(:edit)
+        end
+      end
+    end
+  end
+end
+
+shared_examples 'admin delete' do
+  it 'redirects to home page' do
+    do_request
+    expect(response).to redirect_to(root_path)
+  end
+
+  context 'when logged in' do
+    before { sign_in }
+
+    it 'redirects to home page' do
+      do_request
+      expect(response).to redirect_to(root_path)
+    end
+
+    context 'when a user is admin' do
+      before { sign_in_as_admin }
+
+      context 'with valid parameters' do
+        it 'sets as deleted' do
+          expect { do_request }.to change { subject.reload.deleted? }.from(false).to(true)
+        end
+
+        it 'redirects to index page' do
+          do_request
+          expect(response).to redirect_to(index_path)
         end
       end
     end

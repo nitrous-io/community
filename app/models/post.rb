@@ -12,6 +12,8 @@ class Post < ActiveRecord::Base
   acts_as_taggable_on :tags
   friendly_id :title, use: :slugged
 
+  enum state: [ :draft, :published, :deleted ]
+
   protected
   # To update slug when title get updated
   def should_generate_new_friendly_id?

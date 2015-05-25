@@ -75,6 +75,19 @@ describe PostsController do
     end
   end
 
+  describe 'DELETE #destroy' do
+    let(:item) { :post }
+    let(:index_path) { posts_path }
+
+    subject { create(:post) }
+
+    def do_request(params = {})
+      delete :destroy, { id: subject.id }.merge(params)
+    end
+
+    it_behaves_like 'admin delete'
+  end
+
   describe 'GET #index' do
     render_views
 

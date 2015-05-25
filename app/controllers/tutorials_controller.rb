@@ -1,5 +1,5 @@
 class TutorialsController < ApplicationController
-  before_action :verify_admin, only: [:new, :create, :edit, :update]
+  before_action :verify_admin, except: [:index, :show]
 
   def new
     @tutorial = Tutorial.new
@@ -46,6 +46,17 @@ class TutorialsController < ApplicationController
 
     @comment = Comment.new
     @comments = @tutorial.comments
+  end
+
+  def destroy
+    @tutorial = Tutorial.find(params[:id].to_i)
+    if @tutorial && @tutorial.deleted!
+      flash[:success] = 'Tutorial has been deleted'
+      redirect_to tutorials_path
+    else
+      flash[:error] = 'Unable to delete tutorial'
+      redirect_to :back
+    end
   end
 
   protected

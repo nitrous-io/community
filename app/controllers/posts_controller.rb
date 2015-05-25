@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :verify_admin, only: [:new, :create, :edit, :update]
+  before_action :verify_admin, except: [:index, :show]
 
   def new
     @post = Post.new
@@ -19,11 +19,11 @@ class PostsController < ApplicationController
   end
 
   def edit
-    @post = Post.find(params[:id])
+    @post = Post.find(params[:id].to_i)
   end
 
   def update
-    @post = Post.find(params[:id])
+    @post = Post.find(params[:id].to_i)
     if @post.update_attributes(post_params)
       flash[:success] = 'Post has been updated'
       redirect_to posts_path
@@ -46,6 +46,17 @@ class PostsController < ApplicationController
 
     @comment = Comment.new
     @comments = @post.comments
+  end
+
+  def destroy
+    @post = Post.find(params[:id].to_i)
+    if @post && @post.deleted!
+      flash[:success] = 'Post has been deleted'
+      redirect_to posts_path
+    else
+      flash[:error] = 'Unable to delete post'
+      redirect_to :back
+    end
   end
 
   protected

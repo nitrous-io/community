@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   delete 'sessions' => 'sessions#destroy'
 
   # Posts
-  resources :posts, only: [:new, :create, :index, :edit, :update] do
+  resources :posts, except: [:show] do
     resources :likes, only: [:create]
     resources :comments, only: [:create]
   end
@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   get 'posts/tagged/:tag', to: 'posts#index', as: :posts_tagged
 
   # Tutorials
-  resources :tutorials, only: [:new, :create, :index, :edit, :update] do
+  resources :tutorials, except: [:show] do
     resources :likes, only: [:create]
     resources :comments, only: [:create]
   end

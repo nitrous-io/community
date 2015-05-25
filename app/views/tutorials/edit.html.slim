@@ -8,6 +8,13 @@
                 role: 'button', class: 'btn btn-danger',
                 'data-confirm' => 'Are you sure?', 'data-method' => 'delete'
 
+      - if @tutorial.published?
+        = link_to 'Unpublish', unpublish_tutorial_path(@tutorial.id),
+                  role: 'button', class: 'btn btn-info', 'data-method' => :put
+      - else
+        = link_to 'Publish', publish_tutorial_path(@tutorial.id),
+                  role: 'button', class: 'btn btn-info', 'data-method' => :put
+
   = form_for @tutorial, url: tutorial_path(@tutorial.id), method: :put do |f|
     = render partial: 'partials/form', locals: { f: f }
 

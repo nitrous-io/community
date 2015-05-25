@@ -56,7 +56,7 @@ describe PostsController do
     subject { create(:post) }
 
     def do_request(params = {})
-      post :update, { id: subject.id, post: attributes_for(:post) }.merge(params)
+      put :update, { id: subject.id, post: attributes_for(:post) }.merge(params)
     end
 
     it_behaves_like 'admin update'

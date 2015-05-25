@@ -65,7 +65,7 @@ describe TutorialsController do
     subject { create(:tutorial) }
 
     def do_request(params = {})
-      post :update, { id: subject.id, tutorial: attributes_for(:post) }.merge(params)
+      put :update, { id: subject.id, tutorial: attributes_for(:post) }.merge(params)
     end
 
     it_behaves_like 'admin update'

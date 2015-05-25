@@ -46,6 +46,45 @@ describe TutorialsController do
     end
   end
 
+  describe 'GET #edit' do
+    subject { create(:tutorial) }
+    render_views
+
+    def do_request
+      get :edit, id: subject.id
+    end
+
+    it_behaves_like 'admin edit page'
+  end
+
+  describe 'PUT #update' do
+    let(:item) { :tutorial }
+    let(:model_class) { Tuturial }
+    let(:index_path) { tutorials_path }
+
+    subject { create(:tutorial) }
+
+    def do_request(params = {})
+      post :update, { id: subject.id, tutorial: attributes_for(:post) }.merge(params)
+    end
+
+    it_behaves_like 'admin update'
+
+    context 'when a user logged in as an admin' do
+      before { sign_in_as_admin }
+
+      it 'updates a post' do
+        do_request(id: subject.id, tutorial: { title: 'updated tutorial title', content_markdown: 'updated content markdown', tag_list: 'rails' })
+        subject.reload
+        expect(subject.title).to eq('updated tutorial title')
+        expect(subject.content_markdown).to eq('updated content markdown')
+        expect(subject.slug).to eq('updated-tutorial-title')
+        expect(subject.content_html).to match('<p>updated content markdown</p>')
+        expect(subject.tag_list).to eq(['rails'])
+      end
+    end
+  end
+
   describe 'GET #index' do
     render_views
 

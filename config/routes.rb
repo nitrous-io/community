@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   get 'posts/tagged/:tag', to: 'posts#index', as: :posts_tagged
 
   # Tutorials
-  resources :tutorials, only: [:new, :create, :index] do
+  resources :tutorials, only: [:new, :create, :index, :edit, :update] do
     resources :likes, only: [:create]
     resources :comments, only: [:create]
   end

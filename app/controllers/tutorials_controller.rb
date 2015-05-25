@@ -1,5 +1,5 @@
 class TutorialsController < ApplicationController
-  before_action :verify_admin, only: [:new, :create]
+  before_action :verify_admin, only: [:new, :create, :edit, :update]
 
   def new
     @tutorial = Tutorial.new
@@ -15,6 +15,21 @@ class TutorialsController < ApplicationController
     else
       flash[:error] = 'Unable to upload tutorial'
       render :new
+    end
+  end
+
+  def edit
+    @post = Tutorial.find(params[:id])
+  end
+
+  def update
+    @post = Tutorial.find(params[:id])
+    if @post.update_attributes(tutorial_params)
+      flash[:success] = 'Tutorial has been updated'
+      redirect_to posts_path
+    else
+      flash[:error] = 'Unable to update tutorial'
+      render :edit
     end
   end
 

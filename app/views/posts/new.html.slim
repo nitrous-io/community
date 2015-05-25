@@ -1,10 +1,5 @@
 .post-new
-  - flash.each do |type, message|
-    | alert.alert-#{type}
-      | button.close data-dismiss='alert'
-        | x
-      | #{message}
-
+  = render partial: 'partials/flash_message'
   .row
     .col-xs-12.col-md-8.col-lg-8.col-md-offset-2.col-lg-offset-2
       h1.title New Post

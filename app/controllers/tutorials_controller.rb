@@ -19,14 +19,14 @@ class TutorialsController < ApplicationController
   end
 
   def edit
-    @post = Tutorial.find(params[:id])
+    @tutorial = Tutorial.find(params[:id])
   end
 
   def update
-    @post = Tutorial.find(params[:id])
-    if @post.update_attributes(tutorial_params)
+    @tutorial = Tutorial.find(params[:id])
+    if @tutorial.update_attributes(tutorial_params)
       flash[:success] = 'Tutorial has been updated'
-      redirect_to posts_path
+      redirect_to tutorials_path
     else
       flash[:error] = 'Unable to update tutorial'
       render :edit

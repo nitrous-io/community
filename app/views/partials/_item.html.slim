@@ -1,6 +1,6 @@
 .col-sm-6.col-md-4
   h3
-    = link_to item.title, sprintf('%s/%s', url_prefix, item.slug)
+    = link_to item.title, "#{url_prefix}/#{item.slug}"
     - unless item.published?
       span.label.label-info
         | #{item.state}
@@ -13,4 +13,4 @@
       .tags
         - if item.tags.present?
           - item.tags.each do |tag|
-            = link_to tag.name, sprintf('%s/tagged/%s', url_prefix, tag.name)
+            = link_to tag.name, "#{url_prefix}/tagged/#{tag.name}"

@@ -37,6 +37,23 @@ describe ApplicationController do
           expect(user.name).to eq('got name')
         end
       end
+
+      context 'when fails to fetch' do
+        let(:error_response_body) { JSON.dump({ 'error' => 'invalid_token', 'error_description' => 'invalid token' }) }
+
+        before do
+          user.update_attributes(last_fetched_at: 2.days.ago, nitrous_oauth_token: token, admin: true)
+          stub_request(:get, user_url).
+              with(headers: { 'Authorization' => 'Bearer %s' % token }).
+              to_return(status: 400, headers: { 'content-type' => ['application/json; charset=utf-8'] }, body: error_response_body)
+        end
+        it 'sets admin to false' do
+          Timecop.freeze do
+            user = controller.current_user
+            expect(user.admin).to eq(false)
+          end
+        end
+      end
     end
   end
 end

@@ -13,9 +13,15 @@ Rails.application.routes.draw do
     resources :comments, only: [:create]
   end
   get 'posts/:slug', to: 'posts#show', as: :posts_slugged
-  get 'posts/:type/tagged/:tag', to: 'posts#index', as: :posts_tagged
+  get 'posts/tagged/:tag', to: 'posts#index', as: :posts_tagged
 
-
+  # Tutorials
+  resources :tutorials, only: [:new, :create, :index] do
+    resources :likes, only: [:create]
+    resources :comments, only: [:create]
+  end
+  get 'tutorials/:slug', to: 'tutorials#show', as: :tutorials_slugged
+  get 'tutorials/tagged/:tag', to: 'tutorials#index', as: :tutorials_tagged
 
   # Image uploads
   resources :image_contents, only: [:create]

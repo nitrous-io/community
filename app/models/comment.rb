@@ -1,6 +1,6 @@
 class Comment < ActiveRecord::Base
-  belongs_to :post
+  belongs_to :parent, polymorphic: true
   belongs_to :user
 
-  validates :content, presence: true
+  validates :content, :parent, presence: true
 end

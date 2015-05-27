@@ -6,13 +6,12 @@ RSpec.describe CommentsController, type: :controller do
   let!(:user) { create(:user) }
 
   describe 'POST #create' do
-    def do_request
-      post :create, post_id: p.id, comment: { content: 'hello' }
+    def do_request(params = {})
+      post :create, { post_id: p.id, comment: { content: 'hello' } }.merge(params)
     end
 
     context 'when user is logged in' do
       before { sign_in(user) }
-
 
       it 'redirects to the post page' do
         do_request
@@ -22,9 +21,26 @@ RSpec.describe CommentsController, type: :controller do
       it 'create a comment' do
         expect { do_request }.to change(Comment, :count).by(1)
         comment = Comment.last
-        expect(comment.post_id).to eq(p.id)
+        expect(comment.parent).to eq(p)
         expect(comment.user_id).to eq(user.id)
         expect(comment.content).to eq('hello')
+      end
+
+      context 'parent is tutorial' do
+        let!(:tutorial) { create(:tutorial) }
+
+        it 'redirects to the post page' do
+          do_request(tutorial_id: tutorial.id, post_id: nil)
+          expect(response).to redirect_to(tutorials_slugged_path(slug: tutorial.slug))
+        end
+
+        it 'create a comment on the tutorial' do
+          expect { do_request(tutorial_id: tutorial.id, post_id: nil) }.to change(Comment, :count).by(1)
+          comment = Comment.last
+          expect(comment.parent).to eq(tutorial)
+          expect(comment.user_id).to eq(user.id)
+          expect(comment.content).to eq('hello')
+        end
       end
     end
 

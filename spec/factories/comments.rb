@@ -1,11 +1,11 @@
 FactoryGirl.define do
   factory :comment do
-    author "MyString"
-    post
-    content "MyText"
+    user
+    association :parent, factory: :post
+    content 'my comments'
 
     trait :invalid do
-      content ""
+      content ''
     end
   end
 

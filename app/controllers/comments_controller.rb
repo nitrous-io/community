@@ -1,18 +1,19 @@
 class CommentsController < ApplicationController
   before_action :verify_logged_in
 
+  include SharedParent
+
   def create
-    post = Post.find(params[:post_id])
-    comment = post.comments.build(comment_params)
+    comment = parent.comments.build(comment_params)
     comment.user_id = current_user.id
 
     if comment.save
-      flash[:success] = "Your comment has been posted"
+      flash[:success] = 'Your comment has been posted'
     else
-      flash[:error] = "Your comment has not been posted"
+      flash[:error] = 'Your comment has not been posted'
     end
 
-    redirect_to posts_slugged_path(slug: post.slug)
+    redirect_to parent_show_path
   end
 
   private 

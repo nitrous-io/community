@@ -22,10 +22,11 @@ class ApplicationController < ActionController::Base
       user.admin               = client.user.admin
       user.last_fetched_at     = Time.now
       unless user.save
-        Rails.logger.info("Failed to update user(#{user.inspect}) information: #{user.errors.full_messages.join(',')}")
+        Rails.logger.warn("Failed to update user(#{user.inspect}) information: #{user.errors.full_messages.join(',')}")
       end
     else
-      Rails.logger.info("Failed to update user(#{user.inspect}) information: #{client.last_error_description}")
+      user.update_attribute(:admin, false)
+      Rails.logger.warn("Failed to update user(#{user.inspect}) information: #{client.last_error_description}")
     end
     user
   end

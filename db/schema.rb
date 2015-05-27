@@ -11,21 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150521055135) do
+ActiveRecord::Schema.define(version: 20150522015026) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "citext"
 
   create_table "comments", force: :cascade do |t|
-    t.integer  "post_id"
     t.text     "content"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer  "user_id",    null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "user_id",     null: false
+    t.integer  "parent_id",   null: false
+    t.string   "parent_type", null: false
   end
-
-  add_index "comments", ["post_id"], name: "index_comments_on_post_id", using: :btree
 
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",                      null: false
@@ -47,12 +46,13 @@ ActiveRecord::Schema.define(version: 20150521055135) do
 
   create_table "likes", force: :cascade do |t|
     t.integer  "user_id"
-    t.integer  "post_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "parent_id",   null: false
+    t.string   "parent_type", null: false
   end
 
-  add_index "likes", ["post_id"], name: "index_likes_on_post_id", using: :btree
+  add_index "likes", ["user_id", "parent_id", "parent_type"], name: "index_likes_on_user_id_and_parent_id_and_parent_type", unique: true, using: :btree
 
   create_table "posts", force: :cascade do |t|
     t.integer  "user_id"
@@ -98,6 +98,19 @@ ActiveRecord::Schema.define(version: 20150521055135) do
   end
 
   add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree
+
+  create_table "tutorials", force: :cascade do |t|
+    t.integer  "user_id",                      null: false
+    t.string   "slug",                         null: false
+    t.string   "title",                        null: false
+    t.text     "content_markdown",             null: false
+    t.text     "content_html",                 null: false
+    t.integer  "score",            default: 0
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+  end
+
+  add_index "tutorials", ["slug"], name: "index_tutorials_on_slug", unique: true, using: :btree
 
   create_table "users", id: false, force: :cascade do |t|
     t.integer  "id",                                  null: false

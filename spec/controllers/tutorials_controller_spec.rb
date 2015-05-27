@@ -59,7 +59,6 @@ describe TutorialsController do
 
   describe 'PUT #update' do
     let(:item) { :tutorial }
-    let(:model_class) { Tuturial }
     let(:index_path) { tutorials_path }
 
     subject { create(:tutorial) }

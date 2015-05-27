@@ -50,7 +50,6 @@ describe PostsController do
 
   describe 'PUT #update' do
     let(:item) { :post }
-    let(:model_class) { Post }
     let(:index_path) { posts_path }
 
     subject { create(:post) }

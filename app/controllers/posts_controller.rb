@@ -48,8 +48,8 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    @post = Post.find_by_id(params[:id].to_i)
-    if @post && @post.deleted!
+    @post = Post.find(params[:id].to_i)
+    if @post.deleted!
       flash[:success] = 'Post has been deleted'
       redirect_to posts_path
     else
@@ -59,8 +59,8 @@ class PostsController < ApplicationController
   end
 
   def publish
-    @post = Post.find_by_id(params[:id].to_i)
-    if @post && @post.published!
+    @post = Post.find(params[:id].to_i)
+    if @post.published!
       flash[:success] = 'Post has been published'
       redirect_to posts_path
     else
@@ -70,8 +70,8 @@ class PostsController < ApplicationController
   end
 
   def unpublish
-    @post = Post.find_by_id(params[:id].to_i)
-    if @post && @post.draft!
+    @post = Post.find(params[:id].to_i)
+    if @post.draft!
       flash[:success] = 'Post has been unpublished'
       redirect_to posts_path
     else

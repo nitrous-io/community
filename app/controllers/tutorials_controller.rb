@@ -49,7 +49,7 @@ class TutorialsController < ApplicationController
 
   def destroy
     @tutorial = Tutorial.find(params[:id].to_i)
-    if @tutorial && @tutorial.deleted!
+    if @tutorial &&@tutorial.deleted!
       flash[:success] = 'Tutorial has been deleted'
       redirect_to tutorials_path
     else
@@ -59,8 +59,8 @@ class TutorialsController < ApplicationController
   end
 
   def publish
-    @tutorial = Tutorial.find_by_id(params[:id].to_i)
-    if @tutorial && @tutorial.published!
+    @tutorial = Tutorial.find(params[:id].to_i)
+    if @tutorial.published!
       flash[:success] = 'Tutorial has been published'
       redirect_to tutorials_path
     else
@@ -70,8 +70,8 @@ class TutorialsController < ApplicationController
   end
 
   def unpublish
-    @tutorial = Tutorial.find_by_id(params[:id].to_i)
-    if @tutorial && @tutorial.draft!
+    @tutorial = Tutorial.find(params[:id].to_i)
+    if @tutorial.draft!
       flash[:success] = 'Tutorial has been unpublished'
       redirect_to tutorials_path
     else

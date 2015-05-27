@@ -1,20 +1,5 @@
-- flash.each do |name, message|
-  div class="alert alert-#{name}"
-    = message.humanize
+= render partial: 'partials/flash_message'
 
 .tutorial-index
   - @tutorials.each do |tutorial|
-    h2.title
-      = link_to tutorial.title, tutorials_slugged_path(tutorial.slug)
-    .author-signature
-      | By
-    = tutorial.user.username
-      .time-signature
-        | Published
-        = time_ago_in_words(tutorial.created_at)
-        |  ago
-    .tags
-      - if tutorial.tags.present?
-        - tutorial.tags.each do |tag|
-          = link_to tag.name, tutorials_tagged_path(tag: tag.name)
-    br
+    = render partial: 'partials/item', locals: { item: tutorial, url_prefix: '/tutorials'}

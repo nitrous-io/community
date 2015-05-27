@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :verify_admin, only: [:new, :create]
+  before_action :verify_admin, only: [:new, :create, :edit, :update]
 
   def new
     @post = Post.new
@@ -15,6 +15,21 @@ class PostsController < ApplicationController
     else
       flash[:error] = 'Unable to upload post'
       render :new
+    end
+  end
+
+  def edit
+    @post = Post.find(params[:id])
+  end
+
+  def update
+    @post = Post.find(params[:id])
+    if @post.update_attributes(post_params)
+      flash[:success] = 'Post has been updated'
+      redirect_to posts_path
+    else
+      flash[:error] = 'Unable to update post'
+      render :edit
     end
   end
 
@@ -35,6 +50,6 @@ class PostsController < ApplicationController
 
   protected
   def post_params
-    params.require(:post).permit(:type, :title, :content_markdown, :tag_list)
+    params.require(:post).permit(:title, :content_markdown, :tag_list)
   end
 end

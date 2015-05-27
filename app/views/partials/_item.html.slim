@@ -1,0 +1,14 @@
+.col-sm-6.col-md-4
+  h3
+    = link_to item.title, sprintf('%s/%s', url_prefix, item.slug)
+  .author-signature
+    = "By #{item.user.username}"
+  p
+    .time-signature
+      = "Published #{time_ago_in_words(item.created_at)} ago"
+      .tags
+        - if item.tags.present?
+          - item.tags.each do |tag|
+            = link_to tag.name, sprintf('%s/tagged/%s', url_prefix, tag.name)
+  = link_to 'Edit', sprintf('%s/%s/edit', url_prefix, item.id) , role: 'button', class: 'btn btn-default'
+  a.btn.btn-danger href="#" role="button"  Delete

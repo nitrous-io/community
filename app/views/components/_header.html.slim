@@ -10,8 +10,8 @@
 
   - if current_user.nil?
     ul.unauthed.pull-right
-      li.login.btn.btn-default.navbar-btn
-        = link_to "Log In", login_path
+      li.login.navbar-right
+        = link_to "Log In", login_path, class: 'btn btn-default'
 
   - else
     ul.authed.pull-right
@@ -25,8 +25,8 @@
             = link_to "logout", sessions_path, :method => :delete
 
       - if current_user.admin
-        li.new-tutorial.btn.btn-default.navbar-btn
-          = link_to "New Post", new_post_path
-        li.new-tutorial.btn.btn-default.navbar-btn
-          = link_to "New Tutorial", new_tutorial_path
+        li.new-tutorial.navbar-right
+          = link_to "New Post", new_post_path, class: 'btn btn-default'
+        li.new-tutorial.navbar-right
+          = link_to "New Tutorial", new_tutorial_path, class: 'btn btn-default'
 

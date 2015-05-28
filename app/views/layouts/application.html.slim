@@ -1,5 +1,5 @@
 doctype html
-html lang="en"
+html lang="en" class=([full_controller_action_name, @html_class].compact.join(' '))
   head
     meta charset="utf-8"
     meta http-equiv="X-UA-Compatible" content="IE=edge"
@@ -17,9 +17,9 @@ html lang="en"
 
   body
     = yield :body_before
-    = render 'components/header'
+    = render 'layouts/header'
     = yield
-    = render 'components/footer'
+    = render 'layouts/footer'
     = javascript_include_tag 'application'
     = yield :body_script
     = yield :body_after

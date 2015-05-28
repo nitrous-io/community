@@ -1,6 +1,7 @@
 .tutorial-show
   h1.title
     = @tutorial.title
+  = link_to 'Edit', edit_tutorial_path(@tutorial.id), role: 'button', class: 'btn btn-default'
   .content
     = @tutorial.content_html.html_safe
   .author-signature

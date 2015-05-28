@@ -82,7 +82,7 @@ shared_examples 'admin create' do
           expect { do_request }.to change(model_class, :count).by(1)
         end
 
-        it 'redirects to post index page' do
+        it 'redirects to post page' do
           do_request
           expect(response).to redirect_to(index_path)
         end
@@ -116,7 +116,7 @@ shared_examples 'admin update' do
       before { sign_in_as_admin }
 
       context 'with valid parameters' do
-        it 'redirects to post index page' do
+        it 'redirects to index page' do
           do_request
           expect(response).to redirect_to(index_path)
         end
@@ -127,6 +127,179 @@ shared_examples 'admin update' do
           do_request(item => attributes_for(item, :invalid))
           expect(response).to render_template(:edit)
         end
+      end
+    end
+  end
+end
+
+shared_examples 'admin delete' do
+  it 'redirects to home page' do
+    do_request
+    expect(response).to redirect_to(root_path)
+  end
+
+  context 'when logged in' do
+    before { sign_in }
+
+    it 'redirects to home page' do
+      expect { do_request }.not_to change { subject.reload.deleted? }
+      expect(response).to redirect_to(root_path)
+    end
+
+    context 'when a user is admin' do
+      before { sign_in_as_admin }
+
+      it 'sets as deleted' do
+        expect { do_request }.to change { subject.reload.deleted? }.from(false).to(true)
+      end
+
+      it 'redirects to index page' do
+        do_request
+        expect(response).to redirect_to(index_path)
+      end
+    end
+  end
+end
+
+shared_examples 'admin publish' do
+  it 'redirects to home page' do
+    do_request
+    expect(response).to redirect_to(root_path)
+  end
+
+  before { subject.draft! }
+
+  context 'when logged in' do
+    before { sign_in }
+
+    it 'redirects to home page' do
+      expect { do_request }.not_to change { subject.reload.published? }
+      expect(response).to redirect_to(root_path)
+    end
+
+    context 'when a user is admin' do
+      before { sign_in_as_admin }
+
+      it 'sets as published' do
+        expect { do_request }.to change { subject.reload.published? }.from(false).to(true)
+      end
+
+      it 'redirects to index page' do
+        do_request
+        expect(response).to redirect_to(index_path)
+      end
+    end
+  end
+end
+
+shared_examples 'admin unpublish' do
+  it 'redirects to home page' do
+    do_request
+    expect(response).to redirect_to(root_path)
+  end
+
+  before { subject.published! }
+
+  context 'when logged in' do
+    before { sign_in }
+
+    it 'redirects to home page' do
+      expect { do_request }.not_to change { subject.reload.published? }
+      expect(response).to redirect_to(root_path)
+    end
+
+    context 'when a user is admin' do
+      before { sign_in_as_admin }
+
+      it 'sets as unpublished' do
+        expect { do_request }.to change { subject.reload.published? }.from(true).to(false)
+      end
+
+      it 'redirects to index page' do
+        do_request
+        expect(response).to redirect_to(index_path)
+      end
+    end
+  end
+end
+
+shared_examples 'admin index' do
+  context 'there are deleted item' do
+    before { collection[0].deleted! }
+
+    it 'does not assign deleted item' do
+      do_request
+      expect(assigns(collection_name)).to contain_exactly(*collection[1..-1])
+    end
+  end
+
+  context 'some tutorials are unpublished' do
+    before { collection[0].draft! }
+
+    it 'does not assign deleted item' do
+      do_request
+      expect(assigns(collection_name)).to contain_exactly(*collection[1..-1])
+    end
+  end
+
+  context 'a user is admin' do
+    before { sign_in_as_admin }
+
+    context 'some tutorials are deleted' do
+      before { collection[0].deleted! }
+
+      it 'assigns all' do
+        do_request
+        expect(assigns(collection_name)).to contain_exactly(*collection)
+      end
+    end
+
+    context 'some tutorials are unpublished' do
+      before { collection[0].draft! }
+
+      it 'assigns all' do
+        do_request
+        expect(assigns(collection_name)).to contain_exactly(*collection)
+      end
+    end
+  end
+end
+
+shared_examples 'admin show' do
+  context 'the item is deleted' do
+    before { item.deleted! }
+    it 'returns 404' do
+      do_request
+      expect(response).to have_http_status(:not_found)
+    end
+  end
+
+  context 'tutorial is unpublished' do
+    before { item.draft! }
+
+    it 'does not assign deleted post' do
+      do_request
+      expect(response).to have_http_status(:not_found)
+    end
+  end
+
+  context 'a user is admin' do
+    before { sign_in_as_admin }
+
+    context 'the item is deleted' do
+      before { item.deleted! }
+      it 'returns 404' do
+        do_request
+        expect(response).to have_http_status(:success)
+      end
+    end
+
+    context 'tutorial is unpublished' do
+      before { item.draft! }
+
+      it 'does not assign deleted post' do
+        do_request
+        expect(response).to have_http_status(:success)
       end
     end
   end

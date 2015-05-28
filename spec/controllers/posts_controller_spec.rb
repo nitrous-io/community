@@ -75,11 +75,47 @@ describe PostsController do
     end
   end
 
+  describe 'DELETE #destroy' do
+    let(:index_path) { posts_path }
+
+    subject { create(:post) }
+
+    def do_request(params = {})
+      delete :destroy, { id: subject.id }.merge(params)
+    end
+
+    it_behaves_like 'admin delete'
+  end
+
+  describe 'PUT #publish' do
+    let(:index_path) { posts_path }
+
+    subject { create(:post) }
+
+    def do_request(params = {})
+      put :publish, { id: subject.id }.merge(params)
+    end
+
+    it_behaves_like 'admin publish'
+  end
+
+  describe 'PUT #unpublish' do
+    let(:index_path) { posts_path }
+
+    subject { create(:post) }
+
+    def do_request(params = {})
+      put :unpublish, { id: subject.id }.merge(params)
+    end
+
+    it_behaves_like 'admin unpublish'
+  end
+
   describe 'GET #index' do
     render_views
 
-    let!(:rails_post) { create(:post, tag_list: [:rails, :ruby]) }
-    let!(:go_post) { create(:post, tag_list: [:go, :martini]) }
+    let!(:rails_post) { create(:published_post, tag_list: [:rails, :ruby]) }
+    let!(:go_post) { create(:published_post, tag_list: [:go, :martini]) }
 
     def do_request(params = {})
       get :index, params
@@ -101,13 +137,29 @@ describe PostsController do
         expect(assigns(:posts)).to contain_exactly(go_post)
       end
     end
+
+    it_behaves_like 'admin index' do
+      let(:collection) { [rails_post, go_post]}
+      let(:collection_name) { :posts }
+    end
   end
 
   describe "GET #show" do
     render_views
 
-    let!(:p) { create(:post) }
-    before { get :show, slug: p.slug }
-    it { expect(response).to have_http_status(:success) }
+    let!(:p) { create(:published_post) }
+
+    def do_request
+      get :show, slug: p.slug
+    end
+
+    it 'renders' do
+      do_request
+      expect(response).to have_http_status(:success)
+    end
+
+    it_behaves_like 'admin show' do
+      let(:item) { p }
+    end
   end
 end

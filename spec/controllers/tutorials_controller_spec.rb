@@ -64,7 +64,7 @@ describe TutorialsController do
     subject { create(:tutorial) }
 
     def do_request(params = {})
-      put :update, { id: subject.id, tutorial: attributes_for(:post) }.merge(params)
+      put :update, { id: subject.id, tutorial: attributes_for(:tutorial) }.merge(params)
     end
 
     it_behaves_like 'admin update'
@@ -72,7 +72,7 @@ describe TutorialsController do
     context 'when a user logged in as an admin' do
       before { sign_in_as_admin }
 
-      it 'updates a post' do
+      it 'updates a tutorial' do
         do_request(id: subject.id, tutorial: { title: 'updated tutorial title', content_markdown: 'updated content markdown', tag_list: 'rails' })
         subject.reload
         expect(subject.title).to eq('updated tutorial title')
@@ -84,11 +84,47 @@ describe TutorialsController do
     end
   end
 
+  describe 'DELETE #destroy' do
+    let(:index_path) { tutorials_path }
+
+    subject { create(:tutorial) }
+
+    def do_request(params = {})
+      delete :destroy, { id: subject.id }.merge(params)
+    end
+
+    it_behaves_like 'admin delete'
+  end
+
+  describe 'PUT #publish' do
+    let(:index_path) { tutorials_path }
+
+    subject { create(:tutorial) }
+
+    def do_request(params = {})
+      put :publish, { id: subject.id }.merge(params)
+    end
+
+    it_behaves_like 'admin publish'
+  end
+
+  describe 'PUT #unpublish' do
+    let(:index_path) { tutorials_path }
+
+    subject { create(:tutorial) }
+
+    def do_request(params = {})
+      put :unpublish, { id: subject.id }.merge(params)
+    end
+
+    it_behaves_like 'admin unpublish'
+  end
+
   describe 'GET #index' do
     render_views
 
-    let!(:ruby_tutorial) { create(:tutorial, tag_list: [:ruby]) }
-    let!(:go_tutorial) { create(:tutorial, tag_list: [:go]) }
+    let!(:ruby_tutorial) { create(:published_tutorial, tag_list: [:ruby]) }
+    let!(:go_tutorial) { create(:published_tutorial, tag_list: [:go]) }
 
     def do_request(params = {})
       get :index, params
@@ -110,13 +146,26 @@ describe TutorialsController do
         expect(assigns(:tutorials)).to contain_exactly(ruby_tutorial)
       end
     end
+
+    it_behaves_like 'admin index' do
+      let(:collection) { [ruby_tutorial, go_tutorial]}
+      let(:collection_name) { :tutorials }
+    end
   end
 
   describe 'GET #show' do
     render_views
 
-    let!(:p) { create(:tutorial) }
-    before { get :show, slug: p.slug }
+    let!(:tutorial) { create(:published_tutorial) }
+
+    def do_request
+      get :show, slug: tutorial.slug
+    end
+
     it { expect(response).to have_http_status(:success) }
+
+    it_behaves_like 'admin show' do
+      let(:item) { tutorial }
+    end
   end
 end

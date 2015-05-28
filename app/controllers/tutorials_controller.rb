@@ -1,5 +1,5 @@
 class TutorialsController < ApplicationController
-  before_action :verify_admin, only: [:new, :create, :edit, :update]
+  before_action :verify_admin, except: [:index, :show]
 
   def new
     @tutorial = Tutorial.new
@@ -34,22 +34,54 @@ class TutorialsController < ApplicationController
   end
 
   def index
-    if params[:tag]
-      @tutorials = Tutorial.tagged_with(params[:tag])
-    else
-      @tutorials = Tutorial.all
-    end
+    @tutorials = params[:tag] ? collection.tagged_with(params[:tag]) : collection
   end
 
   def show
-    @tutorial = Tutorial.friendly.find(params[:slug])
-
+    @tutorial = collection.friendly.find(params[:slug])
     @comment = Comment.new
     @comments = @tutorial.comments
+  end
+
+  def destroy
+    @tutorial = Tutorial.find(params[:id].to_i)
+    if @tutorial &&@tutorial.deleted!
+      flash[:success] = 'Tutorial has been deleted'
+      redirect_to tutorials_path
+    else
+      flash[:error] = 'Unable to delete tutorial'
+      redirect_to :back
+    end
+  end
+
+  def publish
+    @tutorial = Tutorial.find(params[:id].to_i)
+    if @tutorial.published!
+      flash[:success] = 'Tutorial has been published'
+      redirect_to tutorials_path
+    else
+      flash[:error] = 'Unable to publish tutorial'
+      redirect_to :back
+    end
+  end
+
+  def unpublish
+    @tutorial = Tutorial.find(params[:id].to_i)
+    if @tutorial.draft!
+      flash[:success] = 'Tutorial has been unpublished'
+      redirect_to tutorials_path
+    else
+      flash[:error] = 'Unable to unpublish tutorial'
+      redirect_to :back
+    end
   end
 
   protected
   def tutorial_params
     params.require(:tutorial).permit(:title, :content_markdown, :tag_list)
+  end
+
+  def collection
+    @collection ||= current_user.try(:admin?) ? Tutorial.unscoped : Tutorial.active
   end
 end

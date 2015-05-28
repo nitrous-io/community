@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :verify_admin, only: [:new, :create, :edit, :update]
+  before_action :verify_admin, except: [:index, :show]
 
   def new
     @post = Post.new
@@ -19,11 +19,11 @@ class PostsController < ApplicationController
   end
 
   def edit
-    @post = Post.find(params[:id])
+    @post = Post.find(params[:id].to_i)
   end
 
   def update
-    @post = Post.find(params[:id])
+    @post = Post.find(params[:id].to_i)
     if @post.update_attributes(post_params)
       flash[:success] = 'Post has been updated'
       redirect_to posts_path
@@ -34,22 +34,54 @@ class PostsController < ApplicationController
   end
 
   def index
-    if params[:tag]
-      @posts = Post.tagged_with(params[:tag])
-    else
-      @posts = Post.all
-    end
+    @posts = params[:tag] ? collection.tagged_with(params[:tag]) : collection
   end
 
   def show
-    @post = Post.friendly.find(params[:slug])
-
+    @post = collection.friendly.find(params[:slug])
     @comment = Comment.new
     @comments = @post.comments
+  end
+
+  def destroy
+    @post = Post.find(params[:id].to_i)
+    if @post.deleted!
+      flash[:success] = 'Post has been deleted'
+      redirect_to posts_path
+    else
+      flash[:error] = 'Unable to delete post'
+      redirect_to :back
+    end
+  end
+
+  def publish
+    @post = Post.find(params[:id].to_i)
+    if @post.published!
+      flash[:success] = 'Post has been published'
+      redirect_to posts_path
+    else
+      flash[:error] = 'Unable to publish post'
+      redirect_to :back
+    end
+  end
+
+  def unpublish
+    @post = Post.find(params[:id].to_i)
+    if @post.draft!
+      flash[:success] = 'Post has been unpublished'
+      redirect_to posts_path
+    else
+      flash[:error] = 'Unable to unpublish post'
+      redirect_to :back
+    end
   end
 
   protected
   def post_params
     params.require(:post).permit(:title, :content_markdown, :tag_list)
+  end
+
+  def collection
+    @collection ||= current_user.try(:admin?) ? Post.unscoped : Post.active
   end
 end

@@ -9,4 +9,8 @@ FactoryGirl.define do
       title ''
     end
   end
+
+  factory :published_tutorial, parent: :tutorial do
+    state :published
+  end
 end

@@ -1,25 +1,25 @@
 doctype html
 html lang="en"
-
   head
     meta charset="utf-8"
     meta http-equiv="X-UA-Compatible" content="IE=edge"
     meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
 
-    title Nitrous Community 
+    title
+      = @title || "Nitrous Community"
 
-    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
-    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    link rel='shortcut icon' href='/favicon.ico'
+    = yield :head_before
+    = stylesheet_link_tag 'application', media: 'all'
+    = yield :head_stylesheet
     = csrf_meta_tags
+    = yield :head_after
 
   body
-
-    .header-container
-      .container-fluid
-        = render 'components/header'
-
-    .main-container
-      .container-fluid
-        = yield
-
+    = yield :body_before
+    = render 'components/header'
+    = yield
     = render 'components/footer'
+    = javascript_include_tag 'application'
+    = yield :body_script
+    = yield :body_after

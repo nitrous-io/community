@@ -38,13 +38,9 @@ class PostsController < ApplicationController
   end
 
   def show
-    @post = collection.find_by_slug(params[:slug])
-    if @post
-      @comment = Comment.new
-      @comments = @post.comments
-    else
-      not_found
-    end
+    @post = collection.friendly.find(params[:slug])
+    @comment = Comment.new
+    @comments = @post.comments
   end
 
   def destroy

@@ -3,7 +3,7 @@
     = link_to item.title, "#{url_prefix}/#{item.slug}"
     - unless item.published?
       span.label.label-info
-        | #{item.state}
+        = item.state
 
   .author-signature
     = "By #{item.user.username}"

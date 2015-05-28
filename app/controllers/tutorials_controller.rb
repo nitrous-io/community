@@ -38,13 +38,9 @@ class TutorialsController < ApplicationController
   end
 
   def show
-    @tutorial = collection.find_by_slug(params[:slug])
-    if @tutorial
-      @comment = Comment.new
-      @comments = @tutorial.comments
-    else
-      not_found
-    end
+    @tutorial = collection.friendly.find(params[:slug])
+    @comment = Comment.new
+    @comments = @tutorial.comments
   end
 
   def destroy

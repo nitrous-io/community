@@ -4,6 +4,8 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   helper_method :current_user
 
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+
   def current_user
     return @current_user if @current_user
     user = session[:user_id] ? User.find_by_id(session[:user_id]) : nil
@@ -31,12 +33,6 @@ class ApplicationController < ActionController::Base
     user
   end
 
-  # FIXME: I will remove it once we have our error page
-  def not_found
-    render :file => 'public/404.html', status: :not_found, layout: nil
-  end
-
-
   protected
   def verify_logged_out
     redirect_to root_path if current_user
@@ -51,5 +47,9 @@ class ApplicationController < ActionController::Base
 
   def verify_admin
     redirect_to root_path unless current_user.try(:admin)
+  end
+
+  def record_not_found
+    render file: 'public/404.html', status: :not_found, layout: nil
   end
 end

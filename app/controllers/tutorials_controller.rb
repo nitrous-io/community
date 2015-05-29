@@ -90,6 +90,6 @@ class TutorialsController < ApplicationController
   end
 
   def collection
-    @collection ||= current_user.try(:admin?) ? Tutorial.unscoped : Tutorial.active
+    @collection ||= current_user.try(:admin?) ? Tutorial.unscoped : Tutorial.published
   end
 end

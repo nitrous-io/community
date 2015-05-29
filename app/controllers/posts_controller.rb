@@ -90,6 +90,6 @@ class PostsController < ApplicationController
   end
 
   def collection
-    @collection ||= current_user.try(:admin?) ? Post.unscoped : Post.active
+    @collection ||= current_user.try(:admin?) ? Post.unscoped : Post.published
   end
 end

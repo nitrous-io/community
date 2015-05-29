@@ -232,6 +232,7 @@ shared_examples 'admin unpublish' do
       end
 
       it 'resets published_at' do
+        do_request
         expect(subject.reload.published_at).to be_nil
       end
 
@@ -303,12 +304,21 @@ shared_examples 'admin show' do
     end
   end
 
+  context 'published_at is the future' do
+    before { item.update_attributes(state: :published, published_at: 2.days.from_now) }
+
+    it 'does not assign deleted post' do
+      do_request
+      expect(response).to have_http_status(:not_found)
+    end
+  end
+
   context 'a user is admin' do
     before { sign_in_as_admin }
 
     context 'the item is deleted' do
       before { item.deleted! }
-      it 'returns 404' do
+      it 'renders' do
         do_request
         expect(response).to have_http_status(:success)
       end
@@ -317,7 +327,16 @@ shared_examples 'admin show' do
     context 'tutorial is unpublished' do
       before { item.draft! }
 
-      it 'does not assign deleted post' do
+      it 'renders' do
+        do_request
+        expect(response).to have_http_status(:success)
+      end
+    end
+
+    context 'published_at is the future' do
+      before { item.update_attributes(state: :published, published_at: 2.days.from_now) }
+
+      it 'renders' do
         do_request
         expect(response).to have_http_status(:success)
       end

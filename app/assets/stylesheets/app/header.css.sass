@@ -1,0 +1,161 @@
+@import 'variables'
+
+=header-link-style
+  color: rgba(#FFF, .8)
+  display: block
+  font-weight: 200
+
+
+body > header
+  background: $blue
+  line-height: 48px
+  height: 48px
+  font-size: 14px
+
+  &.fixed
+    position: fixed
+    top: 0
+    left: 0
+    right: 0
+    z-index: 50
+
+  a
+    +header-link-style
+
+  > .container
+    display: flex
+
+  // Logo
+  h1.logo
+    flex-shrink: 0
+
+    em, small
+      text-transform: uppercase
+      display: inline-block
+      position: relative
+
+    em
+      width: 120px
+      display: inline-block
+      font-weight: bold
+      text-indent: -999999px
+      background: image-url('nav-logo.svg') center left no-repeat
+      background-size: 120px 14px
+
+    small
+      font-size: 10px
+      font-weight: 200
+      padding-left: 8px
+      margin-left: 6px
+
+      &:before
+        content: ''
+        position: absolute
+        left: 0
+        top: 11px
+        height: 26px
+        border-left: 1px solid rgba(255,255,255,.4)
+
+  // Nav
+  nav
+    flex-shrink: 0
+    display: none
+
+    @media screen and (min-width: $break-medium)
+      display: block
+      margin-left: 40px
+
+    li
+      float: left
+
+      &.active
+        color: #FFF
+        background: rgba(255,255,255,.1)
+
+      a
+        padding: 0 14px
+
+
+  // Actions
+  .actions
+    display: block
+    text-align: right
+    position: relative
+    justify-content: flex-end
+    flex-grow: 1
+    display: flex
+
+    .desktop
+      display: none
+
+    .mobile
+      display: block
+
+    @media screen and (min-width: $break-medium)
+      .desktop
+        display: block
+
+      .mobile
+        display: none
+
+
+    .dropdown-toggle
+      padding: 0 14px 0 14px
+      color: rgba(#FFF, .8)
+      cursor: pointer
+
+      &.active
+        color: #FFF
+        background: rgba(255,255,255,.1)
+
+    .dropdown-menu
+      top: 48px
+      background: #1AA4EE
+
+
+    // Mobile nav menu btn
+    .menu-btn
+      display: flex
+
+      @media screen and (min-width: $break-medium)
+        display: none
+
+      a.trigger
+        width: 58px
+        height: 48px
+        display: block
+        background: image-url('nav-hamburger.svg') center right no-repeat
+
+        &.close
+          background: image-url('nav-close.svg') center right no-repeat
+
+
+// Mobile nav menu
+#mobile-menu
+  display: none
+  position: fixed
+  top: 48px
+  left: 0
+  right: 0
+  bottom: 0
+  background: $blue
+  color: rgba(255,255,255,.6)
+  border-top: 1px solid rgba(255,255,255,.3)
+  z-index: 20
+
+  @media screen and (min-width: $break-medium)
+    display: none
+
+  ul.nav
+    padding: 30px
+
+  a
+    line-height: 44px
+    +header-link-style
+
+  .separator
+    margin: 10px 0
+    border-top: 1px solid rgba(255,255,255,.3)
+
+  p
+    font-size: 12px

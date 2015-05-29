@@ -1,0 +1,10 @@
+.blog.card
+  .content
+    .visual
+      a href=(blog_path(slug: blog.slug))
+
+    h3.card-title
+      = link_to blog.title, blog_path(slug: blog.slug)
+
+    p
+      | Nulla vitae elit libero, a pharetra augue. Donec sed odio dui.

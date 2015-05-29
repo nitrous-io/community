@@ -1,3 +1,271 @@
 @import 'variables'
-@import 'mixins'
 
+*
+  box-sizing: border-box
+
+body
+  font-family: $opensans
+  font-size: 16px
+  line-height: 26px
+  color: $dark-grey
+  @media screen and (min-width: $break-medium)
+    font-size: 14px
+
+.container
+  max-width: 1024px
+  margin: 0 auto
+  padding-right: 2rem
+  padding-left: 2rem
+
+.main
+  padding: 60px 0
+
+  &:last-of-type
+    padding-bottom: 80px
+
+  &.darker
+    background: $bg-grey
+
+::-webkit-input-placeholder
+  color: $placeholder
+
+\:-moz-placeholder
+  color: $placeholder
+
+::-moz-placeholder
+  color: $placeholder
+
+\:-ms-input-placeholder
+  color: $placeholder
+
+a
+  text-decoration: none
+  color: $blue
+  outline: 0
+
+  &.btn.bordered
+    height: 40px
+    line-height: 40px
+    display: inline-block
+    text-transform: uppercase
+    border: 1px solid $light-grey
+    padding: 0 26px
+    margin: 40px auto 0 auto
+    font-size: 14px
+    border-radius: 4px
+    text-align: center
+    color: $light-grey
+
+pre
+  white-space: pre-wrap
+  word-wrap: break-word
+
+section, article
+  margin-bottom: 40px
+
+section + .title
+  padding-top: 60px
+
+.centered
+  text-align: center
+
+.main
+
+  .title
+    padding-bottom: 40px
+    cursor: default
+
+    h2
+      font-size: 32px
+      line-height: 44px
+      font-weight: 200
+
+    p.desc
+      font-size: 16px
+      font-weight: 200
+      color: $light-grey
+
+
+  .pagination
+    padding: 0 0 80px 0
+
+    a
+      margin-top: 0
+
+
+  // Form
+  .form-wrapper
+
+    .row
+      margin: 10px 0
+
+    textarea
+      width: 100%
+      height: 240px
+      border: 1px solid $light-grey
+      border-radius: 4px
+      resize: none
+
+    input[type="text"]
+      border: 1px solid $light-grey
+      border-radius: 4px
+
+    input
+      width: 100%
+      height: 40px
+      font-size: 15px
+      padding: 0 10px
+      border: 0
+      background: #FFF
+      border-radius: 2px
+      display: block
+      outline: none
+
+      &[type="submit"]
+        height: 40px
+        cursor: pointer
+        background: $blue
+        font-size: 16px
+        color: #FFF
+        margin-top: 20px
+        -webkit-appearance: none
+        border-radius: 2px
+
+
+  // Tags
+  .tag
+    line-height: 22px
+    border: 1px solid $blue
+    color: $blue
+    padding: 0 6px
+    border-radius: 22px
+    font-size: 11px
+    display: inline-block
+    margin-left: 6px
+    transition: all .10s ease-in
+
+    &:hover
+      color: #FFF
+      background: $blue
+
+
+// Dropdown
+.dropdown-menu
+  min-width: 140px
+  position: absolute
+  display: none
+  top: 0
+  right: 0
+  text-align: left
+  padding: 0 14px
+  background: $blue
+  border-radius: 0 0 4px 4px
+  box-shadow: 0 2px 1px rgba(0,0,0,.1)
+
+  a:hover
+    color: #FFF
+
+
+.tutorials.show, .blogs.show
+  .content
+    h3
+      font-weight: bold
+      font-size: 20px
+      padding: 12px 0 10px 0
+
+  article
+    .title
+      padding-bottom: 4px
+
+    .meta
+      padding-bottom: 40px
+      display: flex
+
+      > div, div + span
+        margin-right: 10px
+        color: $light-grey
+
+    .footer
+      margin-top: 40px
+      padding-top: 20px
+      border-top: 1px solid rgba(0,0,0,.05)
+      line-height: 42px
+      display: flex
+
+      .gravatar, .author, .status
+        margin: 0 10px 0 0
+        padding: 0
+        display: block
+        display: flex
+
+      .gravatar
+        img
+          width: 42px
+          height: 42px
+          border-radius: 3px
+
+      .author
+        // WIP
+
+      .status
+        top: 1px
+        padding-top: 8px
+        position: relative
+        margin-left: 12px
+        flex-grow: 1
+        display: flex
+        flex-direction: row
+
+        a
+          height: 18px
+          margin-right: 10px
+          color: $light-grey
+          position: relative
+          background: image-url('article-status.png') 0 0 no-repeat
+          background-size: 18px 108px
+          padding-left: 22px
+          top: 4px
+          margin-right: 10px
+          overflow: hidden
+          line-height: 18px
+          display: flex
+
+          &.hearts
+            background-position: 0 0
+
+          &.hearts.active
+            background-position: 0 -18px
+
+          &.comments
+            background-position: 0 -36px
+            flex-grow: 1
+
+          &.comments.active
+            background-position: 0 -54px
+
+          &.share
+            background-position: 0 -72px
+            margin-right: 0
+
+          &.share:hover, &.share.active
+            color: $blue
+            background-position: 0 -90px
+
+
+  .comment-list
+    padding-top: 40px
+
+    .comment
+      margin: 10px 0 20px 0
+      .meta
+        cursor: default
+        .author
+          font-weight: bold
+          float: left
+          margin-right: 10px
+          color: $dark-grey
+        .timestamp
+          color: $light-grey
+
+      .content
+        // WIP

@@ -1,32 +1,68 @@
-.header
-  span.logo 
-    = link_to "NITROUS Community", root_path
-  
-  .section-links 
+header
+  .container
+    h1.logo
+      a href=(root_path)
+        span
+          em Nitrous
+          '
+          small Community
+
+    nav
+      ul
+        li class=(controller.controller_name == 'tutorials' ? 'active' : nil)
+          = link_to "Tutorials", tutorials_path
+        li class=(controller.controller_name == 'posts' ? 'active' : nil)
+          = link_to "Blog", posts_path
+
+    .actions
+      .desktop
+        - if @current_user.nil?
+          = link_to "Log In", login_path
+
+        - else
+          .dropdown
+            .dropdown-toggle href="#"
+              span
+                = current_user.username
+              i.fa.fa-caret
+
+              ul.dropdown-menu role="menu"
+                / - if @admin
+                li
+                  = link_to "New Blog Post", new_post_path
+                li
+                  = link_to "New Tutorial", new_tutorial_path
+                li
+                  a href="#" Drafts
+                li
+                  = link_to "Log Out", sessions_path, :method => :delete
+
+      .menu-btn.mobile
+        a.trigger href="#"
+
+
+#mobile-menu
+  ul.nav
     li
-      = link_to 'Tutorials', tutorials_path
+      = link_to "Tutorials", tutorials_path
     li
-      = link_to 'Posts', posts_path
+      = link_to "Blog", posts_path
+    li
+      a href="/" Search
 
-  - if current_user.nil?
-    ul.unauthed.pull-right
-      li.login.navbar-right
-        = link_to "Log In", login_path, class: 'btn btn-default'
+    - if @current_user.nil?
+      li.separator
+      li
+        = link_to "Log In", login_path
+      li
+        a href="https://pro.nitrous.io/app/#/signup" Sign Up
+    - else
+      li.separator
+      li
+        = link_to "Log Out", sessions_path, :method => :delete
 
-  - else
-    ul.authed.pull-right
-      li.dropdown.pull-right
-        button#dropdownMenu1.btn.btn-default.dropdown-toggle aria-expanded="true" data-toggle="dropdown" type="button" 
-          span.username
-            = current_user.username
-          span.caret
-        ul.dropdown-menu aria-labelledby="dropdownMenu1" role="menu" 
-          li role="presentation" 
-            = link_to "logout", sessions_path, :method => :delete
-
-      - if current_user.admin
-        li.new-tutorial.navbar-right
-          = link_to "New Post", new_post_path, class: 'btn btn-default'
-        li.new-tutorial.navbar-right
-          = link_to "New Tutorial", new_tutorial_path, class: 'btn btn-default'
-
+    li.separator
+    li
+      a href="https://twitter.com/nitrous.io" target="_blank" Follow @NitrousIO
+    li
+      p &copy; 2012-2015 Nitrous, Inc.

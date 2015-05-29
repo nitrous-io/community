@@ -73,10 +73,16 @@ describe TutorialsController do
       before { sign_in_as_admin }
 
       it 'updates a tutorial' do
-        do_request(id: subject.id, tutorial: { title: 'updated tutorial title', content_markdown: 'updated content markdown', tag_list: 'rails' })
+        do_request(id: subject.id,
+                   tutorial: {
+                       title: 'updated tutorial title',
+                       content_markdown: 'updated content markdown',
+                       tag_list: 'rails',
+                       cover_image_url: 'http://example.com/a.jpg'})
         subject.reload
         expect(subject.title).to eq('updated tutorial title')
         expect(subject.content_markdown).to eq('updated content markdown')
+        expect(subject.cover_image_url).to eq('http://example.com/a.jpg')
         expect(subject.slug).to eq('updated-tutorial-title')
         expect(subject.content_html).to match('<p>updated content markdown</p>')
         expect(subject.tag_list).to eq(['rails'])

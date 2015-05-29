@@ -37,10 +37,16 @@ describe PostsController do
       before { sign_in_as_admin }
 
       it 'creates a post' do
-        do_request(post: { title: 'post title', content_markdown: 'content markdown', tag_list: 'ruby' })
+        do_request(
+            post: {
+                title: 'post title',
+                content_markdown: 'content markdown',
+                tag_list: 'ruby',
+                cover_image_url: 'http://example.com/a.jpg'})
         p = Post.last
         expect(p.slug).to eq('post-title')
         expect(p.title).to eq('post title')
+        expect(p.cover_image_url).to eq('http://example.com/a.jpg')
         expect(p.content_markdown).to eq('content markdown')
         expect(p.content_html).to match('<p>content markdown</p>')
         expect(p.tag_list).to eq(['ruby'])

@@ -184,9 +184,25 @@ shared_examples 'admin publish' do
         expect { do_request }.to change { subject.reload.published? }.from(false).to(true)
       end
 
+      it 'sets published_at' do
+        Timecop.freeze do
+          do_request
+          expect(subject.reload.published_at.to_i).to eq(Time.now.to_i)
+        end
+      end
+
       it 'redirects to index page' do
         do_request
         expect(response).to redirect_to(index_path)
+      end
+
+      context 'publish_at is specified' do
+        it 'updates published_at to specified time' do
+          Timecop.freeze do
+            do_request(item_name => { published_at: 2.days.from_now })
+            expect(subject.reload.published_at.to_i).to eq(2.days.from_now.to_i)
+          end
+        end
       end
     end
   end

@@ -57,7 +57,8 @@ class TutorialsController < ApplicationController
 
   def publish
     @tutorial = Tutorial.find(params[:id].to_i)
-    if @tutorial.published!
+    published_at = params[:tutorial] && params[:tutorial][:published_at] ? params[:tutorial][:published_at] : Time.now
+    if @tutorial.update_attributes(state: :published, published_at: published_at)
       flash[:success] = 'Tutorial has been published'
       redirect_to tutorials_path
     else

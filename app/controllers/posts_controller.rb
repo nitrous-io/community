@@ -57,7 +57,8 @@ class PostsController < ApplicationController
 
   def publish
     @post = Post.find(params[:id].to_i)
-    if @post.published!
+    published_at = params[:post] && params[:post][:published_at] ? params[:post][:published_at] : Time.now
+    if @post.update_attributes(state: :published, published_at: published_at)
       flash[:success] = 'Post has been published'
       redirect_to posts_path
     else

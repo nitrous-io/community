@@ -6,14 +6,15 @@
     .col-md-offset-5.col-md-2
       = link_to 'Delete', tutorial_path(@tutorial.id),
                 role: 'button', class: 'btn btn-danger',
-                'data-confirm' => 'Are you sure?', 'data-method' => 'delete'
+                data: { confirm: 'Are you sure?', method: :delete }
 
       - if @tutorial.published?
         = link_to 'Unpublish', unpublish_tutorial_path(@tutorial.id),
-                  role: 'button', class: 'btn btn-info', 'data-method' => :put
+                  role: 'button', class: 'btn btn-info', data: { method: :put }
       - else
-        = link_to 'Publish', publish_tutorial_path(@tutorial.id),
-                  role: 'button', class: 'btn btn-info', 'data-method' => :put
+        = form_tag publish_tutorial_path(@tutorial.id), method: :put do
+          = datetime_field :post, :published_at, placeholder: '2014-05-20T00:00:00.000+0000'
+          = submit_tag 'Publish', role: 'button', class: 'btn btn-info'
 
   = form_for @tutorial, url: tutorial_path(@tutorial.id), method: :put do |f|
     = render partial: 'partials/form', locals: { f: f }

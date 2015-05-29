@@ -104,6 +104,7 @@ describe TutorialsController do
 
   describe 'PUT #publish' do
     let(:index_path) { tutorials_path }
+    let(:item_name) { :tutorial }
 
     subject { create(:tutorial) }
 

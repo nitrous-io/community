@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
   before_action :verify_admin, except: [:index, :show]
+  before_action :show_publish_menu, only: [:new, :create, :edit, :update]
 
   def new
     @post = Post.new
@@ -74,6 +75,12 @@ class PostsController < ApplicationController
       flash[:error] = 'Unable to unpublish post'
       redirect_to :back
     end
+  end
+
+  private
+  def show_publish_menu
+    @html_class = "edit"
+    @publish_menu = true
   end
 
   protected

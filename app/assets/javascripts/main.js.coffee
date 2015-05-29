@@ -1,12 +1,9 @@
 $dropdownToggle = $(".dropdown-toggle")
-$dropdownMenu = $(".dropdown-menu")
 
 $dropdownToggle.hover ->
   $(this).addClass("active")
-  $(this).find($dropdownMenu).show()
 , ->
   $(this).removeClass("active")
-  $(this).find($dropdownMenu).hide()
 
 $header = $("header")
 $mobileTrigger = $("a.trigger")

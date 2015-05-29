@@ -1,5 +1,5 @@
     .form-wrapper
-      = f.text_field :title, class: 'form-control', tabindex: 1
+      = f.text_field :title, class: 'form-control', tabindex: 1, placeholder:"Title"
 
     .row
       li.active role='presentation'
@@ -11,10 +11,6 @@
 
     .row
       = f.text_area :content_markdown, class: 'markdown-text-js form-control', rows: 15, tabindex: 2, 'data-attachment-allowed' => true
-      p.help-block
-        | Upload your post in markdown format. Fenced code blocks are supported.
-        br
-        | To upload an image, drag and drop it into the textarea.
 
     #preview.tab-pane role='tabpanel'
       .preview-content.preview-content-js
@@ -22,8 +18,6 @@
     .row
       = f.label :tag_list
       = f.text_field :tag_list, class: 'form-control', placeholder: 'eg. ruby, rails', tabindex: 2, value: f.object.tag_list.join(', ')
-      p.help-block
-        | Comma-separated.
 
-    .row
-      = f.submit 'Save as Draft', class: 'btn btn-primary'
+    / .row
+    /   = f.submit 'Save as Draft', class: 'btn btn-primary'

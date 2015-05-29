@@ -1,13 +1,6 @@
-.post-new
-  = render partial: 'partials/flash_message'
-  .row
-    .col-xs-12.col-md-8.col-lg-8.col-md-offset-2.col-lg-offset-2
-      h1.title New Post
+.main
+  .container
+    = render partial: 'partials/flash_message'
 
-  = form_for @post, url: posts_path do |f|
-    = render partial: 'partials/form', locals: { f: f }
-
-    .row
-      .col-xs-4.col-md-4.col-lg-4.col-md-offset-5.col-lg-offset-5
-        .card-submit-btn
-          = f.submit 'Upload new blog post', class: 'btn btn-primary'
+    = form_for @post, url: posts_path do |f|
+      = render partial: 'partials/form', locals: { f: f }

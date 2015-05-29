@@ -69,7 +69,7 @@ class PostsController < ApplicationController
 
   def unpublish
     @post = Post.find(params[:id].to_i)
-    if @post.draft!
+    if @post.update_attributes(state: :draft, published_at: nil)
       flash[:success] = 'Post has been unpublished'
       redirect_to posts_path
     else

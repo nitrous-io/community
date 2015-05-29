@@ -231,6 +231,10 @@ shared_examples 'admin unpublish' do
         expect { do_request }.to change { subject.reload.published? }.from(true).to(false)
       end
 
+      it 'resets published_at' do
+        expect(subject.reload.published_at).to be_nil
+      end
+
       it 'redirects to index page' do
         do_request
         expect(response).to redirect_to(index_path)

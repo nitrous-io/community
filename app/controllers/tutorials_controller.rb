@@ -69,7 +69,7 @@ class TutorialsController < ApplicationController
 
   def unpublish
     @tutorial = Tutorial.find(params[:id].to_i)
-    if @tutorial.draft!
+    if @tutorial.update_attributes(state: :draft, published_at: nil)
       flash[:success] = 'Tutorial has been unpublished'
       redirect_to tutorials_path
     else

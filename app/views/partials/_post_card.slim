@@ -1,10 +1,10 @@
 .blog.card
   .content
     .visual
-      a href=(blog_path(slug: blog.slug))
+      a href=(posts_slugged_path(slug: post.slug))
 
     h3.card-title
-      = link_to blog.title, blog_path(slug: blog.slug)
-
+      = link_to post.title, posts_slugged_path(slug: post.slug)
+      
     p
       | Nulla vitae elit libero, a pharetra augue. Donec sed odio dui.

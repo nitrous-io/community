@@ -1,7 +1,4 @@
 Rails.application.routes.draw do
-
-  root 'posts#index'
-
   # Authentication
   get 'login' => 'sessions#new'
   post 'sessions' => 'sessions#create'
@@ -38,4 +35,6 @@ Rails.application.routes.draw do
 
   # Markdown preview
   post '/preview'    => 'preview#convert'
+
+  root 'home#index'
 end

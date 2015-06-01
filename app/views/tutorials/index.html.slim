@@ -1,5 +1,13 @@
-= render partial: 'partials/flash_message'
+.main
+  .container
+    / = render partial: 'partials/flash_message'
 
-.tutorial-index
-  - @tutorials.each do |tutorial|
-    = render partial: 'partials/item', locals: { item: tutorial, url_prefix: '/tutorials'}
+    .title.centered
+      h2
+        | Tutorials
+      p.desc
+        | Get started on Nitrous with these tutorials
+
+    section.tutorials.cards
+      - @tutorials.each do |tutorial|
+        = render partial: 'partials/tutorial_card', locals: { tutorial: tutorial, url_prefix: '/tutorials'}

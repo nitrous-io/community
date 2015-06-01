@@ -16,8 +16,7 @@
       .preview-content.preview-content-js
 
     .row
-      = f.label :tag_list
-      = f.text_field :tag_list, class: 'form-control', placeholder: 'eg. ruby, rails', tabindex: 2, value: f.object.tag_list.join(', ')
+      = f.text_field :tag_list, class: 'form-control', placeholder: 'Tags (eg. ruby, rails)', tabindex: 2, value: f.object.tag_list.join(', ')
 
-    / .row
-    /   = f.submit 'Save as Draft', class: 'btn btn-primary'
+    .row
+      = f.submit 'Save as Draft', class: 'btn btn-primary'

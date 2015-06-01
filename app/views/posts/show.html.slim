@@ -1,42 +1,63 @@
-.post-show
-  h1.title
-    = @post.title
-  = link_to 'Edit', edit_post_path(@post.id) , role: 'button', class: 'btn btn-default'
-  .content
-    = @post.content_html.html_safe
-  .author-signature
-    = @post.user.username
-  .tags
-    - if @post.tags.present?
-      - @post.tags.each do |tag|
-        = link_to tag.name, posts_tagged_path(tag: tag.name)
-  br
+.main.title-hero
+  .title
+      h2
+        = @post.title
 
-  h2.comment-title Comments
+.main
+  .container
+  
+    / = link_to 'Edit', edit_post_path(@post.id) , role: 'button', class: 'btn btn-default'
+    article
+      .content
+        = @post.content_html.html_safe
 
-  = form_for @comment, url: post_comments_path(post_id: @post.id) do |f|
-    .row
-      = f.label :comment
-    .row.content
-      = f.text_area :content
+      .footer
+        .gravatar
+          img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=retro&amp;f=y"
 
-    .row
-      = f.submit "Post comment"
+        .author
+          span
+            = @post.user.username
+        
+        /- if @post.tags.present?
+        / .tags
+        /   - @post.tags.each do |tag|
+        /     = link_to tag.name, posts_tagged_path(tag: tag.name)
 
-  .comment-list
-    - @comments.each do |comment|
-      .row
-        .content
-          = comment.content
-        .author-signature
-          | By
-          = comment.user.username
-          .time-signature
-            | Commented
-            = time_ago_in_words(comment.created_at)
-            | ago
-  br
-  .vote
-    = button_to "hearts", post_likes_path(post_id: @post.id), method: :post
+        .status
+          / = button_to "hearts", post_likes_path(post_id: @post.id), method: :post
+          a.hearts href="#"
+            span 6
+          a.comments href="#"
+            span 6
 
-  = @post.score
+          a.share href="#"
+            span Share
+
+
+.main.darker
+  .container
+
+    article
+      .title
+        h2
+          | Comments
+
+      .form-wrapper
+        = form_for @comment, url: post_comments_path(@post.id) do |f|
+          = f.text_area :content
+
+          .row
+            = f.submit "Post comment"
+
+      .comment-list
+        - @comments.each do |comment|
+          .comment
+            .meta
+              .author
+                = comment.user.username.capitalize
+              .timestamp
+                = time_ago_in_words(comment.created_at)
+                '  ago
+            .content
+              = comment.content

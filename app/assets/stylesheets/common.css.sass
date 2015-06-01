@@ -166,7 +166,24 @@ section + .title
     color: #FFF
 
 
-.tutorials.show, .blogs.show
+.tutorials.show, .posts.show
+  .title-hero
+    height: 282px
+    background: $blue
+    text-align: center
+    color: #FFF
+    display: flex
+    align-items: center
+    justify-content: center
+    border-top: 1px solid rgba(255,255,255,.1)
+    
+    .title
+      padding: 0
+      margin: 0
+      
+      h2
+        font-size: 36px
+    
   .content
     h3
       font-weight: bold
@@ -184,6 +201,12 @@ section + .title
       > div, div + span
         margin-right: 10px
         color: $light-grey
+    
+    .content
+      p
+        font-size: 16px
+        line-height: 30px
+        margin-bottom: 30px
 
     .footer
       margin-top: 40px

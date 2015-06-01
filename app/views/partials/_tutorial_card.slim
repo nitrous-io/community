@@ -1,11 +1,11 @@
 .tutorial.card
   .content
     .visual class=("overlay-#{rand(1..5)}")
-      a href=(tutorial_path(slug: tutorial.slug))
+      a href=(tutorials_slugged_path(slug: tutorial.slug))
         = image_tag 'tutorial-visual-nitrous.png', class:"for-visual"
 
     h3.card-title
-      = link_to tutorial.title, tutorial_path(slug: tutorial.slug)
+      = link_to tutorial.title, tutorials_slugged_path(slug: tutorial.slug)
 
     .status
       a.hearts href="#"
@@ -15,10 +15,9 @@
 
     .card-footer
       .author
-        = tutorial.author
         .gravatar
           img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=retro&amp;f=y"
-        = tutorial.author.titleize
+        = tutorial.user.username
       - if tutorial.tags.present?
         - tutorial.tags.each do |tag|
           .tags

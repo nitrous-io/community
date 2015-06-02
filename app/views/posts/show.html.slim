@@ -1,7 +1,15 @@
 .main.title-hero
   .title
-      h2
-        = @post.title
+    h2
+      = @post.title
+  .meta
+    span.time
+      = l @post.created_at, format: :simple
+    span.bull-separator
+      | &bull;
+    a.comment href="#comments"
+      = @comments.count
+      |  Comments
 
 .main
   .container
@@ -12,52 +20,37 @@
         = @post.content_html.html_safe
 
       .footer
-        .gravatar
-          img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=retro&amp;f=y"
-
-        .author
-          span
-            = @post.user.username
-        
+        .heart
+          = button_to "Heart", post_likes_path(post_id: @post.id), method: :post, class: "status-icon heart"
+          
         /- if @post.tags.present?
         / .tags
         /   - @post.tags.each do |tag|
         /     = link_to tag.name, posts_tagged_path(tag: tag.name)
 
-        .status
-          / = button_to "hearts", post_likes_path(post_id: @post.id), method: :post
-          a.hearts href="#"
-            span 6
-          a.comments href="#"
-            span 6
+        .status            
+          a.status-icon.comment href="#comments"
+            span Comment
 
-          a.share href="#"
+          a.status-icon.share href="#"
             span Share
 
 
 .main.darker
   .container
 
-    article
+    article#comments
       .title
         h2
           | Comments
 
       .form-wrapper
         = form_for @comment, url: post_comments_path(@post.id) do |f|
-          = f.text_area :content
+          = f.text_area :content, placeholder: "Write a comment..."
 
           .row
             = f.submit "Post comment"
 
       .comment-list
         - @comments.each do |comment|
-          .comment
-            .meta
-              .author
-                = comment.user.username.capitalize
-              .timestamp
-                = time_ago_in_words(comment.created_at)
-                '  ago
-            .content
-              = comment.content
+          = render partial: 'partials/comment', locals: { comment: comment }

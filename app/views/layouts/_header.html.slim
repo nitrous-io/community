@@ -16,8 +16,8 @@ header
 
     .actions
       .desktop
-        - if @current_user.nil?
-          = link_to "Log In", login_path
+        - if current_user.nil?
+          = link_to "Log In / Sign Up", login_path, class: (controller.controller_name == 'sessions' ? 'active' : nil)
 
         - else
           - if @publish_menu
@@ -40,7 +40,9 @@ header
 
           .dropdown
             .dropdown-toggle
-              span
+              span.gravatar
+                img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=retro&amp;f=y"
+              span.username
                 = current_user.username
               i.fa.fa-caret-down
 
@@ -69,7 +71,7 @@ header
     li
       a href="/" Search
 
-    - if @current_user.nil?
+    - if current_user.nil?
       li.separator
       li
         = link_to "Log In", login_path

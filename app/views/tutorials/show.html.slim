@@ -8,34 +8,26 @@
           = @tutorial.title
 
       .meta
-        .author
-          span
-            = @tutorial.user.username.capitalize
-        span &bull;
         .timestamp
           span
-            | 2 days ago
+            = l @tutorial.created_at, format: :simple
+        .tags
+          - if @tutorial.tags.present?
+            - @tutorial.tags.each do |tag|
+              = link_to tag.name, tutorials_tagged_path(tag: tag.name), { :class => "tag"}
 
       .content
         = @tutorial.content_html.html_safe
 
       .footer
-        .gravatar
-          img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=retro&amp;f=y"
+        .heart
+          = button_to "Heart", tutorial_likes_path(tutorial_id: @tutorial.id), method: :post, class: "status-icon heart"
 
-        .author
-          span
-            = @tutorial.user.username
+        .status            
+          a.status-icon.comment href="#comments"
+            span Comment
 
-        .status
-          / = button_to "hearts", tutorial_likes_path(@tutorial.id), method: :post
-          a.hearts href="#"
-            span
-              = @tutorial.score
-          a.comments href="#"
-            span 6
-
-          a.share href="#"
+          a.status-icon.share href="#"
             span Share
 
       / .tags
@@ -53,19 +45,12 @@
 
       .form-wrapper
         = form_for @comment, url: tutorial_comments_path(@tutorial.id) do |f|
-          = f.text_area :content
+          = f.text_area :content, placeholder: "Write a comment..."
 
           .row
             = f.submit "Post comment"
 
       .comment-list
         - @comments.each do |comment|
-          .comment
-            .meta
-              .author
-                = comment.user.username.capitalize
-              .timestamp
-                = time_ago_in_words(comment.created_at)
-                '  ago
-            .content
-              = comment.content
+          = render partial: 'partials/comment', locals: { comment: comment }
+

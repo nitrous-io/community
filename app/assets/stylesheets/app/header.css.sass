@@ -23,8 +23,8 @@ html.edit
 
 body > header
   background: $blue
-  line-height: 48px
-  height: 48px
+  line-height: 52px
+  height: 52px
   font-size: 14px
 
   &.fixed
@@ -86,6 +86,9 @@ body > header
 
       a
         padding: 0 14px
+      
+        &:hover
+          color: #FFF
 
       &.active
         background: rgba(255,255,255,.1)
@@ -106,6 +109,15 @@ body > header
 
     .desktop
       display: none
+      
+      a
+        &:hover
+          color: #FFF
+        
+        &.active
+          color: #FFF
+          font-weight: 400
+          cursor: default
 
     .mobile
       display: block
@@ -135,6 +147,18 @@ body > header
       color: rgba(#FFF, .8)
       cursor: default
       position: relative
+      
+      .gravatar
+        position: relative
+        display: inline-block
+        top: 6px
+        padding-right: 4px
+        
+        img
+          width: 20px
+          height: 20px
+          border-radius: 2px
+          
 
       span + i
         position: relative
@@ -155,15 +179,15 @@ body > header
     .dropdown-menu
       top: 48px
       background: #1AA4EE
-      animation-duration: .35s
+      animation-duration: .25s
       animation-fill-mode: both
       animation-iteration-count: 1
+      z-index: 10
 
       li.separator
         border-top: 1px solid rgba(255,255,255,.2)
         margin-left: -14px
         margin-right: -14px
-
 
     // Mobile nav menu btn
     .menu-btn
@@ -174,7 +198,7 @@ body > header
 
       a.trigger
         width: 58px
-        height: 48px
+        height: 52px
         display: block
         background: image-url('nav-hamburger.svg') center right no-repeat
 

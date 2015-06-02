@@ -1,6 +1,6 @@
 class TutorialsController < ApplicationController
-  before_action :verify_admin, except: [:index, :show]
-  before_action :show_publish_menu, only: [:new, :edit]
+  before_action :verify_admin, except: %i(index show)
+  before_action :show_publish_menu, only: %(new edit create update)
 
   def new
     @tutorial = Tutorial.new

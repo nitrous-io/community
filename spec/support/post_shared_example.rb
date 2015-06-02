@@ -271,7 +271,7 @@ shared_examples 'admin index' do
 
       it 'assigns all' do
         do_request
-        expect(assigns(collection_name)).to contain_exactly(*collection)
+        expect(assigns(collection_name)).to contain_exactly(*collection[1..-1])
       end
     end
 
@@ -280,7 +280,7 @@ shared_examples 'admin index' do
 
       it 'assigns all' do
         do_request
-        expect(assigns(collection_name)).to contain_exactly(*collection)
+        expect(assigns(collection_name)).to contain_exactly(*collection[1..-1])
       end
     end
   end

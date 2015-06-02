@@ -35,7 +35,7 @@ class PostsController < ApplicationController
   end
 
   def index
-    @posts = params[:tag] ? collection.tagged_with(params[:tag]) : collection
+    @posts = params[:tag] ? Post.published.tagged_with(params[:tag]) : Post.published
   end
 
   def show

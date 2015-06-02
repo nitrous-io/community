@@ -35,7 +35,7 @@ class TutorialsController < ApplicationController
   end
 
   def index
-    @tutorials = params[:tag] ? collection.tagged_with(params[:tag]) : collection
+    @tutorials = params[:tag] ? Tutorial.published.tagged_with(params[:tag]) : Tutorial.published
   end
 
   def show

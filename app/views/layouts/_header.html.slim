@@ -20,23 +20,11 @@ header
           = link_to "Log In / Sign Up", login_path, class: (controller.controller_name == 'sessions' ? 'active' : nil)
 
         - else
-          - if @publish_menu
-            .dropdown
-              .dropdown-toggle
-                span Publish
-                i.fa.fa-caret-down
-                ul.dropdown-menu role="menu"
-                  li
-                    a href="#" Save as Draft
-                  li
-                    a href="#" Publish
-                  li.separator
-                  li
-                    a href="#" Share Link
-                  li.separator
-                  li
-                    a href="#" Delete
-            .divider
+          - if @edit_mode
+            - if controller.controller_name == 'posts'
+              = render partial: 'partials/post_publish_menu', locals: { item: @post }
+            - elsif controller.controller_name == 'tutorials'
+              = render partial: 'partials/tutorial_publish_menu', locals: { item: @tutorial }
 
           .dropdown
             .dropdown-toggle

@@ -2,5 +2,5 @@
   .container
     = render partial: 'partials/flash_message'
 
-    = form_for @tutorial, url: tutorials_path do |f|
+    = form_for @tutorial, url: tutorials_path, id: '#tutorial-form' do |f|
       = render partial: 'partials/form', locals: { f: f }

@@ -1,0 +1,22 @@
+.dropdown
+  .dropdown-toggle
+    span Publish
+    i.fa.fa-caret-down
+    ul.dropdown-menu role="menu"
+      - if item.new_record?
+        li
+          = link_to 'Save as Draft', '#', data: { 'form-id' => '#post-form' }
+      - else
+        - if item.published?
+          li
+            = link_to 'Save as Draft', unpublish_post_path(item.id), method: :put
+          li.separator
+          li
+            a href="#" Share Link
+        - else
+          li
+            = link_to 'Publish', publish_post_path(item.id), method: :put
+          li.separator
+          li
+            = link_to 'Delete', post_path(item.id), method: :delete
+.divider

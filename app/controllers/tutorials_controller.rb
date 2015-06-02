@@ -1,6 +1,6 @@
 class TutorialsController < ApplicationController
   before_action :verify_admin, except: [:index, :show]
-  before_action :show_publish_menu, only: [:new, :create, :edit, :update]
+  before_action :show_publish_menu, only: [:new, :edit]
 
   def new
     @tutorial = Tutorial.new
@@ -78,13 +78,11 @@ class TutorialsController < ApplicationController
     end
   end
 
-  private
+  protected
   def show_publish_menu
-    @html_class = "edit"
-    @publish_menu = true
+    @edit_mode = true
   end
 
-  protected
   def tutorial_params
     params.require(:tutorial).permit(:title, :content_markdown, :tag_list, :cover_image_url)
   end

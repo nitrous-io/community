@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
   before_action :verify_admin, except: [:index, :show]
-  before_action :show_publish_menu, only: [:new, :create, :edit, :update]
+  before_action :show_publish_menu, only: [:new, :edit]
 
   def new
     @post = Post.new
@@ -78,13 +78,11 @@ class PostsController < ApplicationController
     end
   end
 
-  private
+  protected
   def show_publish_menu
-    @html_class = "edit"
-    @publish_menu = true
+    @edit_mode = true
   end
 
-  protected
   def post_params
     params.require(:post).permit(:title, :content_markdown, :tag_list, :cover_image_url)
   end

@@ -9,14 +9,14 @@
       - else
         - if item.published?
           li
-            = link_to 'Save as Draft', unpublish_post_path(item.id), method: :put
-          li.separator
-          li
-            a href="#" Share Link
+            = link_to 'Unpublish', unpublish_post_path(item.id), data: { method: :put }
+          / li.separator
+          / li
+          /   a href="#" Share Link
         - else
           li
             = link_to 'Publish', publish_post_path(item.id), method: :put
-          li.separator
-          li
-            = link_to 'Delete', post_path(item.id), method: :delete
+        li.separator
+        li
+          = link_to 'Delete', post_path(item.id), data: { confirm: 'Are you sure?', method: :delete }
 .divider

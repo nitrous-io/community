@@ -1,6 +1,8 @@
+- content_for :header_accessory
+  = render partial: 'partials/post_publish_menu', locals: { item: @post }
+  
 .main
   .container
-    = render partial: 'partials/flash_message'
+    / = render partial: 'partials/flash_message'
 
-    = form_for @post, url: posts_path, id: '#post-form' do |f|
-      = render partial: 'partials/form', locals: { f: f }
+    = render partial: 'partials/form', locals: { _item: @post, _url: posts_path, _method: :post }

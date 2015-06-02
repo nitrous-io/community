@@ -1,9 +1,9 @@
 class PostsController < ApplicationController
   before_action :verify_admin, except: %i(index show)
-  before_action :show_publish_menu, only: %i(new edit create update)
-
+  
   def new
     @post = Post.new
+    @smallNavTitle = 'Draft'
   end
 
   def create
@@ -21,6 +21,7 @@ class PostsController < ApplicationController
 
   def edit
     @post = Post.find(params[:id].to_i)
+    @smallNavTitle = 'Edit'
   end
 
   def update
@@ -79,10 +80,6 @@ class PostsController < ApplicationController
   end
 
   protected
-  def show_publish_menu
-    @edit_mode = true
-  end
-
   def post_params
     params.require(:post).permit(:title, :content_markdown, :tag_list, :cover_image_url)
   end

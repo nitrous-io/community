@@ -1,0 +1,43 @@
+@import 'variables'
+
+.sharer.popup
+  position: absolute
+  background: #FFF
+  border-radius: 4px
+  box-shadow: 0 2px 1px rgba(0,0,0,.1)
+  top: -50%
+  right: 0
+  padding: 10px 0
+  display: none
+  animation-duration: .25s
+  animation-fill-mode: both
+  animation-iteration-count: 1
+  
+  &.active
+    display: block
+    animation-name: bounceIn
+    transform-origin: center center
+  
+  li
+    a
+      margin: 0
+      padding: 4px 20px 4px 20px
+      color: $light-grey
+      line-height: 18px
+       
+      i
+        margin-right: 6px
+        font-size: 20px
+    
+    &.twitter
+      a:hover
+        color: #55ACEE
+    &.facebook
+      a:hover
+        color: #3A5795
+    &.google
+      a:hover
+        color: #E33F2E
+    &.linkedin
+      a:hover
+        color: #0073B2

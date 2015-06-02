@@ -3,6 +3,7 @@
 .cards
   display: flex
   flex-wrap: wrap
+  margin: 0 -10px
 
 .card
   width: 100%
@@ -35,6 +36,7 @@
       color: $dark-grey
 
   .status
+    padding: 2px 0
     a
       height: 11px
       padding-left: 14px
@@ -42,6 +44,7 @@
       background: image-url('card-status.png') 0 0 no-repeat
       background-size: 11px 44px
       line-height: 11px
+      margin-right: 2px
 
       &.hearts
         background-position: 0 0
@@ -67,10 +70,10 @@
 
 
   .card-footer
-    height: 28px
+    height: 30px
     border-top: 1px solid rgba(0,0,0,.05)
-    margin-top: 2px
-    padding-top: 10px
+    margin: 6px -20px 0 -20px
+    padding: 10px 20px 0 20px
 
   .author
     float: left

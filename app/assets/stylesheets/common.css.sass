@@ -93,7 +93,30 @@ section + .title
       font-weight: 200
       color: $light-grey
 
-
+  
+  .tabs
+    border-bottom: 1px solid rgba(0,0,0,.10)
+    margin-bottom: 40px
+    
+    ul
+      display: flex
+      
+      li
+        display: flex
+        
+        a
+          color: rgba($dark-grey,.5)
+          font-size: 16px
+          padding: 0 20px 12px 20px
+          
+          &:hover
+            color: $dark-grey
+          
+          &.active
+            color: $blue
+            border-bottom: 1px solid $blue
+    
+      
   .pagination
     padding: 0 0 80px 0
 
@@ -107,7 +130,7 @@ section + .title
     .row
       margin: 10px 0
 
-    .tabs
+    .toggles
       padding-top: 20px
       display: flex
       justify-content: flex-end
@@ -196,14 +219,12 @@ section + .title
     background: $blue
     text-align: center
     color: #FFF
+    border-top: 1px solid rgba(255,255,255,.1)
     display: flex
     align-items: center
     justify-content: center
     flex-direction: column
-    border-top: 1px solid rgba(255,255,255,.1)
     
-    .title, .meta
-      display: flex
       
     .title
       padding: 0
@@ -355,7 +376,7 @@ section + .title
           margin-left: 12px
           padding-top: 0
 
-        a
+        & > a
           height: 18px
           color: $light-grey
           position: relative

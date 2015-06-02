@@ -1,21 +1,20 @@
 .main
   .container
-    .title.centered
-      h1
-        | Drafts
+    
+    .tabs
+      ul
+        li
+          a.active href="#all" All
+        li
+          a href="#tutorials" Tutorials
+        li
+          a href="#posts" Blog Posts
 
-    .title.centered
-      h2
-        | Tutorials
 
-    section.tutorials.cards
+    section#tutorials.tutorials.cards.tab
       - @tutorials.each do |t|
         = render partial: 'partials/tutorial_card', locals: { tutorial: t }
 
-    .title.centered
-      h2
-        | Blog posts
-
-    section.blog.cards
+    section#posts.blog.cards.tab
       - @posts.each do |p|
         = render partial: 'partials/post_card', locals: { post: p }

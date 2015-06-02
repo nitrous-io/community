@@ -6,20 +6,10 @@
   font-weight: 200
 
 
-html.edit
+html.new, html.edit, html.drafts
   body > header
-    h1.logo
-      min-width: 60px
-      em
-        width: 19px
-        background: image-url('nitrous-logomark.svg') center left no-repeat
-        background-size: 19px 14px
-      small
-        display: none
     nav
       display: none
-
-
 
 body > header
   background: $blue
@@ -78,8 +68,9 @@ body > header
     display: none
 
     @media screen and (min-width: $break-medium)
-      display: block
-      margin-left: 40px
+      display: flex
+      justify-content: flex-end
+      flex-grow: 1
 
     li
       float: left
@@ -205,7 +196,9 @@ body > header
         &.close
           background: image-url('nav-close.svg') center right no-repeat
 
-
+  nav + .actions
+    flex-grow: 0
+    
 // Mobile nav menu
 #mobile-menu
   display: none
@@ -237,22 +230,3 @@ body > header
     font-size: 12px
 
 
-@keyframes bounceIn
-  0%, 20%, 40%, 60%, 80%, 100%
-    -webkit-transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000)
-    transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000)
-
-  0%
-    opacity: 0
-    -webkit-transform: scale3d(.3, .3, .3)
-    transform: scale3d(.3, .3, .3)
-
-  50%
-    -webkit-transform: scale3d(1.06, 1.06, 1.06)
-    transform: scale3d(1.06, 1.06, 1.06)
-
-
-  100%
-    opacity: 1
-    -webkit-transform: scale3d(1, 1, 1)
-    transform: scale3d(1, 1, 1)

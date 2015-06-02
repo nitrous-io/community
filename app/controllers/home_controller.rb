@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
   def index
-    @tutorials = Tutorial.active
-    @posts = Post.active
+    @tutorials = Tutorial.published
+    @posts = Post.published
   end
 end

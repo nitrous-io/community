@@ -5,7 +5,7 @@
     ul.dropdown-menu role="menu"
       - if item.new_record?
         li
-          = link_to 'Save as Draft', '#', data: { 'form-id' => '#post-form' }
+          = link_to 'Save as Draft', '#', data: { 'form-id' => '#new_post' }
       - else
         - if item.published?
           li

@@ -35,14 +35,14 @@ header
               i.fa.fa-caret-down
 
               ul.dropdown-menu role="menu"
-                / - if @admin
-                li
-                  = link_to "New Tutorial", new_tutorial_path
-                li
-                  = link_to "New Blog Post", new_post_path
-                li
-                  a href="#" Drafts
-                li.separator
+                - if current_user.admin?
+                  li
+                    = link_to "New Tutorial", new_tutorial_path
+                  li
+                    = link_to "New Blog Post", new_post_path
+                  li
+                    = link_to 'Drafts', drafts_path
+                  li.separator
                 li
                   = link_to "Log Out", sessions_path, :method => :delete
 

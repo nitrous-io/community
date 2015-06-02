@@ -1,0 +1,21 @@
+.main
+  .container
+    .title.centered
+      h1
+        | Drafts
+
+    .title.centered
+      h2
+        | Tutorials
+
+    section.tutorials.cards
+      - @tutorials.each do |t|
+        = render partial: 'partials/tutorial_card', locals: { tutorial: t }
+
+    .title.centered
+      h2
+        | Blog posts
+
+    section.blog.cards
+      - @posts.each do |p|
+        = render partial: 'partials/post_card', locals: { post: p }

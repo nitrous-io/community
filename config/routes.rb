@@ -1,10 +1,8 @@
 Rails.application.routes.draw do
-  # Authentication
   get 'login' => 'sessions#new'
   post 'sessions' => 'sessions#create'
   delete 'sessions' => 'sessions#destroy'
 
-  # Posts
   resources :posts, except: [:show] do
     resources :likes, only: [:create]
     resources :comments, only: [:create]
@@ -17,7 +15,6 @@ Rails.application.routes.draw do
   get 'posts/:slug', to: 'posts#show', as: :posts_slugged
   get 'posts/tagged/:tag', to: 'posts#index', as: :posts_tagged
 
-  # Tutorials
   resources :tutorials, except: [:show] do
     resources :likes, only: [:create]
     resources :comments, only: [:create]
@@ -30,11 +27,11 @@ Rails.application.routes.draw do
   get 'tutorials/:slug', to: 'tutorials#show', as: :tutorials_slugged
   get 'tutorials/tagged/:tag', to: 'tutorials#index', as: :tutorials_tagged
 
-  # Image uploads
   resources :image_contents, only: [:create]
 
-  # Markdown preview
   post '/preview'    => 'preview#convert'
+
+  resources :drafts, only: [:index]
 
   root 'home#index'
 end

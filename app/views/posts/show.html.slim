@@ -1,42 +1,56 @@
-.post-show
-  h1.title
-    = @post.title
-  = link_to 'Edit', edit_post_path(@post.id) , role: 'button', class: 'btn btn-default'
-  .content
-    = @post.content_html.html_safe
-  .author-signature
-    = @post.user.username
-  .tags
-    - if @post.tags.present?
-      - @post.tags.each do |tag|
-        = link_to tag.name, posts_tagged_path(tag: tag.name)
-  br
+.main.title-hero
+  .title
+    h2
+      = @post.title
+  .meta
+    span.time
+      = l @post.created_at, format: :simple
+    span.bull-separator
+      | &bull;
+    a.comment href="#comments"
+      = @comments.count
+      |  Comments
 
-  h2.comment-title Comments
+.main
+  .container
+  
+    / = link_to 'Edit', edit_post_path(@post.id) , role: 'button', class: 'btn btn-default'
+    article
+      .content
+        = @post.content_html.html_safe
 
-  = form_for @comment, url: post_comments_path(post_id: @post.id) do |f|
-    .row
-      = f.label :comment
-    .row.content
-      = f.text_area :content
+      .footer
+        .heart
+          = button_to "Heart", post_likes_path(post_id: @post.id), method: :post, class: "status-icon heart"
+          
+        /- if @post.tags.present?
+        / .tags
+        /   - @post.tags.each do |tag|
+        /     = link_to tag.name, posts_tagged_path(tag: tag.name)
 
-    .row
-      = f.submit "Post comment"
+        .status            
+          a.status-icon.comment href="#comments"
+            span Comment
 
-  .comment-list
-    - @comments.each do |comment|
-      .row
-        .content
-          = comment.content
-        .author-signature
-          | By
-          = comment.user.username
-          .time-signature
-            | Commented
-            = time_ago_in_words(comment.created_at)
-            | ago
-  br
-  .vote
-    = button_to "hearts", post_likes_path(post_id: @post.id), method: :post
+          a.status-icon.share href="#"
+            span Share
 
-  = @post.score
+
+.main.darker
+  .container
+
+    article#comments
+      .title
+        h2
+          | Comments
+
+      .form-wrapper
+        = form_for @comment, url: post_comments_path(@post.id) do |f|
+          = f.text_area :content, placeholder: "Write a comment..."
+
+          .row
+            = f.submit "Post comment"
+
+      .comment-list
+        - @comments.each do |comment|
+          = render partial: 'partials/comment', locals: { comment: comment }

@@ -1,0 +1,258 @@
+@import 'variables'
+
+=header-link-style
+  color: rgba(#FFF, .8)
+  display: block
+  font-weight: 200
+
+
+html.edit
+  body > header
+    h1.logo
+      min-width: 60px
+      em
+        width: 19px
+        background: image-url('nitrous-logomark.svg') center left no-repeat
+        background-size: 19px 14px
+      small
+        display: none
+    nav
+      display: none
+
+
+
+body > header
+  background: $blue
+  line-height: 52px
+  height: 52px
+  font-size: 14px
+
+  &.fixed
+    position: fixed
+    top: 0
+    left: 0
+    right: 0
+    z-index: 50
+
+  a
+    +header-link-style
+
+  > .container
+    display: flex
+
+  // Logo
+  h1.logo
+    flex-shrink: 0
+
+    em, small
+      text-transform: uppercase
+      display: inline-block
+      position: relative
+      transition: all .15s ease-in-out
+
+    em
+      width: 120px
+      display: inline-block
+      font-weight: bold
+      text-indent: -999999px
+      background: image-url('nav-logo.svg') center left no-repeat
+      background-size: 120px 14px
+
+    small
+      font-size: 10px
+      font-weight: 200
+      padding-left: 8px
+      margin-left: 6px
+
+      &:before
+        content: ''
+        position: absolute
+        left: 0
+        top: 11px
+        height: 26px
+        border-left: 1px solid rgba(255,255,255,.4)
+
+  // Nav
+  nav
+    flex-shrink: 0
+    display: none
+
+    @media screen and (min-width: $break-medium)
+      display: block
+      margin-left: 40px
+
+    li
+      float: left
+
+      a
+        padding: 0 14px
+      
+        &:hover
+          color: #FFF
+
+      &.active
+        background: rgba(255,255,255,.1)
+
+        a
+          color: #FFF
+          font-weight: 400
+
+
+  // Actions
+  .actions
+    display: block
+    text-align: right
+    position: relative
+    justify-content: flex-end
+    flex-grow: 1
+    display: flex
+
+    .desktop
+      display: none
+      
+      a
+        &:hover
+          color: #FFF
+        
+        &.active
+          color: #FFF
+          font-weight: 400
+          cursor: default
+
+    .mobile
+      display: block
+
+    @media screen and (min-width: $break-medium)
+      .desktop, .divider, button, .dropdown
+        display: flex
+
+      .divider
+        position: relative
+        margin: 0 10px
+
+        &:before
+          content: ''
+          position: absolute
+          left: 0
+          top: 11px
+          height: 26px
+          border-left: 1px solid rgba(255,255,255,.4)
+
+      .mobile
+        display: none
+
+
+    .dropdown-toggle
+      padding: 0 14px 0 14px
+      color: rgba(#FFF, .8)
+      cursor: default
+      position: relative
+      
+      .gravatar
+        position: relative
+        display: inline-block
+        top: 6px
+        padding-right: 4px
+        
+        img
+          width: 20px
+          height: 20px
+          border-radius: 2px
+          
+
+      span + i
+        position: relative
+        padding-left: 6px
+        font-size: 10px
+        top: -1px
+
+      &.active
+        color: #FFF
+        background: rgba(255,255,255,.1)
+
+      &:hover
+        .dropdown-menu
+          display: block
+          animation-name: bounceIn
+          transform-origin: top right
+
+    .dropdown-menu
+      top: 48px
+      background: #1AA4EE
+      animation-duration: .25s
+      animation-fill-mode: both
+      animation-iteration-count: 1
+      z-index: 10
+
+      li.separator
+        border-top: 1px solid rgba(255,255,255,.2)
+        margin-left: -14px
+        margin-right: -14px
+
+    // Mobile nav menu btn
+    .menu-btn
+      display: flex
+
+      @media screen and (min-width: $break-medium)
+        display: none
+
+      a.trigger
+        width: 58px
+        height: 52px
+        display: block
+        background: image-url('nav-hamburger.svg') center right no-repeat
+
+        &.close
+          background: image-url('nav-close.svg') center right no-repeat
+
+
+// Mobile nav menu
+#mobile-menu
+  display: none
+  position: fixed
+  top: 48px
+  left: 0
+  right: 0
+  bottom: 0
+  background: $blue
+  color: rgba(255,255,255,.6)
+  border-top: 1px solid rgba(255,255,255,.3)
+  z-index: 20
+
+  @media screen and (min-width: $break-medium)
+    display: none
+
+  ul.nav
+    padding: 30px
+
+  a
+    line-height: 44px
+    +header-link-style
+
+  .separator
+    margin: 10px 0
+    border-top: 1px solid rgba(255,255,255,.3)
+
+  p
+    font-size: 12px
+
+
+@keyframes bounceIn
+  0%, 20%, 40%, 60%, 80%, 100%
+    -webkit-transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000)
+    transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000)
+
+  0%
+    opacity: 0
+    -webkit-transform: scale3d(.3, .3, .3)
+    transform: scale3d(.3, .3, .3)
+
+  50%
+    -webkit-transform: scale3d(1.06, 1.06, 1.06)
+    transform: scale3d(1.06, 1.06, 1.06)
+
+
+  100%
+    opacity: 1
+    -webkit-transform: scale3d(1, 1, 1)
+    transform: scale3d(1, 1, 1)

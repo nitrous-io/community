@@ -1,42 +1,56 @@
-.tutorial-show
-  h1.title
-    = @tutorial.title
-  = link_to 'Edit', edit_tutorial_path(@tutorial.id), role: 'button', class: 'btn btn-default'
-  .content
-    = @tutorial.content_html.html_safe
-  .author-signature
-    = @tutorial.user.username
-  .tags
-    - if @tutorial.tags.present?
-      - @tutorial.tags.each do |tag|
-        = link_to tag.name, tutorials_tagged_path(tag: tag.name)
-  br
+.main
+  .container
+    
+    / = link_to 'Edit', edit_tutorial_path(@tutorial.id), role: 'button', class: 'btn btn-default'
+    article
+      .title
+        h2
+          = @tutorial.title
 
-  h2.comment-title Comments
+      .meta
+        .timestamp
+          span
+            = l @tutorial.created_at, format: :simple
+        .tags
+          - if @tutorial.tags.present?
+            - @tutorial.tags.each do |tag|
+              = link_to tag.name, tutorials_tagged_path(tag: tag.name), { :class => "tag"}
 
-  = form_for @comment, url: tutorial_comments_path(@tutorial.id) do |f|
-    .row
-      = f.label :comment
-    .row.content
-      = f.text_area :content
+      .content
+        = @tutorial.content_html.html_safe
 
-    .row
-      = f.submit 'Tutorial comment'
+      .footer
+        .heart
+          = button_to "Heart", tutorial_likes_path(tutorial_id: @tutorial.id), method: :post, class: "status-icon heart"
 
-  .comment-list
-    - @comments.each do |comment|
-      .row
-        .content
-          = comment.content
-        .author-signature
-          | By
-          = comment.user.username
-          .time-signature
-            | Commented
-            = time_ago_in_words(comment.created_at)
-            | ago
-  br
-  .vote
-    = button_to "hearts", tutorial_likes_path(@tutorial.id), method: :post
+        .status            
+          a.status-icon.comment href="#comments"
+            span Comment
 
-  = @tutorial.score
+          a.status-icon.share href="#"
+            span Share
+
+      / .tags
+      /   - if @tutorial.tags.present?
+      /     - @tutorial.tags.each do |tag|
+      /       = link_to tag.name, tutorials_tagged_path(tag: tag.name), { :class => "tag"}
+
+.main.darker
+  .container
+
+    article
+      .title
+        h2
+          | Comments
+
+      .form-wrapper
+        = form_for @comment, url: tutorial_comments_path(@tutorial.id) do |f|
+          = f.text_area :content, placeholder: "Write a comment..."
+
+          .row
+            = f.submit "Post comment"
+
+      .comment-list
+        - @comments.each do |comment|
+          = render partial: 'partials/comment', locals: { comment: comment }
+

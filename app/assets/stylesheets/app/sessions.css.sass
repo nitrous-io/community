@@ -1,0 +1,69 @@
+@import 'variables'
+
+html.sessions.new
+
+  body
+    background: $blue
+    color: rgba(#FFF,.8)
+
+  .main
+    > .container
+      display: flex
+      align-items: center
+      flex-direction: column
+
+  .title
+    p.desc
+      color: rgba(#FFF,.6)
+
+  .form-wrapper
+    width: 100%
+    margin: 20px 0 0 0
+    padding: 20px
+    border-radius: 4px
+    background: #FFF
+    box-shadow: 0 1px 1px rgba(0,0,0,.1)
+
+    @media screen and (min-width: $break-medium)
+      width: 40%
+
+    input
+      height: 46px
+
+      &[type="submit"]
+        height: 48px
+
+    input[type="text"], input[type="password"]
+      background: $bg-grey
+      border: 1px solid transparent
+      border-radius: 4px
+      color: $dark-grey
+
+      &:focus
+        border: 1px solid $blue
+
+  .sign-up
+    padding-top: 20px
+    color: rgba(#FFF,.5)
+
+    a
+      color: rgba(#FFF,.8)
+      font-weight: 500
+
+      &:hover
+        text-decoration: underline
+
+  footer
+    border-top: 1px solid rgba(255,255,255,.1)
+    
+    &, a
+      color: rgba(#FFF,.8)
+
+    .copyright
+      color: rgba(#FFF,.5)
+
+    h4, h4 a
+      color: #FFF
+
+    .nitrous-logo
+      background: image-url('nav-logo.svg') top left no-repeat

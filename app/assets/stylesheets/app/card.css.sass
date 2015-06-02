@@ -1,0 +1,241 @@
+@import 'variables'
+
+.cards
+  display: flex
+  flex-wrap: wrap
+
+.card
+  width: 100%
+
+  .content
+    padding: 0 0 20px 0
+    margin-bottom: 20px
+
+  @media screen and (min-width: $break-medium)
+    width: 50%
+
+    .content
+      margin: 0 10px 20px 10px
+
+  @media screen and (min-width: $break-large)
+    width: 33.33%
+
+    .content
+      margin: 0 10px 20px 10px
+
+  &:hover .visual:after
+    transform: scale(1.2)
+    opacity: .6
+  
+  h3.card-title     
+    a
+      font-family: $montserrat
+      font-weight: 500
+      font-size: 16px
+      color: $dark-grey
+
+  .status
+    a
+      height: 11px
+      padding-left: 14px
+      display: inline-block
+      background: image-url('card-status.png') 0 0 no-repeat
+      background-size: 11px 44px
+      line-height: 11px
+
+      &.hearts
+        background-position: 0 0
+
+      &.hearts.active
+        background-position: 0 -11px
+
+      &.comments
+        background-position: 0 -22px
+
+      &.comments.active
+        background-position: 0 -33px
+
+      & + a
+        margin-left: 8px
+
+    span
+      color: $light-grey
+      font-size: 11px
+      font-weight: 300
+      position: relative
+      top: -1px
+
+
+  .card-footer
+    height: 28px
+    border-top: 1px solid rgba(0,0,0,.05)
+    margin-top: 2px
+    padding-top: 10px
+
+  .author
+    float: left
+    cursor: default
+
+    .gravatar
+      width: 28px
+      height: 28px
+      position: relative
+      float: left
+      margin-right: 8px
+
+      img
+        width: 28px
+        height: 28px
+        display: block
+        border-radius: 3px
+        filter: grayscale(1)
+        opacity: .6
+
+      &:after
+        content: ""
+        position: absolute
+        display: block
+        top: 0
+        left: 0
+        right: 0
+        bottom: 0
+        background: rgba($blue,.2)
+        border-radius: 3px
+
+  .tags
+    float: right
+
+  .visual
+    position: relative
+    overflow: hidden
+
+    img
+      display: block
+      z-index: 2
+
+    .for-visual
+      height: 60px
+      margin: 0 auto
+      position: relative
+      top: 50%
+      transform: translateY(-50%)
+
+    &:after
+      transition: all .25s ease-in-out
+
+    &.overlay-1, &.overlay-2, &.overlay-3, &.overlay-4, &.overlay-5
+      &:after
+        content: ""
+        position: absolute
+        top: 0
+        left: 0
+        right: 0
+        height: 100%
+        background: red
+        border-radius: inherit
+        pointer-events: none
+        opacity: .4
+        z-index: 1
+
+    &.overlay-1:after
+      background: image-url("tutorial-overlay-1.svg") center center / cover no-repeat
+    &.overlay-2:after
+      background: image-url("tutorial-overlay-2.svg") center center / cover no-repeat
+    &.overlay-3:after
+      background: image-url("tutorial-overlay-3.svg") center center / cover no-repeat
+    &.overlay-4:after
+      background: image-url("tutorial-overlay-4.svg") center center / cover no-repeat
+    &.overlay-5:after
+      background: image-url("tutorial-overlay-5.svg") center right / cover no-repeat
+
+    a
+      display: block
+      border-radius: 2px 2px 0 0
+      background: $dark-blue
+
+  &.ruby .visual a
+    background: $ruby
+
+  &.ruby-on-rails .visual a
+    background: $ruby-on-rails
+
+  &.django .visual a
+    background: $django
+
+  &.nodejs .visual a
+    background: $nodejs
+
+  &.meteor .visual a
+    background: $meteor
+
+  &.html5 .visual a
+    background: $html5
+
+  &.php .visual a
+    background: $php
+
+  &.golang .visual a
+    background: $golang
+
+  &.java .visual a
+    background: $java
+
+  &.wordpress .visual a
+    background: $wordpress
+
+  &.iojs .visual a
+    background: $iojs
+
+  &.laravel .visual a
+    background: $laravel
+
+  &.ubuntu .visual a
+    background: $ubuntu
+
+  &.asp .visual a
+    background: $asp
+
+  &.docker .visual a
+    background: $docker
+
+  &.rust .visual a
+    background: $rust
+
+
+  // Tutorial
+  &.tutorial .content
+    border-radius: 2px
+    padding: 20px
+    box-shadow: 0 1px 1px rgba(0,0,0,.1), 0 0 1px rgba(0,0,0,.1)
+
+    .visual
+      margin: -20px -20px 10px -20px
+      border-radius: 2px 2px 0 0
+
+      a
+        height: 144px
+
+
+  // Blog
+  &.blog
+    .content
+      // WIP
+
+    .visual
+      border-radius: 3px
+      margin-bottom: 10px
+
+      a
+        height: 172px
+
+    h3.card-title
+      padding-top: 8px
+      
+      a
+        font-size: 22px
+        line-height: 26px
+    p
+      font-size: 16px
+      line-height: 26px
+      color: $light-grey
+      font-weight: 300

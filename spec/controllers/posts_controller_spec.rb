@@ -95,6 +95,7 @@ describe PostsController do
 
   describe 'PUT #publish' do
     let(:index_path) { posts_path }
+    let(:item_name) { :post }
 
     subject { create(:post) }
 

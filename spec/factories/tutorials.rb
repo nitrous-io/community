@@ -4,6 +4,7 @@ FactoryGirl.define do
     title 'tutorial title'
     content_markdown 'content markdown'
     tag_list 'ruby'
+    published_at Time.now
 
     trait :invalid do
       title ''

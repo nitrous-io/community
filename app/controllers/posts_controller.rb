@@ -57,7 +57,8 @@ class PostsController < ApplicationController
 
   def publish
     @post = Post.find(params[:id].to_i)
-    if @post.published!
+    published_at = params[:post] && params[:post][:published_at] ? params[:post][:published_at] : Time.now
+    if @post.update_attributes(state: :published, published_at: published_at)
       flash[:success] = 'Post has been published'
       redirect_to posts_path
     else
@@ -68,7 +69,7 @@ class PostsController < ApplicationController
 
   def unpublish
     @post = Post.find(params[:id].to_i)
-    if @post.draft!
+    if @post.update_attributes(state: :draft, published_at: nil)
       flash[:success] = 'Post has been unpublished'
       redirect_to posts_path
     else
@@ -89,6 +90,6 @@ class PostsController < ApplicationController
   end
 
   def collection
-    @collection ||= current_user.try(:admin?) ? Post.unscoped : Post.active
+    @collection ||= current_user.try(:admin?) ? Post.unscoped : Post.published
   end
 end

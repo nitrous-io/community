@@ -184,9 +184,25 @@ shared_examples 'admin publish' do
         expect { do_request }.to change { subject.reload.published? }.from(false).to(true)
       end
 
+      it 'sets published_at' do
+        Timecop.freeze do
+          do_request
+          expect(subject.reload.published_at.to_i).to eq(Time.now.to_i)
+        end
+      end
+
       it 'redirects to index page' do
         do_request
         expect(response).to redirect_to(index_path)
+      end
+
+      context 'publish_at is specified' do
+        it 'updates published_at to specified time' do
+          Timecop.freeze do
+            do_request(item_name => { published_at: 2.days.from_now })
+            expect(subject.reload.published_at.to_i).to eq(2.days.from_now.to_i)
+          end
+        end
       end
     end
   end
@@ -213,6 +229,11 @@ shared_examples 'admin unpublish' do
 
       it 'sets as unpublished' do
         expect { do_request }.to change { subject.reload.published? }.from(true).to(false)
+      end
+
+      it 'resets published_at' do
+        do_request
+        expect(subject.reload.published_at).to be_nil
       end
 
       it 'redirects to index page' do
@@ -283,12 +304,21 @@ shared_examples 'admin show' do
     end
   end
 
+  context 'published_at is the future' do
+    before { item.update_attributes(state: :published, published_at: 2.days.from_now) }
+
+    it 'does not assign deleted post' do
+      do_request
+      expect(response).to have_http_status(:not_found)
+    end
+  end
+
   context 'a user is admin' do
     before { sign_in_as_admin }
 
     context 'the item is deleted' do
       before { item.deleted! }
-      it 'returns 404' do
+      it 'renders' do
         do_request
         expect(response).to have_http_status(:success)
       end
@@ -297,7 +327,16 @@ shared_examples 'admin show' do
     context 'tutorial is unpublished' do
       before { item.draft! }
 
-      it 'does not assign deleted post' do
+      it 'renders' do
+        do_request
+        expect(response).to have_http_status(:success)
+      end
+    end
+
+    context 'published_at is the future' do
+      before { item.update_attributes(state: :published, published_at: 2.days.from_now) }
+
+      it 'renders' do
         do_request
         expect(response).to have_http_status(:success)
       end

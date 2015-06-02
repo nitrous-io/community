@@ -14,7 +14,7 @@ class Tutorial < ActiveRecord::Base
 
   enum state: [ :draft, :published, :deleted ]
 
-  scope :active, -> { where(state: self.states[:published]) }
+  scope :published, -> { where(state: self.states[:published]).where('published_at < ?', Time.now) }
 
   protected
   # To update slug when title get updated

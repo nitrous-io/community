@@ -40,8 +40,7 @@
 
       .footer
         .heart
-          = render partial: 'likes/heart', locals: { url: post_likes_path(post_id: @post.id), score: @post.score }
-
+          = render partial: 'likes/heart', locals: { url: post_likes_path(post_id: @post.id), score: @post.score, is_upvoted: @is_upvoted }
         /- if @post.tags.present?
         / .tags
         /   - @post.tags.each do |tag|

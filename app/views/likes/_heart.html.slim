@@ -1,4 +1,2 @@
-= form_tag url, remote: true, authenticity_token: true, data: { type: 'html' } do
-  span
-    = score
-  = submit_tag 'hearts'
+= form_tag url, remote: true, authenticity_token: true, method: (is_upvoted ? :delete : :post), data: { type: 'html' } do
+  = submit_tag "hearts | #{score}", class: "status-icon heart"

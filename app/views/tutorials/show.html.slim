@@ -37,7 +37,7 @@
 
       .footer
         .heart
-          = button_to "Heart", tutorial_likes_path(tutorial_id: @tutorial.id), method: :post, class: "status-icon heart"
+          = render partial: 'likes/heart', locals: { url: tutorial_likes_path(tutorial_id: @tutorial.id), score: @tutorial.score, is_upvoted: @is_upvoted }
 
         .status            
           a.status-icon.comment href="#comments"

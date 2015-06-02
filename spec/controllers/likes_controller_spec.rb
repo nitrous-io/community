@@ -109,4 +109,97 @@ RSpec.describe LikesController, type: :controller do
       end
     end
   end
+
+  describe 'DELETE #destroy' do
+    def do_request(params = {})
+      delete :destroy, { post_id: p.id }.merge(params)
+    end
+
+    context 'when logged in' do
+      render_views
+      before { sign_in(user) }
+
+      context 'user has voted' do
+        let!(:like) { create(:like, user: user, parent: p) }
+
+        it 'redirects to the post page' do
+          do_request
+          expect(response).to render_template('likes/_heart')
+        end
+
+        it 'upvotes the post' do
+          expect {
+            expect {
+              do_request
+            }.to change { p.reload.score }.by(-1)
+          }.to change(Like, :count).by(-1)
+        end
+
+        context 'on tutorials' do
+          let(:tutorial) { create(:tutorial) }
+          let!(:like) { create(:like, user: user, parent: tutorial) }
+
+          it 'redirects to the post page' do
+            do_request(tutorial_id: tutorial.id, post_id: nil)
+            expect(response).to render_template('likes/_heart')
+          end
+
+          it 'upvotes the tutorial' do
+            expect {
+              expect {
+                do_request(tutorial_id: tutorial.id, post_id: nil)
+              }.to change { tutorial.reload.score }.by(-1)
+            }.to change(Like, :count).by(-1)
+          end
+        end
+      end
+
+      context 'user has not voted before' do
+        it 'redirects to the post page' do
+          do_request
+          expect(response).to render_template('likes/_heart')
+        end
+
+        it 'does not upvote the post' do
+          expect {
+            expect {
+              do_request
+            }.not_to change { p.reload.score }
+          }.not_to change(Like, :count)
+        end
+
+        context 'on tutorials' do
+          let(:tutorial) { create(:tutorial) }
+
+          it 'redirects to the tutorial page' do
+            do_request(tutorial_id: tutorial.id, post_id: nil)
+            expect(response).to render_template('likes/_heart')
+          end
+
+          it 'does not upvote the tutorial' do
+            expect {
+              expect {
+                do_request(tutorial_id: tutorial.id, post_id: nil)
+              }.not_to change { tutorial.reload.score }
+            }.not_to change(Like, :count)
+          end
+        end
+      end
+    end
+
+    context 'when not logged in' do
+      it 'redirects to login page' do
+        do_request
+        expect(response).to redirect_to(login_path)
+      end
+
+      it 'does not upvote the post' do
+        expect {
+          expect {
+            do_request
+          }.not_to change { p.reload.score }
+        }.not_to change(Like, :count)
+      end
+    end
+  end
 end

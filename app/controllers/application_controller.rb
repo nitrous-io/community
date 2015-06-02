@@ -13,6 +13,10 @@ class ApplicationController < ActionController::Base
     @current_user = user.outdated? ? fetch_user(user) : user
   end
 
+  def current_user_id
+    session[:user_id]
+  end
+
   def fetch_user(user, client = nil)
     client ||= Nitrous::OauthClient.new(user.nitrous_oauth_token)
     client.fetch_user

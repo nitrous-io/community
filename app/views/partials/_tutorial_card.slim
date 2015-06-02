@@ -9,9 +9,11 @@
 
     .status
       a.hearts href="#"
-        span 2
+        span
+          = tutorial.score
       a.comments href="#"
-        span 6
+        span
+          = tutorial.comments.count #FIXME: need to be cached by counter_cache or something
 
     .card-footer
       .author

@@ -15,6 +15,9 @@ class Post < ActiveRecord::Base
   enum state: [ :draft, :published, :deleted ]
 
   scope :published, -> { where(state: self.states[:published]).where('published_at < ?', Time.now) }
+  scope :drafted, -> { where(state: self.states[:draft]) }
+  scope :recently_published, -> { order(published_at: :desc)}
+  scope :recently_updated, -> { order(updated_at: :desc)}
 
   protected
   # To update slug when title get updated

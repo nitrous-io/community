@@ -10,13 +10,13 @@ RSpec.describe LikesController, type: :controller do
     end
 
     context 'when logged in' do
+      render_views
       before { sign_in(user) }
-
 
       context 'user has not voted before' do
         it 'redirects to the post page' do
           do_request
-          expect(response).to redirect_to(posts_slugged_path(slug: p.slug))
+          expect(response).to render_template('likes/_heart')
         end
 
         it 'upvotes the post' do
@@ -36,7 +36,7 @@ RSpec.describe LikesController, type: :controller do
 
           it 'redirects to the post page' do
             do_request(tutorial_id: tutorial.id, post_id: nil)
-            expect(response).to redirect_to(tutorials_slugged_path(slug: tutorial.slug))
+            expect(response).to render_template('likes/_heart')
           end
 
           it 'upvotes the tutorial' do
@@ -60,7 +60,7 @@ RSpec.describe LikesController, type: :controller do
 
         it 'redirects to the post page' do
           do_request
-          expect(response).to redirect_to(posts_slugged_path(slug: p.slug))
+          expect(response).to render_template('likes/_heart')
         end
 
         it 'does not upvote the post' do
@@ -80,7 +80,7 @@ RSpec.describe LikesController, type: :controller do
 
           it 'redirects to the tutorial page' do
             do_request(tutorial_id: tutorial.id, post_id: nil)
-            expect(response).to redirect_to(tutorials_slugged_path(slug: tutorial.slug))
+            expect(response).to render_template('likes/_heart')
           end
 
           it 'does not upvote the tutorial' do

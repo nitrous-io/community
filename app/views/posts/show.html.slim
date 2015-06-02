@@ -40,7 +40,8 @@
 
       .footer
         .heart
-          = button_to "Heart", post_likes_path(post_id: @post.id), method: :post, class: "status-icon heart"
+          = render partial: 'likes/heart', locals: { url: post_likes_path(post_id: @post.id), score: @post.score }
+
         /- if @post.tags.present?
         / .tags
         /   - @post.tags.each do |tag|
@@ -54,7 +55,6 @@
             span Share
 
           = render partial: 'partials/sharer'
-
 
 .main.darker
   .container

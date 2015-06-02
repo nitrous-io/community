@@ -1,7 +1,7 @@
 .main
   .container
-    
-    / = link_to 'Edit', edit_tutorial_path(@tutorial.id), role: 'button', class: 'btn btn-default'
+    - if current_user.try(:admin?)
+      = link_to 'Edit', edit_tutorial_path(@tutorial.id)
     article
       .title
         h2

@@ -13,9 +13,8 @@
 
 .main
   .container
-
     - if current_user.try(:admin?)
-      = link_to 'Edit', edit_post_path(@post.id) , role: 'button', class: 'btn btn-default'
+      = link_to 'Edit', edit_post_path(@post.id)
     article
       .content
         = @post.content_html.html_safe

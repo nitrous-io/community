@@ -13,4 +13,5 @@ window.Community.Highlight =
         lineNumbers: false
         readOnly: true
 
-window.Community.Highlight.init()
+$(document).ready ->
+  window.Community.Highlight.init()

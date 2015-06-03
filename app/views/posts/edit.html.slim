@@ -1,25 +1,8 @@
-.post-new
-  = render partial: 'partials/flash_message'
-  .row
-    .col-md-2.col-md-offset-2
-      h1.title Edit Post
-    .col-md-offset-5.col-md-2
-      = link_to 'Delete', post_path(@post.id),
-                role: 'button', class: 'btn btn-danger',
-                data: { confirm: 'Are you sure?', method: :delete }
+- content_for :header_accessory
+  = render partial: 'partials/post_publish_menu', locals: { item: @post }
 
-      - if @post.published?
-        = link_to 'Unpublish', unpublish_post_path(@post.id),
-                  role: 'button', class: 'btn btn-info', data: { method: :put }
-      - else
-        = form_tag publish_post_path(@post.id), method: :put do
-          = datetime_field :post, :published_at, placeholder: '2014-05-20T00:00:00.000+0000'
-          = submit_tag 'Publish', role: 'button', class: 'btn btn-info'
+.main
+  .container
+    / = render partial: 'partials/flash_message'
 
-  = form_for @post, url: post_path(@post.id), method: :put do |f|
-    = render partial: 'partials/form', locals: { f: f }
-
-    .row
-      .col-xs-4.col-md-4.col-lg-4.col-md-offset-5.col-lg-offset-5
-        .card-submit-btn
-          = f.submit 'Edit blog post', class: 'btn btn-primary'
+    = render partial: 'partials/form', locals: { _item: @post, _url: post_path(@post.id), _method: :put }

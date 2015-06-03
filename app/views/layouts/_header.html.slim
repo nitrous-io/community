@@ -1,18 +1,27 @@
 header
   .container
+    
     h1.logo
       a href=(root_path)
         span
           em Nitrous
           '
-          small Community
+          - if @smallNavTitle
+            small
+              = @smallNavTitle
+          - elsif controller.controller_name == 'tutorials'
+            small Tutorials
+          - elsif controller.controller_name == 'posts'
+            small Blog
+          - else
+              small Community
 
-    nav
-      ul
-        li class=(controller.controller_name == 'tutorials' ? 'active' : nil)
-          = link_to "Tutorials", tutorials_path
-        li class=(controller.controller_name == 'posts' ? 'active' : nil)
-          = link_to "Blog", posts_path
+    /nav
+    /  ul
+    /    li class=(controller.controller_name == 'tutorials' ? 'active' : nil)
+    /      = link_to "Tutorials", tutorials_path
+    /    li class=(controller.controller_name == 'posts' ? 'active' : nil)
+    /      = link_to "Blog", posts_path
 
     .actions
       .desktop
@@ -20,11 +29,7 @@ header
           = link_to "Log In / Sign Up", login_path, class: (controller.controller_name == 'sessions' ? 'active' : nil)
 
         - else
-          - if @edit_mode
-            - if controller.controller_name == 'posts'
-              = render partial: 'partials/post_publish_menu', locals: { item: @post }
-            - elsif controller.controller_name == 'tutorials'
-              = render partial: 'partials/tutorial_publish_menu', locals: { item: @tutorial }
+          = yield :header_accessory
 
           .dropdown
             .dropdown-toggle
@@ -53,11 +58,13 @@ header
 #mobile-menu
   ul.nav
     li
+      a href="/" Home
+    li
       = link_to "Tutorials", tutorials_path
     li
       = link_to "Blog", posts_path
-    li
-      a href="/" Search
+    / li
+    /   a href="/" Search
 
     - if current_user.nil?
       li.separator

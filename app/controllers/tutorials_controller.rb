@@ -1,9 +1,9 @@
 class TutorialsController < ApplicationController
   before_action :verify_admin, except: %i(index show)
-  before_action :show_publish_menu, only: %i(new edit create update)
 
   def new
     @tutorial = Tutorial.new
+    @smallNavTitle = 'Draft'
   end
 
   def create
@@ -21,6 +21,7 @@ class TutorialsController < ApplicationController
 
   def edit
     @tutorial = Tutorial.find(params[:id])
+    @smallNavTitle = 'Edit'
   end
 
   def update
@@ -79,10 +80,6 @@ class TutorialsController < ApplicationController
   end
 
   protected
-  def show_publish_menu
-    @edit_mode = true
-  end
-
   def tutorial_params
     params.require(:tutorial).permit(:title, :content_markdown, :tag_list, :cover_image_url)
   end

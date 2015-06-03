@@ -35,3 +35,25 @@ $rust: #009999
 $break-small: 30em
 $break-medium: 48em
 $break-large: 1080px
+
+
+
+@keyframes bounceIn
+  0%, 20%, 40%, 60%, 80%, 100%
+    -webkit-transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000)
+    transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000)
+
+  0%
+    opacity: 0
+    -webkit-transform: scale3d(.3, .3, .3)
+    transform: scale3d(.3, .3, .3)
+
+  50%
+    -webkit-transform: scale3d(1.06, 1.06, 1.06)
+    transform: scale3d(1.06, 1.06, 1.06)
+
+
+  100%
+    opacity: 1
+    -webkit-transform: scale3d(1, 1, 1)
+    transform: scale3d(1, 1, 1)

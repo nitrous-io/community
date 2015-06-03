@@ -1,3 +1,4 @@
+# User dropdown
 $dropdownToggle = $(".dropdown-toggle")
 
 $dropdownToggle.hover ->
@@ -5,6 +6,7 @@ $dropdownToggle.hover ->
 , ->
   $(this).removeClass("active")
 
+# Mobile Menu
 $header = $("header")
 $mobileTrigger = $("a.trigger")
 $mobileMenu = $("#mobile-menu")
@@ -21,3 +23,16 @@ showMobileMenu = ->
 
 $mobileTrigger.click ->
   showMobileMenu()
+
+# Share popup
+$sharer = $("#share")
+$sharerTrigger = $("a.share")
+
+$sharerTrigger.hover ->
+  $sharer.addClass("active")
+
+$sharer.mouseleave ->
+  $(this).removeClass("active")
+  
+# Tags input
+$("[data-role='tagsinput']").tagsInput()

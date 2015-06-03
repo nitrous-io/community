@@ -19,11 +19,11 @@
             a.toggle href='#preview' data-preview-tab="true"
               | Preview
 
-    .tab-content
-      #content.row
-        = f.text_area :content_markdown, class: 'markdown-text-js', rows: 15, tabindex: 2, 'data-attachment-allowed' => true
-      #preview.row
-        .preview-content-js
+      .tab-content
+        #content.row
+          = f.text_area :content_markdown, class: 'markdown-text-js', rows: 15, tabindex: 2, 'data-attachment-allowed' => true
+        #preview.row
+          .preview-content-js
 
 - if _item.persisted?
   = form_tag publish_post_path(_item.id), method: :put do

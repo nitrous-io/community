@@ -7,6 +7,9 @@
         li
           = link_to 'Save as Draft', '#', data: { 'form-id' => '#new_tutorial' }
       - else
+        li
+          = link_to 'Save changes', '#', data: { 'form-id' => '#edit_tutorial' }
+        li.separator
         - if item.published?
           li
             = link_to 'Unpublish', unpublish_tutorial_path(item.id), data: { method: :put }

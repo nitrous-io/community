@@ -81,7 +81,7 @@ class PostsController < ApplicationController
 
   protected
   def post_params
-    params.require(:post).permit(:title, :content_markdown, :tag_list, :cover_image_url)
+    params.require(:post).permit(:title, :content_markdown, :tag_list, :cover_image_url, :published_at)
   end
 
   def collection

@@ -12,7 +12,7 @@ class TutorialsController < ApplicationController
 
     if @tutorial.save
       flash[:success] = 'Tutorial has been uploaded'
-      redirect_to tutorials_path
+      redirect_to drafts_path
     else
       flash[:error] = 'Unable to upload tutorial'
       render :new
@@ -28,7 +28,7 @@ class TutorialsController < ApplicationController
     @tutorial = Tutorial.find(params[:id])
     if @tutorial.update_attributes(tutorial_params)
       flash[:success] = 'Tutorial has been updated'
-      redirect_to tutorials_path
+      redirect_to drafts_path
     else
       flash[:error] = 'Unable to update tutorial'
       render :edit
@@ -72,7 +72,7 @@ class TutorialsController < ApplicationController
     @tutorial = Tutorial.find(params[:id].to_i)
     if @tutorial.update_attributes(state: :draft, published_at: nil)
       flash[:success] = 'Tutorial has been unpublished'
-      redirect_to tutorials_path
+      redirect_to drafts_path
     else
       flash[:error] = 'Unable to unpublish tutorial'
       redirect_to :back

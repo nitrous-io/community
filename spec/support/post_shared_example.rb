@@ -82,9 +82,9 @@ shared_examples 'admin create' do
           expect { do_request }.to change(model_class, :count).by(1)
         end
 
-        it 'redirects to post page' do
+        it 'redirects to drafts page' do
           do_request
-          expect(response).to redirect_to(index_path)
+          expect(response).to redirect_to(drafts_path)
         end
       end
 
@@ -118,7 +118,7 @@ shared_examples 'admin update' do
       context 'with valid parameters' do
         it 'redirects to index page' do
           do_request
-          expect(response).to redirect_to(index_path)
+          expect(response).to redirect_to(drafts_path)
         end
       end
 
@@ -238,7 +238,7 @@ shared_examples 'admin unpublish' do
 
       it 'redirects to index page' do
         do_request
-        expect(response).to redirect_to(index_path)
+        expect(response).to redirect_to(drafts_path)
       end
     end
   end

@@ -12,7 +12,7 @@ class PostsController < ApplicationController
 
     if @post.save
       flash[:success] = 'Post has been uploaded'
-      redirect_to posts_path
+      redirect_to drafts_path
     else
       flash[:error] = 'Unable to upload post'
       render :new
@@ -28,7 +28,7 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id].to_i)
     if @post.update_attributes(post_params)
       flash[:success] = 'Post has been updated'
-      redirect_to posts_path
+      redirect_to drafts_path
     else
       flash[:error] = 'Unable to update post'
       render :edit
@@ -72,7 +72,7 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id].to_i)
     if @post.update_attributes(state: :draft, published_at: nil)
       flash[:success] = 'Post has been unpublished'
-      redirect_to posts_path
+      redirect_to drafts_path
     else
       flash[:error] = 'Unable to unpublish post'
       redirect_to :back

@@ -128,6 +128,24 @@ shared_examples 'admin update' do
           expect(response).to render_template(:edit)
         end
       end
+
+      context 'state is specified' do
+        it 'sets as published' do
+          expect { do_request(publish: 'true') }.to change { subject.reload.published? }.from(false).to(true)
+        end
+
+        it 'sets published_at' do
+          Timecop.freeze do
+            do_request(publish: 'true')
+            expect(subject.reload.published_at.to_i).to eq(Time.now.to_i)
+          end
+        end
+
+        it 'redirects to index page' do
+          do_request(publish: 'true')
+          expect(response).to redirect_to(index_path)
+        end
+      end
     end
   end
 end

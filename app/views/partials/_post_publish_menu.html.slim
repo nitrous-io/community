@@ -16,7 +16,7 @@
           /   a href="#" Share Link
         - else
           li
-            = link_to 'Publish', publish_post_path(item.id), method: :put
+            = link_to 'Publish', '#', data: { 'form-id' => '#edit_post', 'form-values' => { publish: true }.to_json }
         li.separator
         li
           = link_to 'Delete', post_path(item.id), data: { confirm: 'Are you sure?', method: :delete }

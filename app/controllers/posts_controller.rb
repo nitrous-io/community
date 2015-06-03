@@ -26,13 +26,25 @@ class PostsController < ApplicationController
 
   def update
     @post = Post.find(params[:id].to_i)
-    if @post.update_attributes(post_params)
-      flash[:success] = 'Post has been updated'
-      redirect_to drafts_path
+
+    if params[:publish] == 'true'
+      published_at = params[:post] && params[:post][:published_at].present? ? params[:post][:published_at] : Time.now
+      extra_params = { state: :published, published_at: published_at }
+      if @post.update_attributes(post_params.merge(extra_params))
+        flash[:success] = 'Post has been published'
+        redirect_to posts_path
+        return
+      end
     else
-      flash[:error] = 'Unable to update post'
-      render :edit
+      if @post.update_attributes(post_params)
+        flash[:success] = 'Post has been updated'
+        redirect_to drafts_path
+        return
+      end
     end
+
+    flash[:error] = 'Unable to update post'
+    render :edit
   end
 
   def index
@@ -58,7 +70,7 @@ class PostsController < ApplicationController
 
   def publish
     @post = Post.find(params[:id].to_i)
-    published_at = params[:post] && params[:post][:published_at] ? params[:post][:published_at] : Time.now
+    published_at = params[:post] && params[:post][:published_at].present? ? params[:post][:published_at] : Time.now
     if @post.update_attributes(state: :published, published_at: published_at)
       flash[:success] = 'Post has been published'
       redirect_to posts_path
@@ -81,7 +93,7 @@ class PostsController < ApplicationController
 
   protected
   def post_params
-    params.require(:post).permit(:title, :content_markdown, :tag_list, :cover_image_url, :published_at)
+    params.require(:post).permit(:title, :content_markdown, :tag_list, :cover_image_url)
   end
 
   def collection

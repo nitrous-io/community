@@ -25,14 +25,26 @@ class TutorialsController < ApplicationController
   end
 
   def update
-    @tutorial = Tutorial.find(params[:id])
-    if @tutorial.update_attributes(tutorial_params)
-      flash[:success] = 'Tutorial has been updated'
-      redirect_to drafts_path
+    @tutorial = Tutorial.find(params[:id].to_i)
+
+    if params[:publish] == 'true'
+      published_at = params[:tutorial] && params[:tutorial][:published_at].present? ? params[:tutorial][:published_at] : Time.now
+      extra_params = { state: :published, published_at: published_at }
+      if @tutorial.update_attributes(tutorial_params.merge(extra_params))
+        flash[:success] = 'Tutorial has been published'
+        redirect_to tutorials_path
+        return
+      end
     else
-      flash[:error] = 'Unable to update tutorial'
-      render :edit
+      if @tutorial.update_attributes(tutorial_params)
+        flash[:success] = 'Tutorial has been updated'
+        redirect_to drafts_path
+        return
+      end
     end
+
+    flash[:error] = 'Unable to update tutorial'
+    render :edit
   end
 
   def index
@@ -58,7 +70,7 @@ class TutorialsController < ApplicationController
 
   def publish
     @tutorial = Tutorial.find(params[:id].to_i)
-    published_at = params[:tutorial] && params[:tutorial][:published_at] ? params[:tutorial][:published_at] : Time.now
+    published_at = params[:tutorial] && params[:tutorial][:published_at].present? ? params[:tutorial][:published_at] : Time.now
     if @tutorial.update_attributes(state: :published, published_at: published_at)
       flash[:success] = 'Tutorial has been published'
       redirect_to tutorials_path

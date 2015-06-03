@@ -3,4 +3,7 @@
 #= require inline-attachment
 #= require jquery.inline-attachment
 #= require tagsinput
-#= require_tree .
+
+#= require community
+#= require main
+#= require image_upload

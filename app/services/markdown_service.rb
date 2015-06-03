@@ -1,17 +1,15 @@
 class MarkdownService
-  class HTML < Redcarpet::Render::HTML
-    include Rouge::Plugins::Redcarpet
+  RENDERER_OPTION = { filter_html: true, hard_wrap: true, prettify: true }
+  MARKDOWN_OPTION = { fenced_code_blocks: true, autolink: true, strikethrough: true }
+
+  def render(markdown_text)
+    markdown.render(markdown_text)
   end
 
-  def initialize
-    options = { filter_html: true, hard_wrap: true, prettify: true }
-    extensions = { fenced_code_blocks: true, autolink: true, strikethrough: true }
-
-    renderer = HTML.new(options)
-    @markdown = Redcarpet::Markdown.new(renderer, extensions)
-  end
-
-  def convert_to_html(markdown_text)
-    @markdown.render(markdown_text)
+  def markdown
+    @_markdown ||= begin
+      renderer  = Redcarpet::Render::HTML.new(RENDERER_OPTION)
+      Redcarpet::Markdown.new(renderer, MARKDOWN_OPTION)
+    end
   end
 end

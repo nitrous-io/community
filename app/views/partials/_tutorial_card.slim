@@ -1,11 +1,13 @@
+- link = tutorial.published? ? tutorials_slugged_path(slug: tutorial.slug) : edit_tutorial_path(id: tutorial.id)
+
 .tutorial.card
   .content
     .visual class=("overlay-#{rand(1..5)}")
-      a href=(tutorials_slugged_path(slug: tutorial.slug))
+      a href=(link)
         = image_tag 'tutorial-visual-nitrous.png', class:"for-visual"
 
     h3.card-title
-      = link_to tutorial.title, tutorials_slugged_path(slug: tutorial.slug)
+      = link_to tutorial.title, link
 
     .status
       a.hearts href="#"

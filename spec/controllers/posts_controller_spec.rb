@@ -153,6 +153,29 @@ describe PostsController do
       expect(response).to have_http_status(:success)
     end
 
+    it 'shows upvote button' do
+      do_request
+      doc = Nokogiri::HTML(response.body)
+      selector = "form[action='#{post_likes_path(post_id: p.id)}']"
+      expect(doc.css(selector)).not_to be_empty
+    end
+
+    context 'a user has upvoted the post' do
+      let(:user) { create(:user) }
+
+      before do
+        create(:like, parent: p, user: user)
+        sign_in(user)
+      end
+
+      it 'shows downvote button' do
+        do_request
+        doc = Nokogiri::HTML(response.body)
+        selector = "form[action='#{post_likes_path(post_id: p.id)}'] input[name=_method][value=delete]"
+        expect(doc.css(selector)).not_to be_empty
+      end
+    end
+
     it_behaves_like 'admin show' do
       let(:item) { p }
     end

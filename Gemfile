@@ -60,6 +60,7 @@ end
 group :test do
   gem 'webmock', '~> 1.21.0'
   gem 'timecop', '~> 0.7.3'
+  gem 'nokogiri', '~> 1.6.6.2'
 end
 
 group :production do

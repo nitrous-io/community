@@ -51,7 +51,7 @@ class TutorialsController < ApplicationController
 
   def show
     @tutorial = collection.friendly.find(params[:slug])
-    @is_updated = @tutorial.is_upvoted_by?(current_user_id)
+    @is_upvoted = @tutorial.is_upvoted_by?(current_user_id)
     @comment = Comment.new
     @comments = @tutorial.comments
   end

@@ -51,7 +51,7 @@ class PostsController < ApplicationController
 
   def show
     @post = collection.friendly.find(params[:slug])
-    @is_updated = @post.is_upvoted_by?(current_user_id)
+    @is_upvoted = @post.is_upvoted_by?(current_user_id)
     @comment = Comment.new
     @comments = @post.comments
   end

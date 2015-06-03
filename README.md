@@ -2,14 +2,10 @@
 
 Community Site for Nitrous.IO.
 
-# Preview URL
-
-The site can be viewed on: http://community-rails-7921.nitrousapp.com:3000/.
-
 # Development
 
 ## Requirements
- - Ruby ( >= 2.0.0)
+ - Ruby ( >= 2.0.0 )
  - PostgreSQL ( >= 9.2 )
 
 ## Setup
@@ -30,10 +26,15 @@ The site can be viewed on: http://community-rails-7921.nitrousapp.com:3000/.
   3. Create .env file from .env-sample for environment variables
 
   ```sh
-  $ cp .env-samle .env # It will be loaded by `dotenv-rails` gem
+  $ cp .env-sample .env # It will be loaded by `dotenv-rails` gem
   ```
 
 ## Test
 ```sh
   $ spring rspec spec
+```
+
+## Running server
+```sh
+  $ ./start-app
 ```

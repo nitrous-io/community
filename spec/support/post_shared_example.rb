@@ -129,7 +129,7 @@ shared_examples 'admin update' do
         end
       end
 
-      context 'state is specified' do
+      context 'publish is true' do
         it 'sets as published' do
           expect { do_request(publish: 'true') }.to change { subject.reload.published? }.from(false).to(true)
         end
@@ -144,6 +144,15 @@ shared_examples 'admin update' do
         it 'redirects to index page' do
           do_request(publish: 'true')
           expect(response).to redirect_to(index_path)
+        end
+
+        context 'published_at is specified' do
+          it 'sets published_at to specified time' do
+            Timecop.freeze do
+              do_request(publish: 'true', item => { published_at: 2.days.from_now })
+              expect(subject.reload.published_at.to_i).to eq(2.days.from_now.to_i)
+            end
+          end
         end
       end
     end

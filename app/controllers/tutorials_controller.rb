@@ -28,9 +28,7 @@ class TutorialsController < ApplicationController
     @tutorial = Tutorial.find(params[:id].to_i)
 
     if params[:publish] == 'true'
-      published_at = params[:tutorial] && params[:tutorial][:published_at].present? ? params[:tutorial][:published_at] : Time.now
-      extra_params = { state: :published, published_at: published_at }
-      if @tutorial.update_attributes(tutorial_params.merge(extra_params))
+      if @tutorial.publish_with!(tutorial_params, params[:tutorial][:published_at])
         flash[:success] = 'Tutorial has been published'
         redirect_to tutorials_path
         return
@@ -70,8 +68,8 @@ class TutorialsController < ApplicationController
 
   def publish
     @tutorial = Tutorial.find(params[:id].to_i)
-    published_at = params[:tutorial] && params[:tutorial][:published_at].present? ? params[:tutorial][:published_at] : Time.now
-    if @tutorial.update_attributes(state: :published, published_at: published_at)
+    published_at = params[:tutorial] ? params[:tutorial][:published_at] : nil
+    if @tutorial.publish_with!({}, published_at)
       flash[:success] = 'Tutorial has been published'
       redirect_to tutorials_path
     else
@@ -82,7 +80,7 @@ class TutorialsController < ApplicationController
 
   def unpublish
     @tutorial = Tutorial.find(params[:id].to_i)
-    if @tutorial.update_attributes(state: :draft, published_at: nil)
+    if @tutorial.unpublish!
       flash[:success] = 'Tutorial has been unpublished'
       redirect_to drafts_path
     else

@@ -1,0 +1,8 @@
+section.blog.cards
+  - posts.each do |post|
+    = render partial: 'partials/post_card', locals: { post: post }
+
+- if more
+  = form_tag next_page_path, method: :get, remote: true, data: { type: 'html', 'replace-form' => true }
+    section.centered
+      = submit_tag 'More Posts'

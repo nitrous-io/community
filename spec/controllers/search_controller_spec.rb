@@ -7,10 +7,10 @@ describe SearchController do
       get :search, { q: 'rails' }.merge(params)
     end
 
-    let!(:rails_post) { create(:post, title: 'rails') }
-    let!(:rails_tutorial) { create(:tutorial, title: 'rails') }
-    let!(:go_post) { create(:post, title: 'go') }
-    let!(:go_tutorial) { create(:tutorial, title: 'go') }
+    let!(:rails_post) { create(:published_post, title: 'rails') }
+    let!(:rails_tutorial) { create(:published_tutorial, title: 'rails') }
+    let!(:go_post) { create(:published_post, title: 'go') }
+    let!(:go_tutorial) { create(:published_tutorial, title: 'go') }
 
     it 'renders search results' do
       do_request

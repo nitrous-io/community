@@ -1,7 +1,7 @@
 class SearchController < ApplicationController
   def search
     @smallNavTitle = 'Search'
-    @posts = Post.search(params['q'])
-    @tutorials = Tutorial.search(params['q'])
+    @posts = Post.published.search(params['q'])
+    @tutorials = Tutorial.published.search(params['q'])
   end
 end

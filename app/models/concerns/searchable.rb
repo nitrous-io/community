@@ -2,26 +2,30 @@ module Searchable
   extend ActiveSupport::Concern
 
   class_methods do
+    # FIXME: This can accept arel but can't return arel for now.
     def search(keyword)
-      value = sanitize(keyword)
-      columns = self.column_names.join(',')
-      name = self.name
-      table_name = self.table_name
+      value            = sanitize(keyword)
+      search_view      = self.select(select_for_attributes_and_documents).joins(:taggings, :tags).group(:id).to_sql
+      all_column_names = self.column_names.join(',')
+
       sql = <<-SQL
-  SELECT #{columns}
-  FROM (
-    SELECT #{table_name}.*,
-           setweight(to_tsvector(#{table_name}.title), 'A') ||
-           setweight(to_tsvector(#{table_name}.content_markdown), 'B') ||
-           setweight(to_tsvector(coalesce(string_agg(tags.name, ' '))), 'C') as document
-    FROM #{table_name}
-    JOIN taggings ON taggings.taggable_id = #{table_name}.id AND taggings.taggable_type = '#{name}'
-    JOIN tags ON taggings.tag_id = tags.id
-    GROUP BY #{table_name}.id) search
+  SELECT #{all_column_names}
+  FROM (#{search_view}) search
   WHERE search.document @@ to_tsquery(#{value})
   ORDER BY ts_rank(search.document, to_tsquery(#{value})) DESC
       SQL
+
       self.find_by_sql(sql)
+    end
+
+    private
+    def select_for_attributes_and_documents
+      <<-SQL
+#{self.table_name}.*,
+setweight(to_tsvector(#{self.table_name}.title), 'A') ||
+setweight(to_tsvector(#{self.table_name}.content_markdown), 'B') ||
+setweight(to_tsvector(coalesce(string_agg(tags.name, ' '))), 'C') as document
+      SQL
     end
   end
 end

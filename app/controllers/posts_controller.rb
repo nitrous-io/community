@@ -28,7 +28,7 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id].to_i)
 
     if params[:publish] == 'true'
-      if @post.publish_with!(post_params, params[:post][:published_at])
+      if @post.publish_with(post_params, params[:post][:published_at])
         flash[:success] = 'Post has been published'
         redirect_to posts_path
         return
@@ -69,7 +69,7 @@ class PostsController < ApplicationController
   def publish
     @post = Post.find(params[:id].to_i)
     published_at = params[:post] ? params[:post][:published_at] : nil
-    if @post.publish_with!({}, published_at)
+    if @post.publish_with({}, published_at)
       flash[:success] = 'Post has been published'
       redirect_to posts_path
     else
@@ -80,7 +80,7 @@ class PostsController < ApplicationController
 
   def unpublish
     @post = Post.find(params[:id].to_i)
-    if @post.unpublish!
+    if @post.unpublish
       flash[:success] = 'Post has been unpublished'
       redirect_to drafts_path
     else

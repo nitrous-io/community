@@ -9,11 +9,11 @@ module Publishable
     scope :recently_published, -> { order(published_at: :desc)}
   end
 
-  def publish_with!(attributes, published_at = nil)
+  def publish_with(attributes, published_at = nil)
     self.update_attributes(attributes.merge(state: :published, published_at: (published_at.blank? ? Time.now : published_at)))
   end
 
-  def unpublish!
+  def unpublish
     self.update_attributes(state: :draft, published_at: nil)
   end
 end

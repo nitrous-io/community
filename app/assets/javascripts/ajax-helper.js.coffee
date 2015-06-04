@@ -1,6 +1,15 @@
-$remote = $("[data-remote=true]")
-$remote.on "ajax:success", (e, data, status, xhr) =>
-  $remote.html(xhr.responseText)
+onAjaxSuccess = (e, data, status, xhr) ->
+  $this = $(this)
+
+  if $this.data('replace-form')
+    $parent = $this.parent()
+    $parent.append(xhr.responseText)
+    $parent.find("[data-remote=true]").on "ajax:success", onAjaxSuccess
+    $this.remove()
+  else
+    $this.html(xhr.responseText)
+
+$("[data-remote=true]").on "ajax:success", onAjaxSuccess
 
 $('[data-form-id]').on 'click', (e) ->
   e.preventDefault()

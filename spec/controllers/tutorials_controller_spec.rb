@@ -154,9 +154,30 @@ describe TutorialsController do
       end
     end
 
+
     it_behaves_like 'admin index' do
       let(:collection) { [ruby_tutorial, go_tutorial]}
       let(:collection_name) { :tutorials }
+    end
+
+    context 'with pagination' do
+      before do
+        Timecop.freeze(2.days.ago) { ruby_tutorial.update_attribute(:title, 'new post title') }
+      end
+
+      specify do
+        do_request(per_page: 1, page: 1)
+        expect(assigns(:tutorials)).to contain_exactly(go_tutorial)
+      end
+
+      context 'not first page' do
+        specify do
+          do_request(per_page: 1, page: 2)
+          expect(response).to render_template('tutorials/_list')
+          doc = Nokogiri::HTML(response.body)
+          expect(doc.css("a[href=\"#{tutorials_slugged_path(ruby_tutorial.slug)}\"]")).not_to be_empty
+        end
+      end
     end
   end
 

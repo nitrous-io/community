@@ -41,5 +41,7 @@ Rails.application.routes.draw do
 
   resources :drafts, only: [:index]
 
+  get '/search' => 'search#search'
+
   root 'home#index'
 end

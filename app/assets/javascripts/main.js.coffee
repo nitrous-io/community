@@ -36,3 +36,6 @@ $sharer.mouseleave ->
   
 # Tags input
 $("[data-role='tagsinput']").tagsInput()
+
+# Tabs
+$("[data-tabbable='true']").tabs()

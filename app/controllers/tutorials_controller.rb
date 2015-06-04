@@ -36,7 +36,11 @@ class TutorialsController < ApplicationController
     else
       if @tutorial.update_attributes(tutorial_params)
         flash[:success] = 'Tutorial has been updated'
-        redirect_to drafts_path
+        if @tutorial.published?
+          redirect_to tutorials_path
+        else
+          redirect_to drafts_path
+        end
         return
       end
     end

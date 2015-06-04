@@ -36,7 +36,11 @@ class PostsController < ApplicationController
     else
       if @post.update_attributes(post_params)
         flash[:success] = 'Post has been updated'
-        redirect_to drafts_path
+        if @post.published?
+          redirect_to posts_path
+        else
+          redirect_to drafts_path
+        end
         return
       end
     end

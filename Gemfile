@@ -37,13 +37,8 @@ gem 'font-awesome-rails', '~> 4.3.0.0'
 gem 'uglifier', '~> 2.7.1'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails', '~> 4.0.3'
-<<<<<<< HEAD
-gem 'jbuilder', '~> 2.2.16'
 gem 'codemirror-rails', '~> 5.3'
 gem 'jquery-ui-rails', '~> 5.0.5'
-=======
-gem 'sdoc', '~> 0.4.1', group: :doc
->>>>>>> use ajax for hearts
 
 group :development, :test do
   gem 'factory_girl_rails', '~> 4.5.0'

@@ -7,3 +7,4 @@
 #= require community
 #= require main
 #= require image_upload
+#= require ajax-helper

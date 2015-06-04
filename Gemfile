@@ -37,7 +37,6 @@ gem 'font-awesome-rails', '~> 4.3.0.0'
 gem 'uglifier', '~> 2.7.1'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails', '~> 4.0.3'
-gem 'jbuilder', '~> 2.2.16'
 gem 'codemirror-rails', '~> 5.3'
 gem 'jquery-ui-rails', '~> 5.0.5'
 
@@ -56,6 +55,7 @@ end
 group :test do
   gem 'webmock', '~> 1.21.0'
   gem 'timecop', '~> 0.7.3'
+  gem 'nokogiri', '~> 1.6.6.2'
 end
 
 group :production do

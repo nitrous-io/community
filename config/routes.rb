@@ -4,7 +4,11 @@ Rails.application.routes.draw do
   delete 'sessions' => 'sessions#destroy'
 
   resources :posts, except: [:show] do
-    resources :likes, only: [:create]
+    resources :likes, only: [:create] do
+      collection do
+        delete :destroy
+      end
+    end
     resources :comments, only: [:create]
 
     member do
@@ -16,7 +20,11 @@ Rails.application.routes.draw do
   get 'posts/tagged/:tag', to: 'posts#index', as: :posts_tagged
 
   resources :tutorials, except: [:show] do
-    resources :likes, only: [:create]
+    resources :likes, only: [:create] do
+      collection do
+        delete :destroy
+      end
+    end
     resources :comments, only: [:create]
 
     member do

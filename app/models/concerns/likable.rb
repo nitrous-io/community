@@ -6,14 +6,26 @@ module Likable
   end
 
   def upvote(user_id)
-    ActiveRecord::Base.transaction do
-      like = self.likes.new(user_id: user_id)
-      if like.save
-        self.class.increment_counter(:score, self.id)
-        return true
-      end
+    like = self.likes.new(user_id: user_id)
+    # `counter_cache` does not update counter on memory. You need to re-fetch from database to get updated score
+    # This is not to send unnecessary query to database
+    if like.save
+      self.score + 1
+    else
+      self.score
     end
-    false
+  end
+
+  def downvote(user_id)
+    # `counter_cache` does not update counter on memory. You need to re-fetch from database to get updated score
+    # This is not to send unnecessary query to database
+    like = self.likes.find_by(user_id: user_id)
+    if like
+      like.destroy
+      self.score - 1
+    else
+      self.score
+    end
   end
 
   def is_upvoted_by?(user_id)

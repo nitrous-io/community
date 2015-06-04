@@ -36,7 +36,11 @@ class TutorialsController < ApplicationController
     else
       if @tutorial.update_attributes(tutorial_params)
         flash[:success] = 'Tutorial has been updated'
-        redirect_to drafts_path
+        if @tutorial.published?
+          redirect_to tutorials_path
+        else
+          redirect_to drafts_path
+        end
         return
       end
     end
@@ -51,6 +55,7 @@ class TutorialsController < ApplicationController
 
   def show
     @tutorial = collection.friendly.find(params[:slug])
+    @is_upvoted = @tutorial.is_upvoted_by?(current_user_id)
     @comment = Comment.new
     @comments = @tutorial.comments
   end

@@ -4,18 +4,13 @@ class LikesController < ApplicationController
   include SharedParent
 
   def create
-    user_id = session[:user_id]
+    is_upvoted = parent.is_upvoted_by?(current_user_id)
+    score = is_upvoted ? parent.score : parent.upvote(current_user_id)
+    render partial: 'likes/heart', locals: { score: score, url: like_path, is_upvoted: true }
+  end
 
-    if parent.is_upvoted_by?(user_id)
-      flash[:error] = 'You have already sent hearts on this post.'
-    else
-      if parent.upvote(user_id)
-        flash[:success] = 'Thank you for sending hearts!'
-      else
-        flash[:error] = 'Sorry, an error occurred. Please try again.'
-      end
-    end
-
-    redirect_to parent_show_path
+  def destroy
+    score = parent.downvote(current_user_id)
+    render partial: 'likes/heart', locals: { score: score, url: like_path, is_upvoted: false }
   end
 end

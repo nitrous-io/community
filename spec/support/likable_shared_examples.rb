@@ -10,14 +10,49 @@ shared_examples 'likable' do
       expect { subject.upvote(user.id) }.to change(Like, :count).by(1)
     end
 
-    it 'returns true' do
-      expect(subject.upvote(user.id)).to eq(true)
+    it 'returns score' do
+      expect(subject.upvote(user.id)).to eq(1)
     end
 
     context 'when fails to update' do
-      it 'returns false' do
+      it 'returns old score' do
         expect {
-          expect(subject.upvote(nil)).to eq(false)
+          expect(subject.upvote(nil)).to eq(0)
+        }.not_to change(Like, :count)
+      end
+    end
+  end
+
+  describe 'downvote' do
+    context 'user has voted' do
+      before do
+        subject.upvote(user.id)
+
+
+
+
+        subject.reload
+      end
+
+      let(:like) { subject.likes.first }
+
+      it 'updates score' do
+        expect { subject.downvote(user.id) }.to change { subject.reload.score }.by(-1)
+      end
+
+      it 'delete the like' do
+        expect { subject.downvote(user.id) }.to change(Like, :count).by(-1)
+      end
+
+      it 'returns score' do
+        expect(subject.downvote(user.id)).to eq(0)
+      end
+    end
+
+    context 'when fails to update' do
+      it 'returns old score' do
+        expect {
+          expect(subject.downvote(nil)).to eq(0)
         }.not_to change(Like, :count)
       end
     end

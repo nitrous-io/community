@@ -1,0 +1,10 @@
+.main
+  .container
+
+    section#tutorials.tutorials.cards.tab
+      - @tutorials.each do |t|
+        = render partial: 'partials/tutorial_card', locals: { tutorial: t }
+
+    section#posts.blog.cards.tab
+      - @posts.each do |p|
+        = render partial: 'partials/post_card', locals: { post: p }

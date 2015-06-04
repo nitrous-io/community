@@ -50,7 +50,18 @@ class TutorialsController < ApplicationController
   end
 
   def index
-    @tutorials = params[:tag] ? Tutorial.published.tagged_with(params[:tag]) : Tutorial.published
+    tutorials = params[:tag] ? Tutorial.published.tagged_with(params[:tag]) : Tutorial.published
+    pagination = Pagination.new(tutorials.recently_updated, per_page: params[:per_page].to_i, page: params[:page].to_i)
+    next_page_path = tutorials_path(pagination.options_for_next_page)
+
+    if pagination.page > 1
+      locals = { tutorials: pagination.items, next_page_path: next_page_path, more: pagination.more? }
+      render partial: 'tutorials/list', locals: locals
+    else
+      @next_page_path = next_page_path
+      @tutorials = pagination.items
+      @more = pagination.more?
+    end
   end
 
   def show
@@ -62,7 +73,7 @@ class TutorialsController < ApplicationController
 
   def destroy
     @tutorial = Tutorial.find(params[:id].to_i)
-    if @tutorial &&@tutorial.deleted!
+    if @tutorial && @tutorial.deleted!
       flash[:success] = 'Tutorial has been deleted'
       redirect_to tutorials_path
     else

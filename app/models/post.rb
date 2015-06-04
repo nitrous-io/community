@@ -3,6 +3,7 @@ class Post < ActiveRecord::Base
   include Likable
   include Markdownable
   include Publishable
+  include Searchable
 
   belongs_to :user
   has_many :comments, as: :parent, dependent: :destroy

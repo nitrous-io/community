@@ -6,4 +6,7 @@ describe Tutorial do
 
   it_behaves_like 'likable'
   it_behaves_like 'publishable'
+  it_behaves_like 'searchable' do
+    let(:item_name) { :tutorial }
+  end
 end

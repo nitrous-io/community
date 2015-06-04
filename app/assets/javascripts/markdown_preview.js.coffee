@@ -1,4 +1,3 @@
-$(".tab-wrapper").tabs()
 $('a[data-preview-tab=true]').click (e) ->
   e.preventDefault()
 

@@ -137,6 +137,26 @@ describe PostsController do
       let(:collection) { [rails_post, go_post]}
       let(:collection_name) { :posts }
     end
+
+    context 'with pagination' do
+      before do
+        Timecop.freeze(2.days.ago) { rails_post.update_attribute(:title, 'new post title') }
+      end
+
+      specify do
+        do_request(per_page: 1, page: 1)
+        expect(assigns(:posts)).to contain_exactly(go_post)
+      end
+
+      context 'not first page' do
+        specify do
+          do_request(per_page: 1, page: 2)
+          expect(response).to render_template('posts/_list')
+          doc = Nokogiri::HTML(response.body)
+          expect(doc.css("a[href=\"#{posts_slugged_path(rails_post.slug)}\"]")).not_to be_empty
+        end
+      end
+    end
   end
 
   describe "GET #show" do

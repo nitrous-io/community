@@ -50,3 +50,6 @@ tags
 auto-save-list
 tramp
 .\#*
+
+# Local dev environment file
+.ruby-version

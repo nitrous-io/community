@@ -1,0 +1,5 @@
+.main
+  .container
+
+    = render partial: 'drafts/tab', locals: { current_tab: 'tutorial' }
+    = render partial: 'tutorials/list', locals: { tutorials: @tutorials, next_page_path: @next_page_path, more: @more }

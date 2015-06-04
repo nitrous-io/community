@@ -1,15 +1,6 @@
 .main
   .container
-    
-    .tabs
-      ul
-        li
-          a.active href="#all" All
-        li
-          a href="#tutorials" Tutorials
-        li
-          a href="#posts" Blog Posts
-
+    = render partial: 'drafts/tab', locals: { current_tab: 'all' }
 
     section#tutorials.tutorials.cards.tab
       - @tutorials.each do |t|

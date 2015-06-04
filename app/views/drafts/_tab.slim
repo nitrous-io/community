@@ -1,0 +1,8 @@
+.tabs
+  ul
+    li
+      = link_to 'All', drafts_path, class: current_tab == 'all' ? 'active' : ''
+    li
+      = link_to 'Tutorial', tutorials_drafts_path, class: current_tab == 'tutorial' ? 'active' : ''
+    li
+      = link_to 'Blog Posts', posts_drafts_path, class: current_tab == 'post' ? 'active' : ''

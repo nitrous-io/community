@@ -1,10 +1,12 @@
+- link = post.published? ? posts_slugged_path(slug: post.slug) : edit_post_path(id: post.id)
+
 .blog.card
   .content
     .visual
-      a href=(posts_slugged_path(slug: post.slug))
+      a href=(link)
 
     h3.card-title
-      = link_to post.title, posts_slugged_path(slug: post.slug)
+      = link_to post.title, link
       
     p
       | Nulla vitae elit libero, a pharetra augue. Donec sed odio dui.

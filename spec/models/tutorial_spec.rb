@@ -5,4 +5,5 @@ describe Tutorial do
   let(:user) { create(:user) }
 
   it_behaves_like 'likable'
+  it_behaves_like 'publishable'
 end

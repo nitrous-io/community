@@ -82,9 +82,9 @@ shared_examples 'admin create' do
           expect { do_request }.to change(model_class, :count).by(1)
         end
 
-        it 'redirects to post page' do
+        it 'redirects to drafts page' do
           do_request
-          expect(response).to redirect_to(index_path)
+          expect(response).to redirect_to(drafts_path)
         end
       end
 
@@ -118,7 +118,7 @@ shared_examples 'admin update' do
       context 'with valid parameters' do
         it 'redirects to index page' do
           do_request
-          expect(response).to redirect_to(index_path)
+          expect(response).to redirect_to(drafts_path)
         end
       end
 
@@ -126,6 +126,33 @@ shared_examples 'admin update' do
         it 'render edit template' do
           do_request(item => attributes_for(item, :invalid))
           expect(response).to render_template(:edit)
+        end
+      end
+
+      context 'publish is true' do
+        it 'sets as published' do
+          expect { do_request(publish: 'true') }.to change { subject.reload.published? }.from(false).to(true)
+        end
+
+        it 'sets published_at' do
+          Timecop.freeze do
+            do_request(publish: 'true')
+            expect(subject.reload.published_at.to_i).to eq(Time.now.to_i)
+          end
+        end
+
+        it 'redirects to index page' do
+          do_request(publish: 'true')
+          expect(response).to redirect_to(index_path)
+        end
+
+        context 'published_at is specified' do
+          it 'sets published_at to specified time' do
+            Timecop.freeze do
+              do_request(publish: 'true', item => { published_at: 2.days.from_now })
+              expect(subject.reload.published_at.to_i).to eq(2.days.from_now.to_i)
+            end
+          end
         end
       end
     end
@@ -238,7 +265,7 @@ shared_examples 'admin unpublish' do
 
       it 'redirects to index page' do
         do_request
-        expect(response).to redirect_to(index_path)
+        expect(response).to redirect_to(drafts_path)
       end
     end
   end

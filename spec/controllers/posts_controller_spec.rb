@@ -77,6 +77,7 @@ describe PostsController do
         expect(subject.slug).to eq('updated-post-title')
         expect(subject.content_html).to match('<p>updated content markdown</p>')
         expect(subject.tag_list).to eq(['rails'])
+        expect(subject.state).to eq('draft')
       end
     end
   end
@@ -91,19 +92,6 @@ describe PostsController do
     end
 
     it_behaves_like 'admin delete'
-  end
-
-  describe 'PUT #publish' do
-    let(:index_path) { posts_path }
-    let(:item_name) { :post }
-
-    subject { create(:post) }
-
-    def do_request(params = {})
-      put :publish, { id: subject.id }.merge(params)
-    end
-
-    it_behaves_like 'admin publish'
   end
 
   describe 'PUT #unpublish' do

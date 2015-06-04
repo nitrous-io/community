@@ -7,6 +7,9 @@
         li
           = link_to 'Save as Draft', '#', data: { 'form-id' => '#new_tutorial' }
       - else
+        li
+          = link_to 'Save changes', '#', data: { 'form-id' => '#edit_tutorial' }
+        li.separator
         - if item.published?
           li
             = link_to 'Unpublish', unpublish_tutorial_path(item.id), data: { method: :put }
@@ -15,7 +18,7 @@
           /   a href="#" Share Link
         - else
           li
-            = link_to 'Publish', publish_tutorial_path(item.id), method: :put
+            = link_to 'Publish', '#', data: { 'form-id' => '#edit_tutorial', 'form-values' => { publish: true }.to_json }
         li.separator
         li
           = link_to 'Delete', tutorial_path(item.id), data: { confirm: 'Are you sure?', method: :delete }

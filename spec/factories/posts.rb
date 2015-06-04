@@ -4,7 +4,7 @@ FactoryGirl.define do
     title 'post title'
     content_markdown 'content markdown'
     tag_list 'ruby'
-    published_at Time.now
+    published_at nil
 
     trait :invalid do
       title ''
@@ -13,5 +13,6 @@ FactoryGirl.define do
 
   factory :published_post, parent: :post do
     state :published
+    published_at Time.now
   end
 end

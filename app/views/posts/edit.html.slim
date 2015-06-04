@@ -5,7 +5,7 @@
   .container
     / = render partial: 'partials/flash_message'
 
-    = render partial: 'partials/form', locals: { _item: @post, _url: post_path(@post.id), _method: :put }
+    = render partial: 'partials/form', locals: { _item: @post, _url: post_path(@post.id), _method: :put, _form_id: 'edit_post' }
 
 = content_for :body_script do
   = javascript_include_tag 'code-mirror'

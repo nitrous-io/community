@@ -51,6 +51,7 @@ class PostsController < ApplicationController
 
   def index
     @posts = params[:tag] ? Post.published.tagged_with(params[:tag]) : Post.published
+    @posts = @posts.recently_published
   end
 
   def show

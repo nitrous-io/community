@@ -51,6 +51,7 @@ class TutorialsController < ApplicationController
 
   def index
     @tutorials = params[:tag] ? Tutorial.published.tagged_with(params[:tag]) : Tutorial.published
+    @tutorials = @tutorials.recently_published
   end
 
   def show

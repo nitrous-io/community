@@ -14,7 +14,6 @@
           - else
             li
               = link_to 'Publish', publish_post_path(@post.id), method: :put
-            
       .divider
 
 .main.title-hero
@@ -33,27 +32,28 @@
 
 .main
   .container
-  
     article
       .content
         = @post.content_html.html_safe
 
       .footer
-        .heart
-          = render partial: 'likes/heart', locals: { url: post_likes_path(post_id: @post.id), score: @post.score, is_upvoted: @is_upvoted }
         /- if @post.tags.present?
         / .tags
         /   - @post.tags.each do |tag|
         /     = link_to tag.name, posts_tagged_path(tag: tag.name)
+        
+        .heart
+          = render partial: 'likes/heart', locals: { url: post_likes_path(post_id: @post.id), score: @post.score, is_upvoted: @is_upvoted }
+        /.heart
+        /  = button_to "Heart", post_likes_path(post_id: @post.id), method: :post, class: "status-icon heart"
+        
+        a.status-icon.comment href="#comments"
+          span Comment
 
-        .status
-          a.status-icon.comment href="#comments"
-            span Comment
+        a.status-icon.share href="#share"
+          span Share
 
-          a.status-icon.share href="#share"
-            span Share
-
-          = render partial: 'partials/sharer'
+        = render partial: 'partials/sharer'
 
 .main.darker
   .container

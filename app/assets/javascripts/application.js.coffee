@@ -3,8 +3,8 @@
 #= require inline-attachment
 #= require jquery.inline-attachment
 #= require tagsinput
-
-#= require community
-#= require main
-#= require image_upload
-#= require ajax-helper
+#= require ./main
+#= require ./image_upload
+#= require ./ajax-helper
+#= require ./highlight
+#= require ./edit-page

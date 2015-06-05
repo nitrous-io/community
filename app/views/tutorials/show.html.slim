@@ -15,7 +15,7 @@
             li
               = link_to 'Publish', publish_tutorial_path(@tutorial.id), method: :put
       .divider
-  
+
 .main
   .container
     article
@@ -36,22 +36,25 @@
         = @tutorial.content_html.html_safe
 
       .footer
+        / .tags
+        /   - if @tutorial.tags.present?
+        /     - @tutorial.tags.each do |tag|
+        /       = link_to tag.name, tutorials_tagged_path(tag: tag.name), { :class => "tag"}
+
         .heart
           = render partial: 'likes/heart', locals: { url: tutorial_likes_path(tutorial_id: @tutorial.id), score: @tutorial.score, is_upvoted: @is_upvoted }
+        /.heart
+        /  = button_to "Heart", tutorial_likes_path(tutorial_id: @tutorial.id), method: :post, class: "status-icon heart"
 
-        .status            
-          a.status-icon.comment href="#comments"
-            span Comment
+        a.status-icon.comment href="#comments"
+          span Comment
 
-          a.status-icon.share href="#share"
-            span Share
-          
-          = render partial: 'partials/sharer'
+        a.status-icon.share href="#share"
+          span Share
 
-      / .tags
-      /   - if @tutorial.tags.present?
-      /     - @tutorial.tags.each do |tag|
-      /       = link_to tag.name, tutorials_tagged_path(tag: tag.name), { :class => "tag"}
+        = render partial: 'partials/sharer'
+
+
 
 .main.darker
   .container

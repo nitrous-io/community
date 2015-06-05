@@ -186,7 +186,7 @@
       delimiter: ',',
       unique:true,
       removeWithBackspace:true,
-      placeholderColor:'rgba(0,0,0,.3)',
+      placeholderColor:'#C8C8C8',
       autosize: false,
       comfortZone: 20,
       inputPadding: 6*2

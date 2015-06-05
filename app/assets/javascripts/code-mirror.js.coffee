@@ -31,7 +31,3 @@
 #= require codemirror/modes/yaml
 #= require codemirror/modes/haml
 #= require codemirror/modes/slim
-
-#= require jquery-ui/tabs
-#= require highlight
-#= require markdown_preview

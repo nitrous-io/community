@@ -9,13 +9,12 @@
       - else
         li
           = link_to 'Save changes', '#', data: { 'form-id' => '#edit_tutorial' }
-        li.separator
         - if item.published?
           li
+            a href=(tutorials_slugged_path(slug: item.slug)) target="_blank" View Tutorial
+          li.separator
+          li
             = link_to 'Unpublish', unpublish_tutorial_path(item.id), data: { method: :put }
-          / li.separator
-          / li
-          /   a href="#" Share Link
         - else
           li
             = link_to 'Publish', '#', data: { 'form-id' => '#edit_tutorial', 'form-values' => { publish: true }.to_json }

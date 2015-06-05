@@ -1,0 +1,291 @@
+@import 'variables'
+
+html.show, html.new, html.edit
+  
+  .title-hero
+    height: 282px
+    background: $blue
+    text-align: center
+    color: #FFF
+    border-top: 1px solid rgba(255,255,255,.1)
+    display: flex
+    align-items: center
+    justify-content: center
+    flex-direction: column
+
+    .title
+      padding: 0
+      margin: 0
+
+      h2
+        font-size: 36px
+        padding-bottom: 10px
+
+    .meta
+      span, a
+        color: rgba(255,255,255,.6)
+        display: inline-block
+
+      .bull-separator
+        margin: 0 10px
+
+      a:hover
+        color: #FFF
+
+
+  article
+    .title
+      padding-bottom: 4px
+
+    .meta
+      padding-bottom: 40px
+      display: flex
+
+      > div, div + span
+        margin-right: 10px
+        color: $light-grey
+
+    .footer
+      margin-top: 40px
+      padding-top: 40px
+      border-top: 1px solid rgba(0,0,0,.05)
+      line-height: 34px
+      position: relative
+      display: flex
+      flex-direction: row
+
+      @media screen and (min-width: $break-small)
+        padding-top: 20px
+        justify-content: flex-end
+
+      .gravatar, .author, .status
+        margin: 0 10px 0 0
+        padding: 0
+        display: block
+        display: flex
+
+      .gravatar
+        img
+          width: 32px
+          height: 32px
+          border-radius: 3px
+
+      .author
+        flex-grow: 2
+        justify-content: center
+
+        .gravatar, span
+          display: flex
+
+      .heart input, .status-icon
+        height: 34px
+        border: 1px solid rgba($light-grey,.6)
+        margin: 0
+        padding: 0 15px 0 40px
+        border-radius: 34px
+        font-size: 14px
+        font-family: $opensans
+        color: $light-grey
+        transition: all .15s ease-in-out
+
+        span
+          display: none
+
+        &:hover
+          color: $blue
+          border: 1px solid $blue
+          z-index: 2
+
+      .heart, .status-icon
+        position: relative
+        display: flex
+
+        &:after
+          content: ""
+          position: absolute
+          top: 8px
+          left: 16px
+          width: 18px
+          height: 18px
+          display: block
+          pointer-events: none
+          background: image-url('article-status.png') 0 0 no-repeat
+          background-size: 18px 108px
+
+      .heart
+        &:hover:after, &.active:after
+          background-position: 0 -18px
+
+      .comment
+        &:after
+          background-position: 0 -36px
+        &:hover:after, &.active:after
+          background-position: 0 -54px
+
+      .share
+        &:after
+          background-position: 0 -72px
+        &:hover:after, &.active:after
+          background-position: 0 -90px
+
+
+      .heart
+        @media screen and (min-width: $break-small)
+          margin: 0
+          justify-content: flex-start
+          flex-grow: 1
+
+        input
+          text-align: center
+          cursor: pointer
+          background: transparent
+          appearance: none
+
+      .status-icon
+        @media screen and (min-width: $break-small)
+          margin: 0 0 0 16px
+
+
+      @media screen and (max-width: $break-small)
+        .heart, .heart form, .heart input, .status-icon
+          display: flex
+          flex-grow: 1
+
+        .heart input
+          border-radius: 34px 0 0 34px
+
+        .status-icon
+          border-radius: 0
+
+          &:after
+            left: 50%
+            margin-left: -9px
+
+          &.comment
+            margin-left: -1px
+
+          &.share
+            margin-left: -1px
+            border-radius: 0 34px 34px 0
+
+      @media screen and (min-width: $break-small)
+        .status-icon
+          margin-left: 0
+
+          span
+            display: block
+
+          &, &:hover
+            border: 1px solid transparent
+
+
+  .content, #preview
+    
+    h2, h3, h4, h5, h6
+      font-weight: bold
+      padding: 12px 0 10px 0
+    
+    h2
+      font-size: 22px
+      
+    h3
+      font-size: 20px
+    
+    h4
+      font-size: 18px
+    
+    h5
+      font-size: 16px
+      
+    p
+      font-size: 16px
+      line-height: 30px
+      margin-bottom: 30px
+    
+    b, strong
+      font-weight: bold
+    
+    i, em
+      font-style: italic
+    
+    a
+      color: $blue
+      
+      &:hover
+        text-decoration: underline
+    
+    p + ol, p + ul
+      padding-top: 0
+    
+    ol, ul
+      padding: 20px 0
+      margin-left: 15px
+      
+      li
+        padding: 2px 0 2px 4px
+      
+    ol
+      list-style: roman outside none
+    
+    ul
+      list-style: disc outside none
+    
+    blockquote
+      margin: 20px 0
+      padding-left: 10px
+      border-left: 4px solid rgba($light-grey, .3)
+      font-style: italic
+        
+    pre
+      font-family: $code
+
+    .CodeMirror
+      height: auto
+      margin: 20px 0 30px 0
+      border: 1px solid rgba($light-grey,.5)
+      border-radius: 4px
+
+
+  #comments
+    .title
+      h2
+        padding-bottom: 30px
+
+  .comment-list
+    padding-top: 40px
+
+    .comment
+      margin: 10px 0 30px 0
+
+      .meta
+        padding-bottom: 2px
+        line-height: 22px
+        cursor: default
+        display: flex
+
+        .author, .timestamp
+          display: flex
+
+        .author
+          margin-right: 6px
+
+          span
+            display: inline-block
+
+          .gravatar
+            margin-right: 4px
+            img
+              width: 22px
+              height: 22px
+              border-radius: 2px
+
+          .username
+            color: $dark-grey
+            font-weight: 600
+
+        .timestamp
+          color: $light-grey
+          font-size: 12px
+
+      .content
+        // WIP

@@ -116,6 +116,39 @@ section + .title
             color: $blue
             border-bottom: 1px solid $blue
     
+    &.as-icons
+      ul
+        justify-content: flex-end
+      
+      li
+        margin: 0 0 8px 6px
+        
+        a
+          width: 46px
+          height: 28px
+          text-indent: -9999px
+          padding: 0
+          background: image_url('editor-tabs.png') 0 0 no-repeat
+          background-size: 94px 58px
+          border-bottom: 1px solid transparent
+          
+          &.active
+            border-bottom: 1px solid transparent
+          
+        &.markdown
+          a
+            background-position: 0 0
+            &.active
+              background-position: 0 -30px
+              
+        &.preview
+          a
+            background-position: -48px 0
+            &.active
+              background-position: -48px -30px
+          
+        
+    
       
   .pagination
     padding: 0 0 80px 0
@@ -123,60 +156,6 @@ section + .title
     a
       margin-top: 0
 
-
-  // Form
-  .form-wrapper
-
-    .row
-      margin: 10px 0
-
-    .toggles
-      padding-top: 20px
-      display: flex
-      justify-content: flex-end
-      
-      a
-        display: inline-block
-        margin-left: 20px
-
-    textarea
-      width: 100%
-      height: 240px
-      border: 1px solid rgba($light-grey, .3)
-      border-radius: 4px
-      padding: 10px
-      resize: none
-      font-size: 16px
-      font-family: $opensans
-
-    input[type="text"]
-      border: 1px solid rgba($light-grey, .3)
-      border-radius: 4px
-    
-    textarea:focus, input[type="text"]:focus
-      border: 1px solid rgba($light-grey, 1)
-
-    input
-      width: 100%
-      height: 40px
-      font-size: 16px
-      font-family: $opensans
-      padding: 0 10px
-      border: 0
-      background: #FFF
-      border-radius: 2px
-      display: block
-      outline: none
-
-      &[type="submit"]
-        height: 40px
-        cursor: pointer
-        background: $blue
-        font-size: 16px
-        color: #FFF
-        margin-top: 20px
-        -webkit-appearance: none
-        border-radius: 2px
 
 
   // Tags
@@ -211,232 +190,3 @@ section + .title
 
   a:hover
     color: #FFF
-
-
-.tutorials.show, .posts.show
-  .title-hero
-    height: 282px
-    background: $blue
-    text-align: center
-    color: #FFF
-    border-top: 1px solid rgba(255,255,255,.1)
-    display: flex
-    align-items: center
-    justify-content: center
-    flex-direction: column
-    
-      
-    .title
-      padding: 0
-      margin: 0
-      
-      h2
-        font-size: 36px
-        padding-bottom: 10px
-    
-    .meta
-      span, a
-        color: rgba(255,255,255,.6)
-        display: inline-block
-      
-      .bull-separator
-        margin: 0 10px
-      
-      a:hover
-        color: #FFF
-    
-  .content
-    h3
-      font-weight: bold
-      font-size: 20px
-      padding: 12px 0 10px 0
-
-  article
-    .title
-      padding-bottom: 4px
-
-    .meta
-      padding-bottom: 40px
-      display: flex
-
-      > div, div + span
-        margin-right: 10px
-        color: $light-grey
-    
-    .content
-      p
-        font-size: 16px
-        line-height: 30px
-        margin-bottom: 30px
-
-    .footer
-      margin-top: 40px
-      padding-top: 40px
-      border-top: 1px solid rgba(0,0,0,.05)
-      line-height: 34px
-      display: flex
-      flex-direction: column
-      align-items: center
-      
-      @media screen and (min-width: $break-small)
-        padding-top: 20px
-        flex-direction: row
-        align-items: stretch
-      
-      .heart
-        position: relative
-        
-        @media screen and (min-width: $break-small)
-          margin: 0
-          justify-content: flex-start
-        
-        &:after
-          content: ""
-          position: absolute
-          top: 8px
-          left: 16px
-          width: 18px
-          height: 18px
-          display: block
-          pointer-events: none
-          background: image-url('article-status.png') 0 0 no-repeat
-          background-size: 18px 108px
-        
-        &:hover:after, &.active:after
-          background-position: 0 -18px
-        
-        input
-          height: 34px
-          display: inline-block
-          border: 1px solid rgba($light-grey,.6)
-          padding: 0 15px 0 40px
-          margin: 0
-          font-size: 14px
-          border-radius: 34px
-          position: relative
-          text-align: center
-          color: $light-grey
-          cursor: pointer
-          transition: all .15s ease-in-out
-          background: transparent
-          appearance: none
-          
-          &:hover
-            border-color: $blue
-            color: $blue
-
-      .gravatar, .author, .status
-        margin: 0 10px 0 0
-        padding: 0
-        display: block
-        display: flex
-
-      .gravatar
-        img
-          width: 32px
-          height: 32px
-          border-radius: 3px
-
-      .author
-        flex-grow: 2
-        justify-content: center
-        
-        .gravatar, span
-          display: flex
-
-
-      .status-icon
-        background: image-url('article-status.png') 0 0 no-repeat
-        background-size: 18px 108px
- 
-        &.comment
-          background-position: 0 -36px
-          &:hover, &.active
-            background-position: 0 -54px
-
-        &.share
-          background-position: 0 -72px
-          &:hover, &.active
-            background-position: 0 -90px
-        
-      .status
-        top: 1px
-        position: relative
-        margin-left: 0
-        padding-top: 10px
-        display: flex
-        flex-direction: column
-        justify-content: center
-        flex-grow: 1
-        align-items: center
-        
-        @media screen and (min-width: $break-small)
-          flex-direction: row
-          justify-content: flex-end
-          margin-left: 12px
-          padding-top: 0
-
-        & > a
-          height: 18px
-          color: $light-grey
-          position: relative
-          padding-left: 22px
-          top: 4px
-          margin: 20px 0 16px 0
-          overflow: hidden
-          line-height: 18px
-          display: inline-block
-          
-          @media screen and (min-width: $break-small)
-            margin: -8px 0 0 20px
-          
-          &.share
-            margin-right: 0
-          
-          &.comment:hover, &.comment.active, &.share:hover, &.share.active
-            color: $blue
-
-  
-  #comments
-    .title
-      h2
-        padding-bottom: 30px
-    
-  .comment-list
-    padding-top: 40px
-
-    .comment
-      margin: 10px 0 30px 0
-      
-      .meta
-        padding-bottom: 2px
-        line-height: 22px
-        cursor: default
-        display: flex
-        
-        .author, .timestamp
-          display: flex
-          
-        .author
-          margin-right: 6px
-          
-          span
-            display: inline-block
-          
-          .gravatar
-            margin-right: 4px
-            img
-              width: 22px
-              height: 22px
-              border-radius: 2px
-              
-          .username
-            color: $dark-grey
-            font-weight: 600
-          
-        .timestamp
-          color: $light-grey
-          font-size: 12px
-
-      .content
-        // WIP

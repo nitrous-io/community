@@ -9,3 +9,4 @@
 #= require ./highlight
 #= require ./edit-page
 #= require ./webfonts
+#= require ./tab

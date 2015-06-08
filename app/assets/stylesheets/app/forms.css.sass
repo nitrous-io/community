@@ -1,8 +1,9 @@
 @import 'variables'
 
-.main  
+.main
+  
   .form-wrapper
-    margin-top: -10px 
+    margin-top: -10px
     
     .row
       margin: 10px 0
@@ -53,3 +54,25 @@
         margin-top: 20px
         -webkit-appearance: none
         border-radius: 2px
+    
+    .tabs-content
+      & > div
+        margin-top: 0
+        padding-top: 0
+      
+      #preview
+        padding: 2px 4px 0 4px
+      
+      textarea.hidden
+        display: none
+
+      .CodeMirror
+        height: auto
+        font-family: $code
+        font-size: 15px
+        line-height: 30px
+        color: $dark-grey
+      
+      .CodeMirror-selected
+        background: rgba($light-grey, .3)
+        

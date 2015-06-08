@@ -15,6 +15,7 @@ window.Community.Highlight =
         readOnly: true
         cursorBlinkRate: -1
         viewportMargin: Infinity
+        theme: 'github'
         
 $(document).ready ->
   window.Community.Highlight.init()

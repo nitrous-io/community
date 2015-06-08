@@ -27,3 +27,5 @@ Community.EditPage =
       CodeMirror.fromTextArea $markdownTextarea[0],
         mode: 'markdown'
         lineWrapping: true
+        viewportMargin: Infinity
+        

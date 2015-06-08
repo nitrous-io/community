@@ -43,7 +43,7 @@
         /     = link_to tag.name, posts_tagged_path(tag: tag.name)
         
         .heart
-          = render partial: 'likes/heart', locals: { url: post_likes_path(post_id: @post.id), score: @post.score, is_upvoted: @is_upvoted }
+          = render partial: 'partials/heart', locals: { url: post_likes_path(post_id: @post.id), score: @post.score, is_upvoted: @is_upvoted }
         /.heart
         /  = button_to "Heart", post_likes_path(post_id: @post.id), method: :post, class: "status-icon heart"
         
@@ -53,7 +53,7 @@
         a.status-icon.share href="#share"
           span Share
 
-        = render partial: 'partials/sharer'
+        = render partial: 'partials/sharer', locals: { url: posts_slugged_url(slug: @post.slug)}
 
 .main.darker
   .container

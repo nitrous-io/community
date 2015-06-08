@@ -1,18 +1,19 @@
+- encoded_url = CGI.escape url
 #share.sharer.popup
   ul
     li.twitter
-      a href="#"
+      a href="http://twitter.com/intent/tweet?url=#{encoded_url}" target="_blank"
         i.fa.fa-twitter-square
         span Twitter
     li.facebook
-      a href="#"
+      a href="http://www.facebook.com/sharer/sharer.php?u=#{encoded_url}" target="_blank"
         i.fa.fa-facebook-square
         span Facebook
     li.google
-      a href="#"
+      a href="https://plus.google.com/share?url=#{encoded_url}" target="_blank"
         i.fa.fa-google-plus-square
         span Google+
     li.linkedin
-      a href="#"
+      a href="http://www.linkedin.com/shareArticle?mini=true&url=#{encoded_url}" target="_blank"
         i.fa.fa-linkedin-square
         span LinkedIn

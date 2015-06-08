@@ -98,7 +98,7 @@ html.show, html.new, html.edit
           border: 1px solid $blue
           z-index: 2
 
-      .heart, .status-icon
+      .status-icon
         position: relative
         display: flex
 
@@ -115,7 +115,7 @@ html.show, html.new, html.edit
           background-size: 18px 108px
 
       .heart
-        &:hover:after, &.active:after
+        form:hover span:after, &.active span:after
           background-position: 0 -18px
 
       .comment
@@ -136,12 +136,19 @@ html.show, html.new, html.edit
           margin: 0
           justify-content: flex-start
           flex-grow: 1
+        
+        form
+          display: inline-block
 
         input
           text-align: center
+          position: relative
           cursor: pointer
           background: transparent
           appearance: none
+        
+        span
+          position: absolute
 
       .status-icon
         @media screen and (min-width: $break-small)
@@ -153,8 +160,18 @@ html.show, html.new, html.edit
           display: flex
           flex-grow: 1
 
-        .heart input
-          border-radius: 34px 0 0 34px
+        .heart
+          position: relative
+          
+          input
+            border-radius: 34px 0 0 34px
+            text-indent: -99999px
+            
+          span
+            border: 0
+            padding-left: 0
+            left: 50%
+            margin-left: -6px
 
         .status-icon
           border-radius: 0

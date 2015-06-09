@@ -2,12 +2,14 @@
 
 html.show, html.new, html.edit
   
+  ::selection, .CodeMirror-selected
+    background: rgba($light-grey, .3)
+  
   .title-hero
     height: 282px
     background: $blue
     text-align: center
     color: #FFF
-    border-top: 1px solid rgba(255,255,255,.1)
     display: flex
     align-items: center
     justify-content: center
@@ -86,7 +88,6 @@ html.show, html.new, html.edit
         font-size: 14px
         font-family: $opensans
         color: $light-grey
-        transition: all .15s ease-in-out
 
         span
           display: none
@@ -96,7 +97,7 @@ html.show, html.new, html.edit
           border: 1px solid $blue
           z-index: 2
 
-      .heart, .status-icon
+      .status-icon
         position: relative
         display: flex
 
@@ -113,7 +114,7 @@ html.show, html.new, html.edit
           background-size: 18px 108px
 
       .heart
-        &:hover:after, &.active:after
+        form:hover span:after, &.active span:after
           background-position: 0 -18px
 
       .comment
@@ -134,12 +135,19 @@ html.show, html.new, html.edit
           margin: 0
           justify-content: flex-start
           flex-grow: 1
+        
+        form
+          display: inline-block
 
         input
           text-align: center
+          position: relative
           cursor: pointer
           background: transparent
           appearance: none
+        
+        span
+          position: absolute
 
       .status-icon
         @media screen and (min-width: $break-small)
@@ -151,8 +159,18 @@ html.show, html.new, html.edit
           display: flex
           flex-grow: 1
 
-        .heart input
-          border-radius: 34px 0 0 34px
+        .heart
+          position: relative
+          
+          input
+            border-radius: 34px 0 0 34px
+            text-indent: -99999px
+            
+          span
+            border: 0
+            padding-left: 0
+            left: 50%
+            margin-left: -6px
 
         .status-icon
           border-radius: 0
@@ -242,6 +260,7 @@ html.show, html.new, html.edit
     .CodeMirror
       height: auto
       margin: 20px 0 30px 0
+      padding: 14px 0
       border: 1px solid rgba($light-grey,.5)
       border-radius: 4px
 
@@ -255,7 +274,7 @@ html.show, html.new, html.edit
     padding-top: 40px
 
     .comment
-      margin: 10px 0 30px 0
+      margin: 20px 0 40px 0
 
       .meta
         padding-bottom: 2px

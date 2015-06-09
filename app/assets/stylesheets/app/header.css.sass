@@ -5,12 +5,15 @@
   display: block
   font-weight: 200
 
-
 html.new, html.edit, html.drafts
   body > header
     nav
       display: none
 
+html.posts.show
+  header
+    border-bottom: 1px solid rgba(255,255,255,.1)
+  
 body > header
   background: $blue
   line-height: 52px
@@ -32,6 +35,7 @@ body > header
 
   // Logo
   h1.logo
+    height: 52px
     flex-shrink: 0
 
     em, small
@@ -61,6 +65,14 @@ body > header
         top: 11px
         height: 26px
         border-left: 1px solid rgba(255,255,255,.4)
+    
+    @media screen and (min-width: $break-medium)
+      &
+        margin-left: -14px
+        padding: 0 14px 0 14px
+        
+      &:hover
+        background: rgba(255,255,255,.1)
 
   // Nav
   nav

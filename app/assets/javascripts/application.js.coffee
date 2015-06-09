@@ -8,3 +8,4 @@
 #= require ./ajax-helper
 #= require ./highlight
 #= require ./edit-page
+#= require ./webfonts

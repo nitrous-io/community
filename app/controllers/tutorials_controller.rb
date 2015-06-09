@@ -55,12 +55,11 @@ class TutorialsController < ApplicationController
     next_page_path = tutorials_path(pagination.options_for_next_page)
 
     if pagination.page > 1
-      locals = { tutorials: pagination.items, next_page_path: next_page_path, more: pagination.more? }
+      locals = { tutorials: pagination.items, next_page_path: next_page_path }
       render partial: 'tutorials/list', locals: locals
     else
       @next_page_path = next_page_path
       @tutorials = pagination.items
-      @more = pagination.more?
     end
   end
 

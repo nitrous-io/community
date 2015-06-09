@@ -55,12 +55,11 @@ class PostsController < ApplicationController
     next_page_path = posts_path(pagination.options_for_next_page)
 
     if pagination.page > 1
-      locals = { posts: pagination.items, next_page_path: next_page_path, more: pagination.more? }
+      locals = { posts: pagination.items, next_page_path: next_page_path }
       render partial: 'posts/list', locals: locals
     else
       @next_page_path = next_page_path
       @posts = pagination.items
-      @more = pagination.more?
     end
   end
 

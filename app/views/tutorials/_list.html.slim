@@ -2,7 +2,4 @@ section.tutorials.cards
   - tutorials.each do |tutorial|
     = render partial: 'partials/tutorial_card', locals: { tutorial: tutorial }
 
-- if more
-  = form_tag next_page_path, method: :get, remote: true, data: { type: 'html', 'replace-form' => true }
-    section.centered
-      = submit_tag 'More Tutorials'
+= link_to '', next_page_path, data: { 'next-link' => true }

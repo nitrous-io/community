@@ -24,3 +24,12 @@ $('[data-form-id]').on 'click', (e) ->
         $form.append($("<input>").attr("type", "hidden").attr("name", key).val(value))
 
     $form.submit()
+
+$('[data-infinite-scroll=true]').infinitescroll
+  animate: true
+  navSelector: 'a[data-next-link]'
+  nextSelector: 'a[data-next-link]'
+  contentSelector: '[data-infinite-scroll=true]'
+  itemSelector: 'section'
+  dataType: 'html'
+  debug: true

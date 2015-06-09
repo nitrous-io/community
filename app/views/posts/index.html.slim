@@ -1,5 +1,6 @@
 .main
-  .container data-infinite-scroll="true"
+  .container data-infinite-scroll="true" data-infinite-scroll-container="#posts"
     / = render partial: 'partials/flash_message'
 
-    = render partial: 'posts/list', locals: { posts: @posts, next_page_path: @next_page_path, more: @more }
+    #posts
+      = render partial: 'posts/list', locals: { posts: @posts, next_page_path: @next_page_path }

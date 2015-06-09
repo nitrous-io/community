@@ -25,11 +25,15 @@ $('[data-form-id]').on 'click', (e) ->
 
     $form.submit()
 
-$('[data-infinite-scroll=true]').infinitescroll
-  animate: true
-  navSelector: 'a[data-next-link]'
-  nextSelector: 'a[data-next-link]'
-  contentSelector: '[data-infinite-scroll=true]'
-  itemSelector: 'section'
-  dataType: 'html'
-  debug: true
+$scrollViews = $('[data-infinite-scroll=true]')
+
+for scrollView in $scrollViews
+  $scrollView = $(scrollView)
+  $containerSelector = $scrollView.data('infinite-scroll-container')
+  $scrollView.infinitescroll
+    animate: true
+    navSelector: "#{$containerSelector} a[data-next-link]"
+    nextSelector: "#{$containerSelector} a[data-next-link]"
+    contentSelector: $containerSelector
+    itemSelector: 'section'
+    dataType: 'html'

@@ -1,11 +1,27 @@
 .main
   .container
-    = render partial: 'drafts/tab', locals: { current_tab: 'all' }
+    .tabs data-tabbable="true"
+      ul
+        li
+          = link_to 'All', '#all'
+        li
+          = link_to 'Tutorial', '#tutorials'
+        li
+          = link_to 'Blog Posts', '#posts'
 
-    section#tutorials.tutorials.cards.tab
-      - @tutorials.each do |t|
-        = render partial: 'partials/tutorial_card', locals: { tutorial: t }
+    #all
+      section.tutorials.cards.tab
+        - @tutorials.each do |t|
+          = render partial: 'partials/tutorial_card', locals: { tutorial: t }
 
-    section#posts.blog.cards.tab
-      - @posts.each do |p|
-        = render partial: 'partials/post_card', locals: { post: p }
+      section.blog.cards.tab
+        - @posts.each do |p|
+          = render partial: 'partials/post_card', locals: { post: p }
+
+    #tutorials
+      .tutorials-container
+        = render partial: 'tutorials/list', locals: { tutorials: @tutorials, next_page_path: '#' }
+
+    #posts
+      .posts-container
+        = render partial: 'posts/list', locals: { posts: @posts, next_page_path: '#' }

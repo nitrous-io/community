@@ -12,13 +12,12 @@
     / - if _item.persisted?
     /   = f.datetime_field :published_at, placeholder: 'Publish Date (2014-05-20T00:00:00.000+0000)'
     
-    .tabs.as-icons
+    .tabs.as-icons data-tabbable='true'
       ul
         li.markdown
           a.active href="#markdown" Mardown
         li.preview
-          a href="#preview" Preview
-          
+          a.preview-js href="#preview" Preview
 
     .tabs-content
       #markdown.row

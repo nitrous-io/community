@@ -1,0 +1,5 @@
+section.tutorials.cards
+  - tutorials.each do |tutorial|
+    = render partial: 'partials/tutorial_card', locals: { tutorial: tutorial }
+
+= link_to '', next_page_path, data: { 'next-link' => true }

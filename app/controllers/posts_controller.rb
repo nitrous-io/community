@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
   before_action :verify_admin, except: %i(index show)
-  
+
   def new
     @post = Post.new
     @smallNavTitle = 'Draft'
@@ -50,7 +50,17 @@ class PostsController < ApplicationController
   end
 
   def index
-    @posts = params[:tag] ? Post.published.tagged_with(params[:tag]) : Post.published
+    posts = params[:tag] ? Post.published.tagged_with(params[:tag]) : Post.published
+    pagination = Pagination.new(posts.recently_updated, per_page: params[:per_page].to_i, page: params[:page].to_i)
+    next_page_path = posts_path(pagination.options_for_next_page)
+
+    if pagination.page > 1
+      locals = { posts: pagination.items, next_page_path: next_page_path }
+      render partial: 'posts/list', locals: locals
+    else
+      @next_page_path = next_page_path
+      @posts = pagination.items
+    end
   end
 
   def show

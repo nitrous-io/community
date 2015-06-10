@@ -20,7 +20,7 @@ Community Site for Nitrous.IO.
 
   ```sh
   $ cp config/database.yml.example config/database.yml # Create database.yml from config/database.yml.example
-  $ rake db:create db:migrate db:test:prepare # Create and migrate database
+  $ rake db:create db:migrate # Create and migrate database
   ```
 
   3. Create .env file from .env-sample for environment variables
@@ -30,9 +30,32 @@ Community Site for Nitrous.IO.
   ```
 
 ## Test
-```sh
-  $ spring rspec spec
-```
+
+### Setup
+
+  1. Reset test database with current schema.rb
+  
+  ```
+    $ rake db:test:prepare
+  ```
+  
+  2. Install phantomjs to test javascript with command line
+  
+  ```sh
+    $ sudo apt-get install phantomjs
+  ```
+  
+  3. Run rspec tests
+
+  ```sh
+    $ spring rspec spec
+  ```
+  
+  4. Run test
+  
+  ```sh
+    $ bundle exec rake konacha:run
+  ```
 
 ## Running server
 ```sh

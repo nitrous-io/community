@@ -1,7 +1,6 @@
 .main
-  .container
+  .container data-infinite-scroll="true" data-infinite-scroll-container="#tutorials"
     / = render partial: 'partials/flash_message'
 
-    section.tutorials.cards
-      - @tutorials.each do |tutorial|
-        = render partial: 'partials/tutorial_card', locals: { tutorial: tutorial }
+    #tutorials
+      = render partial: 'tutorials/list', locals: { tutorials: @tutorials, next_page_path: @next_page_path }

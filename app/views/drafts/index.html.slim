@@ -1,20 +1,27 @@
 .main
   .container
-    
-    .tabs
+    .tabs data-tabbable="true"
       ul
         li
-          a.active href="#all" All
+          = link_to 'All', '#all'
         li
-          a href="#tutorials" Tutorials
+          = link_to 'Tutorial', '#tutorials'
         li
-          a href="#posts" Blog Posts
+          = link_to 'Blog Posts', '#posts'
 
+    #all
+      section.tutorials.cards.tab
+        - @tutorials.each do |t|
+          = render partial: 'partials/tutorial_card', locals: { tutorial: t }
 
-    section#tutorials.tutorials.cards.tab
-      - @tutorials.each do |t|
-        = render partial: 'partials/tutorial_card', locals: { tutorial: t }
+      section.blog.cards.tab
+        - @posts.each do |p|
+          = render partial: 'partials/post_card', locals: { post: p }
 
-    section#posts.blog.cards.tab
-      - @posts.each do |p|
-        = render partial: 'partials/post_card', locals: { post: p }
+    #tutorials
+      .tutorials-container
+        = render partial: 'tutorials/list', locals: { tutorials: @tutorials, next_page_path: '#' }
+
+    #posts
+      .posts-container
+        = render partial: 'posts/list', locals: { posts: @posts, next_page_path: '#' }

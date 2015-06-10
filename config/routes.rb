@@ -39,7 +39,12 @@ Rails.application.routes.draw do
 
   post '/preview'    => 'preview#convert'
 
-  resources :drafts, only: [:index]
+  resources :drafts, only: [:index] do
+    collection do
+      get :posts
+      get :tutorials
+    end
+  end
 
   root 'home#index'
 end

@@ -3,9 +3,11 @@
 #= require inline-attachment
 #= require jquery.inline-attachment
 #= require tagsinput
+#= require jquery.infinitescroll-2.1.0
 #= require ./main
 #= require ./image_upload
 #= require ./ajax-helper
 #= require ./highlight
 #= require ./edit-page
 #= require ./webfonts
+#= require ./tab

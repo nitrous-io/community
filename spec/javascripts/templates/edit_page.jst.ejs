@@ -1,0 +1,29 @@
+<div class="form-wrapper">
+  <div class="row">
+    <input tabindex="1" placeholder="Title" class="for-title" type="text" value="" name="tutorial[title]" id="tutorial_title">
+  </div>
+  <div class="row">
+    <input placeholder="Cover image (URL)" tabindex="2" type="text" name="tutorial[cover_image_url]" id="tutorial_cover_image_url">
+  </div>
+  <div class="row">
+    <input data-role="tagsinput" tabindex="3" value="DB migration, MacOS" type="text" name="tutorial[tag_list]" id="tutorial_tag_list" data-tagsinput-init="true">
+  </div>
+  <div class="tabs as-icons" data-tabbable="true">
+    <ul>
+      <li class="markdown">
+        <a class="active" href="#markdown">Mardown</a>
+      </li>
+      <li class="preview">
+        <a class="preview-js" href="#preview">Preview</a>
+      </li>
+    </ul>
+  </div>
+  <div class="tabs-content">
+    <div class="row" id="markdown">
+      <textarea class="markdown-textarea" rows="15" tabindex="2" data-attachment-allowed="true" name="tutorial[content_markdown]" id="tutorial_content_markdown"></textarea>
+    </div>
+    <div class="row" id="preview">
+      <div class="preview-content-js"></div>
+    </div>
+  </div>
+</div>

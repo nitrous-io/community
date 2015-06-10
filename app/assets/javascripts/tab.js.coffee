@@ -23,7 +23,7 @@ class window.Community.Tab
     @$currentTab = $tab
     @$currentContent = $target
 
-    @onChange?(@$currentTab, @$currentContent)
+    @onChange?(this)
 
   deactivateAll: ->
     @$tabs.removeClass("active")

@@ -16,43 +16,45 @@ class window.Community.Search
       @$searchInput.val(query)
     else
       e.preventDefault()
+      @scrolls[type]?.infinitescroll('destroy')
       @fetchPartial({q: query, type: type}, @tab.$currentContent)
 
-  onTabChange: ($tab, $content) ->
+  onTabChange: (tab) ->
+    $tab = tab.$currentTab
+    $content = tab.$currentContent
     query = @$searchInput.val().trim()
     return if query.length < 1
     type = $content.attr('id')
-    for t, scroll of @scrolls
-      console.log('pause', t)
+    for _, scroll of @scrolls
       scroll.infinitescroll('pause')
 
     return if type == 'all'
 
-    console.log(@currentQueries)
     if @currentQueries[type] == query
-      console.log('resume', type, @scrolls[type])
       @scrolls[type]?.infinitescroll('resume')
     else
-      console.log('destroy', type)
       @scrolls[type]?.infinitescroll('destroy')
-      @fetchPartial({q: query, type: type}, $content)
+      @fetchPartial({q: query, type: type}, tab.$currentContent)
 
   fetchPartial: (data, $content) ->
     @currentQueries[data.type] = data.q
     $.ajax(
       url: @url, type: 'GET', data: data
     ).done((content) =>
-      $content.html(content)
+      # This is to make re-initialize infinite scroll
+      # If you initialze and destroy to same element
+      # It does not re-initalize
+      $content.html('<div>' + content + '</div>')
       @initScroll(data, $content)
     )
 
   initScroll: (data, $content) ->
     containerId = $content.attr('id')
-    console.log('data.type', data.type)
-    @scrolls[data.type] = $content.infinitescroll
+    @scrolls[data.type] = $content.find('>').infinitescroll
       animate: true
       navSelector: "##{containerId} a[data-next-link]"
       nextSelector: "##{containerId} a[data-next-link]"
-      contentSelector: "##{containerId}"
+      contentSelector: "##{containerId} >"
       itemSelector: 'section'
       dataType: 'html'
+      debug: true

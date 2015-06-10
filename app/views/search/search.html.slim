@@ -17,8 +17,10 @@
       = render partial: 'tutorials/list', locals: { tutorials: @tutorials, next_page_path: '#' }
       = render partial: 'posts/list', locals: { posts: @posts, next_page_path: '#' }
 
-    #tutorials.tutorials-container
-    #posts.posts-container
+    #tutorials
+
+    #posts
+
 
 = content_for :body_after do
   javascript:

@@ -117,8 +117,8 @@
       z-index: 2
 
     .icon-overlay
-      height: 60px
       margin: 0 auto
+      display: block
       position: relative
       top: 50%
       transform: translateY(-50%)
@@ -134,10 +134,9 @@
         left: 0
         right: 0
         height: 100%
-        background: red
         border-radius: inherit
         pointer-events: none
-        opacity: .4
+        opacity: .6
         z-index: 1
 
     &.overlay-1:after
@@ -155,60 +154,161 @@
       display: block
       border-radius: 2px 2px 0 0
       background: $dark-blue
+   
+      
+  .icon-overlay
+    width: 80px
+    height: 60px
+    background: image-url('tutorial-visual-nitrous.png') 0 0 no-repeat
+    background-size: 80px 60px
+
 
   &.tag-ruby .visual a
     background: $ruby
+    .icon-overlay
+      width: 80px
+      height: 80px
+      background: image-url('tutorial-visual-ruby.png') 0 0 no-repeat
+      background-size: 80px 80px
 
   &.tag-ruby-on-rails .visual a, &.tag-rails .visual a
     background: $ruby-on-rails
+    .icon-overlay
+      width: 88px
+      height: 88px
+      background: image-url('tutorial-visual-rails.png') 0 0 no-repeat
+      background-size: 88px 88px
   
   &.tag-python .visual a
     background: $python
+    .icon-overlay
+      width: 88px
+      height: 88px
+      background: image-url('tutorial-visual-python.png') 0 0 no-repeat
+      background-size: 88px 88px
     
   &.tag-django .visual a
     background: $django
+    .icon-overlay
+      width: 152px
+      height: 54px
+      background: image-url('tutorial-visual-django.png') 0 0 no-repeat
+      background-size: 152px 54px
 
   &.tag-nodejs .visual a, &.tag-node .visual a
     background: $nodejs
+    .icon-overlay
+      width: 88px
+      height: 88px
+      background: image-url('tutorial-visual-nodejs.png') 0 0 no-repeat
+      background-size: 88px 88px
 
   &.tag-meteor .visual a
     background: $meteor
+    .icon-overlay
+      width: 88px
+      height: 88px
+      background: image-url('tutorial-visual-meteor.png') 0 0 no-repeat
+      background-size: 88px 88px
 
   &.tag-html5 .visual a, &.tag-html .visual a
     background: $html5
+    .icon-overlay
+      width: 82px
+      height: 90px
+      background: image-url('tutorial-visual-html.png') 0 0 no-repeat
+      background-size: 82px 90px
 
   &.tag-php .visual a
     background: $php
+    .icon-overlay
+      width: 124px
+      height: 66px
+      background: image-url('tutorial-visual-php.png') 0 0 no-repeat
+      background-size: 124px 66px
 
   &.tag-golang .visual a, &.tag-go .visual a
     background: $golang
+    .icon-overlay
+      width: 76px
+      height: 100px
+      background: image-url('tutorial-visual-golang.png') 0 0 no-repeat
+      background-size: 76px 100px
 
   &.tag-java .visual a
     background: $java
+    .icon-overlay
+      width: 74px
+      height: 97px
+      background: image-url('tutorial-visual-java.png') 0 0 no-repeat
+      background-size: 74px 97px
 
   &.tag-wordpress .visual a
     background: $wordpress
+    .icon-overlay
+      width: 88px
+      height: 88px
+      background: image-url('tutorial-visual-wordpress.png') 0 0 no-repeat
+      background-size: 88px 88px
 
   &.tag-iojs .visual a
     background: $iojs
+    .icon-overlay
+      width: 84px
+      height: 70px
+      background: image-url('tutorial-visual-iojs.png') 0 0 no-repeat
+      background-size: 84px 70px
 
   &.tag-laravel .visual a
     background: $laravel
+    .icon-overlay
+      width: 95px
+      height: 68px
+      background: image-url('tutorial-visual-laravel.png') 0 0 no-repeat
+      background-size: 95px 68px
 
   &.tag-ubuntu .visual a
     background: $ubuntu
+    .icon-overlay
+      width: 84px
+      height: 84px
+      background: image-url('tutorial-visual-ubuntu.png') 0 0 no-repeat
+      background-size: 84px 84px
 
   &.tag-asp .visual a
     background: $asp
 
   &.tag-docker .visual a
     background: $docker
+    .icon-overlay
+      width: 105px
+      height: 80px
+      background: image-url('tutorial-visual-docker.png') 0 0 no-repeat
+      background-size: 105px 80px
 
   &.tag-rust .visual a
     background: $rust
+    .icon-overlay
+      width: 88px
+      height: 88px
+      background: image-url('tutorial-visual-rust.png') 0 0 no-repeat
+      background-size: 88px 88px
+  
+  &.tag-parse .visual a
+    background: $parse
+    .icon-overlay
+      width: 60px
+      height: 84px
+      background: image-url('tutorial-visual-parse.png') 0 0 no-repeat
+      background-size: 60px 84px
   
   &.tag-code .visual a
     background: $blue
+    .icon-overlay
+      width: 122px
+      height: 72px
+      background: image-url('tutorial-visual-code.png') 0 0 no-repeat
+      background-size: 122px 72px
 
 
   // Tutorial

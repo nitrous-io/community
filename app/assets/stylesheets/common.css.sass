@@ -190,13 +190,23 @@ section + .title
   display: flex
   padding-bottom: 0
   margin-bottom: 0
-  align-items: flex-end
-  justify-content: flex-end
-  flex-direction: flex-end
+  align-items: center
+  justify-content: center
+  flex-direction: center
   background-size: cover !important
+  
+  &:after
+    content: ""
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    background: rgba($blue,.80) linear-gradient(rgba($blue,.85), rgba($blue, .2))
+    z-index: 1
 
   & + .main
-    margin-top: 60px
+    margin-top: 40px
   
   a.cover
     position: absolute
@@ -210,6 +220,12 @@ section + .title
   .container
     position: relative
     z-index: 3
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    text-align: center
+    margin-top: -62px
     
     .small
       text-transform: uppercase
@@ -221,16 +237,19 @@ section + .title
       margin-bottom: 20px
       letter-spacing: 3px
       cursor: default
-      
-  .card
-    position: relative
-    z-index: 3
-    padding: 30px 40px 0 40px
-    margin-bottom: 0
     
-    .content
-      margin-bottom: -20px
+    h3.card-title a
+      font-size: 42px
+      line-height: 48px
+      display: block
+      color: #FFF
       
+    a.btn.bordered
+      border-color: rgba(255,255,255,.6)
+      color: rgba(255,255,255,.6)
+      &:hover
+        border-color: #FFF
+        color: #FFF
 
 // Title Hero
 .main.title-hero

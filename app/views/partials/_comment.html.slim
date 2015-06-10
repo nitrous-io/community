@@ -1,12 +1,13 @@
 .comment
   .meta
+    .gravatar
+      img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=retro&amp;f=y"
     .author
-      span.gravatar
-        img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=retro&amp;f=y"
       span.username
         = comment.user.username.capitalize
-    span.timestamp
-      = time_ago_in_words(comment.created_at)
-      '  ago
+    .timestamp
+      span
+        = time_ago_in_words(comment.created_at)
+        '  ago
   .content
     = comment.content

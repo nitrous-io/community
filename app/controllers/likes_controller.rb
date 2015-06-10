@@ -1,5 +1,5 @@
 class LikesController < ApplicationController
-  before_action :verify_logged_in
+  before_action :verify_logged_in_ajax
 
   include SharedParent
 

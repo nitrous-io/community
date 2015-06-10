@@ -49,6 +49,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def verify_logged_in_ajax
+    unless current_user
+      render html: "<div class=\"error\">You need to <a href=\"/login\">login</a> to do that.</div>".html_safe
+    end
+  end
+
   def verify_admin
     redirect_to root_path unless current_user.try(:admin)
   end

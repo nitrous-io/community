@@ -1,25 +1,30 @@
-window.Community.Tab =
-  init: ->
-    $tabs = $("[data-tabbable=true] li a")
-    $contents = []
-    for tab in $tabs
+class window.Community.Tab
+  constructor: (@$tabs = null) ->
+    @$tabs ||= $("[data-tabbable=true] li a")
+    @$contents = []
+    for tab in @$tabs
       target = $(tab).attr('href')
-      $contents.push($(target))
+      @$contents.push($(target))
 
-    $tabs.click (e) ->
+    @$tabs.click (e) =>
       e.preventDefault()
-      $this = $(this)
-      unless $this.hasClass("active")
-        # Deactive all tabs and hide all tab contents
-        $tabs.removeClass("active")
-        for content in $contents
-          $(content).hide()
+      $tab = $(e.target)
+      @activateTab($tab) unless $tab.hasClass("active")
 
-        # Activate the tab and show corresponding content
-        $target = $($this.attr('href'))
-        $this.addClass('active')
-        $target.show()
+    $(@$tabs[0]).click()
 
-    $($tabs[0]).click()
+  activateTab: ($tab) ->
+    @deactivateAll()
 
-window.Community.Tab.init()
+    $target = $($tab.attr('href'))
+    $tab.addClass('active')
+    $target.show()
+
+    @$currentTab = $tab
+    @$currentContent = $target
+
+  deactivateAll: ->
+    @$tabs.removeClass("active")
+    $(content).hide() for content in @$contents
+
+new Community.Tab()

@@ -3,11 +3,11 @@
 #= require templates/tab
 
 describe "Tab", ->
-  $firstTab = $secondTab = $secondTabContent = $firstTabContent = null
+  tab = $firstTab = $secondTab = $secondTabContent = $firstTabContent = null
 
   beforeEach ->
     $('body').html(JST['templates/tab']())
-    window.Community.Tab.init()
+    tab = new window.Community.Tab()
     $firstTab = $('.tabs li:first a')
     $secondTab = $('.tabs li:nth(1) a')
     $firstTabContent = $($firstTab.attr('href'))
@@ -25,3 +25,11 @@ describe "Tab", ->
     expect($secondTab.hasClass('active')).to.be.true
     expect($firstTabContent.is(':visible')).to.be.false
     expect($secondTabContent.is(':visible')).to.be.true
+
+  it "sets $currentTab and $currentContent", ->
+    $secondTab.click()
+    expect(tab.$currentTab[0]).to.equal($secondTab[0])
+    expect(tab.$currentContent[0]).to.equal($secondTabContent[0])
+    $firstTab.click()
+    expect(tab.$currentTab[0]).to.equal($firstTab[0])
+    expect(tab.$currentContent[0]).to.equal($firstTabContent[0])

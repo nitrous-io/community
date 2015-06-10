@@ -1,5 +1,5 @@
 class window.Community.Tab
-  constructor: (@$tabs = null) ->
+  constructor: (@$tabs = null, @onChange = null) ->
     @$tabs ||= $("[data-tabbable=true] li a")
     @$contents = []
     for tab in @$tabs
@@ -23,8 +23,11 @@ class window.Community.Tab
     @$currentTab = $tab
     @$currentContent = $target
 
+    @onChange?(@$currentTab, @$currentContent)
+
   deactivateAll: ->
     @$tabs.removeClass("active")
     $(content).hide() for content in @$contents
 
-new Community.Tab()
+if $("[data-tabbable=true]").length > 0
+  new Community.Tab()

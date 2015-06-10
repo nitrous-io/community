@@ -8,7 +8,11 @@ html lang="en" class=(full_controller_action_name)
     title
       = @title.nil? ? "Nitrous Community" : "#{@title} · Nitrous Community"
 
-    link rel='shortcut icon' href='/favicon.ico'
+    link rel='shortcut icon' type='image/ico' href='/favicon.ico'
+    link rel='icon' type='image/png' href='/favicon-96x96.png' sizes='96x96'
+    link rel='icon' type='image/png' href='favicon-16x16.png' sizes='16x16'
+    link rel='apple-touch-icon' href='/apple-icon.png'
+    
     = yield :head_before
     = stylesheet_link_tag 'application', media: 'all'
     = yield :head_stylesheet

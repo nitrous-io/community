@@ -116,7 +116,7 @@
       display: block
       z-index: 2
 
-    .for-visual
+    .icon-overlay
       height: 60px
       margin: 0 auto
       position: relative
@@ -156,53 +156,59 @@
       border-radius: 2px 2px 0 0
       background: $dark-blue
 
-  &.ruby .visual a
+  &.tag-ruby .visual a
     background: $ruby
 
-  &.ruby-on-rails .visual a
+  &.tag-ruby-on-rails .visual a, &.tag-rails .visual a
     background: $ruby-on-rails
-
-  &.django .visual a
+  
+  &.tag-python .visual a
+    background: $python
+    
+  &.tag-django .visual a
     background: $django
 
-  &.nodejs .visual a
+  &.tag-nodejs .visual a, &.tag-node .visual a
     background: $nodejs
 
-  &.meteor .visual a
+  &.tag-meteor .visual a
     background: $meteor
 
-  &.html5 .visual a
+  &.tag-html5 .visual a, &.tag-html .visual a
     background: $html5
 
-  &.php .visual a
+  &.tag-php .visual a
     background: $php
 
-  &.golang .visual a
+  &.tag-golang .visual a, &.tag-go .visual a
     background: $golang
 
-  &.java .visual a
+  &.tag-java .visual a
     background: $java
 
-  &.wordpress .visual a
+  &.tag-wordpress .visual a
     background: $wordpress
 
-  &.iojs .visual a
+  &.tag-iojs .visual a
     background: $iojs
 
-  &.laravel .visual a
+  &.tag-laravel .visual a
     background: $laravel
 
-  &.ubuntu .visual a
+  &.tag-ubuntu .visual a
     background: $ubuntu
 
-  &.asp .visual a
+  &.tag-asp .visual a
     background: $asp
 
-  &.docker .visual a
+  &.tag-docker .visual a
     background: $docker
 
-  &.rust .visual a
+  &.tag-rust .visual a
     background: $rust
+  
+  &.tag-code .visual a
+    background: $blue
 
 
   // Tutorial
@@ -221,15 +227,15 @@
 
   // Blog
   &.blog
-    .content
-      // WIP
 
     .visual
       border-radius: 3px
       margin-bottom: 10px
 
       a
-        height: 172px
+        height: 180px
+        overflow: hidden
+        background-size: cover
 
     h3.card-title
       padding-top: 8px
@@ -242,3 +248,46 @@
       line-height: 26px
       color: $light-grey
       font-weight: 300
+    
+    @media screen and (min-width: $break-large)
+      width: 50%
+      
+      .visual a
+        height: 260px
+
+  
+  // Focus
+  &.focus
+
+    @media screen and (min-width: $break-large)
+      background: #FFF
+      width: 100%
+      margin-bottom: 30px
+      
+      .meta
+        text-align: left
+        display: flex
+        
+        span
+          margin: 0 0 10px 0
+          color: $light-grey
+          
+      .content
+        h3
+          a
+            font-size: 32px
+            line-height: 38px
+
+    
+    
+    
+html.drafts
+  .cards + .cards
+    margin-top: 40px
+    
+  .card
+    &.blog
+      @media screen and (min-width: $break-large)
+        width: 33.33%
+        .visual a
+          height: 178px

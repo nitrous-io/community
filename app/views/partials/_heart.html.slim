@@ -1,3 +1,6 @@
 = form_tag url, remote: true, authenticity_token: true, method: (is_upvoted ? :delete : :post), data: { type: 'html', 'replace-form' => true }, class: (is_upvoted ? 'active' : '') do
   span.status-icon.heart
-  = submit_tag "Heart"
+  - if is_upvoted
+    = submit_tag "Hearted"
+  - else
+    = submit_tag "Heart"

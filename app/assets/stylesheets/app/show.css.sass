@@ -69,6 +69,13 @@ html.show, html.new, html.edit
           color: $blue
           border: 1px solid $blue
           z-index: 2
+      
+      .heart
+        form.active
+          input
+            color: $blue
+            border: 1px solid $blue
+            z-index: 2
 
       .status-icon
         position: relative
@@ -87,7 +94,7 @@ html.show, html.new, html.edit
           background-size: 18px 108px
 
       .heart
-        form:hover span:after, &.active span:after
+        form:hover span:after, form.active span:after
           background-position: 0 -18px
 
       .comment

@@ -3,6 +3,7 @@ class Post < ActiveRecord::Base
   include Likable
   include Markdownable
   include Publishable
+  include PgSearch
 
   belongs_to :user
   has_many :comments, as: :parent, dependent: :destroy
@@ -13,7 +14,20 @@ class Post < ActiveRecord::Base
   acts_as_taggable_on :tags
   friendly_id :title, use: :slugged
 
-  scope :recently_updated, -> { order(updated_at: :desc)}
+  pg_search_scope :search,
+                  against:            [:title, :content_markdown],
+                  associated_against: {
+                      taggings: {
+                          tags: :name
+                      }
+                  },
+                  using:              {
+                      tsearch: {
+                          dictionary: 'english'
+                      }
+                  }
+
+  scope :recently_updated, -> { order(updated_at: :desc) }
 
   protected
   # To update slug when title get updated

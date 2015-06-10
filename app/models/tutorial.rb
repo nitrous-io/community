@@ -3,6 +3,7 @@ class Tutorial < ActiveRecord::Base
   include Likable
   include Markdownable
   include Publishable
+  include PgSearch
 
   belongs_to :user
   has_many :comments, as: :parent, dependent: :destroy
@@ -12,6 +13,15 @@ class Tutorial < ActiveRecord::Base
 
   acts_as_taggable_on :tags
   friendly_id :title, use: :slugged
+
+  pg_search_scope :search,
+                  against: [:title, :content_markdown],
+                  using: {
+                      tsearch: {
+                          dictionary: 'english'
+                      },
+                      trigram: {}
+                  }
 
   scope :recently_updated, -> { order(updated_at: :desc)}
 

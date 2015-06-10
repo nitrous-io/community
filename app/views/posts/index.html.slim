@@ -1,7 +1,9 @@
+- if @posts.length > 0
+  = render partial: 'partials/post_card', locals: { post: @posts[0], url_prefix: '/posts', focus: true}
 .main
   .container
     / = render partial: 'partials/flash_message'
 
     section.blog.cards
-      - @posts.each do |post|
+      - @posts.drop(1).each do |post|
         = render partial: 'partials/post_card', locals: { post: post, url_prefix: '/posts'}

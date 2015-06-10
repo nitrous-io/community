@@ -36,8 +36,33 @@ $break-small: 30em
 $break-medium: 48em
 $break-large: 1080px
 
+// Logo Grid
+=logoGridBg($color,$width,$height)
+  background: $color image_url('stacks-logos-grid.png') center center repeat
+  background-size: $width $height
+  
+=heroLogoGrid($color,$width,$height)
+  &:before, &:after
+    content: ""
+    position: absolute
+    left: 0
+    right: 0
+    display: block
 
+  &:before
+    height: 600px
+    top: -50%
+    +logoGridBg($color,$width,$height)
+    transform: rotate(15deg) translateY(0)
+    -webkit-perspective: 1000
+    backface-visibility: hidden
+  
+  &:after
+    top: 0
+    bottom: 0
+    background: radial-gradient(ellipse at center, rgba($color,.55) 0%,rgba($color,1) 72%)
 
+// Animations
 @keyframes bounceIn
   0%, 20%, 40%, 60%, 80%, 100%
     -webkit-transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000)

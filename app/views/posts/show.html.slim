@@ -16,7 +16,7 @@
               = link_to 'Publish', publish_post_path(@post.id), method: :put
       .divider
 
-.main.title-hero
+.main.title-hero style="background: url('#{@post.cover_image_url}') center center fixed;"
   .container
     .title
       h2

@@ -9,16 +9,13 @@ html.new, html.edit, html.drafts
   body > header
     nav
       display: none
-
-html.posts.show
-  header
-    border-bottom: 1px solid rgba(255,255,255,.1)
   
 body > header
-  background: $blue
+  background: rgba($blue,.98)
   line-height: 52px
   height: 52px
   font-size: 14px
+  border-bottom: 1px solid rgba(255,255,255,.1)
 
   &.fixed
     position: fixed
@@ -126,6 +123,10 @@ body > header
       display: block
 
     @media screen and (min-width: $break-medium)
+      .desktop
+        margin-right: -14px
+        padding: 0 14px 0 14px
+      
       .desktop, .divider, button, .dropdown
         display: flex
 

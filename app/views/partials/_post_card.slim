@@ -1,12 +1,31 @@
 - link = post.published? ? posts_slugged_path(slug: post.slug) : edit_post_path(id: post.id)
 
-.blog.card
-  .content
-    .visual
-      a href=(link)
+- if defined?(focus) && focus
+  .main.post-hero style="background: url('#{post.cover_image_url}') center center fixed;"
+    a href=(link) class="cover"
+    .container
+      span.small
+        | Latest article
+      .blog.card.focus
+        .content
+          h3.card-title
+            = link_to post.title, link
+          .meta
+            span.time
+              = l post.created_at, format: :simple
+          - unless post.content_text.nil?
+            p
+              = post.content_text.truncate(360)
 
-    h3.card-title
-      = link_to post.title, link
+- else
+  .blog.card
+    .content
+      .visual
+        a href=(link) style="background-image: url('#{post.cover_image_url}');"
 
-    p
-      | Nulla vitae elit libero, a pharetra augue. Donec sed odio dui.
+      h3.card-title
+        = link_to post.title, link
+
+      - unless post.content_text.nil?
+        p
+          = post.content_text.truncate(100)

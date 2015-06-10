@@ -44,11 +44,11 @@
         
         .heart
           = render partial: 'partials/heart', locals: { url: post_likes_path(post_id: @post.id), score: @post.score, is_upvoted: @is_upvoted }
-        /.heart
-        /  = button_to "Heart", post_likes_path(post_id: @post.id), method: :post, class: "status-icon heart"
         
         a.status-icon.comment href="#comments"
-          span Comment
+          span
+            = @post.comments.count
+            |  Comments
 
         a.status-icon.share href="#share"
           span Share

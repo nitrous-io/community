@@ -5,17 +5,16 @@
   .content
     .visual class=("overlay-#{rand(1..5)}")
       a href=(link)
-        = image_tag 'tutorial-visual-nitrous.png', class:"icon-overlay"
-        // tutorial.cover_image_url
+        span.icon-overlay
 
     h3.card-title
       = link_to tutorial.title, link
 
     .status
-      a.hearts href="#"
+      a.hearts href=(link)
         span
           = tutorial.score
-      a.comments href="#"
+      a.comments href=(link)
         span
           = tutorial.comments.count
           / FIXME: need to be cached by counter_cache or something

@@ -5,7 +5,7 @@ class Tutorial < ActiveRecord::Base
   include Publishable
 
   belongs_to :user
-  has_many :comments, as: :parent, dependent: :destroy
+  has_many :comments, -> { order created_at: :asc }, as: :parent, dependent: :destroy
 
   validates :title, :content_markdown, presence: true
   validates :slug, uniqueness: true

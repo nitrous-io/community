@@ -1,6 +1,6 @@
 Community.EditPage =
   init: ->
-    $markdownTextarea = $('.markdown-textarea')
+    $markdownTextarea = $('.markdown-text-js')
     $previewTabLink = $('a.preview-js')
     codemirror = CodeMirror.fromTextArea $markdownTextarea[0],
       mode: 'markdown'

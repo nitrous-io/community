@@ -46,5 +46,7 @@ Rails.application.routes.draw do
     end
   end
 
+  get '/search' => 'search#search'
+
   root 'home#index'
 end

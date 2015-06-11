@@ -1,7 +1,7 @@
 .main
   .container
-    .centered
-      = form_tag search_path, method: :get, id: 'search_form' do
+    .form-wrapper
+      = form_tag search_path, method: :get, id: 'search-form' do
         = text_field_tag 'q', params[:q].try(:strip), placeholder: 'Search'
 
     .tabs data-tabbable='true'
@@ -9,7 +9,7 @@
         li
           = link_to 'All', '#all'
         li
-          = link_to 'Tutorial', '#tutorials'
+          = link_to 'Tutorials', '#tutorials'
         li
           = link_to 'Blog Posts', '#posts'
 
@@ -18,14 +18,14 @@
         - @tutorials.each do |t|
           = render partial: 'partials/tutorial_card', locals: { tutorial: t }
 
-        section.blog.cards.tab
-          - @posts.each do |p|
-            = render partial: 'partials/post_card', locals: { post: p }
+      section.blog.cards.tab
+        - @posts.each do |p|
+          = render partial: 'partials/post_card', locals: { post: p }
 
     #tutorials
-      .tutorials-container
+      section.tutorials-container
         = render partial: 'tutorials/list', locals: { tutorials: @tutorials, pagination_options: { controller: :search, action: 'tutorials' } }
 
     #posts
-      .posts-container
+      section.posts-container
         = render partial: 'posts/list', locals: { posts: @posts, pagination_options: { controller: :search, action: 'posts' } }

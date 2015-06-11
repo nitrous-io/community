@@ -6,12 +6,12 @@ class DraftsController < ApplicationController
   before_action :set_title
 
   def index
-    @tutorials = Tutorial.drafted.recently_updated.page(page).per(per_page)
-    @posts = Post.drafted.recently_updated.page(page).per(per_page)
+    @tutorials = Tutorial.drafted.by_published_at.page(page).per(per_page)
+    @posts = Post.drafted.by_published_at.page(page).per(per_page)
   end
 
   def posts
-    @posts = Post.drafted.recently_updated.page(page).per(per_page)
+    @posts = Post.drafted.by_published_at.page(page).per(per_page)
     respond_to do |format|
       format.js do
         render template: 'posts/index.js'
@@ -20,7 +20,7 @@ class DraftsController < ApplicationController
   end
 
   def tutorials
-    @tutorials = Tutorial.drafted.recently_updated.page(page).per(per_page)
+    @tutorials = Tutorial.drafted.by_published_at.page(page).per(per_page)
     respond_to do |format|
       format.js do
         render template: 'tutorials/index.js'

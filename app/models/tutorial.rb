@@ -13,7 +13,7 @@ class Tutorial < ActiveRecord::Base
   acts_as_taggable_on :tags
   friendly_id :title, use: :slugged
 
-  scope :recently_updated, -> { order(updated_at: :desc)}
+  scope :by_published_at, -> { order(published_at: :desc)}
 
   protected
   # To update slug when title get updated

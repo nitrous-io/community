@@ -2,6 +2,7 @@
 
 *
   box-sizing: border-box
+  -webkit-tap-highlight-color: rgba(0,0,0,0)
 
 body
   font-family: $opensans
@@ -117,6 +118,7 @@ section + .title
           color: rgba($dark-grey,.5)
           font-size: 16px
           padding: 0 20px 12px 20px
+          border-bottom: 1px solid transparent
           
           &:hover
             color: $dark-grey
@@ -158,14 +160,62 @@ section + .title
             background-position: -48px 0
             &.active
               background-position: -48px -30px
+  
 
-      
-  .pagination
-    padding: 0 0 80px 0
+  .tabs:not(.as-icons)
+    ul
+      li
+        a
+          transition: all .15s ease-in-out
 
-    a
-      margin-top: 0
+              
+  // Pagination
+  .paginator
+    display: flex
+    flex-direction: column
+    align-items: center
+    padding: 60px 0 10px 0
+    
+    ul.pagination
+      display: flex
+      li
+        color: $light-grey
+        cursor: default
+        margin: 0
+        border: 1px solid rgba($light-grey, .3)
+        
+        & + li
+          border-left: 0
+        
+        span, a
+          height: 38px
+          line-height: 38px
+          display: block
+          padding: 0 16px
+          font-size: 14px
+          
+        a
+          color: rgba($dark-grey,.8)
+          cursor: pointer
+          
+          &:hover
+            color: $blue
+        
+        &.next, &.last, &.prev, &.first, &.truncate, &.gap,
+        &.next a, &.last a, &.prev a, &.first a, &.truncate a, &.gap a
+          font-family: FontAwesome
+          font-size: 10px
+        
+        &:first-child
+          border-radius: 3px 0 0 3px
+          
+        &:last-child
+          border-radius: 0 3px 3px 0
+        
+        &.current
+          background: rgba($light-grey, .05)
 
+    
   // Tags
   .tag
     line-height: 22px

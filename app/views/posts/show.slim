@@ -46,7 +46,7 @@
         .heart
           = render partial: 'partials/heart', locals: { url: post_likes_path(post_id: @post.id), score: @post.score, is_upvoted: @is_upvoted }
         
-        a.status-icon.comment href="#comments"
+        a.status-icon.comment href="#the-comments"
           span
             = @post.comments.count
             |  Comments
@@ -71,7 +71,7 @@
           .row
             = f.submit "Post comment"
 
-      .comment-list
+      #the-comments.comment-list
         - @comments.each do |comment|
           = render partial: 'partials/comment', locals: { comment: comment }
 

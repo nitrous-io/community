@@ -6,6 +6,7 @@ RSpec.describe CommentsController, type: :controller do
   let!(:user) { create(:user) }
 
   describe 'POST #create' do
+    render_views
     def do_request(params = {})
       post :create, { post_id: p.id, comment: { content: 'hello' } }.merge(params)
     end
@@ -15,7 +16,8 @@ RSpec.describe CommentsController, type: :controller do
 
       it 'redirects to the post page' do
         do_request
-        expect(response).to redirect_to(posts_slugged_path(slug: p.slug))
+        expect(response).to render_template('partials/_comments_with_form')
+        expect(response.body).to match(post_comments_path(p.id))
       end
 
       it 'create a comment' do
@@ -31,7 +33,8 @@ RSpec.describe CommentsController, type: :controller do
 
         it 'redirects to the post page' do
           do_request(tutorial_id: tutorial.id, post_id: nil)
-          expect(response).to redirect_to(tutorials_slugged_path(slug: tutorial.slug))
+          expect(response).to render_template('partials/_comments_with_form')
+          expect(response.body).to match(tutorial_comments_path(tutorial.id))
         end
 
         it 'create a comment on the tutorial' do

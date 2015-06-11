@@ -7,13 +7,14 @@ class CommentsController < ApplicationController
     comment = parent.comments.build(comment_params)
     comment.user_id = current_user.id
 
+    locals = { comments: parent.comments, create_comment_path: create_comment_path }
     if comment.save
-      flash[:success] = 'Your comment has been posted'
+      locals[:comment] = Comment.new
     else
-      flash[:error] = 'Your comment has not been posted'
+      locals[:comment] = comment
     end
 
-    redirect_to parent_show_path
+    render partial: 'partials/comments_with_form', locals: locals
   end
 
   private 

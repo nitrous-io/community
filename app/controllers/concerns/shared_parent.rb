@@ -27,6 +27,16 @@ module SharedParent
     end
   end
 
+  def create_comment_path
+    @_create_comment_path ||= begin
+      if params[:post_id]
+        post_comments_path(@parent.id)
+      elsif params[:tutorial_id]
+        tutorial_comments_path(@parent.id)
+      end
+    end
+  end
+
   def parent_show_path
     @_parent_show_path ||= begin
       if params[:post_id]

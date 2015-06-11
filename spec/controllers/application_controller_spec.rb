@@ -1,11 +1,6 @@
 require 'rails_helper'
 
 describe ApplicationController do
-  controller do
-    def index
-    end
-  end
-
   describe 'current_user' do
     let!(:user) { create(:user) }
 
@@ -54,6 +49,20 @@ describe ApplicationController do
           end
         end
       end
+    end
+  end
+
+  describe 'current_user' do
+    controller do
+      before_action :verify_logged_in
+
+      def index
+      end
+    end
+
+    it 'redirects to sign page' do
+      get :index
+      expect(response).to redirect_to(login_path)
     end
   end
 end

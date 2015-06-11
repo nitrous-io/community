@@ -1,0 +1,12 @@
+/ It will make ajax call to create a comment for signed in user
+/ For non signed in user, it will keeps form values in session and redirects to log in page
+/ So disable set `remote` to false for non-signed-in users to redirect properly
+= form_for comment, url: create_comment_path, remote: current_user.present?, data: { html: true } do |f|
+  = f.text_area :content, placeholder: 'Write a comment...'
+
+  .row
+    = f.submit 'Post comment'
+
+  .comment-list
+    - comments.each do |comment|
+      = render partial: 'partials/comment', locals: { comment: comment }

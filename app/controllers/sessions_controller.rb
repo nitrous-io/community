@@ -36,7 +36,12 @@ class SessionsController < ApplicationController
         flash[:error] = client.last_error_description
       end
 
-      redirect_to root_path
+      if params[:return_to]
+        redirect_to params[:return_to]
+      else
+        redirect_to root_path
+      end
+
     else
       flash[:error] = client.last_error_description
       redirect_to login_path

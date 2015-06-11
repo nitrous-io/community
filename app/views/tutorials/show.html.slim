@@ -58,22 +58,13 @@
 
 .main.darker
   .container
-
     article#comments
       .title
         h2
           | Comments
 
       .form-wrapper
-        = form_for @comment, url: tutorial_comments_path(@tutorial.id) do |f|
-          = f.text_area :content, placeholder: "Write a comment..."
-
-          .row
-            = f.submit "Post comment"
-
-      .comment-list
-        - @comments.each do |comment|
-          = render partial: 'partials/comment', locals: { comment: comment }
+        = render partial: 'partials/comments_with_form', locals: { comment: @comment, comments: @comments, create_comment_path: tutorial_comments_path(@tutorial.id) }
 
 = content_for :body_script do
   = javascript_include_tag 'code-mirror'

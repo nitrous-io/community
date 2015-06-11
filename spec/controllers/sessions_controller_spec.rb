@@ -40,8 +40,8 @@ RSpec.describe SessionsController, type: :controller do
     let(:user_url) { sprintf('%s/user', ENV['NITROUS_URL']) }
     let(:user_info) { { 'id' => 67, 'name' => '', 'username' => 'bighero', 'email' => 'nitrousbighero@gmail.com', 'admin' => false } }
 
-    def do_request(params = { username_or_email: username, password: password })
-      post :create, user: params
+    def do_request(params = {})
+      post :create, { user: { username_or_email: username, password: password } }.merge(params)
     end
 
     context "with success" do
@@ -97,6 +97,13 @@ RSpec.describe SessionsController, type: :controller do
             expect(u.email_md5).to eq(Digest::MD5.hexdigest(user_info['email']))
             expect(u.last_fetched_at.to_i).to eq(Time.now.to_i)
           end
+        end
+      end
+
+      context 'return_to is specified' do
+        it 'redirects to the page' do
+          do_request(return_to: 'http://example.com/return')
+          expect(response).to redirect_to('http://example.com/return')
         end
       end
     end

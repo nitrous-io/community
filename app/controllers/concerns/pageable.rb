@@ -6,6 +6,6 @@ module Pageable
   end
 
   def per_page
-    @_per_page ||= (params[:per_page] || 6).to_i
+    @_per_page ||= (params[:per_page] || 12).to_i
   end
 end

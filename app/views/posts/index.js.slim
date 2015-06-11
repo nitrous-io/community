@@ -1,3 +1,2 @@
-| console.log('index');
 | $('#posts').html("#{escape_javascript(render partial: 'posts/list', locals: { posts: @posts })}");
 | $('#posts .paginator').html("#{escape_javascript(paginate(@posts, remote: true)) }");

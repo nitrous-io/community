@@ -11,4 +11,3 @@
 #= require ./edit-page
 #= require ./webfonts
 #= require ./tab
-#= require search

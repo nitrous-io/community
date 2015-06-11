@@ -34,7 +34,7 @@ describe DraftsController do
     render_views
 
     def do_request(params = {})
-      get :posts, params
+      get :posts, params.merge(format: :js)
     end
 
     it 'redirects to home page if a user is not admin' do
@@ -68,8 +68,7 @@ describe DraftsController do
           specify do
             do_request(per_page: 1, page: 2)
             expect(response).to render_template('posts/_list')
-            doc = Nokogiri::HTML(response.body)
-            expect(doc.css("a[href=\"#{edit_post_path(draft_rails_post.id)}\"]")).not_to be_empty
+            expect(response.body).to match(edit_post_path(draft_rails_post.id))
           end
         end
       end
@@ -80,7 +79,7 @@ describe DraftsController do
     render_views
 
     def do_request(params = {})
-      get :tutorials, params
+      get :tutorials, params.merge(format: :js)
     end
 
     it 'redirects to home page if a user is not admin' do
@@ -114,8 +113,7 @@ describe DraftsController do
           specify do
             do_request(per_page: 1, page: 2)
             expect(response).to render_template('tutorials/_list')
-            doc = Nokogiri::HTML(response.body)
-            expect(doc.css("a[href=\"#{edit_tutorial_path(draft_rails_tutorial.id)}\"]")).not_to be_empty
+            expect(response.body).to match(edit_tutorial_path(draft_rails_tutorial.id))
           end
         end
       end

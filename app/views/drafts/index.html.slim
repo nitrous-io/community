@@ -20,8 +20,8 @@
 
     #tutorials
       .tutorials-container
-        = render partial: 'tutorials/list', locals: { tutorials: @tutorials, next_page_path: '#' }
+        = render partial: 'tutorials/list', locals: { tutorials: @tutorials, pagination_options: { controller: :drafts, action: 'tutorials' } }
 
     #posts
       .posts-container
-        = render partial: 'posts/list', locals: { posts: @posts, next_page_path: '#' }
+        = render partial: 'posts/list', locals: { posts: @posts, pagination_options: { controller: :drafts, action: 'posts' } }

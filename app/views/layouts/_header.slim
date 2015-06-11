@@ -25,7 +25,7 @@ header.fixed
 
     .actions
       .desktop
-        = form_tag search_path, method: :get do
+        = form_tag search_path, method: :get, id: "search-nav" do
           = text_field_tag 'q', params[:q].try(:strip), placeholder: 'Search'
 
         - if current_user.nil?

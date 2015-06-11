@@ -7,4 +7,5 @@
 
       #posts
         = render partial: 'posts/list', locals: { posts: @posts }
+        /= render partial: 'posts/list', locals: { posts: @posts.drop(1) }
 

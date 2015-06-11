@@ -97,7 +97,46 @@ body > header
           color: #FFF
           font-weight: 400
 
-
+  // Search
+  #search-nav
+    padding-right: 14px
+    position: relative
+    
+    &:before
+      content: "\f002"
+      position: absolute
+      top: 0
+      left: 12px
+      width: 15px
+      height: 15px
+      font-size: 15px
+      font-family: FontAwesome
+      display: block
+      color: rgba(255,255,255,.8)
+    
+    input
+      width: 164px
+      height: 30px
+      line-height: 30px
+      appearance: none
+      border: 0
+      border-radius: 30px
+      padding: 0 20px 0 38px
+      outline: none
+      font-size: 14px
+      background: #0090DF
+      color: rgba(255,255,255,.6)
+      font-weight: 300
+    
+    ::-webkit-input-placeholder
+      color: rgba(255,255,255,.6)
+    \:-moz-placeholder
+      color: rgba(255,255,255,.6)
+    ::-moz-placeholder
+      color: rgba(255,255,255,.6)
+    \:-ms-input-placeholder
+      color: rgba(255,255,255,.6)
+  
   // Actions
   .actions
     display: block

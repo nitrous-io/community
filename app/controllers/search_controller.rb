@@ -7,8 +7,8 @@ class SearchController < ApplicationController
     @smallNavTitle = 'Search'
     query = params['q'].strip
 
-    @posts = Post.published.advanced_search(query).page(page).per(per_page)
-    @tutorials = Tutorial.published.advanced_search(query).page(page).per(per_page)
+    @posts = Post.published.advanced_search(query).order('published_at DESC').page(page).per(per_page)
+    @tutorials = Tutorial.published.advanced_search(query).order('published_at DESC').page(page).per(per_page)
   end
 
   def posts

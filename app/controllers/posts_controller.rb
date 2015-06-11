@@ -52,7 +52,7 @@ class PostsController < ApplicationController
 
   def index
     @posts = params[:tag] ? Post.published.tagged_with(params[:tag]) : Post.published
-    @posts = @posts.recently_updated.page(page).per(per_page)
+    @posts = @posts.by_published_at.page(page).per(per_page)
 
     respond_to do |format|
       format.js

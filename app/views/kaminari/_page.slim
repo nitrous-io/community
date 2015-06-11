@@ -7,4 +7,8 @@
     per_page     : number of items to fetch per page
     remote       : data-remote
 li.page class=('current' if page.current?)
-  == link_to_unless page.current?, page, url, {rel: page.next? ? 'next' : page.prev? ? 'prev' : nil}
+  - if page.current?
+    span
+      = page
+  - else
+    = link_to page, url, {rel: page.next? ? 'next' : page.prev? ? 'prev' : nil}

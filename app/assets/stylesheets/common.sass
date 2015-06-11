@@ -118,7 +118,6 @@ section + .title
           color: rgba($dark-grey,.5)
           font-size: 16px
           padding: 0 20px 12px 20px
-          transition: all .15s ease-in-out
           border-bottom: 1px solid transparent
           
           &:hover
@@ -161,6 +160,13 @@ section + .title
             background-position: -48px 0
             &.active
               background-position: -48px -30px
+  
+
+  .tabs:not(.as-icons)
+    ul
+      li
+        a
+          transition: all .15s ease-in-out
 
               
   // Pagination

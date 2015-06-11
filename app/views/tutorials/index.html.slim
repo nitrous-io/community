@@ -6,8 +6,8 @@
         | Get started on Nitrous with these tutorials
       
 .main
-  .container data-infinite-scroll="true" data-infinite-scroll-container="#tutorials"
+  .container
     / = render partial: 'partials/flash_message'
 
     #tutorials
-      = render partial: 'tutorials/list', locals: { tutorials: @tutorials, next_page_path: @next_page_path }
+      = render partial: 'tutorials/list', locals: { tutorials: @tutorials }

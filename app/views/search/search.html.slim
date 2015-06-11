@@ -4,7 +4,7 @@
       = form_tag search_path, method: :get, id: 'search_form' do
         = text_field_tag 'q', params[:q].try(:strip), placeholder: 'Search'
 
-    .tabs
+    .tabs data-tabbable='true'
       ul
         li
           = link_to 'All', '#all'
@@ -14,14 +14,18 @@
           = link_to 'Blog Posts', '#posts'
 
     #all
-      = render partial: 'tutorials/list', locals: { tutorials: @tutorials, next_page_path: '#' }
-      = render partial: 'posts/list', locals: { posts: @posts, next_page_path: '#' }
+      section.tutorials.cards.tab
+        - @tutorials.each do |t|
+          = render partial: 'partials/tutorial_card', locals: { tutorial: t }
+
+        section.blog.cards.tab
+          - @posts.each do |p|
+            = render partial: 'partials/post_card', locals: { post: p }
 
     #tutorials
+      .tutorials-container
+        = render partial: 'tutorials/list', locals: { tutorials: @tutorials, pagination_options: { controller: :search, action: 'tutorials' } }
 
     #posts
-
-
-= content_for :body_after do
-  javascript:
-    new Community.Search($('#search_form'), $('.tabs li a'));
+      .posts-container
+        = render partial: 'posts/list', locals: { posts: @posts, pagination_options: { controller: :search, action: 'posts' } }

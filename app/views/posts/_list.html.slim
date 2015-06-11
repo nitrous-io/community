@@ -3,4 +3,8 @@
     - posts.each do |post|
       = render partial: 'partials/post_card', locals: { post: post }
 
-  = link_to '', next_page_path, data: { 'next-link' => true }
+  .paginator
+    - if defined?(pagination_options)
+      = paginate posts, remote: true, params: pagination_options
+    - else
+      = paginate posts, remote: true

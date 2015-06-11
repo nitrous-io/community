@@ -3,4 +3,8 @@
     - tutorials.each do |tutorial|
       = render partial: 'partials/tutorial_card', locals: { tutorial: tutorial }
 
-  = link_to '', next_page_path, data: { 'next-link' => true }
+  .paginator
+    - if defined?(pagination_options)
+      = paginate tutorials,  remote: true, params: pagination_options
+    - else
+      = paginate tutorials, remote: true

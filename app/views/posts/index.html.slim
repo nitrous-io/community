@@ -2,8 +2,9 @@
   = render partial: 'partials/post_card', locals: { post: @posts[0], url_prefix: '/posts', focus: true}
 
   .main
-    .container data-infinite-scroll="true" data-infinite-scroll-container="#posts"
+    .container
       / = render partial: 'partials/flash_message'
 
       #posts
-        = render partial: 'posts/list', locals: { posts: @posts.drop(1), next_page_path: @next_page_path }
+        = render partial: 'posts/list', locals: { posts: @posts }
+

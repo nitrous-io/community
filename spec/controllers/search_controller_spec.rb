@@ -1,17 +1,17 @@
 require 'rails_helper'
 
 describe SearchController do
+  render_views
+
+  let!(:rails_post) { create(:published_post, title: 'rails') }
+  let!(:rails_tutorial) { create(:published_tutorial, title: 'rails') }
+  let!(:go_post) { create(:published_post, title: 'go') }
+  let!(:go_tutorial) { create(:published_tutorial, title: 'go') }
 
   describe 'GET #search' do
-    render_views
     def do_request(params = {})
-      get :search, { q: 'rails', type: 'all' }.merge(params)
+      get :search, { q: 'rails' }.merge(params)
     end
-
-    let!(:rails_post) { create(:published_post, title: 'rails') }
-    let!(:rails_tutorial) { create(:published_tutorial, title: 'rails') }
-    let!(:go_post) { create(:published_post, title: 'go') }
-    let!(:go_tutorial) { create(:published_tutorial, title: 'go') }
 
     it 'renders search results' do
       do_request
@@ -20,23 +20,30 @@ describe SearchController do
       expect(assigns(:posts)).to contain_exactly(rails_post)
       expect(assigns(:tutorials)).to contain_exactly(rails_tutorial)
     end
+  end
 
-    context 'type is tutorials' do
-      it 'return tutorial list partial' do
-        do_request(type: 'tutorials')
-        expect(response).to render_template('tutorials/_list')
-        doc = Nokogiri::HTML(response.body)
-        expect(doc.css("a[href=\"#{tutorials_slugged_path(rails_tutorial.slug)}\"]")).not_to be_empty
-      end
+  describe 'GET #posts' do
+    def do_request(params = {})
+      get :posts, { q: 'rails', format: :js }.merge(params)
     end
 
-    context 'type is posts' do
-      it 'return post list partial' do
-        do_request(type: 'posts')
-        expect(response).to render_template('posts/_list')
-        doc = Nokogiri::HTML(response.body)
-        expect(doc.css("a[href=\"#{posts_slugged_path(rails_post.slug)}\"]")).not_to be_empty
-      end
+    it 'return post list partial' do
+      do_request
+      expect(response).to render_template('posts/_list')
+      expect(response.body).to match(posts_slugged_path(rails_post.slug))
+    end
+  end
+
+  describe 'GET #tutorials' do
+    def do_request(params = {})
+      get :tutorials, { q: 'rails', format: :js }.merge(params)
+    end
+
+    it 'return tutorial list partial' do
+      do_request
+      expect(response).to render_template('tutorials/_list')
+      doc = Nokogiri::HTML(response.body)
+      expect(response.body).to match(tutorials_slugged_path(rails_tutorial.slug))
     end
   end
 end

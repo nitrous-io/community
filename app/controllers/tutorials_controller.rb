@@ -1,4 +1,5 @@
 class TutorialsController < ApplicationController
+  include Pageable
   before_action :verify_admin, except: %i(index show)
 
   def new
@@ -50,16 +51,12 @@ class TutorialsController < ApplicationController
   end
 
   def index
-    tutorials = params[:tag] ? Tutorial.published.tagged_with(params[:tag]) : Tutorial.published
-    pagination = Pagination.new(tutorials.recently_updated, per_page: params[:per_page].to_i, page: params[:page].to_i)
-    next_page_path = tutorials_path(pagination.options_for_next_page)
+    @tutorials = params[:tag] ? Tutorial.published.tagged_with(params[:tag]) : Tutorial.published
+    @tutorials = @tutorials.recently_updated.page(page).per(per_page)
 
-    if pagination.page > 1
-      locals = { tutorials: pagination.items, next_page_path: next_page_path }
-      render partial: 'tutorials/list', locals: locals
-    else
-      @next_page_path = next_page_path
-      @tutorials = pagination.items
+    respond_to do |format|
+      format.js
+      format.html
     end
   end
 

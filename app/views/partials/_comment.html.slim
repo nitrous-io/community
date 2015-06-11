@@ -10,4 +10,4 @@
         = time_ago_in_words(comment.created_at)
         '  ago
   .content
-    = comment.content
+    = comment.content_html.html_safe

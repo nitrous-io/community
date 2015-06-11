@@ -8,7 +8,7 @@ RSpec.describe CommentsController, type: :controller do
   describe 'POST #create' do
     render_views
     def do_request(params = {})
-      post :create, { post_id: p.id, comment: { content: 'hello' } }.merge(params)
+      post :create, { post_id: p.id, comment: { content_markdown: 'hello' } }.merge(params)
     end
 
     context 'when user is logged in' do
@@ -25,7 +25,9 @@ RSpec.describe CommentsController, type: :controller do
         comment = Comment.last
         expect(comment.parent).to eq(p)
         expect(comment.user_id).to eq(user.id)
-        expect(comment.content).to eq('hello')
+        expect(comment.content_markdown).to eq('hello')
+        expect(comment.content_html).to eq("<p>hello</p>\n")
+        expect(comment.content_text).to eq('hello')
       end
 
       context 'parent is tutorial' do
@@ -42,7 +44,9 @@ RSpec.describe CommentsController, type: :controller do
           comment = Comment.last
           expect(comment.parent).to eq(tutorial)
           expect(comment.user_id).to eq(user.id)
-          expect(comment.content).to eq('hello')
+          expect(comment.content_markdown).to eq('hello')
+          expect(comment.content_html).to eq("<p>hello</p>\n")
+          expect(comment.content_text).to eq('hello')
         end
       end
     end
@@ -60,7 +64,7 @@ RSpec.describe CommentsController, type: :controller do
         do_request
         expect(session[:comment][:parent_id]).to(eq(p.id))
         expect(session[:comment][:parent_type]).to(eq('Post'))
-        expect(session[:comment][:content]).to(eq('hello'))
+        expect(session[:comment][:content_markdown]).to(eq('hello'))
       end
     end
   end

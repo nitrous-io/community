@@ -6,4 +6,5 @@ describe Tutorial do
 
   it_behaves_like 'likable'
   it_behaves_like 'publishable'
+  it_behaves_like 'markdownable'
 end

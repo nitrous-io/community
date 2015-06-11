@@ -5,7 +5,7 @@ module Commentable
     if session[:comment]
       comment_params = session.delete(:comment)
       if comment_params[:parent_type] == parent.class.name && comment_params[:parent_id] == parent.id
-        return Comment.new(content: comment_params[:content])
+        return Comment.new(content_markdown: comment_params[:content_markdown])
       end
     end
     return Comment.new

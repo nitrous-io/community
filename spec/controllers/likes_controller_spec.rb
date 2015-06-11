@@ -6,7 +6,7 @@ RSpec.describe LikesController, type: :controller do
 
   describe "POST #create" do
     def do_request(params = {})
-      post :create, { post_id: p.id }.merge(params)
+      xhr :post, :create, { post_id: p.id }.merge(params)
     end
 
     context 'when logged in' do
@@ -97,7 +97,7 @@ RSpec.describe LikesController, type: :controller do
     context 'when not logged in' do
       it 'redirects to login page' do
         do_request
-        expect(response).to redirect_to(login_path)
+        expect(response).to render_template('partials/_login_error')
       end
 
       it 'does not upvote the post' do
@@ -112,7 +112,7 @@ RSpec.describe LikesController, type: :controller do
 
   describe 'DELETE #destroy' do
     def do_request(params = {})
-      delete :destroy, { post_id: p.id }.merge(params)
+      xhr :post, :destroy, { post_id: p.id }.merge(params)
     end
 
     context 'when logged in' do
@@ -190,7 +190,7 @@ RSpec.describe LikesController, type: :controller do
     context 'when not logged in' do
       it 'redirects to login page' do
         do_request
-        expect(response).to redirect_to(login_path)
+        expect(response).to render_template('partials/_login_error')
       end
 
       it 'does not upvote the post' do

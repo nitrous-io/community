@@ -44,14 +44,16 @@ class ApplicationController < ActionController::Base
 
   def verify_logged_in
     unless current_user
-      flash[:error] = "You need to log in"
-      redirect_to login_path
-    end
-  end
-
-  def verify_logged_in_ajax
-    unless current_user
-      render html: "<div class=\"error\">You need to <a href=\"/login\">login</a> to do that.</div>".html_safe
+      if request.xhr?
+        respond_to do |format|
+          format.html do
+            render partial: 'partials/login_error'
+          end
+        end
+      else
+        flash[:error] = "You need to log in"
+        redirect_to login_path
+      end
     end
   end
 

@@ -39,6 +39,7 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails', '~> 4.0.3'
 gem 'codemirror-rails', '~> 5.3'
 gem 'textacular', '~> 3.2.2'
+gem 'kaminari', '~> 0.16.3'
 
 group :development, :test do
   gem 'factory_girl_rails', '~> 4.5.0'

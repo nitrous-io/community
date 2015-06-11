@@ -1,0 +1,3 @@
+| console.log('index');
+| $('#tutorials').html("#{escape_javascript(render partial: 'tutorials/list', locals: { tutorials: @tutorials })}");
+| $('#tutorials .paginator').html("#{escape_javascript(paginate(@tutorials, remote: true)) }");

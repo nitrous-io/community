@@ -1,4 +1,5 @@
 class PostsController < ApplicationController
+  include Pageable
   before_action :verify_admin, except: %i(index show)
 
   def new
@@ -50,16 +51,12 @@ class PostsController < ApplicationController
   end
 
   def index
-    posts = params[:tag] ? Post.published.tagged_with(params[:tag]) : Post.published
-    pagination = Pagination.new(posts.recently_updated, per_page: params[:per_page].to_i, page: params[:page].to_i)
-    next_page_path = posts_path(pagination.options_for_next_page)
+    @posts = params[:tag] ? Post.published.tagged_with(params[:tag]) : Post.published
+    @posts = @posts.recently_updated.page(page).per(per_page)
 
-    if pagination.page > 1
-      locals = { posts: pagination.items, next_page_path: next_page_path }
-      render partial: 'posts/list', locals: locals
-    else
-      @next_page_path = next_page_path
-      @posts = pagination.items
+    respond_to do |format|
+      format.js
+      format.html
     end
   end
 

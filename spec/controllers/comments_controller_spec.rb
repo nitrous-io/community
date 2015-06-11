@@ -48,9 +48,19 @@ RSpec.describe CommentsController, type: :controller do
     end
 
     context 'when user is not logged in' do
+      let(:referrer) { 'http://example.com/posts/1' }
+      before { request.env['HTTP_REFERER'] = 'http://example.com/posts/1' }
+
       it 'redirects to login page' do
         do_request
-        expect(response).to redirect_to(login_path)
+        expect(response).to redirect_to(login_path(return_to: referrer))
+      end
+
+      it 'keeps form values in session' do
+        do_request
+        expect(session[:comment][:parent_id]).to(eq(p.id))
+        expect(session[:comment][:parent_type]).to(eq('Post'))
+        expect(session[:comment][:content]).to(eq('hello'))
       end
     end
   end

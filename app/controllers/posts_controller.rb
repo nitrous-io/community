@@ -1,4 +1,6 @@
 class PostsController < ApplicationController
+  include Commentable
+
   before_action :verify_admin, except: %i(index show)
 
   def new
@@ -66,7 +68,7 @@ class PostsController < ApplicationController
   def show
     @post = collection.friendly.find(params[:slug])
     @is_upvoted = @post.is_upvoted_by?(current_user_id)
-    @comment = Comment.new
+    @comment = restore_comment(@post)
     @comments = @post.comments
   end
 

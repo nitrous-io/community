@@ -1,4 +1,6 @@
 class TutorialsController < ApplicationController
+  include Commentable
+
   before_action :verify_admin, except: %i(index show)
 
   def new
@@ -66,7 +68,7 @@ class TutorialsController < ApplicationController
   def show
     @tutorial = collection.friendly.find(params[:slug])
     @is_upvoted = @tutorial.is_upvoted_by?(current_user_id)
-    @comment = Comment.new
+    @comment = restore_comment(@tutorial)
     @comments = @tutorial.comments
   end
 

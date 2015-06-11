@@ -218,8 +218,7 @@ describe TutorialsController do
       end
     end
 
-    it_behaves_like 'admin show' do
-      let(:item) { tutorial }
-    end
+    it_behaves_like('commentable') { let(:parent) { tutorial } }
+    it_behaves_like('admin show') { let(:item) { tutorial } }
   end
 end

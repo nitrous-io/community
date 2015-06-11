@@ -196,8 +196,7 @@ describe PostsController do
       end
     end
 
-    it_behaves_like 'admin show' do
-      let(:item) { p }
-    end
+    it_behaves_like('commentable') { let(:parent) { p } }
+    it_behaves_like('admin show') { let(:item) { p } }
   end
 end

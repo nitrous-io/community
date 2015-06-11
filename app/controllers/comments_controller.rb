@@ -1,7 +1,7 @@
 class CommentsController < ApplicationController
-  before_action :verify_logged_in
-
   include SharedParent
+
+  before_action :authenticate
 
   def create
     comment = parent.comments.build(comment_params)
@@ -21,5 +21,12 @@ class CommentsController < ApplicationController
 
   def comment_params
     params.require(:comment).permit(:content)
+  end
+
+  def authenticate
+    unless current_user
+      session[:comment] = comment_params.merge(parent_type: parent.class.name, parent_id: parent.id)
+      redirect_to login_path(return_to: request.referer)
+    end
   end
 end

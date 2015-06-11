@@ -8,7 +8,7 @@
 
 
     .form-wrapper
-      = form_for :user, url: sessions_path do |f|
+      = form_for :user, url: sessions_path(return_to: params[:return_to]) do |f|
         .row
           = f.text_field :username_or_email, { :placeholder => "Username, or Email"}
 

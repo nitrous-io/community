@@ -6,7 +6,7 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-module Community 
+module Community
   class Application < Rails::Application
     config.action_dispatch.session_store = :active_record_store
     config.active_record.raise_in_transactional_callbacks = true

@@ -21,7 +21,7 @@
 
 en:
   hello: "Hello world"
-  
+
   views:
     pagination:
       first: "&#xf04a;"
@@ -29,7 +29,7 @@ en:
       previous: "&#xf053;"
       next: "&#xf054;"
       truncate: "&#xf141;"
-  
+
   time:
     formats:
       simple: "%b %d, %Y"

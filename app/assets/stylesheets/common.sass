@@ -30,12 +30,12 @@ body
 
 header.fixed ~ .main
   padding-top: 60+52px
-  
+
   & + .main
     padding-top: 60px
     padding-bottom: 40px
-  
-  
+
+
 ::-webkit-input-placeholder
   color: $placeholder
 
@@ -66,7 +66,7 @@ a
     text-align: center
     color: $light-grey
     transition: all .15s ease-in-out
-    
+
     &:hover
       border-color: $blue
       color: $blue
@@ -77,7 +77,7 @@ pre
 
 section, article
   margin-bottom: 0
-  
+
   @media screen and (min-width: $break-medium)
     margin-bottom: 40px
 
@@ -86,7 +86,7 @@ section + .title
 
 .centered
   text-align: center
-      
+
 .main
 
   .title
@@ -103,40 +103,40 @@ section + .title
       font-weight: 200
       color: $light-grey
 
-  
+
   .tabs
     border-bottom: 1px solid rgba(0,0,0,.10)
     margin-bottom: 40px
-    
+
     ul
       display: flex
-      
+
       li
         display: flex
-        
+
         a
           color: rgba($dark-grey,.5)
           font-size: 16px
           padding: 0 20px 12px 20px
           border-bottom: 1px solid transparent
-          
+
           &:hover
             color: $dark-grey
-          
+
           &.active
             color: $blue
             border-bottom: 1px solid $blue
-    
+
     &.as-icons
       border-bottom: none
       margin: 40px 0 10px 0
-      
+
       ul
         justify-content: flex-end
-      
+
       li
         margin: 0 0 8px 6px
-        
+
         a
           width: 46px
           height: 28px
@@ -145,22 +145,22 @@ section + .title
           background: image_url('editor-tabs.png') 0 0 no-repeat
           background-size: 94px 58px
           border-bottom: 1px solid transparent
-          
+
           &.active
             border-bottom: 1px solid transparent
-          
+
         &.markdown
           a
             background-position: 0 0
             &.active
               background-position: 0 -30px
-              
+
         &.preview
           a
             background-position: -48px 0
             &.active
               background-position: -48px -30px
-  
+
 
   .tabs:not(.as-icons)
     ul
@@ -168,14 +168,14 @@ section + .title
         a
           transition: all .15s ease-in-out
 
-              
+
   // Pagination
   .paginator
     display: flex
     flex-direction: column
     align-items: center
     padding: 60px 0 10px 0
-    
+
     ul.pagination
       display: flex
       li
@@ -183,39 +183,39 @@ section + .title
         cursor: default
         margin: 0
         border: 1px solid rgba($light-grey, .3)
-        
+
         & + li
           border-left: 0
-        
+
         span, a
           height: 38px
           line-height: 38px
           display: block
           padding: 0 16px
           font-size: 14px
-          
+
         a
           color: rgba($dark-grey,.8)
           cursor: pointer
-          
+
           &:hover
             color: $blue
-        
+
         &.next, &.last, &.prev, &.first, &.truncate, &.gap,
         &.next a, &.last a, &.prev a, &.first a, &.truncate a, &.gap a
           font-family: FontAwesome
           font-size: 10px
-        
+
         &:first-child
           border-radius: 3px 0 0 3px
-          
+
         &:last-child
           border-radius: 0 3px 3px 0
-        
+
         &.current
           background: rgba($light-grey, .05)
 
-    
+
   // Tags
   .tag
     line-height: 22px
@@ -244,7 +244,7 @@ section + .title
   justify-content: center
   flex-direction: center
   background-size: cover !important
-  
+
   &:after
     content: ""
     position: absolute
@@ -257,7 +257,7 @@ section + .title
 
   & + .main
     margin-top: 40px
-  
+
   a.cover
     position: absolute
     top: 0
@@ -266,7 +266,7 @@ section + .title
     bottom: 0
     display: block
     z-index: 2
-  
+
   .container
     position: relative
     z-index: 3
@@ -276,7 +276,7 @@ section + .title
     align-items: center
     text-align: center
     margin-top: -62px
-    
+
     .small
       text-transform: uppercase
       color: rgba(255,255,255,.6)
@@ -287,13 +287,13 @@ section + .title
       margin-bottom: 20px
       letter-spacing: 3px
       cursor: default
-    
+
     h3.card-title a
       font-size: 42px
       line-height: 48px
       display: block
       color: #FFF
-      
+
     a.btn.bordered
       border-color: rgba(255,255,255,.6)
       color: rgba(255,255,255,.6)
@@ -323,11 +323,11 @@ section + .title
     bottom: 0
     background: rgba($blue,.92) linear-gradient($blue, rgba($blue, .2))
     z-index: 1
-  
+
   &.stacks
     overflow: hidden
     +heroLogoGrid($blue,1004px,380px)
-  
+
   .container
     position: relative
     z-index: 2
@@ -339,13 +339,13 @@ section + .title
     h2
       font-size: 36px
       padding-bottom: 10px
-  
+
   .desc
     color: rgba(255,255,255,.6)
     font-size: 18px
     margin-top: -6px
     font-weight: 300
-    
+
   .meta
     span, a
       color: rgba(255,255,255,.6)
@@ -356,8 +356,8 @@ section + .title
 
     a:hover
       color: #FFF
-    
-    
+
+
 // Dropdown
 .dropdown-menu
   min-width: 140px

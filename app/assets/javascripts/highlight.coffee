@@ -16,6 +16,6 @@ window.Community.Highlight =
         cursorBlinkRate: -1
         viewportMargin: Infinity
         theme: 'github'
-        
+
 $(document).ready ->
   window.Community.Highlight.init()

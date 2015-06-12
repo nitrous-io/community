@@ -13,7 +13,7 @@ end
 
 class HTMLStripper
   include ActionView::Helpers::SanitizeHelper
-  
+
   def self.strip(html)
     new.strip_tags(html)
   end

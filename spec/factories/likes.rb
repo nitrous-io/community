@@ -4,7 +4,7 @@ FactoryGirl.define do
     association :parent, factory: :post
 
     trait :invalid do
-      user_id nil 
+      user_id nil
     end
   end
 

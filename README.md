@@ -34,25 +34,25 @@ Community Site for Nitrous.IO.
 ### Setup
 
   1. Reset test database with current schema.rb
-  
+
   ```
     $ rake db:test:prepare
   ```
-  
+
   2. Install phantomjs to test javascript with command line
-  
+
   ```sh
     $ sudo apt-get install phantomjs
   ```
-  
+
   3. Run rspec tests
 
   ```sh
     $ spring rspec spec
   ```
-  
+
   4. Run test
-  
+
   ```sh
     $ bundle exec rake konacha:run
   ```

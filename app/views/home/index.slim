@@ -10,7 +10,7 @@
     section.tutorials.cards
       - @tutorials.each do |t|
         = render partial: 'partials/tutorial_card', locals: { tutorial: t }
-    
+
     section.centered
       a.btn.bordered href="/tutorials"
         | More tutorials
@@ -24,7 +24,7 @@
     section.blog.cards
       - @posts.each do |p|
         = render partial: 'partials/post_card', locals: { post: p }
-    
+
     section.centered
       a.btn.bordered href="/posts"
         | More posts

@@ -35,6 +35,6 @@ $sharerTrigger.hover ->
 
 $sharer.mouseleave ->
   $(this).removeClass("active")
-  
+
 # Tags input
 $("[data-role='tagsinput']").tagsInput()

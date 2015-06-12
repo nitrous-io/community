@@ -9,7 +9,7 @@ html.new, html.edit, html.drafts
   body > header
     nav, #search-nav
       display: none
-  
+
 body > header
   background: rgba($blue,.98)
   line-height: 52px
@@ -62,12 +62,12 @@ body > header
         top: 11px
         height: 26px
         border-left: 1px solid rgba(255,255,255,.4)
-    
+
     @media screen and (min-width: $break-medium)
       &
         margin-left: -14px
         padding: 0 14px 0 14px
-        
+
       &:hover
         background: rgba(255,255,255,.1)
 
@@ -86,7 +86,7 @@ body > header
 
       a
         padding: 0 14px
-      
+
         &:hover
           color: #FFF
 
@@ -101,7 +101,7 @@ body > header
   #search-nav
     padding-right: 14px
     position: relative
-    
+
     &:before
       content: "\f002"
       position: absolute
@@ -113,7 +113,7 @@ body > header
       font-family: FontAwesome
       display: block
       color: rgba(255,255,255,.8)
-    
+
     input
       width: 164px
       height: 30px
@@ -127,7 +127,7 @@ body > header
       background: #0090DF
       color: rgba(255,255,255,.6)
       font-weight: 300
-    
+
     ::-webkit-input-placeholder
       color: rgba(255,255,255,.6)
     \:-moz-placeholder
@@ -136,7 +136,7 @@ body > header
       color: rgba(255,255,255,.6)
     \:-ms-input-placeholder
       color: rgba(255,255,255,.6)
-  
+
   // Actions
   .actions
     display: block
@@ -148,11 +148,11 @@ body > header
 
     .desktop
       display: none
-      
+
       a
         &:hover
           color: #FFF
-        
+
         &.active
           color: #FFF
           font-weight: 400
@@ -165,7 +165,7 @@ body > header
       .desktop
         margin-right: -14px
         padding: 0 14px 0 14px
-      
+
       .desktop, .divider, button, .dropdown
         display: flex
 
@@ -190,18 +190,17 @@ body > header
       color: rgba(#FFF, .8)
       cursor: default
       position: relative
-      
+
       .gravatar
         position: relative
         display: inline-block
         top: 6px
         padding-right: 4px
-        
+
         img
           width: 20px
           height: 20px
           border-radius: 2px
-          
 
       span + i
         position: relative
@@ -250,7 +249,7 @@ body > header
 
   nav + .actions
     flex-grow: 0
-    
+
 // Mobile nav menu
 #mobile-menu
   display: none
@@ -280,5 +279,3 @@ body > header
 
   p
     font-size: 12px
-
-

@@ -8,10 +8,10 @@
 
     .row
       = f.text_field :tag_list, 'data-role' => 'tagsinput', tabindex: 3, value: f.object.tag_list.join(', ')
-    
+
     / - if _item.persisted?
     /   = f.datetime_field :published_at, placeholder: 'Publish Date (2014-05-20T00:00:00.000+0000)'
-    
+
     .tabs.as-icons data-tabbable='true'
       ul
         li.markdown

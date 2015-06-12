@@ -46,8 +46,7 @@
 
         a.status-icon.comment href="#the-comments"
           span
-            = @tutorial.comments.count
-            |  Comments
+            = pluralize(@tutorial.comments.count, 'Comment')
 
         a.status-icon.share href="#share"
           span Share

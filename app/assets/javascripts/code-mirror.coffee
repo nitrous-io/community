@@ -31,3 +31,5 @@
 #= require codemirror/modes/yaml
 #= require codemirror/modes/haml
 #= require codemirror/modes/slim
+
+#= require codemirror/addons/display/placeholder

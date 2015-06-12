@@ -6,6 +6,7 @@ Community.EditPage =
       mode: 'markdown'
       lineWrapping: true
       viewportMargin: Infinity
+      placeholder: 'Content text'
 
     $previewTabLink.click (e) ->
       e.preventDefault()

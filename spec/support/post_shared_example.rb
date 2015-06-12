@@ -271,48 +271,6 @@ shared_examples 'admin unpublish' do
   end
 end
 
-shared_examples 'admin index' do
-  context 'there are deleted item' do
-    before { collection[0].deleted! }
-
-    it 'does not assign deleted item' do
-      do_request
-      expect(assigns(collection_name)).to contain_exactly(*collection[1..-1])
-    end
-  end
-
-  context 'some tutorials are unpublished' do
-    before { collection[0].draft! }
-
-    it 'does not assign deleted item' do
-      do_request
-      expect(assigns(collection_name)).to contain_exactly(*collection[1..-1])
-    end
-  end
-
-  context 'a user is admin' do
-    before { sign_in_as_admin }
-
-    context 'some tutorials are deleted' do
-      before { collection[0].deleted! }
-
-      it 'assigns all' do
-        do_request
-        expect(assigns(collection_name)).to contain_exactly(*collection[1..-1])
-      end
-    end
-
-    context 'some tutorials are unpublished' do
-      before { collection[0].draft! }
-
-      it 'assigns all' do
-        do_request
-        expect(assigns(collection_name)).to contain_exactly(*collection[1..-1])
-      end
-    end
-  end
-end
-
 shared_examples 'admin show' do
   context 'the item is deleted' do
     before { item.deleted! }

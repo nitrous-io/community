@@ -154,12 +154,6 @@ describe TutorialsController do
       end
     end
 
-
-    it_behaves_like 'admin index' do
-      let(:collection) { [ruby_tutorial, go_tutorial]}
-      let(:collection_name) { :tutorials }
-    end
-
     context 'with pagination' do
       before do
         Timecop.freeze(2.days.ago) { ruby_tutorial.update_attribute(:title, 'new post title') }

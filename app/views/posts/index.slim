@@ -1,11 +1,7 @@
-- if @posts.length > 0
-  = render partial: 'partials/post_card', locals: { post: @posts[0], url_prefix: '/posts', focus: true}
+- if @cover_post.present?
+  = render partial: 'partials/post_card', locals: { post: @cover_post, url_prefix: '/posts', focus: true}
 
-  .main
-    .container
-      / = render partial: 'partials/flash_message'
-
-      #posts
-        = render partial: 'posts/list', locals: { posts: @posts }
-        /= render partial: 'posts/list', locals: { posts: @posts.drop(1) }
-
+.main
+  .container
+    #posts
+      = render partial: 'posts/list', locals: { posts: @posts }

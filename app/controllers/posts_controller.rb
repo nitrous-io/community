@@ -51,12 +51,12 @@ class PostsController < ApplicationController
   end
 
   def index
-    @posts = params[:tag] ? Post.published.tagged_with(params[:tag]) : Post.published
-    @posts = @posts.by_published_at.page(page).per(per_page)
+    posts = params[:tag] ? Post.published.tagged_with(params[:tag]) : Post.published
+    @posts = posts.by_published_at.page(page).per(per_page)
 
-    respond_to do |format|
-      format.js
-      format.html
+    if params[:tag].blank?
+      @posts = @posts.padding(1)
+      @cover_post = posts.by_published_at.limit(1)[0] if @_page == 1
     end
   end
 

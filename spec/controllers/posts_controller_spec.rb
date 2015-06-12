@@ -109,8 +109,11 @@ describe PostsController do
   describe 'GET #index' do
     render_views
 
-    let!(:rails_post) { create(:published_post, tag_list: [:rails, :ruby]) }
-    let!(:go_post) { create(:published_post, tag_list: [:go, :martini]) }
+    let!(:rails_post) { create(:published_post, title: 'rails-post', tag_list: %w(rails ruby)) }
+    let!(:go_post)    { create(:published_post, title: 'go-post',    tag_list: %w(go martini)) }
+    let!(:java_post)  { create(:published_post, title: 'java-post',  tag_list: %w(java      )) }
+    let!(:js_post)    { create(:published_post, title: 'js-post',    tag_list: %w(javascript)) }
+    let!(:cgo_post)   { create(:published_post, title: 'cgo-post',   tag_list: %w(go c      )) }
 
     def do_request(params = {})
       get :index, params
@@ -121,40 +124,27 @@ describe PostsController do
       expect(response).to have_http_status(:success)
     end
 
-    it 'assigns posts' do
-      do_request
-      expect(assigns(:posts)).to contain_exactly(rails_post, go_post)
+    [nil, 1].each do |page|
+      context "when page == #{page}" do
+        it 'assigns cover_post and posts' do
+          do_request(page: page, per_page: 2)
+          expect(assigns(:cover_post)).to eq rails_post
+          expect(assigns(:posts)).to contain_exactly(go_post, java_post)
+        end
+      end
+    end
+
+    context 'when page > 1 is requested' do
+      it 'assigns posts, but not cover_post' do
+        do_request(page: 2, per_page: 2)
+        expect(assigns(:posts)).to contain_exactly(js_post, cgo_post)
+      end
     end
 
     context 'tag is specified' do
       it 'assigns posts that have specified tag' do
         do_request(tag: 'go')
-        expect(assigns(:posts)).to contain_exactly(go_post)
-      end
-    end
-
-    it_behaves_like 'admin index' do
-      let(:collection) { [rails_post, go_post]}
-      let(:collection_name) { :posts }
-    end
-
-    context 'with pagination' do
-      before do
-        Timecop.freeze(2.days.ago) { rails_post.update_attribute(:title, 'new post title') }
-      end
-
-      specify do
-        do_request(per_page: 1, page: 1)
-        expect(assigns(:posts)).to contain_exactly(go_post)
-      end
-
-      context 'not first page' do
-        specify do
-          do_request(per_page: 1, page: 2)
-          expect(response).to render_template('posts/_list')
-          doc = Nokogiri::HTML(response.body)
-          expect(doc.css("a[href=\"#{posts_slugged_path(rails_post.slug)}\"]")).not_to be_empty
-        end
+        expect(assigns(:posts)).to contain_exactly(go_post, cgo_post)
       end
     end
   end

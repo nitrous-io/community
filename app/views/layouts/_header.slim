@@ -5,9 +5,9 @@ header.fixed
         span
           em Nitrous
           '
-          - if @smallNavTitle
+          - if @small_nav_title.present?
             small
-              = @smallNavTitle
+              = @small_nav_title
           - elsif controller.controller_name == 'tutorials'
             small Tutorials
           - elsif controller.controller_name == 'posts'

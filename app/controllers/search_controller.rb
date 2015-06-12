@@ -4,7 +4,7 @@ class SearchController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def search
-    @smallNavTitle = 'Search'
+    @small_nav_title = 'Search'
     query = params['q'].strip
 
     @posts = Post.published.advanced_search(query).order('published_at DESC').page(page).per(per_page)

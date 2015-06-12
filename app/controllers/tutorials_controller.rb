@@ -4,7 +4,7 @@ class TutorialsController < ApplicationController
 
   def new
     @tutorial = Tutorial.new
-    @smallNavTitle = 'Draft'
+    @small_nav_title = 'Draft'
   end
 
   def create
@@ -22,7 +22,7 @@ class TutorialsController < ApplicationController
 
   def edit
     @tutorial = Tutorial.find(params[:id])
-    @smallNavTitle = 'Edit'
+    @small_nav_title = 'Edit'
   end
 
   def update

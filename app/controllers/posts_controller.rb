@@ -4,7 +4,7 @@ class PostsController < ApplicationController
 
   def new
     @post = Post.new
-    @smallNavTitle = 'Draft'
+    @small_nav_title = 'Draft'
   end
 
   def create
@@ -22,7 +22,7 @@ class PostsController < ApplicationController
 
   def edit
     @post = Post.find(params[:id].to_i)
-    @smallNavTitle = 'Edit'
+    @small_nav_title = 'Edit'
   end
 
   def update

@@ -30,6 +30,6 @@ class DraftsController < ApplicationController
 
   protected
   def set_title
-    @smallNavTitle = 'Drafts'
+    @small_nav_title = 'Drafts'
   end
 end

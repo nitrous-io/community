@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+ruby '2.2.1'
+
 gem 'rails', '4.2.1'
 gem 'foreman', '~> 0.78.0'
 
@@ -64,4 +66,5 @@ end
 
 group :production do
   gem 'unicorn', '~> 4.9.0'
+  gem 'rails_12factor'
 end

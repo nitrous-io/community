@@ -22,7 +22,7 @@
     .card-footer
       .author
         .gravatar
-          img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=retro&amp;f=y"
+          img src=(tutorial.user.gravatar(56))
         = tutorial.user.username
       - if tutorial.tags.present?
         - tutorial.tags.each do |tag|

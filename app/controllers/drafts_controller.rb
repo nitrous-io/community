@@ -6,26 +6,15 @@ class DraftsController < ApplicationController
   before_action :set_title
 
   def index
-    @tutorials = Tutorial.drafted.by_published_at.page(page).per(per_page)
-    @posts = Post.drafted.by_published_at.page(page).per(per_page)
+    redirect_to tutorials_drafts_url
   end
 
   def posts
-    @posts = Post.drafted.by_published_at.page(page).per(per_page)
-    respond_to do |format|
-      format.js do
-        render template: 'posts/index.js'
-      end
-    end
+    @posts = Post.drafted.by_updated_at.page(page).per(per_page)
   end
 
   def tutorials
-    @tutorials = Tutorial.drafted.by_published_at.page(page).per(per_page)
-    respond_to do |format|
-      format.js do
-        render template: 'tutorials/index.js'
-      end
-    end
+    @tutorials = Tutorial.drafted.by_updated_at.page(page).per(per_page)
   end
 
   protected

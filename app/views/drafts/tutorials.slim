@@ -1,0 +1,12 @@
+.main
+  .container
+    .tabs
+      ul
+        li.active
+          = link_to 'Tutorials', tutorials_drafts_path
+        li
+          = link_to 'Blog Posts', posts_drafts_path
+
+    #tutorials
+      .tutorials-container
+        = render partial: 'tutorials/list', locals: { tutorials: @tutorials }

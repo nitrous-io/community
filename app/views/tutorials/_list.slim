@@ -5,6 +5,6 @@
 
   .paginator
     - if defined?(pagination_options)
-      = paginate tutorials,  remote: true, params: pagination_options
+      = paginate tutorials, params: pagination_options
     - else
-      = paginate tutorials, remote: true
+      = paginate tutorials

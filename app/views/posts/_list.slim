@@ -4,7 +4,4 @@
       = render partial: 'partials/post_card', locals: { post: post }
 
   .paginator
-    - if defined?(pagination_options)
-      = paginate posts, remote: true, params: pagination_options
-    - else
-      = paginate posts, remote: true
+    = paginate posts

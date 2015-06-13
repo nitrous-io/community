@@ -14,6 +14,7 @@ class Tutorial < ActiveRecord::Base
   friendly_id :title, use: :slugged
 
   scope :by_published_at, -> { order(published_at: :desc)}
+  scope :by_updated_at, -> { order(updated_at: :desc) }
 
   protected
   # To update slug when title get updated

@@ -1,119 +1,128 @@
 require 'rails_helper'
 
 describe DraftsController do
-  describe 'GET #index' do
+  describe 'GET index' do
     render_views
 
     def do_request
       get :index
     end
 
-    it 'redirects to home page if a user is not admin' do
-      do_request
-      expect(response).to redirect_to root_path
+    context 'when the user is not an admin' do
+      it 'redirects to home page' do
+        do_request
+        expect(response).to redirect_to root_path
+      end
     end
 
-    context 'a user is admin' do
+    context 'when the user is an admin' do
       before { sign_in_as_admin }
 
-      let!(:draft_post) { create(:post) }
-      let!(:published_post) { create(:published_post) }
-      let!(:draft_tutorial) { create(:tutorial) }
-      let!(:published_tutorial) { create(:published_tutorial) }
-
-      it 'renders drafts' do
+      it 'redirects to drafts/tutorials path' do
         do_request
-        expect(response).to be_success
-        expect(assigns(:posts)).to contain_exactly(draft_post)
-        expect(assigns(:tutorials)).to contain_exactly(draft_tutorial)
+        expect(response).to redirect_to tutorials_drafts_path
       end
     end
   end
 
-  describe 'GET #posts' do
+  describe 'GET posts' do
     render_views
 
-    def do_request(params = {})
-      get :posts, params.merge(format: :js)
+    def do_request(params={})
+      get :posts, params
     end
 
-    it 'redirects to home page if a user is not admin' do
-      do_request
-      expect(response).to redirect_to root_path
+    context 'when the user is not an admin' do
+      it 'redirects to home page' do
+        do_request
+        expect(response).to redirect_to root_path
+      end
     end
 
-    context 'a user is admin' do
+    context 'when the user is an admin' do
       before { sign_in_as_admin }
 
-      let!(:draft_go_post) { create(:post) }
-      let!(:draft_rails_post) { create(:post) }
+      let!(:draft_post1) { create(:post) }
+      let!(:draft_post2) { create(:post) }
+      let!(:draft_post3) { create(:post) }
+      let!(:published_post1) { create(:published_post) }
+      let!(:published_post2) { create(:published_post) }
+      let!(:published_post3) { create(:published_post) }
 
-      it 'renders drafts' do
+      it 'assigns draft posts' do
         do_request
-        expect(response).to be_success
-        expect(assigns(:posts)).to contain_exactly(draft_go_post, draft_rails_post)
+        expect(response).to have_http_status :ok
+        expect(assigns(:posts)).to contain_exactly(draft_post3, draft_post2, draft_post1)
       end
 
       context 'with pagination' do
-        before do
-          Timecop.freeze(2.days.ago) { draft_rails_post.update_attribute(:title, 'new post title') }
+        [nil, 1].each do |page|
+          context "when page #{page} is requested" do
+            it 'assigns drafts in page 1' do
+              do_request(page: page, per_page: 2)
+              expect(response).to have_http_status :ok
+              expect(assigns(:posts)).to contain_exactly(draft_post3, draft_post2)
+            end
+          end
         end
 
-        specify do
-          do_request(per_page: 1, page: 1)
-          expect(assigns(:posts)).to contain_exactly(draft_go_post)
-        end
-
-        context 'not first page' do
-          specify do
-            do_request(per_page: 1, page: 2)
-            expect(response).to render_template('posts/_list')
-            expect(response.body).to match(edit_post_path(draft_rails_post.id))
+        context "when page > 1 is requested" do
+          it 'assigns drafts in page 2' do
+            do_request(page: 2, per_page: 2)
+            expect(response).to have_http_status :ok
+            expect(assigns(:posts)).to contain_exactly(draft_post1)
           end
         end
       end
     end
   end
 
-  describe 'GET #tutorials' do
+  describe 'GET tutorials' do
     render_views
 
-    def do_request(params = {})
-      get :tutorials, params.merge(format: :js)
+    def do_request(params={})
+      get :tutorials, params
     end
 
-    it 'redirects to home page if a user is not admin' do
-      do_request
-      expect(response).to redirect_to root_path
+    context 'when the user is not an admin' do
+      it 'redirects to home page' do
+        do_request
+        expect(response).to redirect_to root_path
+      end
     end
 
-    context 'a user is admin' do
+    context 'when the user is an admin' do
       before { sign_in_as_admin }
 
-      let!(:draft_go_tutorial) { create(:tutorial) }
-      let!(:draft_rails_tutorial) { create(:tutorial) }
+      let!(:draft_tutorial1) { create(:tutorial) }
+      let!(:draft_tutorial2) { create(:tutorial) }
+      let!(:draft_tutorial3) { create(:tutorial) }
+      let!(:published_tutorial1) { create(:published_tutorial) }
+      let!(:published_tutorial2) { create(:published_tutorial) }
+      let!(:published_tutorial3) { create(:published_tutorial) }
 
-      it 'renders drafts' do
+      it 'shows draft tutorials' do
         do_request
-        expect(response).to be_success
-        expect(assigns(:tutorials)).to contain_exactly(draft_go_tutorial, draft_rails_tutorial)
+        expect(response).to have_http_status :ok
+        expect(assigns(:tutorials)).to contain_exactly(draft_tutorial3, draft_tutorial2, draft_tutorial1)
       end
 
       context 'with pagination' do
-        before do
-          Timecop.freeze(2.days.ago) { draft_rails_tutorial.update_attribute(:title, 'new post title') }
+        [nil, 1].each do |page|
+          context "when page #{page} is requested" do
+            it 'assigns drafts in page 1' do
+              do_request(page: page, per_page: 2)
+              expect(response).to have_http_status :ok
+              expect(assigns(:tutorials)).to contain_exactly(draft_tutorial3, draft_tutorial2)
+            end
+          end
         end
 
-        specify do
-          do_request(per_page: 1, page: 1)
-          expect(assigns(:tutorials)).to contain_exactly(draft_go_tutorial)
-        end
-
-        context 'not first page' do
-          specify do
-            do_request(per_page: 1, page: 2)
-            expect(response).to render_template('tutorials/_list')
-            expect(response.body).to match(edit_tutorial_path(draft_rails_tutorial.id))
+        context "when page > 1 is requested" do
+          it 'assigns drafts in page 2' do
+            do_request(page: 2, per_page: 2)
+            expect(response).to have_http_status :ok
+            expect(assigns(:tutorials)).to contain_exactly(draft_tutorial1)
           end
         end
       end

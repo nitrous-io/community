@@ -146,20 +146,21 @@ section + .title
           background-size: 94px 58px
           border-bottom: 1px solid transparent
 
-          &.active
+        &.active
+          a
             border-bottom: 1px solid transparent
 
         &.markdown
           a
             background-position: 0 0
-            &.active
-              background-position: 0 -30px
+          &.active a
+            background-position: 0 -30px
 
         &.preview
           a
             background-position: -48px 0
-            &.active
-              background-position: -48px -30px
+          &.active a
+            background-position: -48px -30px
 
 
   .tabs:not(.as-icons)
@@ -167,7 +168,6 @@ section + .title
       li
         a
           transition: all .15s ease-in-out
-
 
   // Pagination
   .paginator
@@ -214,7 +214,7 @@ section + .title
 
         &.current
           background: rgba($light-grey, .05)
-        
+
         &.gap span
           padding: 0 12px
           line-height: 40px

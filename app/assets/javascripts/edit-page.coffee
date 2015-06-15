@@ -1,14 +1,23 @@
 Community.EditPage =
   init: ->
-    $markdownTextarea = $('.markdown-text-js')
-    $previewTabLink = $('a.preview-js')
-    codemirror = CodeMirror.fromTextArea $markdownTextarea[0],
+    codemirror = CodeMirror.fromTextArea $('.markdown-text-js')[0],
       mode: 'markdown'
       lineWrapping: true
       viewportMargin: Infinity
       placeholder: 'Content text'
 
-    $previewTabLink.click (e) ->
+    $markdownPreview = $('#markdown-preview')
+
+    $markdownPreview.find('li a').click (e) ->
+      e.preventDefault()
+      $this = $(this)
+      $markdownPreview.find('.tabs li').removeClass('active')
+      $this.closest('li').addClass('active')
+      $tabsContent = $markdownPreview.find('.tabs-content')
+      $tabsContent.find('> div').removeClass('active')
+      $tabsContent.find($this.data('tab')).addClass('active')
+
+    $markdownPreview.find('.preview a').click (e) ->
       e.preventDefault()
       $.post("/preview", { markdown_text: codemirror.getValue() }, ->
         ).done((data) ->

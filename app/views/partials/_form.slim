@@ -12,17 +12,18 @@
     / - if _item.persisted?
     /   = f.datetime_field :published_at, placeholder: 'Publish Date (2014-05-20T00:00:00.000+0000)'
 
-    .tabs.as-icons data-tabbable='true'
-      ul
-        li.markdown
-          a.active href="#markdown" Mardown
-        li.preview
-          a.preview-js href="#preview" Preview
+    #markdown-preview
+      .tabs.as-icons
+        ul
+          li.markdown.active
+            a href='#' data-tab='#markdown' Mardown
+          li.preview
+            a href='#' data-tab='#preview' Preview
 
       .tabs-content
-        #markdown.row
+        #markdown.active
           = f.text_area :content_markdown, class: 'markdown-text-js', rows: 15, tabindex: 2, 'data-attachment-allowed' => true
-        #preview.row
+        #preview
           .preview-content-js
 
   /- if _item.persisted?

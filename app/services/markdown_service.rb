@@ -1,3 +1,5 @@
+require 'redcarpet'
+
 class MarkdownService
   RENDERER_OPTION = { filter_html: true, hard_wrap: true, prettify: true }
   MARKDOWN_OPTION = { fenced_code_blocks: true, autolink: true, strikethrough: true }

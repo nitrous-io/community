@@ -19,8 +19,6 @@ gem 'friendly_id', '~> 5.1.0'
 
 # Markdown to HTML
 gem 'redcarpet', '~> 3.2.3'
-# Syntax highlighting
-gem 'rouge', '~> 1.8.0'
 
 # Tagging
 gem 'acts-as-taggable-on', '~> 3.5.0'
@@ -54,7 +52,6 @@ group :development, :test do
   gem 'dotenv-rails', '~> 2.0.1'
   gem 'pry-rails', '~> 0.3.4'
   gem 'konacha', '~> 3.5.1'
-  gem 'ejs', '~> 1.1.1'
   gem 'poltergeist', '~> 1.6.0'
 end
 

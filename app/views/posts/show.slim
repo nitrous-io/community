@@ -56,18 +56,21 @@
 
 .main.darker
   .container
-
     article#comments
       .title
         h2
           | Comments
 
       .form-wrapper
-        = form_for @comment, url: post_comments_path(@post.id) do |f|
-          = f.text_area :content, placeholder: "Write a comment..."
+        - if current_user.present?
+          = form_for @comment, url: post_comments_path(@post.id) do |f|
+            = f.text_area :content, placeholder: "Write a comment..."
 
-          .row
-            = f.submit "Post comment"
+            .row
+              = f.submit "Post comment", class: 'btn blue'
+        - else
+          = link_to 'Log in to comment', login_path, class: 'btn blue'
+
 
       #the-comments.comment-list
         - @comments.each do |comment|

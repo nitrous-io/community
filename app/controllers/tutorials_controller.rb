@@ -51,13 +51,8 @@ class TutorialsController < ApplicationController
   end
 
   def index
-    @tutorials = params[:tag] ? Tutorial.published.tagged_with(params[:tag]) : Tutorial.published
-    @tutorials = @tutorials.recently_published.page(page).per(per_page)
-
-    respond_to do |format|
-      format.js
-      format.html
-    end
+    tutorials = params[:tag] ? Tutorial.published.tagged_with(params[:tag]) : Tutorial.published
+    @tutorials = tutorials.recently_published.page(page).per(per_page)
   end
 
   def show

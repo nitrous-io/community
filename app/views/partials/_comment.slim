@@ -1,4 +1,5 @@
 .comment
+  a.anchor id="comment-#{comment.id}"
   .meta
     .gravatar
       img src=(comment.user.gravatar(76))
@@ -6,8 +7,9 @@
       span.username
         = comment.user.username.capitalize
     .timestamp
-      span
-        = time_ago_in_words(comment.created_at)
-        '  ago
+      a href='#comment-#{comment.id}'
+        span
+          = time_ago_in_words(comment.created_at)
+          '  ago
   .content
     = comment.content

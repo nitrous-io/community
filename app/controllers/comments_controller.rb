@@ -13,7 +13,7 @@ class CommentsController < ApplicationController
       flash[:error] = 'Your comment has not been posted'
     end
 
-    redirect_to parent_show_path
+    redirect_to parent_show_path(anchor: "comment-#{comment.id}")
   end
 
   private

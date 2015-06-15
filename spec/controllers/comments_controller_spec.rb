@@ -15,7 +15,8 @@ RSpec.describe CommentsController, type: :controller do
 
       it 'redirects to the post page' do
         do_request
-        expect(response).to redirect_to(posts_slugged_path(slug: p.slug))
+        comment = Comment.last
+        expect(response).to redirect_to(posts_slugged_path(slug: p.slug, anchor: "comment-#{comment.id}"))
       end
 
       it 'create a comment' do
@@ -31,7 +32,8 @@ RSpec.describe CommentsController, type: :controller do
 
         it 'redirects to the post page' do
           do_request(tutorial_id: tutorial.id, post_id: nil)
-          expect(response).to redirect_to(tutorials_slugged_path(slug: tutorial.slug))
+          comment = Comment.last
+          expect(response).to redirect_to(tutorials_slugged_path(slug: tutorial.slug, anchor: "comment-#{comment.id}"))
         end
 
         it 'create a comment on the tutorial' do

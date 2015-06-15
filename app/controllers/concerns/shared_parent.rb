@@ -27,12 +27,12 @@ module SharedParent
     end
   end
 
-  def parent_show_path
+  def parent_show_path(options={})
     @_parent_show_path ||= begin
       if params[:post_id]
-        posts_slugged_path(slug: @parent.slug)
+        posts_slugged_path({ slug: @parent.slug }.merge(options))
       elsif params[:tutorial_id]
-        tutorials_slugged_path(slug: @parent.slug)
+        tutorials_slugged_path({ slug: @parent.slug }.merge(options))
       end
     end
   end

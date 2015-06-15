@@ -7,6 +7,5 @@ class PreviewController < ApplicationController
       format.json{ render json: { html_content: html_content } }
     end
   end
-
 end
 

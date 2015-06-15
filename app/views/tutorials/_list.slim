@@ -4,7 +4,4 @@
       = render partial: 'partials/tutorial_card', locals: { tutorial: tutorial }
 
   .paginator
-    - if defined?(pagination_options)
-      = paginate tutorials, params: pagination_options
-    - else
-      = paginate tutorials
+    = paginate tutorials, outer_window: 3

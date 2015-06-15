@@ -4,4 +4,4 @@
       = render partial: 'partials/post_card', locals: { post: post }
 
   .paginator
-    = paginate posts
+    = paginate posts, outer_window: 1, window: 2

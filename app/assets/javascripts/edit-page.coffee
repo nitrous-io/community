@@ -1,5 +1,10 @@
 Community.EditPage =
   init: ->
+    $(window).on 'beforeunload', (evt) ->
+      confirmationMessage = "You will lose unsaved work if you close the page."
+      (evt || window.event).returnValue = confirmationMessage # Gecko and Trident
+      confirmationMessage # Gecko and WebKit
+
     codemirror = CodeMirror.fromTextArea $('.markdown-text-js')[0],
       mode: 'markdown'
       lineWrapping: true

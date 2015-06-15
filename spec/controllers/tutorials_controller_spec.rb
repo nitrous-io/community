@@ -130,8 +130,12 @@ describe TutorialsController do
   describe 'GET #index' do
     render_views
 
-    let!(:ruby_tutorial) { create(:published_tutorial, tag_list: [:ruby]) }
-    let!(:go_tutorial) { create(:published_tutorial, tag_list: [:go]) }
+    let!(:rust_tutorial)  { create(:tutorial, title: 'rust', tag_list: %w(rust go)) }
+    let!(:rails_tutorial) { create(:published_tutorial, published_at: 1.hour.ago,  title: 'rails-tutorial', tag_list: %w(rails ruby)) }
+    let!(:go_tutorial)    { create(:published_tutorial, published_at: 2.hours.ago, title: 'go-tutorial',    tag_list: %w(go martini)) }
+    let!(:java_tutorial)  { create(:published_tutorial, published_at: 3.hours.ago, title: 'java-tutorial',  tag_list: %w(java      )) }
+    let!(:js_tutorial)    { create(:published_tutorial, published_at: 4.hours.ago, title: 'js-tutorial',    tag_list: %w(javascript)) }
+    let!(:cgo_tutorial)   { create(:published_tutorial, published_at: 5.hours.ago, title: 'cgo-tutorial',   tag_list: %w(go c      )) }
 
     def do_request(params = {})
       get :index, params
@@ -142,35 +146,26 @@ describe TutorialsController do
       expect(response).to have_http_status(:success)
     end
 
-    it 'assigns tutorials' do
-      do_request
-      expect(assigns(:tutorials)).to contain_exactly(ruby_tutorial, go_tutorial)
+    [nil, 1].each do |page|
+      context "when page == #{page}" do
+        it 'assigns cover_tutorial and tutorials' do
+          do_request(page: page, per_page: 2)
+          expect(assigns(:tutorials).map(&:id)).to eq([rails_tutorial, go_tutorial].map(&:id))
+        end
+      end
+    end
+
+    context 'when page > 1 is requested' do
+      it 'assigns tutorials, but not cover_tutorial' do
+        do_request(page: 2, per_page: 2)
+        expect(assigns(:tutorials).map(&:id)).to eq([java_tutorial, js_tutorial].map(&:id))
+      end
     end
 
     context 'tag is specified' do
       it 'assigns tutorials that have specified tag' do
-        do_request(type: :tutorial, tag: 'ruby')
-        expect(assigns(:tutorials)).to contain_exactly(ruby_tutorial)
-      end
-    end
-
-    context 'with pagination' do
-      before do
-        Timecop.freeze(2.days.ago) { ruby_tutorial.update_attribute(:title, 'new post title') }
-      end
-
-      specify do
-        do_request(per_page: 1, page: 1)
-        expect(assigns(:tutorials)).to contain_exactly(go_tutorial)
-      end
-
-      context 'not first page' do
-        specify do
-          do_request(per_page: 1, page: 2)
-          expect(response).to render_template('tutorials/_list')
-          doc = Nokogiri::HTML(response.body)
-          expect(doc.css("a[href=\"#{tutorials_slugged_path(ruby_tutorial.slug)}\"]")).not_to be_empty
-        end
+        do_request(tag: 'go')
+        expect(assigns(:tutorials).map(&:id)).to eq([go_tutorial, cgo_tutorial].map(&:id))
       end
     end
   end

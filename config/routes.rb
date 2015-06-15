@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       put :unpublish
     end
   end
+
   get 'posts/:slug', to: 'posts#show', as: :posts_slugged
   get 'posts/tagged/:tag', to: 'posts#index', as: :posts_tagged
 
@@ -32,12 +33,13 @@ Rails.application.routes.draw do
       put :unpublish
     end
   end
+
   get 'tutorials/:slug', to: 'tutorials#show', as: :tutorials_slugged
   get 'tutorials/tagged/:tag', to: 'tutorials#index', as: :tutorials_tagged
 
   resources :image_contents, only: [:create]
 
-  post '/preview'    => 'preview#convert'
+  post '/preview' => 'preview#convert'
 
   resources :drafts, only: [:index] do
     collection do
@@ -46,9 +48,12 @@ Rails.application.routes.draw do
     end
   end
 
-  get '/search' => 'search#search'
-  get '/search/posts' => 'search#posts'
-  get '/search/tutorials' => 'search#tutorials'
+  resources :search, only: [] do
+    collection do
+      get :posts
+      get :tutorials
+    end
+  end
 
   root 'home#index'
 end

@@ -52,7 +52,7 @@ class TutorialsController < ApplicationController
 
   def index
     @tutorials = params[:tag] ? Tutorial.published.tagged_with(params[:tag]) : Tutorial.published
-    @tutorials = @tutorials.by_published_at.page(page).per(per_page)
+    @tutorials = @tutorials.recently_published.page(page).per(per_page)
 
     respond_to do |format|
       format.js

@@ -5,11 +5,6 @@
   display: block
   font-weight: 200
 
-html.new, html.edit, html.drafts
-  body > header
-    nav, #search-nav
-      display: none
-
 body > header
   background: rgba($blue,.98)
   line-height: 52px
@@ -71,34 +66,8 @@ body > header
       &:hover
         background: rgba(255,255,255,.1)
 
-  // Nav
-  nav
-    flex-shrink: 0
-    display: none
-
-    @media screen and (min-width: $break-medium)
-      display: flex
-      justify-content: flex-end
-      flex-grow: 1
-
-    li
-      float: left
-
-      a
-        padding: 0 14px
-
-        &:hover
-          color: #FFF
-
-      &.active
-        background: rgba(255,255,255,.1)
-
-        a
-          color: #FFF
-          font-weight: 400
-
   // Search
-  #search-nav
+  .search-field
     padding-right: 14px
     position: relative
 

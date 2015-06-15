@@ -13,6 +13,6 @@ FactoryGirl.define do
 
   factory :published_tutorial, parent: :tutorial do
     state :published
-    published_at Time.now
+    published_at { Time.now }
   end
 end

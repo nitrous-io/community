@@ -1,3 +1,6 @@
+- content_for :search_field do
+  = render partial: 'partials/search', locals: { kind: :post }
+
 - if @cover_post.present?
   = render partial: 'partials/post_card', locals: { post: @cover_post, url_prefix: '/posts', focus: true}
 

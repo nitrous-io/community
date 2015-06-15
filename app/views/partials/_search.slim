@@ -1,0 +1,11 @@
+ruby:
+  kind ||= :tutorial
+  search_path = case kind
+    when :post
+      posts_search_index_path
+    else
+      tutorials_search_index_path
+  end
+
+= form_tag search_path, method: :get, class: 'search-field' do
+  = text_field_tag 'q', @query, placeholder: 'Search'

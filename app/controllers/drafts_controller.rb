@@ -10,11 +10,11 @@ class DraftsController < ApplicationController
   end
 
   def posts
-    @posts = Post.drafted.by_updated_at.page(page).per(per_page)
+    @posts = Post.drafted.order(updated_at: :desc).page(page).per(per_page)
   end
 
   def tutorials
-    @tutorials = Tutorial.drafted.by_updated_at.page(page).per(per_page)
+    @tutorials = Tutorial.drafted.order(updated_at: :desc).page(page).per(per_page)
   end
 
   protected

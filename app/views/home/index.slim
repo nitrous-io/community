@@ -1,6 +1,8 @@
+- content_for :search_field do
+  = render partial: 'partials/search', locals: { kind: :tutorial }
+
 .main
   .container
-
     .title.centered
       h2
         | Tutorials

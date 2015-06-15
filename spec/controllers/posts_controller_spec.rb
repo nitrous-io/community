@@ -109,11 +109,12 @@ describe PostsController do
   describe 'GET #index' do
     render_views
 
-    let!(:rails_post) { create(:published_post, title: 'rails-post', tag_list: %w(rails ruby)) }
-    let!(:go_post)    { create(:published_post, title: 'go-post',    tag_list: %w(go martini)) }
-    let!(:java_post)  { create(:published_post, title: 'java-post',  tag_list: %w(java      )) }
-    let!(:js_post)    { create(:published_post, title: 'js-post',    tag_list: %w(javascript)) }
-    let!(:cgo_post)   { create(:published_post, title: 'cgo-post',   tag_list: %w(go c      )) }
+    let!(:rust_post)  { create(:post, title: 'rust', tag_list: %w(rust go)) }
+    let!(:rails_post) { create(:published_post, published_at: 1.hour.ago,  title: 'rails-post', tag_list: %w(rails ruby)) }
+    let!(:go_post)    { create(:published_post, published_at: 2.hours.ago, title: 'go-post',    tag_list: %w(go martini)) }
+    let!(:java_post)  { create(:published_post, published_at: 3.hours.ago, title: 'java-post',  tag_list: %w(java      )) }
+    let!(:js_post)    { create(:published_post, published_at: 4.hours.ago, title: 'js-post',    tag_list: %w(javascript)) }
+    let!(:cgo_post)   { create(:published_post, published_at: 5.hours.ago, title: 'cgo-post',   tag_list: %w(go c      )) }
 
     def do_request(params = {})
       get :index, params
@@ -129,7 +130,7 @@ describe PostsController do
         it 'assigns cover_post and posts' do
           do_request(page: page, per_page: 2)
           expect(assigns(:cover_post)).to eq rails_post
-          expect(assigns(:posts)).to contain_exactly(go_post, java_post)
+          expect(assigns(:posts).map(&:id)).to eq([go_post, java_post].map(&:id))
         end
       end
     end
@@ -137,14 +138,14 @@ describe PostsController do
     context 'when page > 1 is requested' do
       it 'assigns posts, but not cover_post' do
         do_request(page: 2, per_page: 2)
-        expect(assigns(:posts)).to contain_exactly(js_post, cgo_post)
+        expect(assigns(:posts).map(&:id)).to eq([js_post, cgo_post].map(&:id))
       end
     end
 
     context 'tag is specified' do
       it 'assigns posts that have specified tag' do
         do_request(tag: 'go')
-        expect(assigns(:posts)).to contain_exactly(go_post, cgo_post)
+        expect(assigns(:posts).map(&:id)).to eq([go_post, cgo_post].map(&:id))
       end
     end
   end

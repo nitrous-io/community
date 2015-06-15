@@ -42,17 +42,17 @@ describe DraftsController do
     context 'when the user is an admin' do
       before { sign_in_as_admin }
 
-      let!(:draft_post1) { create(:post) }
-      let!(:draft_post2) { create(:post) }
-      let!(:draft_post3) { create(:post) }
-      let!(:published_post1) { create(:published_post) }
-      let!(:published_post2) { create(:published_post) }
-      let!(:published_post3) { create(:published_post) }
+      let!(:draft_post1)     { create(:post, updated_at: 3.hours.ago ) }
+      let!(:draft_post2)     { create(:post, updated_at: 2.hours.ago ) }
+      let!(:draft_post3)     { create(:post, updated_at: 1.hour.ago ) }
+      let!(:published_post1) { create(:published_post, updated_at: 3.hours.ago ) }
+      let!(:published_post2) { create(:published_post, updated_at: 2.hours.ago ) }
+      let!(:published_post3) { create(:published_post, updated_at: 1.hour.ago ) }
 
       it 'assigns draft posts' do
         do_request
         expect(response).to have_http_status :ok
-        expect(assigns(:posts)).to contain_exactly(draft_post3, draft_post2, draft_post1)
+        expect(assigns(:posts).map(&:id)).to eq([draft_post3, draft_post2, draft_post1].map(&:id))
       end
 
       context 'with pagination' do
@@ -61,7 +61,7 @@ describe DraftsController do
             it 'assigns drafts in page 1' do
               do_request(page: page, per_page: 2)
               expect(response).to have_http_status :ok
-              expect(assigns(:posts)).to contain_exactly(draft_post3, draft_post2)
+              expect(assigns(:posts).map(&:id)).to eq([draft_post3, draft_post2].map(&:id))
             end
           end
         end
@@ -70,7 +70,7 @@ describe DraftsController do
           it 'assigns drafts in page 2' do
             do_request(page: 2, per_page: 2)
             expect(response).to have_http_status :ok
-            expect(assigns(:posts)).to contain_exactly(draft_post1)
+            expect(assigns(:posts).map(&:id)).to eq([draft_post1].map(&:id))
           end
         end
       end
@@ -94,17 +94,17 @@ describe DraftsController do
     context 'when the user is an admin' do
       before { sign_in_as_admin }
 
-      let!(:draft_tutorial1) { create(:tutorial) }
-      let!(:draft_tutorial2) { create(:tutorial) }
-      let!(:draft_tutorial3) { create(:tutorial) }
-      let!(:published_tutorial1) { create(:published_tutorial) }
-      let!(:published_tutorial2) { create(:published_tutorial) }
-      let!(:published_tutorial3) { create(:published_tutorial) }
+      let!(:draft_tutorial1) { create(:tutorial, updated_at: 3.hours.ago ) }
+      let!(:draft_tutorial2) { create(:tutorial, updated_at: 2.hours.ago ) }
+      let!(:draft_tutorial3) { create(:tutorial, updated_at: 1.hour.ago ) }
+      let!(:published_tutorial1) { create(:published_tutorial, updated_at: 3.hours.ago ) }
+      let!(:published_tutorial2) { create(:published_tutorial, updated_at: 2.hours.ago ) }
+      let!(:published_tutorial3) { create(:published_tutorial, updated_at: 1.hour.ago ) }
 
       it 'shows draft tutorials' do
         do_request
         expect(response).to have_http_status :ok
-        expect(assigns(:tutorials)).to contain_exactly(draft_tutorial3, draft_tutorial2, draft_tutorial1)
+        expect(assigns(:tutorials).map(&:id)).to eq([draft_tutorial3, draft_tutorial2, draft_tutorial1].map(&:id))
       end
 
       context 'with pagination' do
@@ -113,7 +113,7 @@ describe DraftsController do
             it 'assigns drafts in page 1' do
               do_request(page: page, per_page: 2)
               expect(response).to have_http_status :ok
-              expect(assigns(:tutorials)).to contain_exactly(draft_tutorial3, draft_tutorial2)
+              expect(assigns(:tutorials).map(&:id)).to eq([draft_tutorial3, draft_tutorial2].map(&:id))
             end
           end
         end
@@ -122,7 +122,7 @@ describe DraftsController do
           it 'assigns drafts in page 2' do
             do_request(page: 2, per_page: 2)
             expect(response).to have_http_status :ok
-            expect(assigns(:tutorials)).to contain_exactly(draft_tutorial1)
+            expect(assigns(:tutorials).map(&:id)).to eq([draft_tutorial1].map(&:id))
           end
         end
       end

@@ -2,30 +2,23 @@ class SearchController < ApplicationController
   include Pageable
 
   skip_before_action :verify_authenticity_token
-
-  def search
-    @small_nav_title = 'Search'
-    query = params['q'].strip
-
-    @posts = Post.published.advanced_search(query).order('published_at DESC').page(page).per(per_page)
-    @tutorials = Tutorial.published.advanced_search(query).order('published_at DESC').page(page).per(per_page)
-  end
+  before_action :parse_query, except: %i(index)
 
   def posts
-    @posts = Post.published.advanced_search(params['q'].strip).page(page).per(per_page)
-    respond_to do |format|
-      format.js do
-        render template: 'posts/index.js'
-      end
-    end
+    @posts = Post.published.recently_published.advanced_search({
+      title: @query, content_text: @query, slug: @query
+    }, false).page(page).per(per_page)
   end
 
   def tutorials
-    @tutorials = Tutorial.published.advanced_search(params['q'].strip).page(page).per(per_page)
-    respond_to do |format|
-      format.js do
-        render template: 'tutorials/index.js'
-      end
-    end
+    @tutorials = Tutorial.published.recently_published.advanced_search({
+      title: @query, content_text: @query, slug: @query
+    }, false).page(page).per(per_page)
+  end
+
+  protected
+  def parse_query
+    @query = params['q'].to_s.strip
+    @small_nav_title = 'Search'
   end
 end

@@ -38,8 +38,11 @@ section.docs
         a
           display: block
           color: $light-grey
-          padding: 4px 0
+          padding: 10px 0
           font-weight: 300
+          
+          @media screen and (min-width: $break-medium)
+            padding: 4px 0
           
           &:hover
             color: $blue

@@ -231,6 +231,12 @@ body > header
 
   nav + .actions
     flex-grow: 0
+  
+  @media screen and (max-width: $break-medium)
+    h1.logo
+      margin-left: -10px
+    .menu-btn
+      margin-right: -10px
 
 // Mobile nav menu
 #mobile-menu
@@ -249,10 +255,12 @@ body > header
     display: none
 
   ul.nav
-    padding: 30px
+    padding: 20px
 
   a
     line-height: 44px
+    font-size: 18px
+    padding: 4px 0
     +header-link-style
 
   .separator

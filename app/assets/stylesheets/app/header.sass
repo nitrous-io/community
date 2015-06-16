@@ -160,15 +160,6 @@ body > header
       cursor: default
       position: relative
       
-      &:before
-        content: ""
-        position: absolute
-        bottom: -6px
-        left: -50px
-        width: 60px
-        height: 40px
-        background: transparent
-
       .gravatar
         position: relative
         display: inline-block
@@ -191,6 +182,15 @@ body > header
         background: rgba(255,255,255,.1)
 
       &:hover
+        &:before
+          content: ""
+          position: absolute
+          bottom: -6px
+          left: -50px
+          width: 60px
+          height: 40px
+          background: transparent
+      
         .dropdown-menu
           display: block
           animation-name: bounceIn

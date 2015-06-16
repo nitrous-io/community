@@ -5,7 +5,7 @@
   .container
     .title.centered
       h2
-        a href="/tutorials"
+        a href=tutorials_path
           | Tutorials
       p.desc
         | Guides and best practices
@@ -15,13 +15,13 @@
         = render partial: 'partials/tutorial_card', locals: { tutorial: t }
 
     section.centered
-      a.btn.bordered href="/tutorials"
+      a.btn.bordered href=tutorials_path
         | More tutorials
 
 
     .title.centered
       h2
-        a href="/posts"
+        a href=posts_path
           | Latest Updates
       p.desc
         | Anouncements, product news, use-cases, and more
@@ -31,7 +31,7 @@
         = render partial: 'partials/post_card', locals: { post: p }
 
     section.centered
-      a.btn.bordered href="/posts"
+      a.btn.bordered href=posts_path
         | More posts
     
     

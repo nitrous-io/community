@@ -55,7 +55,7 @@ header.fixed
                     a href="#" Edit Categories
                   li.separator
                 li
-                  = link_to "Log Out", sessions_path, :method => :delete
+                  = link_to "Log Out", sessions_path, method: :delete
 
       .menu-btn.mobile
         a.trigger href="#"
@@ -64,13 +64,11 @@ header.fixed
 #mobile-menu
   ul.nav
     li
-      a href="/" Home
-    li
       = link_to "Tutorials", tutorials_path
     li
       = link_to "Blog", posts_path
-    / li
-    /   a href="/" Search
+    li
+      a href="/" Docs
 
     - if current_user.nil?
       li.separator
@@ -81,7 +79,7 @@ header.fixed
     - else
       li.separator
       li
-        = link_to "Log Out", sessions_path, :method => :delete
+        = link_to "Log Out", sessions_path, method: :delete
 
     li.separator
     li

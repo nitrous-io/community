@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 describe PostsController do
-  describe 'GET new' do
-    render_views
+  render_views
 
+  describe 'GET new' do
     def do_request
       get :new
     end
@@ -56,8 +56,6 @@ describe PostsController do
   end
 
   describe 'GET edit' do
-    render_views
-
     subject { create :post }
 
     def do_request
@@ -77,11 +75,11 @@ describe PostsController do
     end
   end
 
-  describe 'PATCH update' do
+  describe 'PUT update' do
     subject { create :post }
 
     def do_request(params = {})
-      patch :update, { id: subject.id, post: attributes_for(:post) }.merge(params)
+      put :update, { id: subject.id, post: attributes_for(:post) }.merge(params)
     end
 
     it_behaves_like 'an admin only action'
@@ -185,8 +183,6 @@ describe PostsController do
   end
 
   describe 'GET index' do
-    render_views
-
     let!(:rust_post)  { create(:post, title: 'rust', tag_list: %w(rust go)) }
     let!(:rails_post) { create(:published_post, published_at: 1.hour.ago,  title: 'rails-post', tag_list: %w(rails ruby)) }
     let!(:go_post)    { create(:published_post, published_at: 2.hours.ago, title: 'go-post',    tag_list: %w(go martini)) }
@@ -206,32 +202,32 @@ describe PostsController do
 
     [nil, 1].each do |page|
       context "when page == #{page}" do
-        it 'assigns cover_post and posts' do
+        it 'assigns cover_content and content' do
           do_request(page: page, per_page: 2)
-          expect(assigns(:cover_post)).to eq rails_post
-          expect(assigns(:posts).map(&:id)).to eq([go_post, java_post].map(&:id))
+          expect(assigns(:cover_content)).to eq rails_post
+          expect(assigns(:content).map(&:id)).to eq([go_post, java_post].map(&:id))
         end
       end
     end
 
     context 'when page > 1 is requested' do
-      it 'assigns posts, but not cover_post' do
+      it 'assigns content, but not cover_content' do
         do_request(page: 2, per_page: 2)
-        expect(assigns(:posts).map(&:id)).to eq([js_post, cgo_post].map(&:id))
+        expect(assigns(:content).map(&:id)).to eq([js_post, cgo_post].map(&:id))
+        expect(assigns(:cover_content)).to be_blank
       end
     end
 
     context 'tag is specified' do
-      it 'assigns posts that have specified tag' do
+      it 'assigns content that have specified tag' do
         do_request(tag: 'go')
-        expect(assigns(:posts).map(&:id)).to eq([go_post, cgo_post].map(&:id))
+        expect(assigns(:content).map(&:id)).to eq([go_post, cgo_post].map(&:id))
+        expect(assigns(:cover_content)).to be_blank
       end
     end
   end
 
   describe "GET show" do
-    render_views
-
     subject { create :published_post }
 
     def do_request

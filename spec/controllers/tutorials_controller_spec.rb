@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 describe TutorialsController do
-  describe 'GET new' do
-    render_views
+  render_views
 
+  describe 'GET new' do
     def do_request
       get :new
     end
@@ -187,8 +187,6 @@ describe TutorialsController do
   end
 
   describe 'GET index' do
-    render_views
-
     let!(:rust_tutorial)  { create(:tutorial, title: 'rust', tag_list: %w(rust go)) }
     let!(:rails_tutorial) { create(:published_tutorial, published_at: 1.hour.ago,  title: 'rails-tutorial', tag_list: %w(rails ruby)) }
     let!(:go_tutorial)    { create(:published_tutorial, published_at: 2.hours.ago, title: 'go-tutorial',    tag_list: %w(go martini)) }
@@ -208,31 +206,29 @@ describe TutorialsController do
 
     [nil, 1].each do |page|
       context "when page == #{page}" do
-        it 'assigns cover_tutorial and tutorials' do
+        it 'assigns content' do
           do_request(page: page, per_page: 2)
-          expect(assigns(:tutorials).map(&:id)).to eq([rails_tutorial, go_tutorial].map(&:id))
+          expect(assigns(:content).map(&:id)).to eq([rails_tutorial, go_tutorial].map(&:id))
         end
       end
     end
 
     context 'when page > 1 is requested' do
-      it 'assigns tutorials, but not cover_tutorial' do
+      it 'assigns content' do
         do_request(page: 2, per_page: 2)
-        expect(assigns(:tutorials).map(&:id)).to eq([java_tutorial, js_tutorial].map(&:id))
+        expect(assigns(:content).map(&:id)).to eq([java_tutorial, js_tutorial].map(&:id))
       end
     end
 
     context 'tag is specified' do
-      it 'assigns tutorials that have specified tag' do
+      it 'assigns content that have specified tag' do
         do_request(tag: 'go')
-        expect(assigns(:tutorials).map(&:id)).to eq([go_tutorial, cgo_tutorial].map(&:id))
+        expect(assigns(:content).map(&:id)).to eq([go_tutorial, cgo_tutorial].map(&:id))
       end
     end
   end
 
-  describe 'GET #show' do
-    render_views
-
+  describe 'GET show' do
     subject { create :published_tutorial }
 
     def do_request

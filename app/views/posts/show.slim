@@ -1,4 +1,5 @@
-- @title = @post.title
+- @title = @content.title
+
 - content_for :header_accessory
   - if current_user.try(:admin?)
     .dropdown
@@ -7,24 +8,24 @@
         i.fa.fa-caret-down
         ul.dropdown-menu role="menu"
           li
-            = link_to 'Edit Blog Post', edit_post_path(@post.id)
-          - if @post.published?
+            = link_to 'Edit Blog Post', edit_post_path(@content.id)
+          - if @content.published?
             li
-              = link_to 'Unpublish', unpublish_post_path(@post.id), method: :post
+              = link_to 'Unpublish', unpublish_post_path(@content.id), method: :post
           - else
             li
-              = link_to 'Publish', publish_post_path(@post.id), method: :post
+              = link_to 'Publish', publish_post_path(@content.id), method: :post
       .divider
 
-- title_style = @post.cover_image_url.present? ? "background: url('#{@post.cover_image_url}') center center fixed;" : ''
+- title_style = @content.cover_image_url.present? ? "background: url('#{@content.cover_image_url}') center center fixed;" : ''
 .main.title-hero style="#{title_style}"
   .container
     .title
       h2
-        = @post.title
+        = @content.title
     .meta
       span.time
-        = l @post.created_at, format: :simple
+        = l @content.created_at, format: :simple
       span.bull-separator
         | &bull;
       a.comment href="#comments"
@@ -34,25 +35,25 @@
   .container
     article
       .content
-        = @post.content_html.html_safe
+        = @content.content_html.html_safe
 
       .footer
-        /- if @post.tags.present?
+        /- if @content.tags.present?
         / .tags
-        /   - @post.tags.each do |tag|
+        /   - @content.tags.each do |tag|
         /     = link_to tag.name, posts_tagged_path(tag: tag.name)
 
         .heart
-          = render partial: 'partials/heart', locals: { url: post_likes_path(post_id: @post.id), score: @post.score, is_upvoted: @is_upvoted }
+          = render partial: 'partials/heart', locals: { url: post_likes_path(post_id: @content.id), score: @content.score, is_upvoted: @is_upvoted }
 
         a.status-icon.comment href="#the-comments"
           span
-            = pluralize(@post.comments.count, 'Comment')
+            = pluralize(@content.comments.count, 'Comment')
 
         a.status-icon.share href="#share"
           span Share
 
-        = render partial: 'partials/sharer', locals: { url: posts_slugged_url(slug: @post.slug)}
+        = render partial: 'partials/sharer', locals: { url: posts_slugged_url(slug: @content.slug)}
 
 .main.darker
   .container
@@ -63,7 +64,7 @@
 
       .form-wrapper
         - if current_user.present?
-          = form_for @comment, url: post_comments_path(@post.id) do |f|
+          = form_for @comment, url: post_comments_path(@content.id) do |f|
             = f.text_area :content, placeholder: "Write a comment..."
 
             .row

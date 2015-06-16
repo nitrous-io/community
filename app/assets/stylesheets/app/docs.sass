@@ -6,9 +6,24 @@ section.docs
   flex-wrap: wrap
   
   .docs-col
-    width: 33.33%
+    width: 100%
     margin: 10px 0 20px
+    text-align: center
     
+    @media screen and (min-width: $break-medium)
+      width: 50%
+      text-align: center
+      
+    @media screen and (min-width: $break-large)
+      width: 33.33%
+      text-align: left
+    
+      &:nth-child(3n+2)
+        padding-left: 50px
+
+      &:nth-child(3n+3)
+        padding-left: 60px
+
     h3
       a
         font-family: $montserrat
@@ -22,4 +37,9 @@ section.docs
       li
         a
           display: block
+          color: $light-grey
           padding: 4px 0
+          font-weight: 300
+          
+          &:hover
+            color: $blue

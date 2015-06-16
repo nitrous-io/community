@@ -14,7 +14,7 @@
             a href=(posts_slugged_path(slug: item.slug)) target="_blank" View Blog Post
           li.separator
           li
-            = link_to 'Unpublish', unpublish_post_path(item.id), data: { method: :put }
+            = link_to 'Unpublish', unpublish_post_path(item.id), method: :post
         - else
           li
             = link_to 'Publish', '#', data: { 'form-id' => '#edit_post', 'form-values' => { publish: true }.to_json }

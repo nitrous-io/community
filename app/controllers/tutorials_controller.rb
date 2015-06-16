@@ -28,22 +28,10 @@ class TutorialsController < ApplicationController
   def update
     @tutorial = Tutorial.find(params[:id].to_i)
 
-    if params[:publish] == 'true'
-      if @tutorial.publish_with(tutorial_params, params[:tutorial][:published_at])
-        flash[:success] = 'Tutorial has been published'
-        redirect_to tutorials_path
-        return
-      end
-    else
-      if @tutorial.update_attributes(tutorial_params)
-        flash[:success] = 'Tutorial has been updated'
-        if @tutorial.published?
-          redirect_to tutorials_path
-        else
-          redirect_to drafts_path
-        end
-        return
-      end
+    if @tutorial.present? && @tutorial.update_attributes(tutorial_params)
+      flash[:success] = 'Tutorial has been updated'
+      redirect_to tutorial_path(@tutorial)
+      return
     end
 
     flash[:error] = 'Unable to update tutorial'
@@ -64,7 +52,7 @@ class TutorialsController < ApplicationController
 
   def destroy
     @tutorial = Tutorial.find(params[:id].to_i)
-    if @tutorial && @tutorial.deleted!
+    if @tutorial.present? && @tutorial.deleted!
       flash[:success] = 'Tutorial has been deleted'
       redirect_to tutorials_path
     else
@@ -76,9 +64,10 @@ class TutorialsController < ApplicationController
   def publish
     @tutorial = Tutorial.find(params[:id].to_i)
     published_at = params[:tutorial] ? params[:tutorial][:published_at] : nil
-    if @tutorial.publish_with({}, published_at)
+
+    if @tutorial.present? && @tutorial.publish_with({}, published_at)
       flash[:success] = 'Tutorial has been published'
-      redirect_to tutorials_path
+      redirect_to tutorial_path(@tutorial)
     else
       flash[:error] = 'Unable to publish tutorial'
       redirect_to :back
@@ -87,9 +76,9 @@ class TutorialsController < ApplicationController
 
   def unpublish
     @tutorial = Tutorial.find(params[:id].to_i)
-    if @tutorial.unpublish
+    if @tutorial.present? && @tutorial.unpublish
       flash[:success] = 'Tutorial has been unpublished'
-      redirect_to drafts_path
+      redirect_to tutorial_path(@tutorial)
     else
       flash[:error] = 'Unable to unpublish tutorial'
       redirect_to :back

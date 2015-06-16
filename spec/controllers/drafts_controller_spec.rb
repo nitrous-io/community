@@ -8,19 +8,14 @@ describe DraftsController do
       get :index
     end
 
-    context 'when the user is not an admin' do
-      it 'redirects to home page' do
-        do_request
-        expect(response).to redirect_to root_path
-      end
-    end
+    it_behaves_like 'an admin only action'
 
-    context 'when the user is an admin' do
+    context 'when user is logged in as an admin' do
       before { sign_in_as_admin }
 
       it 'redirects to drafts/tutorials path' do
         do_request
-        expect(response).to redirect_to tutorials_drafts_path
+        expect(response).to redirect_to(tutorials_drafts_path)
       end
     end
   end
@@ -32,14 +27,9 @@ describe DraftsController do
       get :posts, params
     end
 
-    context 'when the user is not an admin' do
-      it 'redirects to home page' do
-        do_request
-        expect(response).to redirect_to root_path
-      end
-    end
+    it_behaves_like 'an admin only action'
 
-    context 'when the user is an admin' do
+    context 'when user is logged in as an admin' do
       before { sign_in_as_admin }
 
       let!(:draft_post1)     { create(:post, updated_at: 3.hours.ago ) }
@@ -84,14 +74,9 @@ describe DraftsController do
       get :tutorials, params
     end
 
-    context 'when the user is not an admin' do
-      it 'redirects to home page' do
-        do_request
-        expect(response).to redirect_to root_path
-      end
-    end
+    it_behaves_like 'an admin only action'
 
-    context 'when the user is an admin' do
+    context 'when user is logged in as an admin' do
       before { sign_in_as_admin }
 
       let!(:draft_tutorial1) { create(:tutorial, updated_at: 3.hours.ago ) }

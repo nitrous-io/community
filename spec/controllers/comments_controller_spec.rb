@@ -1,13 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe CommentsController, type: :controller do
-
-  let!(:p) { create(:post) }
+  let!(:o) { create(:post) }
   let!(:user) { create(:user) }
 
   describe 'POST #create' do
     def do_request(params = {})
-      post :create, { post_id: p.id, comment: { content: 'hello' } }.merge(params)
+      post :create, { post_id: o.id, comment: { content: 'hello' } }.merge(params)
     end
 
     context 'when user is logged in' do
@@ -16,13 +15,13 @@ RSpec.describe CommentsController, type: :controller do
       it 'redirects to the post page' do
         do_request
         comment = Comment.last
-        expect(response).to redirect_to(posts_slugged_path(slug: p.slug, anchor: "comment-#{comment.id}"))
+        expect(response).to redirect_to(posts_slugged_path(slug: o.slug, anchor: "comment-#{comment.id}"))
       end
 
       it 'create a comment' do
         expect { do_request }.to change(Comment, :count).by(1)
         comment = Comment.last
-        expect(comment.parent).to eq(p)
+        expect(comment.parent).to eq(o)
         expect(comment.user_id).to eq(user.id)
         expect(comment.content).to eq('hello')
       end

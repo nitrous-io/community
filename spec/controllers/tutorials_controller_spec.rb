@@ -1,133 +1,192 @@
 require 'rails_helper'
 
 describe TutorialsController do
-  describe 'GET #new' do
+  describe 'GET new' do
     render_views
 
     def do_request
       get :new
     end
 
-    it_behaves_like 'admin new page'
+    it_behaves_like 'an admin only action'
+
+    context 'when logged in as admin' do
+      before { sign_in_as_admin }
+
+      it 'responds with new page' do
+        do_request
+        expect(response).to have_http_status(:success)
+        expect(response).to render_template(:new)
+      end
+    end
   end
 
-  describe 'POST #create' do
+  describe 'POST create' do
     let(:item) { :tutorial }
-    let(:model_class) { Tutorial }
-    let(:index_path) { tutorials_path }
 
     def do_request(params = {})
       post :create, { tutorial: attributes_for(:tutorial) }.merge(params)
     end
 
-    it_behaves_like 'admin create'
+    it_behaves_like 'an admin only action'
 
-    context 'when a user logged in as an admin' do
+    context 'when logged in as admin' do
       before { sign_in_as_admin }
 
       it 'creates a tutorial' do
         expect {
-          do_request(
-              tutorial: {
-                  title:            'tutorial title',
-                  content_markdown: 'content markdown',
-                  tag_list:         'ruby'
-              }
-          )
+          do_request(tutorial: {
+            title:            'tutorial title',
+            content_markdown: '# content markdown',
+            tag_list:         'ruby'
+          })
         }.to change(Tutorial, :count).by(1)
 
-        p = Tutorial.last
-        expect(p.slug).to eq('tutorial-title')
-        expect(p.title).to eq('tutorial title')
-        expect(p.content_markdown).to eq('content markdown')
-        expect(p.content_html).to match('<p>content markdown</p>')
-        expect(p.tag_list).to eq(['ruby'])
+        expect(response).to redirect_to(drafts_path)
+
+        o = Tutorial.last
+        expect(o.slug).to eq('tutorial-title')
+        expect(o.title).to eq('tutorial title')
+        expect(o.content_markdown).to eq('# content markdown')
+        expect(o.content_html).to match('<h1>content markdown</h1>')
+        expect(o.content_text).to match('content markdown')
+        expect(o.tag_list).to eq(['ruby'])
       end
     end
   end
 
-  describe 'GET #edit' do
-    subject { create(:tutorial) }
+  describe 'GET edit' do
     render_views
+
+    subject { create :tutorial }
 
     def do_request
       get :edit, id: subject.id
     end
 
-    it_behaves_like 'admin edit page'
-  end
+    it_behaves_like 'an admin only action'
 
-  describe 'PUT #update' do
-    let(:item) { :tutorial }
-    let(:index_path) { tutorials_path }
-
-    subject { create(:tutorial) }
-
-    def do_request(params = {})
-      put :update, { id: subject.id, tutorial: attributes_for(:tutorial) }.merge(params)
-    end
-
-    it_behaves_like 'admin update'
-
-    context 'when a user logged in as an admin' do
+    context 'when user is logged in as an admin' do
       before { sign_in_as_admin }
 
-      it 'updates a tutorial' do
-        do_request(id: subject.id,
-                   tutorial: {
-                       title: 'updated tutorial title',
-                       content_markdown: 'updated content markdown',
-                       tag_list: 'rails',
-                       cover_image_url: 'http://example.com/a.jpg'})
+      it 'responds with edit page' do
+        do_request
+        expect(response).to have_http_status(:success)
+        expect(response).to render_template(:edit)
+      end
+    end
+  end
+
+  describe 'PATCH update' do
+    subject { create :tutorial }
+
+    def do_request(params = {})
+      patch :update, { id: subject.id, tutorial: attributes_for(:tutorial) }.merge(params)
+    end
+
+    it_behaves_like 'an admin only action'
+
+    context 'when user is logged in as an admin' do
+      before { sign_in_as_admin }
+
+      it 'updates the tutorial' do
+        do_request(id: subject.id, tutorial: {
+          title: 'updated tutorial title',
+          content_markdown: '# updated content markdown',
+          tag_list: 'rails',
+          cover_image_url: 'http://example.com/a.jpg'
+        })
+
         subject.reload
+
+        expect(response).to redirect_to(tutorial_path(subject))
         expect(subject.title).to eq('updated tutorial title')
-        expect(subject.content_markdown).to eq('updated content markdown')
-        expect(subject.cover_image_url).to eq('http://example.com/a.jpg')
         expect(subject.slug).to eq('updated-tutorial-title')
-        expect(subject.content_html).to match('<p>updated content markdown</p>')
+        expect(subject.cover_image_url).to eq('http://example.com/a.jpg')
+        expect(subject.content_markdown).to eq('# updated content markdown')
+        expect(subject.content_html).to match('<h1>updated content markdown</h1>')
+        expect(subject.content_text).to match('updated content markdown')
         expect(subject.tag_list).to eq(['rails'])
       end
     end
   end
 
-  describe 'DELETE #destroy' do
-    let(:index_path) { tutorials_path }
-
-    subject { create(:tutorial) }
+  describe 'DELETE destroy' do
+    subject { create :tutorial }
 
     def do_request(params = {})
       delete :destroy, { id: subject.id }.merge(params)
     end
 
-    it_behaves_like 'admin delete'
+    it_behaves_like 'an admin only action'
+
+    context 'when user is logged in as an admin' do
+      before { sign_in_as_admin }
+
+      it 'deletes the tutorial' do
+        expect {
+          do_request
+        }.to change{ subject.reload.deleted? }.from(false).to(true)
+
+        expect(response).to redirect_to(tutorials_path)
+      end
+    end
   end
 
-  describe 'PUT #publish' do
-    let(:index_path) { tutorials_path }
-    let(:item_name) { :tutorial }
-
-    subject { create(:tutorial) }
+  describe 'POST publish' do
+    subject { create :tutorial }
 
     def do_request(params = {})
-      put :publish, { id: subject.id }.merge(params)
+      post :publish, { id: subject.id }.merge(params)
     end
 
-    it_behaves_like 'admin publish'
+    it_behaves_like 'an admin only action'
+
+    context 'when user is logged in as an admin' do
+      before { sign_in_as_admin }
+
+      it 'publishes the tutorial' do
+        Timecop.freeze do
+          expect {
+            do_request
+          }.to change { subject.reload.published? }.from(false).to(true)
+
+          expect(subject.published_at.to_i).to eq(Time.now.to_i)
+        end
+
+        expect(response).to redirect_to(tutorial_path(subject))
+      end
+    end
   end
 
-  describe 'PUT #unpublish' do
-    let(:index_path) { tutorials_path }
-
-    subject { create(:tutorial) }
+  describe 'POST unpublish' do
+    subject { create :tutorial }
+    before { subject.published! }
 
     def do_request(params = {})
-      put :unpublish, { id: subject.id }.merge(params)
+      post :unpublish, { id: subject.id }.merge(params)
     end
 
-    it_behaves_like 'admin unpublish'
+    it_behaves_like 'an admin only action'
+
+    context 'when user is logged in as an admin' do
+      before { sign_in_as_admin }
+
+      it 'unpublishes the tutorial' do
+        Timecop.freeze do
+          expect {
+            do_request
+          }.to change { subject.reload.published? }.from(true).to(false)
+
+          expect(subject.published_at).to be_nil
+        end
+
+        expect(response).to redirect_to(tutorial_path(subject))
+      end
+    end
   end
 
-  describe 'GET #index' do
+  describe 'GET index' do
     render_views
 
     let!(:rust_tutorial)  { create(:tutorial, title: 'rust', tag_list: %w(rust go)) }
@@ -141,9 +200,10 @@ describe TutorialsController do
       get :index, params
     end
 
-    it 'renders' do
+    it 'responds with index page' do
       do_request
       expect(response).to have_http_status(:success)
+      expect(response).to render_template(:index)
     end
 
     [nil, 1].each do |page|
@@ -173,42 +233,16 @@ describe TutorialsController do
   describe 'GET #show' do
     render_views
 
-    let!(:tutorial) { create(:published_tutorial) }
+    subject { create :published_tutorial }
 
     def do_request
-      get :show, slug: tutorial.slug
+      get :show, slug: subject.slug
     end
 
-    it 'renders' do
+    it 'responds with show page' do
       do_request
       expect(response).to have_http_status(:success)
-    end
-
-    it 'shows upvote button' do
-      do_request
-      doc = Nokogiri::HTML(response.body)
-      selector = "form[action='#{tutorial_likes_path(tutorial_id: tutorial.id)}']"
-      expect(doc.css(selector)).not_to be_empty
-    end
-
-    context 'a user has upvoted the tutorial' do
-      let(:user) { create(:user) }
-
-      before do
-        create(:like, parent: tutorial, user: user)
-        sign_in(user)
-      end
-
-      it 'shows downvote button' do
-        do_request
-        doc = Nokogiri::HTML(response.body)
-        selector = "form[action='#{tutorial_likes_path(tutorial_id: tutorial.id)}'] input[name=_method][value=delete]"
-        expect(doc.css(selector)).not_to be_empty
-      end
-    end
-
-    it_behaves_like 'admin show' do
-      let(:item) { tutorial }
+      expect(response).to render_template(:show)
     end
   end
 end

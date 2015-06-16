@@ -10,10 +10,10 @@
             = link_to 'Edit Tutorial', edit_tutorial_path(@tutorial.id)
           - if @tutorial.published?
             li
-              = link_to 'Unpublish', unpublish_tutorial_path(@tutorial.id), data: { method: :put }
+              = link_to 'Unpublish', unpublish_tutorial_path(@tutorial.id), method: :post
           - else
             li
-              = link_to 'Publish', publish_tutorial_path(@tutorial.id), method: :put
+              = link_to 'Publish', publish_tutorial_path(@tutorial.id), method: :post
       .divider
 
 .main

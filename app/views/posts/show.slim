@@ -10,10 +10,10 @@
             = link_to 'Edit Blog Post', edit_post_path(@post.id)
           - if @post.published?
             li
-              = link_to 'Unpublish', unpublish_post_path(@post.id), data: { method: :put }
+              = link_to 'Unpublish', unpublish_post_path(@post.id), method: :post
           - else
             li
-              = link_to 'Publish', publish_post_path(@post.id), method: :put
+              = link_to 'Publish', publish_post_path(@post.id), method: :post
       .divider
 
 - title_style = @post.cover_image_url.present? ? "background: url('#{@post.cover_image_url}') center center fixed;" : ''

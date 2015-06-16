@@ -16,8 +16,7 @@ class CommentsController < ApplicationController
     redirect_to parent_show_path(anchor: "comment-#{comment.id}")
   end
 
-  private
-
+  protected
   def comment_params
     params.require(:comment).permit(:content)
   end

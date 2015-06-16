@@ -5,10 +5,12 @@ RSpec.describe ImageContentsController, type: :controller do
   let(:image) { create(:image) }
   let(:file) { Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec', 'fixtures', 'mock-image.jpg')) }
 
-  describe "POST #create" do
+  describe "POST create" do
     def do_request(params = {})
       xhr :post, :create, file: file
     end
+
+    it_behaves_like 'an admin only action'
 
     context "when logged in as admin" do
       before { sign_in_as_admin }
@@ -31,13 +33,6 @@ RSpec.describe ImageContentsController, type: :controller do
           do_request
           expect(response).to have_http_status(:forbidden)
         end
-      end
-    end
-
-    context "when not logged in as admin" do
-      it 'redirects to root page' do
-        do_request
-        expect(response).to redirect_to(root_path)
       end
     end
   end

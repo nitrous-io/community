@@ -28,22 +28,10 @@ class PostsController < ApplicationController
   def update
     @post = Post.find(params[:id].to_i)
 
-    if params[:publish] == 'true'
-      if @post.publish_with(post_params, params[:post][:published_at])
-        flash[:success] = 'Post has been published'
-        redirect_to posts_path
-        return
-      end
-    else
-      if @post.update_attributes(post_params)
-        flash[:success] = 'Post has been updated'
-        if @post.published?
-          redirect_to posts_path
-        else
-          redirect_to drafts_path
-        end
-        return
-      end
+    if @post.present? && @post.update_attributes(post_params)
+      flash[:success] = 'Post has been updated'
+      redirect_to post_path(@post)
+      return
     end
 
     flash[:error] = 'Unable to update post'
@@ -69,7 +57,7 @@ class PostsController < ApplicationController
 
   def destroy
     @post = Post.find(params[:id].to_i)
-    if @post.deleted!
+    if @post.present? && @post.deleted!
       flash[:success] = 'Post has been deleted'
       redirect_to posts_path
     else
@@ -81,9 +69,10 @@ class PostsController < ApplicationController
   def publish
     @post = Post.find(params[:id].to_i)
     published_at = params[:post] ? params[:post][:published_at] : nil
-    if @post.publish_with({}, published_at)
+
+    if @post.present? && @post.publish_with({}, published_at)
       flash[:success] = 'Post has been published'
-      redirect_to posts_path
+      redirect_to post_path(@post)
     else
       flash[:error] = 'Unable to publish post'
       redirect_to :back
@@ -92,9 +81,9 @@ class PostsController < ApplicationController
 
   def unpublish
     @post = Post.find(params[:id].to_i)
-    if @post.unpublish
+    if @post.present? && @post.unpublish
       flash[:success] = 'Post has been unpublished'
-      redirect_to drafts_path
+      redirect_to post_path(@post)
     else
       flash[:error] = 'Unable to unpublish post'
       redirect_to :back

@@ -12,8 +12,8 @@ Rails.application.routes.draw do
     resources :comments, only: [:create]
 
     member do
-      put :publish
-      put :unpublish
+      post :publish
+      post :unpublish
     end
   end
 
@@ -29,8 +29,8 @@ Rails.application.routes.draw do
     resources :comments, only: [:create]
 
     member do
-      put :publish
-      put :unpublish
+      post :publish
+      post :unpublish
     end
   end
 

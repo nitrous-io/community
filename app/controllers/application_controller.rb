@@ -43,22 +43,22 @@ class ApplicationController < ActionController::Base
   end
 
   def verify_logged_in
-    unless current_user
-      if request.xhr?
-        respond_to do |format|
-          format.html do
-            render partial: 'partials/login_error'
-          end
+    return if current_user
+    if request.xhr?
+      respond_to do |format|
+        format.html do
+          render partial: 'partials/login_error'
         end
-      else
-        flash[:error] = "You need to log in"
-        redirect_to login_path
       end
+    else
+      flash[:error] = "You need to log in"
+      redirect_to login_path
     end
   end
 
   def verify_admin
-    redirect_to root_path unless current_user.try(:admin)
+    return if current_user.try(:admin)
+    render plain: 'Forbidden', status: :forbidden
   end
 
   def record_not_found

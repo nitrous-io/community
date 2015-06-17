@@ -12,10 +12,10 @@ class ContentController < ApplicationController
     @content.user_id = current_user.id
 
     if @content.save
-      flash[:success] = "#{model_name.capitalize} has been uploaded"
+      flash[:success] = "#{model_name.capitalize} has been created"
       redirect_to drafts_path
     else
-      flash[:error] = "Unable to upload #{model_name}"
+      flash[:error] = "Unable to create #{model_name}"
       render :new
     end
   end

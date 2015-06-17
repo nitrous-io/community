@@ -3,6 +3,13 @@ Rails.application.routes.draw do
   post 'sessions' => 'sessions#create'
   delete 'sessions' => 'sessions#destroy'
 
+  resources :doc_categories, only: %i(index create destroy) do
+    collection do
+      put :update
+      patch :update
+    end
+  end
+
   resources :posts, except: [:show] do
     resources :likes, only: [:create] do
       collection do

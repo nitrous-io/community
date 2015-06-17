@@ -52,7 +52,7 @@ header.fixed
                   li
                     a href="#" New Doc
                   li
-                    a href="#" Edit Categories
+                    = link_to 'Edit Categories', doc_categories_path
                   li.separator
                 li
                   = link_to "Log Out", sessions_path, method: :delete

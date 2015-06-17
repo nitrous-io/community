@@ -22,8 +22,6 @@ describe PostsController do
   end
 
   describe 'POST create' do
-    let(:item) { :post }
-
     def do_request(params = {})
       post :create, { post: attributes_for(:post) }.merge(params)
     end
@@ -76,7 +74,7 @@ describe PostsController do
   end
 
   describe 'PUT update' do
-    subject { create :post }
+    subject! { create :post }
 
     def do_request(params = {})
       put :update, { id: subject.id, post: attributes_for(:post) }.merge(params)
@@ -108,7 +106,7 @@ describe PostsController do
   end
 
   describe 'DELETE destroy' do
-    subject { create :post }
+    subject! { create :post }
 
     def do_request(params = {})
       delete :destroy, { id: subject.id }.merge(params)
@@ -130,7 +128,7 @@ describe PostsController do
   end
 
   describe 'POST publish' do
-    subject { create :post }
+    subject! { create :post }
 
     def do_request(params = {})
       post :publish, { id: subject.id }.merge(params)
@@ -156,7 +154,7 @@ describe PostsController do
   end
 
   describe 'POST unpublish' do
-    subject { create :post }
+    subject! { create :post }
     before { subject.published! }
 
     def do_request(params = {})

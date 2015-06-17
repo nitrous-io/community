@@ -1,0 +1,32 @@
+.main
+  .container
+    .title
+      h2 Doc Categories
+
+    h3 New Category
+
+    = form_for(@new_category, method: :post) do |f|
+      = f.text_field :position, type: 'number', placeholder: 'Position', required: true
+      = f.text_field :name, placeholder: 'Name', required: true
+      br
+      = f.submit 'Create', data: { disabled_with: 'Creating...' }
+
+    - if @content.length > 0
+      h3 Edit Categories
+
+      = form_tag(doc_categories_path, method: :put) do
+        table
+          thead
+            tr
+              th
+                | Position
+              th
+                | Name
+          tbody
+            - @content.each do |category|
+              tr
+                td
+                  input type='number' name="doc_categories[#{category.id.to_s}][position]" value=(category.position) required=true
+                td
+                  input type='text' name="doc_categories[#{category.id.to_s}][name]" value=(category.name) required=true
+        = submit_tag 'Save changes', data: { disabled_with: 'Saving...' }

@@ -22,8 +22,6 @@ describe TutorialsController do
   end
 
   describe 'POST create' do
-    let(:item) { :tutorial }
-
     def do_request(params = {})
       post :create, { tutorial: attributes_for(:tutorial) }.merge(params)
     end
@@ -77,11 +75,11 @@ describe TutorialsController do
     end
   end
 
-  describe 'PATCH update' do
-    subject { create :tutorial }
+  describe 'PUT update' do
+    subject! { create :tutorial }
 
     def do_request(params = {})
-      patch :update, { id: subject.id, tutorial: attributes_for(:tutorial) }.merge(params)
+      put :update, { id: subject.id, tutorial: attributes_for(:tutorial) }.merge(params)
     end
 
     it_behaves_like 'an admin only action'
@@ -112,7 +110,7 @@ describe TutorialsController do
   end
 
   describe 'DELETE destroy' do
-    subject { create :tutorial }
+    subject! { create :tutorial }
 
     def do_request(params = {})
       delete :destroy, { id: subject.id }.merge(params)
@@ -134,7 +132,7 @@ describe TutorialsController do
   end
 
   describe 'POST publish' do
-    subject { create :tutorial }
+    subject! { create :tutorial }
 
     def do_request(params = {})
       post :publish, { id: subject.id }.merge(params)
@@ -160,7 +158,7 @@ describe TutorialsController do
   end
 
   describe 'POST unpublish' do
-    subject { create :tutorial }
+    subject! { create :tutorial }
     before { subject.published! }
 
     def do_request(params = {})

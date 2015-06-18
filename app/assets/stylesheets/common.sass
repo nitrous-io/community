@@ -77,16 +77,30 @@ a
     &:hover
       border-color: $blue
       color: $blue
-
-  &.blue
+  
+  &.blue, &.grey
     display: block
     height: 40px
     cursor: pointer
-    background: $blue
     font-size: 16px
+    border-radius: 2px
+  
+  &.grey
+    background: rgba($light-grey, .2)
+    color: rgba($dark-grey, .5)
+  
+  &.transp
+    background: transparent
+    color: $light-grey
+    border: 0
+    &:hover
+      background: rgba($light-grey, .1)
+      color: $dark-grey
+      
+  &.blue
+    background: $blue
     color: #FFF
     margin-top: 20px
-    border-radius: 2px
 
 pre
   white-space: pre-wrap
@@ -136,6 +150,7 @@ section + .title
 
       li
         display: flex
+        position: relative
 
         a
           color: rgba($dark-grey,.5)
@@ -147,6 +162,14 @@ section + .title
             color: $dark-grey
 
         &.active
+          &:after
+            content: ""
+            bottom: -1px
+            left: 0
+            right: 0
+            position: absolute
+            display: block
+            border-bottom: 1px solid $blue
           a
             color: $blue
             border-bottom: 1px solid $blue
@@ -171,6 +194,8 @@ section + .title
           border-bottom: 1px solid transparent
 
         &.active
+          &:after
+            display: none
           a
             border-bottom: 1px solid transparent
 

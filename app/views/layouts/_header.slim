@@ -12,6 +12,8 @@ header.fixed
             small Tutorials
           - elsif controller.controller_name == 'posts'
             small Blog
+          - elsif controller.controller_name == 'doc_categories'
+            small Categories
           - else
               small Community
 
@@ -52,7 +54,7 @@ header.fixed
                   li
                     a href="#" New Doc
                   li
-                    = link_to 'Edit Categories', doc_categories_path
+                    = link_to 'Categories', doc_categories_path
                   li.separator
                 li
                   = link_to "Log Out", sessions_path, method: :delete

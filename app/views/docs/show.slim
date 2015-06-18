@@ -15,6 +15,9 @@
           - else
             li
               = link_to 'Publish', publish_doc_path(@content.id), method: :doc
+          li.separator
+          li
+            = link_to 'Drafts', docs_drafts_path
       .divider
 
 - title_style = @content.cover_image_url.present? ? "background: url('#{@content.cover_image_url}') center center fixed;" : ''

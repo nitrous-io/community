@@ -39,9 +39,9 @@ describe PostsController do
           cover_image_url: 'http://example.com/a.jpg'
         })
 
-        expect(response).to redirect_to(drafts_path)
-
         o = Post.last
+
+        expect(response).to redirect_to(post_path(o))
         expect(o.slug).to eq('post-title')
         expect(o.title).to eq('post title')
         expect(o.cover_image_url).to eq('http://example.com/a.jpg')

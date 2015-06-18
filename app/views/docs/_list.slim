@@ -1,22 +1,10 @@
-- if defined?(docs) && docs.present? && !docs.empty?
-  / this is displayed when list is filtered by tag
-  div
-    section.doc.cards
-      - docs.each do |doc|
-        = render partial: 'partials/doc_card', locals: { doc: doc }
+div
+  section.doc.cards
+    - docs.each do |doc|
+      = render partial: 'partials/doc_card', locals: { doc: doc }
 
-    .paginator
-      = paginate docs, window: 2, left: 1, right: 1
+  .paginator
+    = paginate docs, window: 2, left: 1, right: 1
 
+- if defined?(toc) && toc.present?
   = render partial: 'docs/sidebar', locals: { toc: toc }
-- else
-  / this is displayed when no filter is applied
-  section.docs
-    - toc.each do |category, docs|
-      .docs-col
-        h3
-          = category.name
-        ul
-          - docs.each do |doc|
-            li
-              = link_to doc.title, docs_slugged_path(slug: doc.slug)

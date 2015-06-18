@@ -1,0 +1,9 @@
+section.docs
+  - toc.each do |category, docs|
+    .docs-col
+      h3
+        = category.name
+      ul
+        - docs.each do |doc|
+          li
+            = link_to doc.title, docs_slugged_path(slug: doc.slug)

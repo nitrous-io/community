@@ -13,4 +13,7 @@
     / = render partial: 'partials/flash_message'
 
     #docs
-      = render partial: 'docs/list', locals: { toc: @toc, docs: @content }
+      - if @content.present?
+        = render partial: 'docs/list', locals: { docs: @content, toc: @toc }
+      - else
+        = render partial: 'docs/toc', locals: { toc: @toc }

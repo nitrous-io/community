@@ -13,7 +13,7 @@ class ContentController < ApplicationController
 
     if @content.save
       flash[:success] = "#{model_name.capitalize} has been created"
-      redirect_to drafts_path
+      redirect_to action: 'show', slug: @content.slug
     else
       flash[:error] = "Unable to create #{model_name}"
       render :new

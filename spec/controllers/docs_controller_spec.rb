@@ -46,9 +46,9 @@ describe DocsController do
           })
         }.to change(Doc, :count).by(1)
 
-        expect(response).to redirect_to(drafts_path)
-
         o = Doc.last
+
+        expect(response).to redirect_to(doc_path(o))
         expect(o.slug).to eq('doc-title')
         expect(o.title).to eq('doc title')
         expect(o.content_markdown).to eq('# content markdown')

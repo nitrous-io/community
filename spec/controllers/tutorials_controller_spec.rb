@@ -40,9 +40,9 @@ describe TutorialsController do
           })
         }.to change(Tutorial, :count).by(1)
 
-        expect(response).to redirect_to(drafts_path)
-
         o = Tutorial.last
+
+        expect(response).to redirect_to(tutorial_path(o))
         expect(o.slug).to eq('tutorial-title')
         expect(o.title).to eq('tutorial title')
         expect(o.content_markdown).to eq('# content markdown')

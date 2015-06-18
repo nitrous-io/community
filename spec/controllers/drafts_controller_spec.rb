@@ -113,4 +113,51 @@ describe DraftsController do
       end
     end
   end
+
+  describe 'GET docs' do
+    render_views
+
+    def do_request(params={})
+      get :docs, params
+    end
+
+    it_behaves_like 'an admin only action'
+
+    context 'when user is logged in as an admin' do
+      before { sign_in_as_admin }
+
+      let!(:draft_doc1) { create(:doc, updated_at: 3.hours.ago ) }
+      let!(:draft_doc2) { create(:doc, updated_at: 2.hours.ago ) }
+      let!(:draft_doc3) { create(:doc, updated_at: 1.hour.ago ) }
+      let!(:published_doc1) { create(:published_doc, updated_at: 3.hours.ago ) }
+      let!(:published_doc2) { create(:published_doc, updated_at: 2.hours.ago ) }
+      let!(:published_doc3) { create(:published_doc, updated_at: 1.hour.ago ) }
+
+      it 'shows draft docs' do
+        do_request
+        expect(response).to have_http_status :ok
+        expect(assigns(:docs).map(&:id)).to eq([draft_doc3, draft_doc2, draft_doc1].map(&:id))
+      end
+
+      context 'with pagination' do
+        [nil, 1].each do |page|
+          context "when page #{page} is requested" do
+            it 'assigns drafts in page 1' do
+              do_request(page: page, per_page: 2)
+              expect(response).to have_http_status :ok
+              expect(assigns(:docs).map(&:id)).to eq([draft_doc3, draft_doc2].map(&:id))
+            end
+          end
+        end
+
+        context "when page > 1 is requested" do
+          it 'assigns drafts in page 2' do
+            do_request(page: 2, per_page: 2)
+            expect(response).to have_http_status :ok
+            expect(assigns(:docs).map(&:id)).to eq([draft_doc1].map(&:id))
+          end
+        end
+      end
+    end
+  end
 end

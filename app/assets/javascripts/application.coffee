@@ -1,7 +1,7 @@
 #= require jquery
 #= require jquery_ujs
 #= require tagsinput
-#= require sortable.min
+#= require sortable
 #= require ./main
 #= require ./ajax-helper
 #= require ./highlight

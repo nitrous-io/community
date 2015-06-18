@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150616001100) do
+ActiveRecord::Schema.define(version: 20150616002117) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,26 @@ ActiveRecord::Schema.define(version: 20150616001100) do
   end
 
   add_index "doc_categories", ["position"], name: "index_doc_categories_on_position", using: :btree
+
+  create_table "docs", force: :cascade do |t|
+    t.integer  "user_id",                      null: false
+    t.integer  "doc_category_id",              null: false
+    t.string   "slug",                         null: false
+    t.string   "title",                        null: false
+    t.text     "content_markdown",             null: false
+    t.text     "content_html",                 null: false
+    t.text     "content_text"
+    t.integer  "score",            default: 0
+    t.integer  "state",            default: 0
+    t.string   "cover_image_url"
+    t.integer  "position",         default: 0, null: false
+    t.datetime "published_at"
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+  end
+
+  add_index "docs", ["doc_category_id"], name: "index_docs_on_doc_category_id", using: :btree
+  add_index "docs", ["slug"], name: "index_docs_on_slug", unique: true, using: :btree
 
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",                      null: false

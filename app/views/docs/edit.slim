@@ -1,0 +1,13 @@
+- content_for :header_accessory do
+  = render partial: 'partials/doc_publish_menu', locals: { item: @content }
+
+.main
+  .container
+    / = render partial: 'partials/flash_message'
+
+    = render partial: 'partials/form', locals: { _item: @content, _url: doc_path(@content.id), _method: :put, _form_id: 'edit_doc' }
+
+- content_for :body_script do
+  = javascript_include_tag 'code-mirror'
+  javascript:
+    Community.EditPage.init();

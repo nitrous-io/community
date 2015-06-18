@@ -1,0 +1,24 @@
+.dropdown
+  .dropdown-toggle
+    span Publish
+    i.fa.fa-caret-down
+    ul.dropdown-menu role="menu"
+      - if item.new_record?
+        li
+          = link_to 'Save as Draft', '#', data: { 'form-id' => '#new_doc' }
+      - else
+        li
+          = link_to 'Save changes', '#', data: { 'form-id' => '#edit_doc' }
+        - if item.published?
+          li
+            a href=(docs_slugged_path(slug: item.slug)) target="_blank" View Doc
+          li.separator
+          li
+            = link_to 'Unpublish', unpublish_doc_path(item.id), method: :post
+        - else
+          li
+            = link_to 'Publish', '#', data: { 'form-id' => '#edit_doc', 'form-values' => { publish: true }.to_json }
+        li.separator
+        li
+          = link_to 'Delete', doc_path(item.id), data: { confirm: 'Are you sure?', method: :delete }
+.divider

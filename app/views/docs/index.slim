@@ -1,0 +1,16 @@
+- content_for :search_field do
+  = render partial: 'partials/search', locals: { kind: :doc }
+
+.main.title-hero.stacks
+  .container
+    .title
+      h2 Documentation
+    p.desc
+      | Documentation &amp; help for everything Nitrous
+
+.main
+  .container
+    / = render partial: 'partials/flash_message'
+
+    #docs
+      = render partial: 'docs/list', locals: { toc: @toc, docs: @content }

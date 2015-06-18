@@ -1,5 +1,5 @@
 - @title = @content.title
-- content_for :header_accessory
+- content_for :header_accessory do
   - if current_user.try(:admin?)
     .dropdown
       .dropdown-toggle
@@ -77,5 +77,5 @@
         - @comments.each do |comment|
           = render partial: 'partials/comment', locals: { comment: comment }
 
-= content_for :body_script do
+- content_for :body_script do
   = javascript_include_tag 'code-mirror'

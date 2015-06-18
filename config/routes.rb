@@ -44,6 +44,22 @@ Rails.application.routes.draw do
   get 'tutorials/:slug', to: 'tutorials#show', as: :tutorials_slugged
   get 'tutorials/tagged/:tag', to: 'tutorials#index', as: :tutorials_tagged
 
+  resources :docs, except: [:show] do
+    resources :likes, only: [:create] do
+      collection do
+        delete :destroy
+      end
+    end
+
+    member do
+      post :publish
+      post :unpublish
+    end
+  end
+
+  get 'docs/:slug', to: 'docs#show', as: :docs_slugged
+  get 'docs/tagged/:tag', to: 'docs#index', as: :docs_tagged
+
   resources :image_contents, only: [:create]
 
   post '/preview' => 'preview#convert'

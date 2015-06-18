@@ -46,8 +46,6 @@ class ContentController < ApplicationController
   def show
     @content = collection.friendly.find(params[:slug])
     @is_upvoted = @content.is_upvoted_by?(current_user_id)
-    @comment = Comment.new
-    @comments = @content.comments
   end
 
   def destroy

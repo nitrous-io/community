@@ -1,6 +1,12 @@
 require_relative './content_controller'
 
 class TutorialsController < ContentController
+  def show
+    super
+    @comment = Comment.new
+    @comments = @content.comments
+  end
+
   protected
   def model_class
     Tutorial

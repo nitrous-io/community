@@ -2,7 +2,7 @@ class DocCategoriesController < ApplicationController
   before_action :verify_admin
 
   def index
-    @content = DocCategory.order(:position)
+    @content = DocCategory.ordered
     @new_category = DocCategory.new
   end
 

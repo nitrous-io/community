@@ -10,6 +10,12 @@ class PostsController < ContentController
     end
   end
 
+  def show
+    super
+    @comment = Comment.new
+    @comments = @content.comments
+  end
+
   protected
   def model_class
     Post

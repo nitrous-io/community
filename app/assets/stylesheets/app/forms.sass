@@ -90,6 +90,38 @@
 
         &:active, &:focus
           border-color: $blue
+  
+    .row.table
+      display: flex
+      
+      &.sortable-ghost
+        opacity: .3
+      
+      span.handle
+        width: 40px
+        display: block
+        border-radius: 2px
+        margin-right: 20px
+        cursor: row-resize
+        text-align: center
+        
+        i
+          color: $light-grey
+          line-height: 40px
+      
+      input
+        
+        &.position
+          width: 60px
+          margin-right: 20px
+        
+        &.btn
+          width: 60px
+          font-family: FontAwesome
+          margin: 0 0 0 20px
+          font-size: 13px
+          font-weight: 300
+    
 
     .row.table
       display: flex

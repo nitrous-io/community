@@ -16,6 +16,12 @@ class SearchController < ApplicationController
     }, false).page(page).per(per_page)
   end
 
+  def docs
+    @docs = Doc.published.recently_published.advanced_search({
+      title: @query, content_text: @query, slug: @query
+    }, false).page(page).per(per_page)
+  end
+
   protected
   def parse_query
     @query = params['q'].to_s.strip

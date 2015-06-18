@@ -3,8 +3,10 @@ ruby:
   search_path = case kind
     when :post
       posts_search_index_path
-    else
+    when :tutorial
       tutorials_search_index_path
+    else
+      docs_search_index_path
   end
 
 = form_tag search_path, method: :get, class: 'search-field' do

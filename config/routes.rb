@@ -76,6 +76,7 @@ Rails.application.routes.draw do
     collection do
       get :posts
       get :tutorials
+      get :docs
     end
   end
 

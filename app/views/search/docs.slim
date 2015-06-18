@@ -1,0 +1,17 @@
+.main
+  .container
+    .form-wrapper
+        = render partial: 'partials/search', locals: { kind: :docs }
+
+    .tabs
+      ul
+        li
+          = link_to 'Tutorials', tutorials_search_index_path(q: @query)
+        li
+          = link_to 'Blog Posts', posts_search_index_path(q: @query)
+        li.active
+          = link_to 'Docs', docs_search_index_path(q: @query)
+
+    #docs
+      section.docs-container
+        = render partial: 'docs/list', locals: { docs: @docs }

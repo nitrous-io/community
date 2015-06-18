@@ -1,32 +1,26 @@
 .main
   .container
-    .title
-      h2 Doc Categories
 
-    h3 New Category
+    .form-wrapper
+      - if @content.length > 0
+        = form_tag(doc_categories_path, method: :put, id: 'doc_category_list') do
+          - @content.each do |category|
+            .row.table
+              span.handle
+                i.fa.fa-reorder
+              input type='number' class="position" name="doc_categories[#{category.id.to_s}][position]" value=(category.position) required=true
+              input type='text' name="doc_categories[#{category.id.to_s}][name]" value=(category.name) required=true
+              input type='button' name="doc_categories[#{category.id.to_s}][delete]" value=('&#xf00d;'.html_safe) class='btn transp'
 
-    = form_for(@new_category, method: :post) do |f|
-      = f.text_field :position, type: 'number', placeholder: 'Position', required: true
-      = f.text_field :name, placeholder: 'Name', required: true
-      br
-      = f.submit 'Create', data: { disabled_with: 'Creating...' }
+          .row
+            = submit_tag 'Save changes', data: { disabled_with: 'Saving...' }, class: 'btn blue'
+      
+      = form_for(@new_category, method: :post) do |f|
+        .row.table
+          = f.text_field :position, type: 'number', placeholder: 'Position', required: true, class: 'position'
+          = f.text_field :name, placeholder: 'Category Name', required: true
+          = f.submit value: '&#xf067;'.html_safe, data: { disabled_with: 'Creating...' }, class: 'btn blue'
 
-    - if @content.length > 0
-      h3 Edit Categories
-
-      = form_tag(doc_categories_path, method: :put) do
-        table
-          thead
-            tr
-              th
-                | Position
-              th
-                | Name
-          tbody
-            - @content.each do |category|
-              tr
-                td
-                  input type='number' name="doc_categories[#{category.id.to_s}][position]" value=(category.position) required=true
-                td
-                  input type='text' name="doc_categories[#{category.id.to_s}][name]" value=(category.name) required=true
-        = submit_tag 'Save changes', data: { disabled_with: 'Saving...' }
+= content_for :body_script do
+  javascript:
+    Community.DocCategoriesPage.init();

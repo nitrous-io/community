@@ -77,16 +77,29 @@ a
     &:hover
       border-color: $blue
       color: $blue
-
-  &.blue
+  
+  &.blue, &.grey
     display: block
     height: 40px
     cursor: pointer
-    background: $blue
     font-size: 16px
+    border-radius: 2px
+  
+  &.grey
+    background: rgba($light-grey, .2)
+    color: rgba($dark-grey, .5)
+  
+  &.transp
+    background: transparent
+    color: $light-grey
+    border: 0
+    &:hover
+      background: rgba($light-grey, .1)
+      
+  &.blue
+    background: $blue
     color: #FFF
     margin-top: 20px
-    border-radius: 2px
 
 pre
   white-space: pre-wrap

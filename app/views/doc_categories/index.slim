@@ -8,7 +8,7 @@
             .row.table
               span.handle
                 i.fa.fa-reorder
-              input type='number' class="position" name="doc_categories[#{category.id.to_s}][position]" value=(category.position) required=true
+              input type='hidden' class="position" name="doc_categories[#{category.id.to_s}][position]" value=(category.position) required=true
               input type='text' name="doc_categories[#{category.id.to_s}][name]" value=(category.name) required=true
               input type='button' name="doc_categories[#{category.id.to_s}][delete]" value=('&#xf00d;'.html_safe) class='btn transp'
 
@@ -17,7 +17,7 @@
       
       = form_for(@new_category, method: :post) do |f|
         .row.table
-          = f.text_field :position, type: 'number', placeholder: 'Position', required: true, class: 'position'
+          = f.text_field :position, type: 'hidden', required: true, class: 'position'
           = f.text_field :name, placeholder: 'Category Name', required: true
           = f.submit value: '&#xf067;'.html_safe, data: { disabled_with: 'Creating...' }, class: 'btn blue'
 

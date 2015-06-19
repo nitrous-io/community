@@ -12,7 +12,7 @@
         = f.text_field :cover_image_url, placeholder: 'Cover image (URL)', tabindex: 2
 
     - if defined?(_doc_category) && _doc_category
-      .row
+      .row.custom-select
         = f.select :doc_category_id, @categories.map { |c| [c.name, c.id] }
 
     /- if _item.persisted?

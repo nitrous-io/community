@@ -1,11 +1,12 @@
 section.docs
   - toc = Hash[toc.first(num_categories)] if defined?(num_categories)
   - toc.each do |category, docs|
-    .docs-col
-      h3
-        = category.name
-      ul
-        - docs = docs.first(num_docs) if defined?(num_docs)
-        - docs.each do |doc|
-          li
-            = link_to doc.title, docs_slugged_path(slug: doc.slug)
+    - if docs.length > 0
+      .docs-col
+        h3
+          = category.name
+        ul
+          - docs = docs.first(num_docs) if defined?(num_docs)
+          - docs.each do |doc|
+            li
+              = link_to doc.title, docs_slugged_path(slug: doc.slug)

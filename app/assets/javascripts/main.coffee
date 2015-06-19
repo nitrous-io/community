@@ -38,3 +38,14 @@ $sharer.mouseleave ->
 
 # Tags input
 $("[data-role='tagsinput']").tagsInput()
+
+
+# Docs Sidebar
+if $("html").hasClass("docs show")
+  $(".docs-col h3").click ->
+    col = $(this).parents(".docs-col")
+    if col.hasClass("active")
+      col.removeClass("active")
+    else
+      col.addClass("active")
+  

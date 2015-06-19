@@ -18,7 +18,6 @@
       a.btn.bordered href=tutorials_path
         | More tutorials
 
-
     .title.centered
       h2
         a href=posts_path
@@ -37,9 +36,13 @@
 
     .title.centered
       h2
-        a href="/docs"
+        a href=docs_path
           | Docs
       p.desc
         | Documentation &amp; help for everything Nitrous
 
     = render partial: 'docs/toc', locals: { toc: @docs_toc, num_docs: 3, num_categories: 9 }
+
+    section.centered
+      a.btn.bordered href=docs_path
+        | View all

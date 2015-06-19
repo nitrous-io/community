@@ -52,7 +52,7 @@ class DocCategoriesController < ApplicationController
       flash[:success] = "Category has been deleted"
       redirect_to action: 'index'
     else
-      flash[:error] = "Unable to delete category"
+      flash[:error] = "Unable to delete category. (Category not empty?)"
       redirect_to :back
     end
   end

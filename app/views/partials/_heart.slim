@@ -1,3 +1,4 @@
-= link_to '#', class: "status-icon heart#{' active' if is_upvoted}", data: { 'like-path' => like_path, 'unlike-path' => unlike_path } do
-  span
-    = pluralize(score, 'heart')
+.heart-wrapper
+  = link_to '#', class: "status-icon heart#{' active' if is_upvoted}", data: { 'like-path' => like_path, 'unlike-path' => unlike_path } do
+    span
+      = pluralize(score, 'heart')

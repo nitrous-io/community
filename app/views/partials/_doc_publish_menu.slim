@@ -5,20 +5,20 @@
     ul.dropdown-menu role="menu"
       - if item.new_record?
         li
-          = link_to 'Save as Draft', '#', data: { 'form-id' => '#new_doc' }
+          = link_to 'Save as Draft', '#', data: { 'form-id' => '#new_doc', 'no-confirm-close' => true }
       - else
         li
-          = link_to 'Save changes', '#', data: { 'form-id' => '#edit_doc' }
+          = link_to 'Save changes', '#', data: { 'form-id' => '#edit_doc', 'no-confirm-close' => true }
         - if item.published?
           li
             a href=(docs_slugged_path(slug: item.slug)) target="_blank" View Doc
           li.separator
           li
-            = link_to 'Unpublish', unpublish_doc_path(item.id), method: :post
+            = link_to 'Unpublish', unpublish_doc_path(item.id), method: :post, data: { 'no-confirm-close' => true }
         - else
           li
-            = link_to 'Publish', '#', data: { 'form-id' => '#edit_doc', 'form-values' => { publish: true }.to_json }
+            = link_to 'Publish', '#', data: { 'form-id' => '#edit_doc', 'form-values' => { publish: true }.to_json, 'no-confirm-close' => true }
         li.separator
         li
-          = link_to 'Delete', doc_path(item.id), data: { confirm: 'Are you sure?', method: :delete }
+          = link_to 'Delete', doc_path(item.id), method: :delete, data: { confirm: 'Are you sure?', 'no-confirm-close' => true }
 .divider

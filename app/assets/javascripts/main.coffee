@@ -1,4 +1,4 @@
-window.Community ||= {}
+window.Community = {}
 
 # User dropdown
 $dropdownToggle = $(".dropdown-toggle")

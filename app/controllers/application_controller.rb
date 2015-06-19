@@ -45,13 +45,9 @@ class ApplicationController < ActionController::Base
   def verify_logged_in
     return if current_user
     if request.xhr?
-      respond_to do |format|
-        format.html do
-          render partial: 'partials/login_error'
-        end
-      end
+      render json: { 'error': 'You need to be logged in' }, status: :forbidden
     else
-      flash[:error] = "You need to log in"
+      flash[:error] = "You need to be logged in"
       redirect_to login_path
     end
   end

@@ -292,4 +292,114 @@ describe DocsController do
       end
     end
   end
+
+  describe 'POST like' do
+    let!(:user) { create(:user) }
+
+    subject! { create :published_doc, score: 2 }
+
+    def do_request
+      xhr :post, :like, id: subject.id
+    end
+
+    context 'when not logged in' do
+      it 'returns 403 forbidden' do
+        do_request
+        expect(response).to have_http_status(:forbidden)
+      end
+    end
+
+    context 'when logged in as regular user' do
+      before { sign_in(user) }
+
+      context "when user hasn't already liked the doc" do
+        it 'upvotes the doc and responds with new score' do
+          expect(subject.score).to eq(2)
+
+          expect {
+            do_request
+          }.to change(Like, :count).by(1)
+
+          expect(response).to have_http_status :ok
+          expect(JSON.parse(response.body)).to eq('score' => 3)
+
+          like = Like.last
+          expect(like.parent_id).to eq(subject.id)
+          expect(like.user_id).to eq(user.id)
+          expect(subject.reload.score).to eq(3)
+        end
+      end
+
+      context 'when user has already liked the doc' do
+        let!(:old_like) { create :like, parent: subject, user: user }
+
+        it 'does not re-upvote the doc, but responds with current score' do
+          expect(subject.score).to eq(3)
+
+          expect {
+            do_request
+          }.to change(Like, :count).by(0)
+
+          expect(response).to have_http_status :ok
+          expect(JSON.parse(response.body)).to eq('score' => 3)
+
+          like = Like.last
+          expect(like.parent_id).to eq(subject.id)
+          expect(like.user_id).to eq(user.id)
+          expect(subject.reload.score).to eq(3)
+        end
+      end
+    end
+  end
+
+  describe 'POST unlike' do
+    let!(:user) { create(:user) }
+
+    subject! { create :published_doc, score: 2 }
+
+    def do_request
+      xhr :post, :unlike, id: subject.id
+    end
+
+    context 'when not logged in' do
+      it 'returns 403 forbidden' do
+        do_request
+        expect(response).to have_http_status(:forbidden)
+      end
+    end
+
+    context 'when logged in as regular user' do
+      before { sign_in(user) }
+
+      context "when user hasn't already liked the doc" do
+        it 'does not downvote the doc, but responds with current score' do
+          expect(subject.score).to eq(2)
+
+          expect {
+            do_request
+          }.to change(Like, :count).by(0)
+
+          expect(response).to have_http_status :ok
+          expect(JSON.parse(response.body)).to eq('score' => 2)
+          expect(subject.reload.score).to eq(2)
+        end
+      end
+
+      context 'when user has already liked the doc' do
+        let!(:old_like) { create :like, parent: subject, user: user }
+
+        it 'downvotes the doc and responds with new score' do
+          expect(subject.score).to eq(3)
+
+          expect {
+            do_request
+          }.to change(Like, :count).by(-1)
+
+          expect(response).to have_http_status :ok
+          expect(JSON.parse(response.body)).to eq('score' => 2)
+          expect(subject.reload.score).to eq(2)
+        end
+      end
+    end
+  end
 end

@@ -1,6 +1,7 @@
 class ContentController < ApplicationController
   include Pageable
-  before_action :verify_admin, except: %i(index show)
+  before_action :verify_admin, except: %i(index show like unlike)
+  before_action :verify_logged_in, only: %i(like unlike)
 
   def new
     @content = model_class.new
@@ -90,6 +91,19 @@ class ContentController < ApplicationController
       flash[:error] = "Unable to unpublish #{model_name.capitalize}"
       redirect_to :back
     end
+  end
+
+  def like
+    @content = model_class.find(params[:id].to_i)
+    is_upvoted = @content.is_upvoted_by?(current_user_id)
+    score = is_upvoted ? @content.score : @content.upvote(current_user_id)
+    render json: { score: score }
+  end
+
+  def unlike
+    @content = model_class.find(params[:id].to_i)
+    score = @content.downvote(current_user_id)
+    render json: { score: score }
   end
 
   protected

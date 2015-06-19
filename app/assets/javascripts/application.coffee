@@ -6,6 +6,7 @@
 #= require ./confirm-close
 #= require ./ajax-helper
 #= require ./highlight
+#= require ./show-page
 #= require ./edit-page
 #= require ./doc-categories-page
 #= require ./webfonts

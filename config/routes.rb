@@ -11,16 +11,13 @@ Rails.application.routes.draw do
   end
 
   resources :posts, except: [:show] do
-    resources :likes, only: [:create] do
-      collection do
-        delete :destroy
-      end
-    end
     resources :comments, only: [:create]
 
     member do
       post :publish
       post :unpublish
+      post :like
+      post :unlike
     end
   end
 
@@ -28,16 +25,13 @@ Rails.application.routes.draw do
   get 'posts/tagged/:tag', to: 'posts#index', as: :posts_tagged
 
   resources :tutorials, except: [:show] do
-    resources :likes, only: [:create] do
-      collection do
-        delete :destroy
-      end
-    end
     resources :comments, only: [:create]
 
     member do
       post :publish
       post :unpublish
+      post :like
+      post :unlike
     end
   end
 
@@ -45,15 +39,11 @@ Rails.application.routes.draw do
   get 'tutorials/tagged/:tag', to: 'tutorials#index', as: :tutorials_tagged
 
   resources :docs, except: [:show] do
-    resources :likes, only: [:create] do
-      collection do
-        delete :destroy
-      end
-    end
-
     member do
       post :publish
       post :unpublish
+      post :like
+      post :unlike
     end
   end
 

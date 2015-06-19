@@ -46,8 +46,7 @@
         /   - @content.tags.each do |tag|
         /     = link_to tag.name, posts_tagged_path(tag: tag.name)
 
-        .heart
-          = render partial: 'partials/heart', locals: { url: post_likes_path(post_id: @content.id), score: @content.score, is_upvoted: @is_upvoted }
+        = render partial: 'partials/heart', locals: { score: @content.score, is_upvoted: @is_upvoted, like_path: like_post_path(@content.id), unlike_path: unlike_post_path(@content.id) }
 
         a.status-icon.comment href="#the-comments"
           span
@@ -82,3 +81,5 @@
 
 - content_for :body_script do
   = javascript_include_tag 'code-mirror'
+  javascript:
+    Community.ShowPage.init();

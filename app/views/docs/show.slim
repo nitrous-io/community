@@ -36,8 +36,7 @@
         /   - @content.tags.each do |tag|
         /     = link_to tag.name, docs_tagged_path(tag: tag.name)
 
-        .heart
-          = render partial: 'partials/heart', locals: { url: doc_likes_path(doc_id: @content.id), score: @content.score, is_upvoted: @is_upvoted }
+        = render partial: 'partials/heart', locals: { score: @content.score, is_upvoted: @is_upvoted, like_path: like_doc_path(@content.id), unlike_path: unlike_doc_path(@content.id) }
 
         a.status-icon.share href="#share"
           span Share
@@ -48,3 +47,5 @@
 
 - content_for :body_script do
   = javascript_include_tag 'code-mirror'
+  javascript:
+    Community.ShowPage.init();

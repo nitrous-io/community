@@ -13,7 +13,7 @@
     /      = datetime_field :post, :published_at, placeholder: '2014-05-20T00:00:00.000+0000'
     /      = submit_tag 'Publish', role: 'button', class: 'btn btn-info'
 
-    = render partial: 'partials/form', locals: { _item: @content, _url: tutorial_path(@content.id), _method: :put, _form_id: 'edit_tutorial' }
+    = render partial: 'partials/form', locals: { _item: @content, _url: tutorial_path(@content.id), _method: :put, _form_id: 'edit_tutorial', _tags: true }
 
 - content_for :body_script do
   = javascript_include_tag 'code-mirror'

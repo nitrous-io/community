@@ -3,7 +3,7 @@
 
 .main
   .container
-    = render partial: 'partials/form', locals: { _item: @content, _url: posts_path, _method: :post, _form_id: 'new_post', _post_cover_image: true }
+    = render partial: 'partials/form', locals: { _item: @content, _url: posts_path, _method: :post, _form_id: 'new_post', _post_cover_image: true, _tags: true }
 
 - content_for :body_script do
   = javascript_include_tag 'code-mirror'

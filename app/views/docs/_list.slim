@@ -1,7 +1,6 @@
-div
-  section.doc.cards
-    - docs.each do |doc|
-      = render partial: 'partials/doc_card', locals: { doc: doc }
+section.doc.cards
+  - docs.each do |doc|
+    = render partial: 'partials/doc_card', locals: { doc: doc }
 
   .paginator
     = paginate docs, window: 2, left: 1, right: 1

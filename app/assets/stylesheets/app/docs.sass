@@ -1,5 +1,69 @@
 @import 'variables'
 
+html.docs
+  .main
+    .with-sidebar
+      display: flex
+      flex-direction: column
+
+      aside
+        width: 100%
+        display: block
+        padding-top: 10px
+        overflow: hidden
+
+        .docs-col
+          margin-bottom: 6px
+
+          &.active
+            margin-bottom: 20px
+            
+            h3
+              cursor: default
+
+        h3
+          max-width: 90%
+          text-transform: uppercase
+          font-size: 15px
+          white-space: nowrap
+          overflow: hidden
+          text-overflow: ellipsis
+          cursor: pointer
+
+        ul
+          padding: 10px 0 10px 0
+        
+        li
+          margin-bottom: 2px
+
+        a
+          line-height: 30px
+          padding: 4px 0
+          color: $light-grey
+
+        .active
+          a
+            color: $blue
+            cursor: default
+
+      article
+        width: 100%
+        margin-bottom: 60px
+      
+    @media screen and (min-width: $break-medium)
+      .with-sidebar
+        flex-direction: row
+        
+        aside
+          width: 30%
+          margin-right: 40px
+          order: 1
+
+        article
+          width: 70%
+          order: 2
+          margin-bottom: 0
+
 section.docs
   margin-top: 20px
   display: flex

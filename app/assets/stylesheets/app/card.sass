@@ -4,6 +4,10 @@
   display: flex
   flex-wrap: wrap
   margin: 0 -10px
+  
+html.docs
+  .cards
+    margin: 0
 
 .card
   width: 100%
@@ -148,7 +152,6 @@
     height: 60px
     background: image-url('tutorial-visual-nitrous.png') 0 0 no-repeat
     background-size: 80px 60px
-
 
   &.tag-ruby .visual a
     background: $ruby
@@ -365,6 +368,37 @@
             font-size: 32px
             line-height: 38px
 
+            
+            
+  &.row
+    width: 100%
+    height: 34px
+    margin: 0 10px 20px 10px
+    
+    .content
+      display: flex
+      padding: 0
+      margin: 0
+    
+    .category, .card-footer
+      display: none
+      
+    @media screen and (min-width: $break-medium)    
+      .category, .card-footer
+        display: block
+      
+      .category
+        padding-left: 20px
+        color: $light-grey
+        flex-grow: 1
+
+      .card-footer
+        height: auto
+        margin: 0 0 0 20px
+        padding: 0
+        border: 0
+    
+    
 html.drafts, html.search
   .cards + .cards
     margin-top: 40px

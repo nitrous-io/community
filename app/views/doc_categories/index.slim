@@ -10,7 +10,7 @@
               input type='hidden' class="position" name="doc_categories[#{category.id.to_s}][position]" value=(category.position) required=true
               input type='text' name="doc_categories[#{category.id.to_s}][name]" value=(category.name) required=true
 
-              = link_to '&#xf00d;'.html_safe, doc_category_path(category), method: :delete, class: 'btn trasp', data: { confirm: 'Are you sure?', 'no-confirm-close' => true }
+              = link_to '&#xf00d;'.html_safe, doc_category_path(category), method: :delete, class: 'btn transp', data: { confirm: 'Are you sure?', 'no-confirm-close' => true }
 
           .row
             = submit_tag 'Save changes', data: { disable_with: 'Saving...' }, class: 'btn blue'

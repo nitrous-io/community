@@ -4,6 +4,7 @@ section.docs
       h3
         = category.name
       ul
+        - docs = docs.first(num_items) if defined?(num_items)
         - docs.each do |doc|
           li
             = link_to doc.title, docs_slugged_path(slug: doc.slug)

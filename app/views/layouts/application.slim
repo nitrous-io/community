@@ -22,6 +22,7 @@ html lang="en" class=(full_controller_action_name)
 
   body
     = yield :body_before
+    = render partial: 'partials/flash_message'
     = render 'layouts/header'
     = yield
     = render 'layouts/footer'

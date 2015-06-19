@@ -10,8 +10,6 @@
 
 .main
   .container
-    / = render partial: 'partials/flash_message'
-
     #docs
       - if @content.present?
         = render partial: 'docs/list', locals: { docs: @content, toc: @toc }

@@ -1,12 +1,5 @@
 .main
   .container
-
-    .title.centered
-      p.desc
-        - flash.each do |name, message|
-          = message.humanize
-
-
     .form-wrapper
       = form_for :user, url: sessions_path do |f|
         .row

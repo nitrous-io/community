@@ -3,8 +3,6 @@
 
 .main
   .container
-    / = render partial: 'partials/flash_message'
-
     = render partial: 'partials/form', locals: { _item: @content, _url: doc_path(@content.id), _method: :put, _form_id: 'edit_doc', _doc_category: true }
 
 - content_for :body_script do

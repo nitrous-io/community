@@ -1,0 +1,36 @@
+#flash-message
+  z-index: 9999
+  position: fixed
+  width: 100%
+  text-align: center
+
+  .message
+    box-sizing: border-box
+    position: relative
+    display: inline-block
+    background: #ffd
+    color: black
+    opacity: 0
+    animation: flash-message 10s
+    height: 28px
+    line-height: 28px
+    padding: 0 8px
+    border-radius: 0 0 3px 3px
+    box-shadow: 0 2px 2px rgba(0,0,0,.1), 0 0 1px rgba(0,0,0,.1)
+
+    &.error
+      background: #fdd
+
+@keyframes flash-message
+  0%
+    opacity: 0
+    bottom: 28px
+  3%
+    opacity: 1
+    bottom: 0
+  97%
+    opacity: 1
+    bottom: 0
+  100%
+    opacity: 0
+    bottom: 28px

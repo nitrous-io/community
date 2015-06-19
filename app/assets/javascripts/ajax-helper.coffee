@@ -11,7 +11,7 @@ onAjaxSuccess = (e, data, status, xhr) ->
 
 $("[data-remote=true]").on "ajax:success", onAjaxSuccess
 
-$('[data-form-id]').on 'click', (e) ->
+$(document).delegate '[data-form-id]', 'click', (e) ->
   e.preventDefault()
 
   formId = $(this).data('form-id')
@@ -23,6 +23,4 @@ $('[data-form-id]').on 'click', (e) ->
       for key, value of formValues
         $form.append($("<input>").attr("type", "hidden").attr("name", key).val(value))
 
-    window.setTimeout(->
-      $form.submit()
-    , 1)
+    $form.submit()

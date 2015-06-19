@@ -1,18 +1,6 @@
 Community.DocCategoriesPage =
   init: ->
-    confirmClose = true
-
-    $(window).on 'beforeunload', (evt) ->
-      return unless confirmClose
-      confirmationMessage = "You will lose unsaved changes if you close the page."
-      (evt || window.event).returnValue = confirmationMessage # Gecko and Trident
-      confirmationMessage # Gecko and WebKit
-
-    noConfirmClose = ->
-      confirmClose = false
-      window.setTimeout(->
-        confirmClose = true
-      , 50)
+    $.attachConfirmClose("You will lose unsaved changes if you close the page.")
 
     $categoryListForm = $('#doc_category_list')
 
@@ -37,8 +25,4 @@ Community.DocCategoriesPage =
     $('#new_doc_category').on 'submit', (e) ->
       noConfirmClose()
       $('#doc_category_position').val($("#doc_category_list input.position").length)
-      true
-
-    $('[data-no-confirm-close]').on 'click', (e) ->
-      noConfirmClose()
       true

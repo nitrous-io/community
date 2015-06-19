@@ -3,6 +3,7 @@
 #= require tagsinput
 #= require sortable
 #= require ./main
+#= require ./confirm-close
 #= require ./ajax-helper
 #= require ./highlight
 #= require ./edit-page

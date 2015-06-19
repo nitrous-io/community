@@ -29,9 +29,20 @@ class ContentController < ApplicationController
     @content = model_class.find(params[:id].to_i)
 
     if @content.present? && @content.update_attributes(content_params)
-      flash[:success] = "#{model_name.capitalize} has been updated"
-      redirect_to action: 'show', slug: @content.slug
-      return
+      if params[:publish] == 'true'
+        if do_publish
+          flash[:success] = "#{model_name.capitalize} has been published"
+          redirect_to action: 'show', slug: @content.slug
+        else
+          flash[:error] = "Unable to publish #{model_name}"
+          redirect_to :back
+        end
+        return
+      else
+        flash[:success] = "#{model_name.capitalize} has been updated"
+        redirect_to action: 'show', slug: @content.slug
+        return
+      end
     end
 
     flash[:error] = "Unable to update #{model_name}"
@@ -61,9 +72,7 @@ class ContentController < ApplicationController
 
   def publish
     @content = model_class.find(params[:id].to_i)
-    published_at = params[model_param_name] ? params[model_param_name][:published_at] : nil
-
-    if @content.present? && @content.publish_with({}, published_at)
+    if do_publish
       flash[:success] = "#{model_name.capitalize} has been published"
       redirect_to action: 'show', slug: @content.slug
     else
@@ -106,5 +115,10 @@ class ContentController < ApplicationController
 
   def collection
     @_collection ||= current_user.try(:admin?) ? model_class.unscoped : model_class.published
+  end
+
+  def do_publish
+    published_at = params[model_param_name] ? params[model_param_name][:published_at] : nil
+    @content.present? && @content.publish_with({}, published_at)
   end
 end

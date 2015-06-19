@@ -106,6 +106,37 @@ describe TutorialsController do
         expect(subject.content_text).to match('updated content markdown')
         expect(subject.tag_list).to eq(['rails'])
       end
+
+      context 'when publish param is true' do
+        it 'updates the tutorial and publishes the tutorial' do
+          now = nil
+
+          Timecop.freeze do
+            now = Time.now
+
+            do_request(id: subject.id, tutorial: {
+              title: 'updated tutorial title',
+              content_markdown: '# updated content markdown',
+              tag_list: 'rails',
+              cover_image_url: 'http://example.com/a.jpg'
+            }, publish: 'true')
+          end
+
+          subject.reload
+
+          expect(response).to redirect_to(tutorial_path(subject))
+          expect(subject.title).to eq('updated tutorial title')
+          expect(subject.slug).to eq('updated-tutorial-title')
+          expect(subject.cover_image_url).to eq('http://example.com/a.jpg')
+          expect(subject.content_markdown).to eq('# updated content markdown')
+          expect(subject.content_html).to match('<h1>updated content markdown</h1>')
+          expect(subject.content_text).to match('updated content markdown')
+          expect(subject.tag_list).to eq(['rails'])
+
+          expect(subject).to be_published
+          expect(subject.published_at.to_i).to eq(now.to_i)
+        end
+      end
     end
   end
 

@@ -23,17 +23,6 @@ $('[data-form-id]').on 'click', (e) ->
       for key, value of formValues
         $form.append($("<input>").attr("type", "hidden").attr("name", key).val(value))
 
-    $form.submit()
-
-$scrollViews = $('[data-infinite-scroll=true]')
-
-for scrollView in $scrollViews
-  $scrollView = $(scrollView)
-  $containerSelector = $scrollView.data('infinite-scroll-container')
-  $scrollView.infinitescroll
-    animate: true
-    navSelector: "#{$containerSelector} a[data-next-link]"
-    nextSelector: "#{$containerSelector} a[data-next-link]"
-    contentSelector: $containerSelector
-    itemSelector: 'section'
-    dataType: 'html'
+    window.setTimeout(->
+      $form.submit()
+    , 1)

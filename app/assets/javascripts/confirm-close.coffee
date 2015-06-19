@@ -13,7 +13,7 @@ $.attachConfirmClose = (msg) ->
     (evt || window.event).returnValue = confirmationMessage # Gecko and Trident
     confirmationMessage # Gecko and WebKit
 
-$('[data-no-confirm-close]').on 'click', (e) ->
+$('[data-no-confirm-close]').on 'click submit', (e) ->
   noConfirmClose()
   true
 

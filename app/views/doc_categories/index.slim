@@ -2,7 +2,7 @@
   .container
     .form-wrapper
       - if @content.length > 0
-        = form_tag(doc_categories_path, method: :put, id: 'doc_category_list') do
+        = form_tag(doc_categories_path, method: :put, id: 'doc_category_list', data: { 'no-confirm-close' => true }) do
           - @content.each do |category|
             .row.table
               span.handle
@@ -15,7 +15,7 @@
           .row
             = submit_tag 'Save changes', data: { disable_with: 'Saving...' }, class: 'btn blue'
 
-      = form_for(@new_category, method: :post) do |f|
+      = form_for(@new_category, method: :post, data: { 'no-confirm-close' => true }) do |f|
         .row.table
           = f.text_field :position, type: 'hidden', required: true, class: 'position'
           = f.text_field :name, placeholder: 'Category Name', required: true

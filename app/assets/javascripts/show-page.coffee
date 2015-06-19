@@ -20,4 +20,4 @@ Community.ShowPage =
         $this.find('> span').text("#{score} heart#{if score != 1 then 's' else ''}")
       ).fail (evt) ->
         if evt.status == 403
-          location.href = '/login'
+          location.href = '/login?redirect_to=' + window.encodeURIComponent(location.pathname)

@@ -72,7 +72,7 @@
             .row
               = f.submit "Post comment", class: 'btn blue'
         - else
-          = link_to 'Log in to comment', login_path, class: 'btn blue'
+          = link_to 'Log in to comment', login_path(redirect_to: request.env['PATH_INFO']), class: 'btn blue'
 
 
       #the-comments.comment-list

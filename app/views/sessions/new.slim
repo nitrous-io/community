@@ -2,11 +2,13 @@
   .container
     .form-wrapper
       = form_for :user, url: sessions_path do |f|
+        - if params[:redirect_to].present?
+          = hidden_field_tag 'redirect_to', params[:redirect_to]
         .row
-          = f.text_field :username_or_email, { :placeholder => "Username, or Email"}
+          = f.text_field :username_or_email, placeholder: "Username or Email"
 
         .row
-          = f.password_field :password, { :placeholder => "Password"}
+          = f.password_field :password, placeholder: "Password"
 
         .row
           = f.submit "Log In", class: 'btn blue'

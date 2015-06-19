@@ -5,29 +5,47 @@ RSpec.describe SessionsController, type: :controller do
   describe "GET new" do
     render_views
 
-    def do_request
-      get :new
+    def do_request(params={})
+      get :new, params
     end
 
-    context "when user not logged in" do
+    context "when user is not logged in" do
 
       it 'renders new template' do
         do_request
         is_expected.to render_template(:new)
       end
 
-      it 'render successfully' do
+      it 'renders successfully' do
         do_request
         expect(response).to have_http_status(:success)
       end
     end
 
-    context "when user logged in" do
+    context "when user is already logged in" do
       before { sign_in }
 
-      it 'redirects to home page' do
-        do_request
-        expect(response).to redirect_to(root_path)
+      context 'when redirect_to param is absent' do
+        it 'redirects to root path' do
+          do_request
+          expect(response).to redirect_to(root_path)
+        end
+      end
+
+      context 'when redirect_to param is present' do
+        context 'when uri in redirect_to param is relative' do
+          it 'redirects to the given path' do
+            do_request(redirect_to: '/foo?bar=baz#qux')
+            expect(response).to redirect_to('/foo?bar=baz#qux')
+          end
+        end
+
+        context 'when uri in redirect_to param is not relative' do
+          it 'ignores the param and redirects to root' do
+            do_request(redirect_to: 'http://www.example.com/foo?bar=baz#qux')
+            expect(response).to redirect_to(root_path)
+          end
+        end
       end
     end
   end
@@ -40,8 +58,8 @@ RSpec.describe SessionsController, type: :controller do
     let(:user_url) { sprintf('%s/user', ENV['NITROUS_URL']) }
     let(:user_info) { { 'id' => 67, 'name' => '', 'username' => 'bighero', 'email' => 'nitrousbighero@gmail.com', 'admin' => false } }
 
-    def do_request(params = { username_or_email: username, password: password })
-      post :create, user: params
+    def do_request(params={})
+      post :create, { user: { username_or_email: username, password: password } }.merge(params)
     end
 
     context "with success" do
@@ -50,15 +68,10 @@ RSpec.describe SessionsController, type: :controller do
 
       before do
         stub_request(:post, oauth_url).
-            to_return(status: 200, headers: { 'content-type' => ['application/json; charset=utf-8'] }, body: login_response_body)
+          to_return(status: 200, headers: { 'content-type' => ['application/json; charset=utf-8'] }, body: login_response_body)
         stub_request(:get, user_url).
-            with(headers: { 'Authorization' => 'Bearer %s' % token }).
-            to_return(status: 200, headers: { 'content-type' => ['application/json; charset=utf-8'] }, body: token_response_body)
-      end
-
-      it 'redirects to home page' do
-        do_request
-        expect(response).to redirect_to(root_path)
+          with(headers: { 'Authorization' => 'Bearer %s' % token }).
+          to_return(status: 200, headers: { 'content-type' => ['application/json; charset=utf-8'] }, body: token_response_body)
       end
 
       it 'sets session' do
@@ -99,6 +112,29 @@ RSpec.describe SessionsController, type: :controller do
           end
         end
       end
+
+      context 'when redirect_to param is absent' do
+        it 'redirects to root path' do
+          do_request
+          expect(response).to redirect_to(root_path)
+        end
+      end
+
+      context 'when redirect_to param is present' do
+        context 'when uri in redirect_to param is relative' do
+          it 'redirects to the given path' do
+            do_request(redirect_to: '/foo?bar=baz#qux')
+            expect(response).to redirect_to('/foo?bar=baz#qux')
+          end
+        end
+
+        context 'when uri in redirect_to param is not relative' do
+          it 'ignores the param and redirects to root' do
+            do_request(redirect_to: 'http://www.example.com/foo?bar=baz#qux')
+            expect(response).to redirect_to(root_path)
+          end
+        end
+      end
     end
 
     context "with failure" do
@@ -106,12 +142,13 @@ RSpec.describe SessionsController, type: :controller do
 
       before do
         stub_request(:post, sprintf('%s/oauth/token?grant_type=password&password=%s&username=%s', ENV['NITROUS_URL'], password, username)).
-            to_return(status: 400, headers: { 'content-type' => ['application/json; charset=utf-8'] }, body: login_response_body)
+          to_return(status: 400, headers: { 'content-type' => ['application/json; charset=utf-8'] }, body: login_response_body)
+        request.env['HTTP_REFERER'] = 'http://test.host/login?redirect_to=/foo/bar'
       end
 
-      it 'redirects to login page' do
+      it 'redirects to back' do
         do_request
-        expect(response).to redirect_to(login_path)
+        expect(response).to redirect_to(:back)
       end
 
       it 'does not set session' do
@@ -130,9 +167,9 @@ RSpec.describe SessionsController, type: :controller do
 
     before do
       stub_request(:delete, sprintf('%s/logout', ENV['NITROUS_URL'])).
-          with(headers: { 'Authorization' => 'Bearer %s' % token }).
-          to_return(status: 200, headers: {}, body: '')
-      u                 = create(:user, nitrous_oauth_token: token)
+        with(headers: { 'Authorization' => 'Bearer %s' % token }).
+        to_return(status: 200, headers: {}, body: '')
+      u = create(:user, nitrous_oauth_token: token)
       session[:user_id] = u.id
     end
 

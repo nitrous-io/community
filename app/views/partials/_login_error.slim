@@ -1,2 +1,2 @@
 .error
-  | You need to #{link_to 'login', login_path} to do that.
+  | You need to #{link_to 'login', login_path(redirect_to: request.env['PATH_INFO'])} to do that.

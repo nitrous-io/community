@@ -31,7 +31,8 @@ header.fixed
         = yield :search_field
 
         - if current_user.nil?
-          = link_to "Log In / Sign Up", login_path, class: (controller.controller_name == 'sessions' ? 'active' : nil)
+          - if controller.controller_name != 'sessions'
+            = link_to "Log In / Sign Up", login_path(redirect_to: request.env['PATH_INFO'])
 
         - else
           = yield :header_accessory
@@ -78,7 +79,7 @@ header.fixed
     - if current_user.nil?
       li.separator
       li
-        = link_to "Log In", login_path
+        = link_to "Log In", login_path(redirect_to: request.env['PATH_INFO'])
       li
         a href="https://pro.nitrous.io/app/#/signup" Sign Up
     - else

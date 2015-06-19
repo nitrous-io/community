@@ -39,7 +39,8 @@ class ApplicationController < ActionController::Base
 
   protected
   def verify_logged_out
-    redirect_to root_path if current_user
+    return unless current_user
+    perform_redirect
   end
 
   def verify_logged_in
@@ -59,5 +60,18 @@ class ApplicationController < ActionController::Base
 
   def record_not_found
     render file: 'public/404.html', status: :not_found, layout: nil
+  end
+
+  def perform_redirect
+    if (uri = params[:redirect_to]).present?
+      begin
+        u = URI.parse(uri)
+      rescue
+      else
+        redirect_to u.relative? ? uri : root_path
+        return
+      end
+    end
+    redirect_to root_path
   end
 end

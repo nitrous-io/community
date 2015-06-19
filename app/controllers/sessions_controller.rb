@@ -21,13 +21,14 @@ class SessionsController < ApplicationController
           u = fetch_user(u, client)
         else
           u = User.new(
-              id:                  user.id,
-              name:                user.name,
-              username:            user.username,
-              email:               user.email,
-              nitrous_oauth_token: client.token,
-              admin:               user.admin,
-              last_fetched_at:     Time.now)
+            id:                  user.id,
+            name:                user.name,
+            username:            user.username,
+            email:               user.email,
+            nitrous_oauth_token: client.token,
+            admin:               user.admin,
+            last_fetched_at:     Time.now
+          )
           u.save
         end
 
@@ -36,10 +37,10 @@ class SessionsController < ApplicationController
         flash[:error] = client.last_error_description
       end
 
-      redirect_to root_path
+      perform_redirect
     else
       flash[:error] = client.last_error_description
-      redirect_to login_path
+      redirect_to :back
     end
   end
 

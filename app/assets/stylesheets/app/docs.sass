@@ -9,47 +9,36 @@ html.docs
       aside
         width: 100%
         display: block
-        padding-top: 10px
+        padding-top: 2px
         overflow: hidden
 
         .docs-col
-          height: 24px
           margin: 10px 0
-          
-          ul
-            display: none
-            opacity: 0
-            transition: opacity .25s ease-in-out
 
           &.active
-            height: auto
-            
             h3
               cursor: default
-            
-            ul
-              display: block
-              opacity: 1
 
         h3
           max-width: 90%
           text-transform: uppercase
-          font-size: 13px
+          font-size: 16px
           white-space: nowrap
           overflow: hidden
           text-overflow: ellipsis
           cursor: pointer
           user-select: none
+          font-family: $montserrat
 
         ul
           padding: 2px 0 10px 0
         
         li
-          margin-bottom: 2px
+          margin: 6px 0
 
         a
           line-height: 30px
-          padding: 4px 0
+          padding: 10px 0
           color: $light-grey
 
         li.active
@@ -75,6 +64,30 @@ html.docs
           order: 2
           margin-bottom: 0
 
+        .docs-col
+          height: 24px
+
+          ul
+            display: none
+            opacity: 0
+            transition: opacity .25s ease-in-out
+          
+          li
+            margin: 2px 0 2px 6px
+            
+          a
+            padding: 4px 0
+          
+          h3
+            font-size: 13px
+
+          &.active
+            height: auto
+
+            ul
+              display: block
+              opacity: 1
+
 section.docs
   margin-top: 20px
   margin-bottom: 0
@@ -99,11 +112,15 @@ section.docs
 
       &:nth-child(3n+3)
         padding-left: 70px
+    
+    h3
+      cursor: default
 
     h3, h3 a
       font-family: $montserrat
+      text-transform: uppercase
       font-weight: 500
-      font-size: 16px
+      font-size: 13px
       color: $dark-grey
 
     ul

@@ -1,9 +1,9 @@
 .docs-sidebar
   - toc.each do |category, docs|
-    .docs-col
+    .docs-col class=('active' if defined?(active_doc) && active_doc.doc_category.id == category.id)
       h3
         = category.name
       ul
         - docs.each do |doc|
-          li
+          li class=('active' if defined?(active_doc) && active_doc.id == doc.id)
             = link_to doc.title, docs_slugged_path(slug: doc.slug)

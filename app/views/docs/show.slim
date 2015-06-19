@@ -50,7 +50,7 @@
 
         = render partial: 'partials/sharer', locals: { url: docs_slugged_url(slug: @content.slug)}
 
-    = render partial: 'docs/sidebar', locals: { toc: @toc }
+    = render partial: 'docs/sidebar', locals: { toc: @toc, active_doc: @content }
 
 - content_for :body_script do
   = javascript_include_tag 'code-mirror'

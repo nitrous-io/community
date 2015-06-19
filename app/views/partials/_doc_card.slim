@@ -1,16 +1,9 @@
 - link = doc.published? ? docs_slugged_path(slug: doc.slug) : edit_doc_path(id: doc.id)
 
-- tag_classes = doc.tags.map { |t| "tag-#{t}" }.join " "
-.doc.card.row class=tag_classes
+.doc.card.row
   .content
     h3.card-title
       = link_to doc.title, link
     
     span.category
       = doc.doc_category.name
-
-    .card-footer
-      .author
-        .gravatar
-          img src=(doc.user.gravatar(56))
-        = doc.user.username

@@ -1,3 +1,6 @@
+- content_for :search_field do
+  = render partial: 'partials/search', locals: { kind: :tutorial }
+  
 - @title = @content.title
 - content_for :header_accessory do
   - if current_user.try(:admin?)

@@ -25,6 +25,10 @@
           img src=(tutorial.user.gravatar(56))
         = tutorial.user.username
       - if tutorial.tags.present?
-        - tutorial.tags.each do |tag|
-          .tags
+        .tags
+          - tutorial.tags.take(2).each do |tag|
             = link_to tag.name, tutorials_tagged_path(tag: tag.name), { :class => "tag"}
+            
+          - if tutorial.tags.size > 2
+            a.tag.ellipsis href=link
+              i.fa.fa-ellipsis-h

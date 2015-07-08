@@ -15,9 +15,9 @@
       .row.custom-select
         = f.select :doc_category_id, @categories.map { |c| [c.name, c.id] }
 
-    /- if _item.persisted?
-    /  .row
-    /    = f.datetime_field :published_at, placeholder: 'Publish Date (2014-05-20T00:00:00.000+0000)'
+    .row
+      = f.hidden_field :published_at, class: 'published_at'
+      input.published_at_picker type='text' placeholder='Publish Date'
 
     #markdown-preview
       .tabs.as-icons

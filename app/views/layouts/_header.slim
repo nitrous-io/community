@@ -1,7 +1,16 @@
+ruby:
+  _home_path = case controller.controller_name
+    when 'tutorials' then tutorials_path
+    when 'posts' then posts_path
+    when 'docs' then docs_path
+    else
+      root_path
+  end
+
 header.fixed
   .container
     h1.logo
-      a href=(root_path)
+      a href=(_home_path)
         span
           em Nitrous
           '
@@ -18,13 +27,22 @@ header.fixed
             small Docs
           - else
               small Community
+        i.fa.fa-caret-down
+        
+      ul.dropdown-menu
+        li class=(%w(home sessions).include?(controller.controller_name) ? 'active' : nil)
+          a href=(root_path)
+            small Community
+        li class=(controller.controller_name == 'tutorials' ? 'active' : nil)
+          a href=(tutorials_path)
+            small Tutorials
+        li class=(controller.controller_name == 'posts' ? 'active' : nil)
+          a href=(posts_path)
+            small Blog
+        li class=(controller.controller_name == 'docs' ? 'active' : nil)
+          a href=(docs_path)
+            small Docs
 
-    /nav
-    /  ul
-    /    li class=(controller.controller_name == 'tutorials' ? 'active' : nil)
-    /      = link_to "Tutorials", tutorials_path
-    /    li class=(controller.controller_name == 'posts' ? 'active' : nil)
-    /      = link_to "Blog", posts_path
 
     .actions
       .desktop
@@ -69,6 +87,8 @@ header.fixed
 
 #mobile-menu
   ul.nav
+    li
+      = link_to "Community", root_path
     li
       = link_to "Tutorials", tutorials_path
     li

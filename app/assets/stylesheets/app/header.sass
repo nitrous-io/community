@@ -29,7 +29,28 @@ body > header
   h1.logo
     height: 52px
     flex-shrink: 0
+    position: relative
+    
+    ul.dropdown-menu
+      top: 100%
+      left: 0
+      border-top-left-radius: 0
+      
+      li.active
+        display: none
+      
+      small
+        border-left: 0
+        font-size: 12px
+        margin-left: 0
+        padding-left: 0
+        
+        &:before
+          display: none
 
+    i
+      display: none
+      
     em, small
       text-transform: uppercase
       display: inline-block
@@ -62,10 +83,22 @@ body > header
       &
         margin-left: -14px
         padding: 0 14px 0 14px
+      
+        i
+          display: inline-block
+          padding-left: 8px
+          opacity: .6
 
       &:hover
         background: rgba(255,255,255,.1)
-
+      
+        ul.dropdown-menu
+          display: block
+      
+        i
+          opacity: 1
+  
+    
   // Search
   .search-field
     padding-right: 14px

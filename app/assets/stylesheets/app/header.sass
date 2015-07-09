@@ -24,6 +24,12 @@ body > header
 
   > .container
     display: flex
+  
+  ul.dropdown-menu
+    background: #1AA4EE
+    animation-duration: .25s
+    animation-fill-mode: both
+    animation-iteration-count: 1
 
   // Logo
   h1.logo
@@ -35,7 +41,6 @@ body > header
       top: 100%
       left: 0
       border-top-left-radius: 0
-      background: #1AA4EE
       
       li.active
         display: none
@@ -95,11 +100,13 @@ body > header
       
         ul.dropdown-menu
           display: block
+          animation-name: bounceIn
+          transform-origin: top center
       
         i
           opacity: 1
-  
-    
+
+
   // Search
   .search-field
     padding-right: 14px
@@ -232,10 +239,6 @@ body > header
 
     .dropdown-menu
       top: 48px
-      background: #1AA4EE
-      animation-duration: .25s
-      animation-fill-mode: both
-      animation-iteration-count: 1
       z-index: 10
 
       li

@@ -32,7 +32,7 @@
       .meta
         .timestamp
           span
-            = l @content.published_at, format: :simple
+            = l @content.published_at || @content.created_at, format: :simple
         .tags
           - if @content.tags.present?
             - @content.tags.each do |tag|

@@ -31,7 +31,7 @@
         = @content.title
     .meta
       span.time
-        = l @content.published_at, format: :simple
+        = l @content.published_at || @content.created_at, format: :simple
       span.bull-separator
         | &bull;
       a.comment href="#comments"

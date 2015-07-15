@@ -48,4 +48,13 @@ if $("html").hasClass("docs show")
       col.removeClass("active")
     else
       col.addClass("active")
+
+# Tutorials Index
+if $("html").hasClass("tutorials index")
+  currentTag = window.location.pathname.split('/')[3]
+  if currentTag != undefined
+    $("html").addClass("tutorial-"+currentTag)
+    heroBarEl = $(".hero-bar li.tutorials-"+currentTag)
+    if heroBarEl.length
+      heroBarEl.addClass("active")
   

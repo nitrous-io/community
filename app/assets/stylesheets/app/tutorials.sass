@@ -1,1 +1,81 @@
 @import 'variables'
+
+// Custom header and hero colors
+//html.tutorial-docker
+//  body > header
+//    background: $docker
+//  .dropdown-menu
+//    background: lighten($docker,2)
+//  .main.title-hero
+//    background: $docker
+//    &:before , &:after
+//      display: none
+    
+
+// Hero bar with tags
+.hero-bar
+  height: 64px
+  text-align: center
+  line-height: 64px
+  background: #FFF
+  border-bottom: 1px solid rgba(0,0,0,.03)
+  display: none
+  
+  @media screen and (min-width: $break-medium)
+    display: block
+  
+  a
+    padding-left: 4px
+    color: $dark-grey
+    font-weight: 300
+
+  i
+    color: $blue
+
+  ul
+    text-align: center
+    padding: 0
+    
+    li
+      display: inline-block
+      margin: 0 10px
+      
+      a
+        padding: 0 16px
+        display: block
+      
+      &.active a
+        font-weight: bold
+      
+      &.contribute a
+        margin: 0
+        color: $blue
+        border: 1px solid $blue
+        
+        &:hover
+          background: $blue
+          color: #FFF
+          
+      
+      &.tutorials-deploy.active a
+        color: #587A91
+        
+      &.tutorials-rails.active a
+        color: $ruby-on-rails
+        
+      &.tutorials-meteor.active a
+        color: $meteor
+        
+      &.tutorials-docker.active a
+        color: $docker
+        
+      &.tutorials-parse.active a
+        color: $parse
+
+  .more
+    position: relative
+
+    span
+      padding: 0 6px 0 0
+    i
+      color: rgba(0,0,0,.5)

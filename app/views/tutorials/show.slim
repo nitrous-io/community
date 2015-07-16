@@ -81,7 +81,8 @@
         - @comments.each do |comment|
           = render partial: 'partials/comment', locals: { comment: comment }
     
-= render 'partials/cta'
+- if current_user.nil?
+  = render 'partials/cta'
     
 - content_for :body_script do
   = javascript_include_tag 'code-mirror'

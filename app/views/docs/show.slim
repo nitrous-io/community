@@ -48,6 +48,9 @@
 
     = render partial: 'docs/sidebar', locals: { toc: @toc, active_doc: @content }
 
+- if current_user.nil?
+  = render 'partials/cta'
+
 - content_for :body_script do
   = javascript_include_tag 'code-mirror'
   javascript:

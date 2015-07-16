@@ -47,6 +47,9 @@ header.fixed ~ .main
     padding-top: 60px
     padding-bottom: 40px
 
+  & + .hero-bar + .main
+    padding-top: 60px
+
 a
   text-decoration: none
   outline: 0
@@ -83,7 +86,7 @@ a
     height: 40px
     cursor: pointer
     font-size: 16px
-    border-radius: 2px
+    border-radius: 4px
 
   &.grey
     background: rgba($light-grey, .2)
@@ -287,7 +290,7 @@ section + .title
     &:hover
       color: #FFF
       background: $blue
-    
+
     &.ellipsis
       width: 30px
       text-align: center
@@ -387,7 +390,7 @@ section + .title
   &.stacks
     overflow: hidden
     +heroLogoGrid($blue,1004px,380px)
-  
+
   &.docs
     overflow: hidden
     background: $blue
@@ -438,16 +441,16 @@ section + .title
   a:hover
     color: #FFF
 
-  
+
 // CTA
 .main.cta
   text-align: center
-  border-top: 1px solid rgba(0,0,0,.03)
-  border-bottom: 1px solid rgba(0,0,0,.06)
-  
+  border-top: 1px solid rgba(0,0,0,.06)
+  border-bottom: 1px solid rgba(0,0,0,.04)
+
   h3, h4
     font-weight: 300
-    
+
   h3
     font-size: 26px
     padding-bottom: 10px
@@ -456,38 +459,48 @@ section + .title
     color: #A5B3BE
     font-size: 18px
     line-height: 26px
-  
+
+  a.btn.submit
+    margin: 30px auto
+    padding-left: 44px
+    padding-right: 44px
+    display: inline-block
+    text-transform: uppercase
+    font-weight: 300
+    font-size: 14px
+    border-radius: 4px
+
   .form-wrapper
     width: 420px
     margin: 0 auto
     display: flex
     justify-content: center
-    
+
     form
       margin: 30px 0 0 0
       padding: 0
-      border: 1px solid transparent
+      border: 1px solid rgba($light-grey, .4)
       border-radius: 5px
       display: flex
       transition: all .15s ease-in-out
-      
+
       &:hover, &.focused
         border: 1px solid $blue
-      
+
     input[type="text"], input[type="email"], .btn.blue, input[type="submit"]
       margin: 0
       border-radius: 4px 0 0 4px
-      
+
     input[type="text"], input[type="email"]
       width: 244px
       height: 42px
       padding: 0 22px
       border: 0
-      background: $bg-grey
+      background: rgba($bg-grey,.8)
       font-size: 16px
       -webkit-appearance: none
       outline: none
-      
+
     .btn.blue, input[type="submit"]
       width: 140px
       height: 42px
@@ -501,7 +514,6 @@ section + .title
       border-radius: 0 4px 4px 0
       outline: none
       box-shadow: 0 0 0 transparent
-      
+
       &:hover
         box-shadow: 0 0 0 transparent
-      

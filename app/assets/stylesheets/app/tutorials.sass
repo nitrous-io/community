@@ -1,16 +1,29 @@
 @import 'variables'
 
 // Custom header and hero colors
-//html.tutorial-docker
-//  body > header
-//    background: $docker
-//  .dropdown-menu
-//    background: lighten($docker,2)
-//  .main.title-hero
-//    background: $docker
-//    &:before , &:after
-//      display: none
-    
+html.tutorial-deploy
+  +customTutorial($dark-blue)
+
+html.tutorial-docker
+  +customTutorial($docker)
+
+html.tutorial-parse
+  +customTutorial($parse)
+
+html.tutorial-meteor
+  +customTutorial($meteor)
+
+html.tutorial-go
+  +customTutorial($golang)
+
+html.tutorial-rails, html.tutorial-ruby-on-rails
+  +customTutorial($ruby-on-rails)
+
+html.tutorial-ember
+  +customTutorial($ember)
+
+html.tutorial-node, html.tutorial-nodejs
+  +customTutorial($nodejs)
 
 // Hero bar with tags
 .hero-bar
@@ -20,10 +33,10 @@
   background: #FFF
   border-bottom: 1px solid rgba(0,0,0,.03)
   display: none
-  
+
   @media screen and (min-width: $break-medium)
     display: block
-  
+
   a
     padding-left: 4px
     color: $dark-grey
@@ -35,42 +48,50 @@
   ul
     text-align: center
     padding: 0
-    
+
     li
       display: inline-block
       margin: 0 10px
-      
+
       a
         padding: 0 16px
         display: block
-      
+
       &.active a
         font-weight: bold
-      
+
       &.contribute a
         margin: 0
         color: $blue
         border: 1px solid $blue
-        
+
         &:hover
           background: $blue
           color: #FFF
-          
-      
+
       &.tutorials-deploy.active a
         color: #587A91
-        
-      &.tutorials-rails.active a
+
+      &.tutorials-rails.active a, &.tutorials-ruby-on-rails.active a
         color: $ruby-on-rails
-        
+
       &.tutorials-meteor.active a
         color: $meteor
-        
+
       &.tutorials-docker.active a
         color: $docker
-        
+
+      &.tutorials-go.active a, &.tutorials-golang.active a
+        color: $golang
+
+      &.tutorials-node.active a, &.tutorials-nodejs.active a
+        color: $nodejs
+
       &.tutorials-parse.active a
         color: $parse
+
+      &.tutorials-ember.active a
+        color: $ember
 
   .more
     position: relative

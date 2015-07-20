@@ -16,7 +16,7 @@
         = f.select :doc_category_id, @categories.map { |c| [c.name, c.id] }
 
     .row
-      = f.hidden_field :published_at, class: 'published_at'
+      = f.hidden_field :published_at, class: 'published_at', value: f.object.published_at.try(:iso8601)
       input.published_at_picker type='text' placeholder='Publish Date'
 
     #markdown-preview

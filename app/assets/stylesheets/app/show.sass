@@ -239,8 +239,10 @@ html.show, html.new, html.edit
             
             &:before
               background: $blue
-          
 
+    video
+      margin-bottom: 20px
+      
     p
       font-size: 16px
       line-height: 30px
@@ -264,7 +266,10 @@ html.show, html.new, html.edit
 
       &:hover
         text-decoration: underline
-
+    
+    div.centered
+      margin-bottom: 20px
+      
     img
       max-width: 100%
 
@@ -304,6 +309,14 @@ html.show, html.new, html.edit
       padding: 0 14px
       font-size: 16px
       
+      &.with-icon
+        img
+          width: 22px
+          height: 22px
+          position: relative
+          top: 4px
+          margin-right: 6px
+      
       &.blue
         color: #FFF
         
@@ -319,7 +332,6 @@ html.show, html.new, html.edit
       
       &.wide
         display: block
-      
     
     .CodeMirror
       height: auto
@@ -327,7 +339,6 @@ html.show, html.new, html.edit
       padding: 14px 0
       border: 1px solid rgba($light-grey,.5)
       border-radius: 4px
-
 
   #comments
     .title

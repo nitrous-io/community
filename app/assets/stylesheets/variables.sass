@@ -64,6 +64,19 @@ $break-large: 1080px
     bottom: 0
     background: radial-gradient(ellipse at center, rgba($color,.55) 0%,rgba($color,1) 72%)
 
+// Custom Tutorials colors
+=customTutorial($color)
+  body > header
+    background: $color
+  .dropdown-menu
+    background: lighten($color,2)
+  .main.title-hero
+    background: $color
+    &:before , &:after
+      display: none
+  #mobile-menu
+    background: $color
+
 // Animations
 @keyframes bounceIn
   0%, 20%, 40%, 60%, 80%, 100%

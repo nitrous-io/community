@@ -6,6 +6,7 @@ RSpec.describe Doc, type: :model do
 
   it_behaves_like 'likable'
   it_behaves_like 'publishable'
+  it_behaves_like 's3_https_forceable'
 
   describe '#grouped' do
     let!(:cat1) { create :doc_category, position: 2 }

@@ -6,4 +6,5 @@ describe Post do
 
   it_behaves_like 'likable'
   it_behaves_like 'publishable'
+  it_behaves_like 's3_https_forceable'
 end

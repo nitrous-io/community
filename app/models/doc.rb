@@ -1,6 +1,7 @@
 class Doc < ActiveRecord::Base
   include FriendlyId
   include Likable
+  include S3HttpsForceable
   include Markdownable
   include Publishable
 

@@ -172,7 +172,35 @@ html.show, html.new, html.edit
     h1, h2, h3, h4, h5, h6
       font-weight: bold
       padding: 12px 0 10px 0
+    
+    h1, h2
       font-size: 20px
+        
+    h3, h4, h5, h6
+      font-size: 16px
+      color: rgba($dark-grey,.6)
+    
+    .table-of-contents
+      padding-bottom: 20px
+      
+      h3
+        padding: 0 0 0 24px
+        display: block
+        position: relative
+        color: rgba($dark-grey,.8)
+        font-weight: 500
+        
+        &:before
+          content: "\f03a"
+          width: 26px
+          height: 26px
+          font-size: 16px
+          font-family: fontAwesome
+          position: absolute
+          top: 1px
+          left: 0
+          display: block
+          color: rgba($dark-grey,.8)
 
     p
       font-size: 16px

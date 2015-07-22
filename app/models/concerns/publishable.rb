@@ -5,7 +5,7 @@ module Publishable
     enum state: [ :draft, :published, :deleted ]
 
     scope :published, -> { where(state: self.states[:published]).where('published_at < ?', Time.now) }
-    scope :drafted, -> { where(state: self.states[:draft]) }
+    scope :drafted, -> { where('(state = ?) OR (state = ? AND published_at > ?)', self.states[:draft], self.states[:published], Time.now) }
     scope :recently_published, -> { order(published_at: :desc)}
   end
 

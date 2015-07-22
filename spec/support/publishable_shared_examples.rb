@@ -28,4 +28,20 @@ shared_examples 'publishable' do
       expect(subject.published_at).to be_nil
     end
   end
+
+  describe 'drafted' do
+    it 'returns unpublished posts or posts that are not published yet' do
+      subject.update_attributes(state: :published, published_at: 1.day.ago)
+      expect(described_class.drafted).not_to include(subject)
+
+      subject.update_attributes(published_at: 1.day.ago, state: :draft)
+      expect(described_class.drafted).to include(subject)
+
+      subject.update_attributes(published_at: 1.day.ago, state: :deleted)
+      expect(described_class.drafted).not_to include(subject)
+
+      subject.update_attributes(published_at: 1.day.from_now, state: :published)
+      expect(described_class.drafted).to include(subject)
+    end
+  end
 end

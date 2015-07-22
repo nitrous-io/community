@@ -11,6 +11,31 @@ html.docs
 
 .card
   width: 100%
+  
+  &.will-be-published
+    position: relative
+    
+    &:after
+      content: "\f017"
+      font-family: fontAwesome
+      width: 32px
+      height: 32px
+      position: absolute
+      border-radius: 32px
+      display: block
+      top: 8px
+      right: 18px
+      background: $blue
+      color: #FFF
+      text-align: center
+      font-size: 20px
+      line-height: 31px
+      font-weight: 300
+      cursor: default
+    
+      @media screen and (max-width: $break-medium)
+        right: 8px
+      
 
   .content
     padding: 0 0 20px 0
@@ -189,10 +214,10 @@ html.docs
   &.tag-nodejs .visual a, &.tag-node .visual a
     background: $nodejs
     .icon-overlay
-      width: 80px
+      width: 88px
       height: 88px
       background: image-url('tutorial-visual-nodejs.png') 0 0 no-repeat
-      background-size: 80px 88px
+      background-size: 88px 88px
 
   &.tag-meteor .visual a
     background: $meteor

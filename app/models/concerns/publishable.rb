@@ -16,4 +16,10 @@ module Publishable
   def unpublish
     self.update_attributes(state: :draft, published_at: nil)
   end
+
+  def will_be_published?
+    return false unless self.published?
+    return false if self.published_at < Time.now
+    true
+  end
 end

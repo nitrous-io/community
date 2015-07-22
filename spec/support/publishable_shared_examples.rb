@@ -44,4 +44,22 @@ shared_examples 'publishable' do
       expect(described_class.drafted).to include(subject)
     end
   end
+
+  describe 'will_be_published?' do
+    it 'returns false if state is draft' do
+      subject.update_attributes(state: :draft, published_at: 1.day.from_now)
+      expect(subject.will_be_published?).to eq(false)
+    end
+
+    it 'returns false if the the item is already published' do
+      subject.update_attributes(state: :published, published_at: 1.day.ago)
+      expect(subject.will_be_published?).to eq(false)
+    end
+
+    it 'returns true if the item is going to be published' do
+      subject.update_attributes(state: :published, published_at: 1.day.from_now)
+      expect(subject.will_be_published?).to eq(true)
+    end
+
+  end
 end

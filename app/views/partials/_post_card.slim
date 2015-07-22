@@ -15,7 +15,10 @@
 
 
 - else
-  .blog.card
+  - classes = %w(blog card)
+  - classes << 'will-be-published' if post.will_be_published?
+
+  div class=(classes.join(' '))
     .content
       .visual
         a href=(link) style="background-image: url('#{post.cover_image_url}');"

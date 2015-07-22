@@ -1,6 +1,9 @@
 - link = doc.published? ? docs_slugged_path(slug: doc.slug) : edit_doc_path(id: doc.id)
 
-.doc.card.row
+- classes = %w(doc card row)
+- classes << 'will-be-published' if doc.will_be_published?
+
+div class=classes.join(' ')
   .content
     h3.card-title
       = link_to doc.title, link

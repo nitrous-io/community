@@ -1,6 +1,8 @@
 - link = tutorial.published? ? tutorials_slugged_path(slug: tutorial.slug) : edit_tutorial_path(id: tutorial.id)
 
 - tag_classes = tutorial.tags.map { |t| "tag-#{t}" }.join " "
+- tag_classes << ' will-be-published' if tutorial.will_be_published?
+
 .tutorial.card class=tag_classes
   .content
     .visual class=("overlay-#{rand(1..5)}")

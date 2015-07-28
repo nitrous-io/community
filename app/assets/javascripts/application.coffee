@@ -1,6 +1,7 @@
 #= require jquery
 #= require jquery_ujs
 #= require tagsinput
+#= require jquery.datetimepicker
 #= require sortable
 #= require ./main
 #= require ./confirm-close

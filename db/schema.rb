@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150616002117) do
+ActiveRecord::Schema.define(version: 20150722020431) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 20150616002117) do
 
   add_index "docs", ["doc_category_id"], name: "index_docs_on_doc_category_id", using: :btree
   add_index "docs", ["slug"], name: "index_docs_on_slug", unique: true, using: :btree
+  add_index "docs", ["state", "published_at"], name: "index_docs_on_state_and_published_at", using: :btree
 
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",                      null: false
@@ -99,6 +100,7 @@ ActiveRecord::Schema.define(version: 20150616002117) do
   end
 
   add_index "posts", ["slug"], name: "index_posts_on_slug", unique: true, using: :btree
+  add_index "posts", ["state", "published_at"], name: "index_posts_on_state_and_published_at", using: :btree
 
   create_table "sessions", force: :cascade do |t|
     t.string   "session_id", null: false
@@ -147,6 +149,7 @@ ActiveRecord::Schema.define(version: 20150616002117) do
   end
 
   add_index "tutorials", ["slug"], name: "index_tutorials_on_slug", unique: true, using: :btree
+  add_index "tutorials", ["state", "published_at"], name: "index_tutorials_on_state_and_published_at", using: :btree
 
   create_table "users", id: false, force: :cascade do |t|
     t.integer  "id",                                  null: false

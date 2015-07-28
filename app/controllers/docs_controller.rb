@@ -14,7 +14,7 @@ class DocsController < ContentController
   end
 
   def permitted_params
-    %i(title doc_category_id content_markdown tag_list cover_image_url)
+    %i(title doc_category_id content_markdown tag_list cover_image_url published_at)
   end
 
   def fetch_categories

@@ -181,6 +181,35 @@ html.show, html.new, html.edit
       font-size: 22px
       line-height: 28px
       color: rgba($dark-grey,.6)
+      
+    .notice
+      padding: 12px 16px 12px 42px
+      border-radius: 4px
+      position: relative
+      
+      &:before
+        position: absolute
+        top: 12px
+        left: 16px
+        font-family: fontAwesome
+      
+      &.info
+        color: $blue
+        background: rgba($blue,.1)
+        border: 1px solid rgba($blue,.4)
+        
+        &:before
+          content: "\f05a"
+          color: rgba($blue,.8)
+     
+      &.warning
+        color: $red
+        background: rgba($red,.1)
+        border: 1px solid rgba($red,.4)
+        
+        &:before
+          content: "\f071"
+          color: rgba($red,.8)
     
     .table-of-contents
       border-bottom: 1px solid rgba($light-grey,.2)

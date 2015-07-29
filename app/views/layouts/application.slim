@@ -19,6 +19,7 @@ html lang="en" class=(full_controller_action_name)
     = stylesheet_link_tag 'application', media: 'all'
     = yield :head_stylesheet
     = csrf_meta_tags
+    = render 'ga'
     = yield :head_after
 
   body

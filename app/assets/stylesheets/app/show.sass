@@ -231,19 +231,21 @@ html.show, html.new, html.edit
           font-size: 16px
           font-family: fontAwesome
           position: absolute
+          font-weight: 300
           top: 1px
           left: 0
           display: block
           color: rgba($dark-grey,.8)
+      
       ul
         list-style: none
         padding: 16px 0 0 4px
-        margin: 0
+        margin-left: 21px
         
         li
-          display: block
           position: relative
-          padding-left: 14px
+          display: block
+          margin-bottom: 4px
           
           a
             text-decoration: none
@@ -251,25 +253,13 @@ html.show, html.new, html.edit
             font-size: 13px
             padding: 2px 0
             text-transform: uppercase
-          
-          &:before
-            content: ""
-            position: absolute
-            width: 6px
-            height: 6px
-            top: 50%
-            left: 0
-            margin-top: -3px
-            display: block
-            background: rgba($dark-grey,.4)
-            border-radius: 6px
            
           &:hover
             a
               color: $blue
             
             &:before
-              background: $blue
+              color: $blue
 
     video
       margin-bottom: 20px
@@ -309,16 +299,48 @@ html.show, html.new, html.edit
 
     ol, ul
       padding: 20px 0
-      margin-left: 15px
+      margin-left: 40px
 
       li
         padding: 2px 0 2px 4px
+        margin-bottom: 8px
+        line-height: 20px
 
     ol
-      list-style: decimal outside none
+      list-style: none
+      
+      li
+        counter-increment: step-counter
+        position: relative
+        
+        &:before
+          content: counter(step-counter)
+          left: -22px
+          top: 2px
+          position: absolute
+          margin-right: 5px
+          font-size: 80%
+          background-color: rgba($light-grey, .65)
+          color: white
+          font-weight: bold
+          padding: 0 6px
+          border-radius: 3px
 
     ul
-      list-style: disc outside none
+      list-style: none
+      
+      li
+        position: relative
+        
+        &:before
+          content: "\2022"
+          left: -22px
+          top: 0
+          position: absolute
+          font-size: 150%
+          color: $light-grey
+          font-weight: bold
+          padding: 1px 6px
 
     blockquote
       margin: 20px 0

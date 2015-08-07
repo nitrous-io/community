@@ -181,6 +181,9 @@ html.show, html.new, html.edit
       font-size: 22px
       line-height: 28px
       color: rgba($dark-grey,.6)
+    
+    h3 + pre
+      margin-top: -10px
       
     .notice
       padding: 12px 16px 12px 42px
@@ -269,6 +272,9 @@ html.show, html.new, html.edit
       line-height: 30px
       margin-bottom: 30px
       
+      & + p
+        margin-top: -18px
+      
       code
         font-family: $code
         padding: 4px 3px
@@ -299,12 +305,18 @@ html.show, html.new, html.edit
 
     ol, ul
       padding: 20px 0
-      margin-left: 40px
+      margin-left: 32px
+      
+      @media screen and (max-width: $break-small)
+        margin-left: 22px
 
       li
         padding: 2px 0 2px 4px
         margin-bottom: 8px
         line-height: 20px
+        
+        @media screen and (max-width: $break-small)
+          line-height: 24px
 
     ol
       list-style: none

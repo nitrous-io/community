@@ -281,11 +281,12 @@ section + .title
     line-height: 22px
     border: 1px solid $blue
     color: $blue
-    padding: 0 6px
+    padding: 0 8px
     border-radius: 22px
     font-size: 11px
+    text-transform: lowercase
     display: inline-block
-    margin-left: 6px
+    margin-left: 2px
     transition: all .10s ease-in
 
     &:hover
@@ -434,10 +435,16 @@ section + .title
   top: 0
   right: 0
   text-align: left
-  padding: 0 14px
-  background: $blue
-  border-radius: 4px 0 4px 4px
-  box-shadow: 0 2px 1px rgba(0,0,0,.1)
+
+  ul
+    padding: 0 14px
+    background: $blue
+    border-radius: 0 0 4px 4px
+    box-shadow: 0 2px 1px rgba(0,0,0,.1)
+
+  a
+    position: relative
+    z-index: 4
 
   a:hover
     color: #FFF

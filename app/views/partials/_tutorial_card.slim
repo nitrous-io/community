@@ -5,32 +5,30 @@
 
 .tutorial.card class=tag_classes
   .content
-    .visual class=("overlay-#{rand(1..5)}")
-      a href=(link)
-        span.icon-overlay
+    .color
 
-    h3.card-title
-      = link_to tutorial.title, link
+    .title-area
+      a.hidden href=(link)
+      h3.card-title
+        = link_to tutorial.title, link
 
-    .status
-      a.hearts href=(link)
-        span
-          = tutorial.score
-      a.comments href=(link)
-        span
-          = tutorial.comments.count
-          / FIXME: need to be cached by counter_cache or something
+      - if tutorial.tags.present?
+        .tags
+          - tutorial.tags.each do |tag|
+            = link_to tag.name, tutorials_tagged_path(tag: tag.name), { :class => "tag"}
 
     .card-footer
       .author
         .gravatar
           img src=(tutorial.user.gravatar(56))
-        = tutorial.user.username
-      - if tutorial.tags.present?
-        .tags
-          - tutorial.tags.take(2).each do |tag|
-            = link_to tag.name, tutorials_tagged_path(tag: tag.name), { :class => "tag"}
-            
-          - if tutorial.tags.size > 2
-            a.tag.ellipsis href=link
-              i.fa.fa-ellipsis-h
+        span
+          = tutorial.user.username
+
+      .status
+        a.hearts href=(link)
+          span
+            = tutorial.score
+        a.comments href=(link)
+          span
+            = tutorial.comments.count
+            / FIXME: need to be cached by counter_cache or something

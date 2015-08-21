@@ -13,8 +13,11 @@ html.tutorial-parse
 html.tutorial-meteor
   +customTutorial($meteor)
 
-html.tutorial-go
+html.tutorial-go, html.tutorial-golang
   +customTutorial($golang)
+
+html.tutorial-ruby
+  +customTutorial($ruby)
 
 html.tutorial-rails, html.tutorial-ruby-on-rails
   +customTutorial($ruby-on-rails)
@@ -34,6 +37,21 @@ html.tutorial-html5
 html.tutorial-rust
   +customTutorial($rust)
 
+html.tutorial-jekyll
+  +customTutorial($jekyll)
+
+html.tutorial-php
+  +customTutorial($php)
+
+html.tutorial-python
+  +customTutorial($python)
+
+html.tutorial-django
+  +customTutorial($django)
+
+html.tutorial-ubuntu
+  +customTutorial($ubuntu)
+
 // Hero bar with tags
 .hero-bar
   height: 64px
@@ -42,6 +60,7 @@ html.tutorial-rust
   background: #FFF
   border-bottom: 1px solid rgba(0,0,0,.03)
   display: none
+  overflow: hidden
 
   @media screen and (min-width: $break-medium)
     display: block
@@ -50,6 +69,9 @@ html.tutorial-rust
     padding-left: 4px
     color: $dark-grey
     font-weight: 300
+    
+    &:hover:not(.active)
+      color: $blue
 
   i
     color: $blue

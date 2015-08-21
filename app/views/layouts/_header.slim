@@ -29,19 +29,20 @@ header.fixed
               small Community
         i.fa.fa-caret-down
 
-      ul.dropdown-menu
-        li class=(%w(home sessions).include?(controller.controller_name) ? 'active' : nil)
-          a href=(root_path)
-            small Community
-        li class=(controller.controller_name == 'tutorials' ? 'active' : nil)
-          a href=(tutorials_path)
-            small Tutorials
-        li class=(controller.controller_name == 'posts' ? 'active' : nil)
-          a href=(posts_path)
-            small Blog
-        li class=(controller.controller_name == 'docs' ? 'active' : nil)
-          a href=(docs_path)
-            small Docs
+      .dropdown-menu
+        ul
+          li class=(%w(home sessions).include?(controller.controller_name) ? 'active' : nil)
+            a href=(root_path)
+              small Community
+          li class=(controller.controller_name == 'tutorials' ? 'active' : nil)
+            a href=(tutorials_path)
+              small Tutorials
+          li class=(controller.controller_name == 'posts' ? 'active' : nil)
+            a href=(posts_path)
+              small Blog
+          li class=(controller.controller_name == 'docs' ? 'active' : nil)
+            a href=(docs_path)
+              small Docs
 
 
     .actions
@@ -63,23 +64,24 @@ header.fixed
                 = current_user.username
               i.fa.fa-caret-down
 
-              ul.dropdown-menu role="menu"
-                - if current_user.admin?
+              .dropdown-menu
+                ul role="menu"
+                  - if current_user.admin?
+                    li
+                      = link_to "New Tutorial", new_tutorial_path
+                    li
+                      = link_to "New Blog Post", new_post_path
+                    li.separator
+                    li
+                      = link_to 'New Doc', new_doc_path
+                    li
+                      = link_to 'Categories', doc_categories_path
+                    li.separator
+                    li
+                      = link_to 'Drafts', drafts_path
+                    li.separator
                   li
-                    = link_to "New Tutorial", new_tutorial_path
-                  li
-                    = link_to "New Blog Post", new_post_path
-                  li.separator
-                  li
-                    = link_to 'New Doc', new_doc_path
-                  li
-                    = link_to 'Categories', doc_categories_path
-                  li.separator
-                  li
-                    = link_to 'Drafts', drafts_path
-                  li.separator
-                li
-                  = link_to "Log Out", sessions_path, method: :delete
+                    = link_to "Log Out", sessions_path, method: :delete
 
       .menu-btn.mobile
         a.trigger href="#"

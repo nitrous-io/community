@@ -2,23 +2,24 @@
   .dropdown-toggle
     span Publish
     i.fa.fa-caret-down
-    ul.dropdown-menu role="menu"
-      - if item.new_record?
-        li
-          = link_to 'Save as Draft', '#', data: { 'form-id' => '#new_tutorial', 'no-confirm-close' => true }
-      - else
-        li
-          = link_to 'Save changes', '#', data: { 'form-id' => '#edit_tutorial', 'no-confirm-close' => true }
-        - if item.published?
+    .dropdown-menu
+      ul role="menu"
+        - if item.new_record?
           li
-            a href=(tutorials_slugged_path(slug: item.slug)) target="_blank" View Tutorial
-          li.separator
-          li
-            = link_to 'Unpublish', unpublish_tutorial_path(item.id), method: :post, data: { 'no-confirm-close' => true }
+            = link_to 'Save as Draft', '#', data: { 'form-id' => '#new_tutorial', 'no-confirm-close' => true }
         - else
           li
-            = link_to 'Publish', '#', data: { 'form-id' => '#edit_tutorial', 'form-values' => { publish: true }.to_json, 'no-confirm-close' => true }
-        li.separator
-        li
-          = link_to 'Delete', tutorial_path(item.id), method: :delete, data: { confirm: 'Are you sure?', 'no-confirm-close' => true }
+            = link_to 'Save changes', '#', data: { 'form-id' => '#edit_tutorial', 'no-confirm-close' => true }
+          - if item.published?
+            li
+              a href=(tutorials_slugged_path(slug: item.slug)) target="_blank" View Tutorial
+            li.separator
+            li
+              = link_to 'Unpublish', unpublish_tutorial_path(item.id), method: :post, data: { 'no-confirm-close' => true }
+          - else
+            li
+              = link_to 'Publish', '#', data: { 'form-id' => '#edit_tutorial', 'form-values' => { publish: true }.to_json, 'no-confirm-close' => true }
+          li.separator
+          li
+            = link_to 'Delete', tutorial_path(item.id), method: :delete, data: { confirm: 'Are you sure?', 'no-confirm-close' => true }
 .divider

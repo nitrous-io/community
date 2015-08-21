@@ -25,11 +25,15 @@ body > header
   > .container
     display: flex
 
-  ul.dropdown-menu
-    background: #1AA4EE
-    animation-duration: .25s
-    animation-fill-mode: both
-    animation-iteration-count: 1
+  .dropdown-menu
+    ul
+      background: #1AA4EE
+      position: relative
+      display: block
+      left: 0
+      animation-duration: .25s
+      animation-fill-mode: both
+      animation-iteration-count: 1
 
   // Logo
   h1.logo
@@ -37,10 +41,21 @@ body > header
     flex-shrink: 0
     position: relative
 
-    ul.dropdown-menu
+    > a
+      position: relative
+      &:before
+        content: ""
+        position: absolute
+        top: 0
+        left: 0
+        right: 0
+        bottom: -10px
+
+    .dropdown-menu
       top: 100%
       left: 0
-      border-top-left-radius: 0
+      ul
+        border-top-left-radius: 0
 
       li.active
         display: none
@@ -101,10 +116,12 @@ body > header
       &:hover
         background: rgba(255,255,255,.1)
 
-        ul.dropdown-menu
+        .dropdown-menu
           display: block
-          animation-name: bounceIn
-          transform-origin: top center
+          ul
+            display: block
+            animation-name: bounceIn
+            transform-origin: top center
 
         i
           opacity: 1
@@ -236,19 +253,23 @@ body > header
 
         .dropdown-menu
           display: block
-          animation-name: bounceIn
-          transform-origin: top right
+          ul
+            display: block
+            animation-name: bounceIn
+            transform-origin: top right
 
     .dropdown-menu
-      top: 48px
+      top: 46px
       z-index: 10
 
       li
         &:first-of-type
           margin-top: 6px
+          padding-top: 4px
 
         &:last-of-type
           margin-bottom: 6px
+          padding-bottom: 4px
 
         a
           height: 40px

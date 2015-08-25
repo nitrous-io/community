@@ -64,7 +64,7 @@
 .main.darker
   .container
     article#comments
-      - if @comment.nil?
+      - if @comments.present?
         .title
           h2
             | Comments

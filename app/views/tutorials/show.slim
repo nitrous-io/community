@@ -64,7 +64,7 @@
   .container
 
     article#comments
-      - if @comment.nil?
+      - if @comments.present?
         .title
           h2
             | Comments
@@ -82,7 +82,7 @@
         #the-comments.comment-list
           - @comments.each do |comment|
             = render partial: 'partials/comment', locals: { comment: comment }
-      
+
       - else
         - if current_user.present?
           .form-wrapper

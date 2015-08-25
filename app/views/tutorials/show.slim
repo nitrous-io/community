@@ -82,6 +82,7 @@
         #the-comments.comment-list
           - @comments.each do |comment|
             = render partial: 'partials/comment', locals: { comment: comment }
+      
       - else
         - if current_user.present?
           .form-wrapper

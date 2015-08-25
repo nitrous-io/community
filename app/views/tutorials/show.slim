@@ -1,6 +1,6 @@
 - content_for :search_field do
   = render partial: 'partials/search', locals: { kind: :tutorial }
-  
+
 - @title = @content.title
 - content_for :header_accessory do
   - if current_user.try(:admin?)
@@ -64,27 +64,38 @@
   .container
 
     article#comments
-      .title
-        h2
-          | Comments
+      - if @comment.nil?
+        .title
+          h2
+            | Comments
 
-      .form-wrapper
+        .form-wrapper
+          - if current_user.present?
+            = form_for @comment, url: tutorial_comments_path(@content.id) do |f|
+              = f.text_area :content, placeholder: "Write a comment..."
+
+              .row
+                = f.submit "Post comment", class: 'btn blue'
+          - else
+            = link_to 'Log in to comment', login_path(redirect_to: request.env['PATH_INFO']), class: 'btn blue'
+
+        #the-comments.comment-list
+          - @comments.each do |comment|
+            = render partial: 'partials/comment', locals: { comment: comment }
+      - else
         - if current_user.present?
-          = form_for @comment, url: tutorial_comments_path(@content.id) do |f|
-            = f.text_area :content, placeholder: "Write a comment..."
+          .form-wrapper
+            = form_for @comment, url: tutorial_comments_path(@content.id) do |f|
+              = f.text_area :content, placeholder: "Write a comment..."
 
-            .row
-              = f.submit "Post comment", class: 'btn blue'
+              .row
+                = f.submit "Post comment", class: 'btn blue'
         - else
-          = link_to 'Log in to comment', login_path(redirect_to: request.env['PATH_INFO']), class: 'btn blue'
+            = link_to 'Log in to comment', login_path(redirect_to: request.env['PATH_INFO']), class: 'btn blue'
 
-      #the-comments.comment-list
-        - @comments.each do |comment|
-          = render partial: 'partials/comment', locals: { comment: comment }
-    
 - if current_user.nil?
   = render 'partials/cta'
-    
+
 - content_for :body_script do
   = javascript_include_tag 'code-mirror'
   javascript:

@@ -285,9 +285,24 @@ html.docs
   // Blog
   &.blog
 
+    .content
+      margin: 0 22px 38px 22px
+      position: relative
+      padding-bottom: 0
+      border: 1px solid #F3F3F3
+      display: flex
+      flex-direction: column
+      border-radius: 2px 2px 3px 3px
+      box-shadow: 0 1px 1px rgba(0,0,0,.1)
+
+    .content-area
+      flex-grow: 1
+      padding: 20px 24px
+      position: relative
+      background: #FFF
+
     .visual
       border-radius: 3px
-      margin-bottom: 10px
 
       a
         height: 180px
@@ -300,10 +315,12 @@ html.docs
 
     h3.card-title
       padding-top: 8px
+      padding-bottom: 8px
 
       a
         font-size: 22px
         line-height: 26px
+
     p
       font-size: 16px
       line-height: 26px

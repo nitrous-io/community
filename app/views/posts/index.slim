@@ -4,7 +4,10 @@
 - if @cover_content.present?
   = render partial: 'partials/post_card', locals: { post: @cover_content, url_prefix: '/posts', focus: true}
 
-.main
+.main.darker
   .container
     #posts
       = render partial: 'posts/list', locals: { posts: @content }
+
+- if current_user.nil?
+  = render 'partials/cta'

@@ -1,7 +1,7 @@
 - link = post.published? ? posts_slugged_path(slug: post.slug) : edit_post_path(id: post.id)
 
 - if defined?(focus) && focus
-  .main.post-hero style="background: url('#{post.cover_image_url}') center center fixed;"
+  .main.post-hero style="background: url('#{post.cover_image_url}') center center;"
     a href=(link) class="cover"
     .container
       span.small
@@ -23,9 +23,11 @@
       .visual
         a href=(link) style="background-image: url('#{post.cover_image_url}');"
 
-      h3.card-title
-        = link_to post.title, link
+      .content-area
+        h3.card-title
+          = link_to post.title, link
 
-      - unless post.content_text.nil?
-        p
-          = post.content_text.truncate(100)
+        - unless post.content_text.nil?
+          a href=(link)
+            p
+              = post.content_text.truncate(210)

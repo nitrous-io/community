@@ -108,7 +108,7 @@ html.show, html.new, html.edit
       .heart-wrapper
         justify-content: flex-start
         flex-grow: 1
-        
+
       .heart
         display: inline-block
         @media screen and (min-width: $break-small)
@@ -137,10 +137,10 @@ html.show, html.new, html.edit
           &.share
             margin-left: -1px
             border-radius: 0 34px 34px 0
-          
+
           &.heart
             border-radius: 34px 0 0 34px
-            
+
             &.active
               border-color: $blue
               z-index: 2
@@ -154,14 +154,14 @@ html.show, html.new, html.edit
 
           &, &:hover
             border: 1px solid transparent
-          
+
           &.heart
             transition: scale .15s cubic-bezier(0.215, 0.610, 0.355, 1.000)
             border: 1px solid rgba($light-grey,.6)
-            
+
             &:active
               transform: scale(.94)
-            
+
             &:hover, &.active
               border-color: $blue
               color: $blue
@@ -172,53 +172,56 @@ html.show, html.new, html.edit
     h1, h2, h3, h4, h5, h6
       font-weight: 500
       padding: 20px 0 20px 0
-    
+
     h1, h2
       font-size: 26px
       line-height: 32px
-        
+
     h3, h4, h5, h6
       font-size: 22px
       line-height: 28px
       color: rgba($dark-grey,.6)
-    
+
     h3 + pre
       margin-top: -10px
-      
+
     .notice
       padding: 12px 16px 12px 42px
       border-radius: 4px
       position: relative
-      
+
       &:before
         position: absolute
         top: 12px
         left: 16px
         font-family: fontAwesome
-      
+
       &.info
         color: $blue
         background: rgba($blue,.1)
         border: 1px solid rgba($blue,.4)
-        
+
         &:before
           content: "\f05a"
           color: rgba($blue,.8)
-     
+
       &.warning
         color: $red
         background: rgba($red,.1)
         border: 1px solid rgba($red,.4)
-        
+
         &:before
           content: "\f071"
           color: rgba($red,.8)
-    
+
+      & + p
+        padding-top: 24px
+
     .table-of-contents
       border-bottom: 1px solid rgba($light-grey,.2)
       padding-bottom: 24px
       margin-bottom: 22px
-      
+
       h3
         padding: 0 0 0 24px
         display: block
@@ -226,7 +229,7 @@ html.show, html.new, html.edit
         color: rgba($dark-grey,.8)
         font-size: 18px
         font-weight: 600
-        
+
         &:before
           content: "\f03a"
           width: 26px
@@ -239,42 +242,42 @@ html.show, html.new, html.edit
           left: 0
           display: block
           color: rgba($dark-grey,.8)
-      
+
       ul
         list-style: none
         padding: 16px 0 0 4px
         margin-left: 21px
-        
+
         li
           position: relative
           display: block
           margin-bottom: 4px
-          
+
           a
             text-decoration: none
             color: rgba($dark-grey,.8)
             font-size: 13px
             padding: 2px 0
             text-transform: uppercase
-           
+
           &:hover
             a
               color: $blue
-            
+
             &:before
               color: $blue
 
     video
       margin-bottom: 20px
-      
+
     p
       font-size: 16px
       line-height: 30px
       margin-bottom: 30px
-      
+
       & + p
         margin-top: -18px
-      
+
       code
         font-family: $code
         padding: 4px 3px
@@ -293,10 +296,10 @@ html.show, html.new, html.edit
 
       &:hover
         text-decoration: underline
-    
+
     div.centered
       margin-bottom: 20px
-      
+
     img
       max-width: 100%
 
@@ -306,7 +309,7 @@ html.show, html.new, html.edit
     ol, ul
       padding: 20px 0
       margin-left: 32px
-      
+
       @media screen and (max-width: $break-small)
         margin-left: 22px
 
@@ -314,24 +317,25 @@ html.show, html.new, html.edit
         padding: 2px 0 2px 4px
         margin-bottom: 8px
         line-height: 20px
-        
+
         p
           line-height: 20px
           font-size: 14px
-          
+
           img
             margin-top: 20px
-        
+
         @media screen and (max-width: $break-small)
           line-height: 24px
 
     ol
       list-style: none
-      
+      margin-left: 20px
+
       li
         counter-increment: step-counter
         position: relative
-        
+
         &:before
           content: counter(step-counter)
           left: -22px
@@ -347,10 +351,10 @@ html.show, html.new, html.edit
 
     ul
       list-style: none
-      
+
       li
         position: relative
-        
+
         &:before
           content: "\2022"
           left: -22px
@@ -369,18 +373,18 @@ html.show, html.new, html.edit
 
     pre
       font-family: $code
-    
+
     hr
       border: 0
       border-top: 1px solid rgba($light-grey,.2)
       padding-bottom: 20px
-    
+
     a.btn
       text-decoration: none
       margin: 4px 0
       padding: 0 14px
       font-size: 16px
-      
+
       &.with-icon
         img
           width: 22px
@@ -388,23 +392,23 @@ html.show, html.new, html.edit
           position: relative
           top: 4px
           margin-right: 6px
-      
+
       &.blue
         color: #FFF
-        
+
       &.bordered
         font-size: 12px
         color: $light-grey
-        
+
         &:hover
           color: $blue
-        
+
       &.inline
         display: inline-block
-      
+
       &.wide
         display: block
-    
+
     .CodeMirror
       height: auto
       margin: 20px 0 30px 0

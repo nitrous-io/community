@@ -26,7 +26,7 @@ class SessionsController < ApplicationController
             username:            user.username,
             email:               user.email,
             nitrous_oauth_token: client.token,
-            admin:               user.admin,
+            admin:               user.community_admin,
             last_fetched_at:     Time.now
           )
           u.save

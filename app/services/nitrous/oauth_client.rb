@@ -1,5 +1,5 @@
 module Nitrous
-  UserInfo = Struct.new(:id, :name, :username, :email, :admin)
+  UserInfo = Struct.new(:id, :name, :username, :email, :community_admin)
 
   class OauthClient
     include HTTParty
@@ -34,7 +34,7 @@ module Nitrous
       response = self.class.get(USER_URL, { headers: headers })
       if response.code >= 200 && response.code < 300
         user = response['user']
-        @user = Nitrous::UserInfo.new(user['id'], user['name'], user['username'], user['email'], user['admin'])
+        @user = Nitrous::UserInfo.new(user['id'], user['name'], user['username'], user['email'], user['community_admin'])
       else
         @last_error = response['error']
         @last_error_description = response['error_description']

@@ -19,7 +19,7 @@ describe ApplicationController do
     context 'user information is outdated' do
       let(:user_url) { sprintf('%s/user', ENV['NITROUS_URL']) }
       let(:token) { 'T0K3N' }
-      let(:user_info) { { 'id' => user.id, 'name' => 'got name', 'username' => user.username, 'email' => user.email, 'admin' => true } }
+      let(:user_info) { { 'id' => user.id, 'name' => 'got name', 'username' => user.username, 'email' => user.email, 'community_admin' => true } }
       let(:user_response_body) { JSON.dump({ 'user' => user_info }) }
 
       before do

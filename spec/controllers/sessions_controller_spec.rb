@@ -56,7 +56,7 @@ RSpec.describe SessionsController, type: :controller do
     let(:token) { 'T0K3N' }
     let(:oauth_url) { sprintf('%s/oauth/token?grant_type=password&password=%s&username=%s', ENV['NITROUS_URL'], password, username) }
     let(:user_url) { sprintf('%s/user', ENV['NITROUS_URL']) }
-    let(:user_info) { { 'id' => 67, 'name' => '', 'username' => 'bighero', 'email' => 'nitrousbighero@gmail.com', 'admin' => false } }
+    let(:user_info) { { 'id' => 67, 'name' => '', 'username' => 'bighero', 'email' => 'nitrousbighero@gmail.com', 'community_admin' => false } }
 
     def do_request(params={})
       post :create, { user: { username_or_email: username, password: password } }.merge(params)
@@ -87,7 +87,7 @@ RSpec.describe SessionsController, type: :controller do
           expect(u.name).to eq(user_info['name'])
           expect(u.username).to eq(user_info['username'])
           expect(u.email).to eq(user_info['email'])
-          expect(u.admin).to eq(user_info['admin'])
+          expect(u.admin).to eq(user_info['community_admin'])
           expect(u.email_md5).to eq(Digest::MD5.hexdigest(user_info['email']))
           expect(u.last_fetched_at.to_i).to eq(Time.now.to_i)
         end
@@ -106,7 +106,7 @@ RSpec.describe SessionsController, type: :controller do
             expect(u.name).to eq(user_info['name'])
             expect(u.username).to eq(user_info['username'])
             expect(u.email).to eq(user_info['email'])
-            expect(u.admin).to eq(user_info['admin'])
+            expect(u.admin).to eq(user_info['community_admin'])
             expect(u.email_md5).to eq(Digest::MD5.hexdigest(user_info['email']))
             expect(u.last_fetched_at.to_i).to eq(Time.now.to_i)
           end

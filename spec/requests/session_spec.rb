@@ -7,7 +7,7 @@ describe 'Session management' do
 
   let(:oauth_url) { sprintf('%s/oauth/token?grant_type=password&password=%s&username=%s', ENV['NITROUS_URL'], password, username) }
   let(:user_url) { sprintf('%s/user', ENV['NITROUS_URL']) }
-  let(:user_info) { {'id'=>67, 'username'=>'bighero', 'email'=>'nitrousbighero@gmail.com', 'community_admin'=>false} }
+  let(:user_info) { {'id'=>67, 'username'=>'bighero', 'email'=>'nitrousbighero@gmail.com', 'admin'=>false} }
 
   let(:login_response_body) { JSON.dump({'access_token' => token, 'token_type' => 'Bearer'}) }
   let(:token_response_body) { JSON.dump({'user'=>user_info}) }

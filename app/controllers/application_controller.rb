@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
       user.name                = client.user.name
       user.email               = client.user.email
       user.nitrous_oauth_token = client.token
-      user.admin               = client.user.community_admin
+      user.admin               = client.user.admin
       user.last_fetched_at     = Time.now
       unless user.save
         Rails.logger.warn("Failed to update user(#{user.inspect}) information: #{user.errors.full_messages.join(',')}")

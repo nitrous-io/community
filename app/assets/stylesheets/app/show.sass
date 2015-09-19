@@ -5,6 +5,9 @@ html.show, html.new, html.edit
   ::selection, .CodeMirror-selected
     background: rgba($light-grey, .3)
 
+  .main .container
+    width: 800px
+
   .title-hero
     height: 282px
 
@@ -303,6 +306,9 @@ html.show, html.new, html.edit
 
     img
       max-width: 100%
+      padding: 6px
+      border: 1px solid rgba($light-grey,.5)
+      border-radius: 4px
 
     p + ol, p + ul
       padding-top: 0
@@ -393,6 +399,8 @@ html.show, html.new, html.edit
           position: relative
           top: 4px
           margin-right: 6px
+          border: 0
+          padding: 0
 
       &.blue
         color: #FFF

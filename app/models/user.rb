@@ -15,6 +15,10 @@ class User < ActiveRecord::Base
     "https://secure.gravatar.com/avatar/#{email_md5}?default=retro&secure=true&size=#{size}"
   end
 
+  def can_edit?
+    self.admin? || self.editor?
+  end
+
   protected
   def set_email_md5
     self.email_md5 = Digest::MD5.hexdigest(self.email.to_s)

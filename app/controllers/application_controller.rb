@@ -53,8 +53,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def verify_admin
-    return if current_user.try(:admin)
+  def verify_can_edit
+    return if current_user.try(:can_edit?)
     render plain: 'Forbidden', status: :forbidden
   end
 

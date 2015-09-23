@@ -66,7 +66,7 @@ header.fixed
 
               .dropdown-menu
                 ul role="menu"
-                  - if current_user.admin?
+                  - if current_user.try(:can_edit?)
                     li
                       = link_to "New Tutorial", new_tutorial_path
                     li

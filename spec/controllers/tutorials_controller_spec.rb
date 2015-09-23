@@ -8,10 +8,20 @@ describe TutorialsController do
       get :new
     end
 
-    it_behaves_like 'an admin only action'
+    it_behaves_like 'an admin or editor only action'
 
     context 'when logged in as admin' do
-      before { sign_in_as_admin }
+      before { sign_in_as_editor }
+
+      it 'responds with new page' do
+        do_request
+        expect(response).to have_http_status(:success)
+        expect(response).to render_template(:new)
+      end
+    end
+
+    context 'when logged in as editor' do
+      before { sign_in_as_editor }
 
       it 'responds with new page' do
         do_request
@@ -26,10 +36,34 @@ describe TutorialsController do
       post :create, { tutorial: attributes_for(:tutorial) }.merge(params)
     end
 
-    it_behaves_like 'an admin only action'
+    it_behaves_like 'an admin or editor only action'
 
     context 'when logged in as admin' do
       before { sign_in_as_admin }
+
+      it 'creates a tutorial' do
+        expect {
+          do_request(tutorial: {
+            title:            'tutorial title',
+            content_markdown: '# content markdown',
+            tag_list:         'ruby'
+          })
+        }.to change(Tutorial, :count).by(1)
+
+        o = Tutorial.last
+
+        expect(response).to redirect_to(tutorial_path(o))
+        expect(o.slug).to eq('tutorial-title')
+        expect(o.title).to eq('tutorial title')
+        expect(o.content_markdown).to eq('# content markdown')
+        expect(o.content_html).to match('<h1>content markdown</h1>')
+        expect(o.content_text).to match('content markdown')
+        expect(o.tag_list).to eq(['ruby'])
+      end
+    end
+
+    context 'when logged in as editor' do
+      before { sign_in_as_editor }
 
       it 'creates a tutorial' do
         expect {
@@ -62,10 +96,20 @@ describe TutorialsController do
       get :edit, id: subject.id
     end
 
-    it_behaves_like 'an admin only action'
+    it_behaves_like 'an admin or editor only action'
 
-    context 'when user is logged in as an admin' do
+    context 'when user is logged in as admin' do
       before { sign_in_as_admin }
+
+      it 'responds with edit page' do
+        do_request
+        expect(response).to have_http_status(:success)
+        expect(response).to render_template(:edit)
+      end
+    end
+
+    context 'when user is logged in as editor' do
+      before { sign_in_as_editor }
 
       it 'responds with edit page' do
         do_request
@@ -82,10 +126,65 @@ describe TutorialsController do
       put :update, { id: subject.id, tutorial: attributes_for(:tutorial) }.merge(params)
     end
 
-    it_behaves_like 'an admin only action'
+    it_behaves_like 'an admin or editor only action'
 
-    context 'when user is logged in as an admin' do
+    context 'when user is logged in as admin' do
       before { sign_in_as_admin }
+
+      it 'updates the tutorial' do
+        do_request(id: subject.id, tutorial: {
+          title: 'updated tutorial title',
+          content_markdown: '# updated content markdown',
+          tag_list: 'rails',
+          cover_image_url: 'http://example.com/a.jpg'
+        })
+
+        subject.reload
+
+        expect(response).to redirect_to(tutorial_path(subject))
+        expect(subject.title).to eq('updated tutorial title')
+        expect(subject.slug).to eq('updated-tutorial-title')
+        expect(subject.cover_image_url).to eq('http://example.com/a.jpg')
+        expect(subject.content_markdown).to eq('# updated content markdown')
+        expect(subject.content_html).to match('<h1>updated content markdown</h1>')
+        expect(subject.content_text).to match('updated content markdown')
+        expect(subject.tag_list).to eq(['rails'])
+      end
+
+      context 'when publish param is true' do
+        it 'updates the tutorial and publishes the tutorial' do
+          now = nil
+
+          Timecop.freeze do
+            now = Time.now
+
+            do_request(id: subject.id, tutorial: {
+              title: 'updated tutorial title',
+              content_markdown: '# updated content markdown',
+              tag_list: 'rails',
+              cover_image_url: 'http://example.com/a.jpg'
+            }, publish: 'true')
+          end
+
+          subject.reload
+
+          expect(response).to redirect_to(tutorial_path(subject))
+          expect(subject.title).to eq('updated tutorial title')
+          expect(subject.slug).to eq('updated-tutorial-title')
+          expect(subject.cover_image_url).to eq('http://example.com/a.jpg')
+          expect(subject.content_markdown).to eq('# updated content markdown')
+          expect(subject.content_html).to match('<h1>updated content markdown</h1>')
+          expect(subject.content_text).to match('updated content markdown')
+          expect(subject.tag_list).to eq(['rails'])
+
+          expect(subject).to be_published
+          expect(subject.published_at.to_i).to eq(now.to_i)
+        end
+      end
+    end
+
+    context 'when user is logged in as editor' do
+      before { sign_in_as_editor }
 
       it 'updates the tutorial' do
         do_request(id: subject.id, tutorial: {
@@ -147,10 +246,22 @@ describe TutorialsController do
       delete :destroy, { id: subject.id }.merge(params)
     end
 
-    it_behaves_like 'an admin only action'
+    it_behaves_like 'an admin or editor only action'
 
-    context 'when user is logged in as an admin' do
+    context 'when user is logged in as admin' do
       before { sign_in_as_admin }
+
+      it 'deletes the tutorial' do
+        expect {
+          do_request
+        }.to change{ subject.reload.deleted? }.from(false).to(true)
+
+        expect(response).to redirect_to(tutorials_path)
+      end
+    end
+
+    context 'when user is logged in as editor' do
+      before { sign_in_as_editor }
 
       it 'deletes the tutorial' do
         expect {
@@ -169,10 +280,26 @@ describe TutorialsController do
       post :publish, { id: subject.id }.merge(params)
     end
 
-    it_behaves_like 'an admin only action'
+    it_behaves_like 'an admin or editor only action'
 
-    context 'when user is logged in as an admin' do
+    context 'when user is logged in as admin' do
       before { sign_in_as_admin }
+
+      it 'publishes the tutorial' do
+        Timecop.freeze do
+          expect {
+            do_request
+          }.to change { subject.reload.published? }.from(false).to(true)
+
+          expect(subject.published_at.to_i).to eq(Time.now.to_i)
+        end
+
+        expect(response).to redirect_to(tutorial_path(subject))
+      end
+    end
+
+    context 'when user is logged in as editor' do
+      before { sign_in_as_editor }
 
       it 'publishes the tutorial' do
         Timecop.freeze do
@@ -196,10 +323,26 @@ describe TutorialsController do
       post :unpublish, { id: subject.id }.merge(params)
     end
 
-    it_behaves_like 'an admin only action'
+    it_behaves_like 'an admin or editor only action'
 
-    context 'when user is logged in as an admin' do
+    context 'when user is logged in as admin' do
       before { sign_in_as_admin }
+
+      it 'unpublishes the tutorial' do
+        Timecop.freeze do
+          expect {
+            do_request
+          }.to change { subject.reload.published? }.from(true).to(false)
+
+          expect(subject.published_at).to be_nil
+        end
+
+        expect(response).to redirect_to(tutorial_path(subject))
+      end
+    end
+ 
+    context 'when user is logged in as editor' do
+      before { sign_in_as_editor }
 
       it 'unpublishes the tutorial' do
         Timecop.freeze do
@@ -258,16 +401,119 @@ describe TutorialsController do
   end
 
   describe 'GET show' do
-    subject { create :published_tutorial }
+    subject(:published_tutorial) { create :published_tutorial }
+    subject(:tutorial) { create :tutorial }
 
-    def do_request
-      get :show, slug: subject.slug
+    def do_request(params={})
+      get :show, { slug: published_tutorial.slug }.merge(params)
     end
 
-    it 'responds with show page' do
-      do_request
-      expect(response).to have_http_status(:success)
-      expect(response).to render_template(:show)
+    context 'when published tutorial is requested' do
+      context 'when logged in as admin' do
+        before { sign_in_as_admin }
+
+        it 'responds with show page' do
+          do_request(slug: published_tutorial.slug)
+          expect(response).to have_http_status(:success)
+          expect(response).to render_template(:show)
+
+          expect(response.body).to include("Edit Tutorial")
+          expect(response.body).to include("Unpublish")
+          expect(response.body).to_not include("Publish")
+          expect(response.body).to include("Drafts")
+        end
+      end
+
+      context 'when logged in as editor' do
+        before { sign_in_as_editor }
+
+        it 'responds with show page' do
+          do_request(slug: published_tutorial.slug)
+          expect(response).to have_http_status(:success)
+          expect(response).to render_template(:show)
+
+          expect(response.body).to include("Edit Tutorial")
+          expect(response.body).to include("Unpublish")
+          expect(response.body).to_not include("Publish")
+          expect(response.body).to include("Drafts")
+        end
+      end
+
+      context 'when logged in as regular user' do
+        before { sign_in }
+
+        it 'responds with show page' do
+          do_request(slug: published_tutorial.slug)
+          expect(response).to have_http_status(:success)
+          expect(response).to render_template(:show)
+
+          expect(response.body).to_not include("Edit Tutorial")
+          expect(response.body).to_not include("Unpublish")
+          expect(response.body).to_not include("Publish")
+          expect(response.body).to_not include("Drafts")
+        end
+      end
+
+      context 'when not logged in' do
+        it 'responds with show page' do
+          do_request(slug: published_tutorial.slug)
+          expect(response).to have_http_status(:success)
+          expect(response).to render_template(:show)
+
+          expect(response.body).to_not include("Edit Tutorial")
+          expect(response.body).to_not include("Unpublish")
+          expect(response.body).to_not include("Publish")
+          expect(response.body).to_not include("Drafts")
+        end
+      end
+    end
+
+    context 'when tutorial not in published state is requested' do
+      context 'when logged in as admin' do
+        before { sign_in_as_admin }
+
+        it 'responds with show page' do
+          do_request(slug: tutorial.slug)
+          expect(response).to have_http_status(:success)
+          expect(response).to render_template(:show)
+
+          expect(response.body).to include("Edit Tutorial")
+          expect(response.body).to_not include("Unpublish")
+          expect(response.body).to include("Publish")
+          expect(response.body).to include("Drafts")
+        end
+      end
+
+      context 'when logged in as editor' do
+        before { sign_in_as_editor }
+
+        it 'responds with show page' do
+          do_request(slug: tutorial.slug)
+          expect(response).to have_http_status(:success)
+          expect(response).to render_template(:show)
+
+          expect(response.body).to include("Edit Tutorial")
+          expect(response.body).to_not include("Unpublish")
+          expect(response.body).to include("Publish")
+          expect(response.body).to include("Drafts")
+        end
+      end
+
+      context 'when logged in as regular user' do
+        before { sign_in }
+
+        it 'responds with 404' do
+          do_request(slug: tutorial.slug)
+          expect(response.status).to eq(404)
+        end
+      end
+
+      context 'when not logged in' do
+        it 'responds with 404' do
+          do_request(slug: tutorial.slug)
+          expect(response.status).to eq(404)
+        end
+      end
     end
   end
 

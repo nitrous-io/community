@@ -5,6 +5,7 @@ FactoryGirl.define do
     nitrous_oauth_token 'token'
     email 'user@example.com'
     admin false
+    editor false
     last_fetched_at { Time.now }
 
     trait :invalid do

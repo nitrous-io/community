@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 describe 'Session management' do
-  let(:username) { 'bighero'}
-  let(:password) { 'password'}
+  let(:username) { 'bighero' }
+  let(:password) { 'password' }
   let(:token) { 'token' }
 
   let(:oauth_url) { sprintf('%s/oauth/token?grant_type=password&password=%s&username=%s', ENV['NITROUS_URL'], password, username) }

@@ -1,5 +1,5 @@
 class PreviewController < ApplicationController
-  before_action :verify_admin
+  before_action :verify_can_edit
 
   def convert
     html_content = MarkdownService.new.render(params[:markdown_text])

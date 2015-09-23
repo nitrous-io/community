@@ -2,7 +2,7 @@ class DraftsController < ApplicationController
   include Pageable
 
   skip_before_action :verify_authenticity_token
-  before_action :verify_admin
+  before_action :verify_can_edit
   before_action :set_title
 
   def index

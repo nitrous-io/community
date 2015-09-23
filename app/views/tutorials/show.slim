@@ -3,7 +3,7 @@
 
 - @title = @content.title
 - content_for :header_accessory do
-  - if current_user.try(:admin?)
+  - if current_user.try(:can_edit?)
     .dropdown
       .dropdown-toggle
         span Edit

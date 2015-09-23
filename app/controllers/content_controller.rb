@@ -1,6 +1,6 @@
 class ContentController < ApplicationController
   include Pageable
-  before_action :verify_admin, except: %i(index show like unlike)
+  before_action :verify_can_edit, except: %i(index show like unlike)
   before_action :verify_logged_in, only: %i(like unlike)
 
   def new
@@ -128,7 +128,7 @@ class ContentController < ApplicationController
   end
 
   def collection
-    @_collection ||= current_user.try(:admin?) ? model_class.unscoped : model_class.published
+    @_collection ||= current_user.try(:admin?) || current_user.try(:editor) ? model_class.unscoped : model_class.published
   end
 
   def do_publish

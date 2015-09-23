@@ -1,5 +1,5 @@
 class DocCategoriesController < ApplicationController
-  before_action :verify_admin
+  before_action :verify_can_edit
 
   def index
     @content = DocCategory.ordered

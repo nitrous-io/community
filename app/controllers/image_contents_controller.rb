@@ -1,5 +1,5 @@
 class ImageContentsController < ApplicationController
-  before_action :verify_admin
+  before_action :verify_can_edit
   skip_before_filter :verify_authenticity_token, only: [:create]
 
   def create

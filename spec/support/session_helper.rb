@@ -17,4 +17,14 @@ module SessionHelper
       create(:user, id: session[:user_id], admin: true)
     end
   end
+
+  def sign_in_as_editor(user = nil)
+    session[:user_id] = user.try(:id) || 1
+    user = User.find_by_id(session[:user_id])
+    if user
+      user.update_attributes(editor: true, admin: false) unless user.editor
+    else
+      create(:user, id: session[:user_id], editor: true, admin: false)
+    end
+  end
 end

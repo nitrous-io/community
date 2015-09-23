@@ -8,10 +8,20 @@ describe PostsController do
       get :new
     end
 
-    it_behaves_like 'an admin only action'
+    it_behaves_like 'an admin or editor only action'
 
     context 'when logged in as admin' do
       before { sign_in_as_admin }
+
+      it 'responds with new page' do
+        do_request
+        expect(response).to have_http_status(:success)
+        expect(response).to render_template(:new)
+      end
+    end
+
+    context 'when logged in as editor' do
+      before { sign_in_as_editor }
 
       it 'responds with new page' do
         do_request
@@ -26,10 +36,34 @@ describe PostsController do
       post :create, { post: attributes_for(:post) }.merge(params)
     end
 
-    it_behaves_like 'an admin only action'
+    it_behaves_like 'an admin or editor only action'
 
-    context 'when user is logged in as an admin' do
-      before { sign_in_as_admin }
+    context 'when user is logged in as admin' do
+      before { sign_in_as_editor }
+
+      it 'creates a post' do
+        do_request(post: {
+          title: 'post title',
+          content_markdown: '# content markdown',
+          tag_list: 'ruby',
+          cover_image_url: 'http://example.com/a.jpg'
+        })
+
+        o = Post.last
+
+        expect(response).to redirect_to(post_path(o))
+        expect(o.slug).to eq('post-title')
+        expect(o.title).to eq('post title')
+        expect(o.cover_image_url).to eq('http://example.com/a.jpg')
+        expect(o.content_markdown).to eq('# content markdown')
+        expect(o.content_html).to match('<h1>content markdown</h1>')
+        expect(o.content_text).to match('content markdown')
+        expect(o.tag_list).to eq(['ruby'])
+      end
+    end
+
+    context 'when user is logged in as editor' do
+      before { sign_in_as_editor }
 
       it 'creates a post' do
         do_request(post: {
@@ -60,10 +94,20 @@ describe PostsController do
       get :edit, id: subject.id
     end
 
-    it_behaves_like 'an admin only action'
+    it_behaves_like 'an admin or editor only action'
 
-    context 'when user is logged in as an admin' do
+    context 'when user is logged in as admin' do
       before { sign_in_as_admin }
+
+      it 'responds with edit page' do
+        do_request
+        expect(response).to have_http_status(:success)
+        expect(response).to render_template(:edit)
+      end
+    end
+
+    context 'when user is logged in as editor' do
+      before { sign_in_as_editor }
 
       it 'responds with edit page' do
         do_request
@@ -80,10 +124,61 @@ describe PostsController do
       put :update, { id: subject.id, post: attributes_for(:post) }.merge(params)
     end
 
-    it_behaves_like 'an admin only action'
+    it_behaves_like 'an admin or editor only action'
 
-    context 'when user is logged in as an admin' do
+    context 'when user is logged in as admin' do
       before { sign_in_as_admin }
+
+      it 'updates the post' do
+        do_request(id: subject.id, post: {
+          title: 'updated post title',
+          content_markdown: '# updated content markdown',
+          tag_list: 'rails'
+        })
+
+        subject.reload
+
+        expect(response).to redirect_to(post_path(subject))
+        expect(subject.title).to eq('updated post title')
+        expect(subject.slug).to eq('updated-post-title')
+        expect(subject.content_markdown).to eq('# updated content markdown')
+        expect(subject.content_html).to match('<h1>updated content markdown</h1>')
+        expect(subject.content_text).to match('updated content markdown')
+        expect(subject.tag_list).to eq(['rails'])
+      end
+
+      context 'when publish param is true' do
+        it 'updates the post and publishes the post' do
+          now = nil
+
+          Timecop.freeze do
+            now = Time.now
+
+            do_request(id: subject.id, post: {
+              title: 'updated post title',
+              content_markdown: '# updated content markdown',
+              tag_list: 'rails'
+            }, publish: 'true')
+          end
+
+          subject.reload
+
+          expect(response).to redirect_to(post_path(subject))
+          expect(subject.title).to eq('updated post title')
+          expect(subject.slug).to eq('updated-post-title')
+          expect(subject.content_markdown).to eq('# updated content markdown')
+          expect(subject.content_html).to match('<h1>updated content markdown</h1>')
+          expect(subject.content_text).to match('updated content markdown')
+          expect(subject.tag_list).to eq(['rails'])
+
+          expect(subject).to be_published
+          expect(subject.published_at.to_i).to eq(now.to_i)
+        end
+      end
+    end
+
+    context 'when user is logged in as editor' do
+      before { sign_in_as_editor }
 
       it 'updates the post' do
         do_request(id: subject.id, post: {
@@ -141,10 +236,22 @@ describe PostsController do
       delete :destroy, { id: subject.id }.merge(params)
     end
 
-    it_behaves_like 'an admin only action'
+    it_behaves_like 'an admin or editor only action'
 
-    context 'when user is logged in as an admin' do
+    context 'when user is logged in as admin' do
       before { sign_in_as_admin }
+
+      it 'deletes the post' do
+        expect {
+          do_request
+        }.to change{ subject.reload.deleted? }.from(false).to(true)
+
+        expect(response).to redirect_to(posts_path)
+      end
+    end
+
+    context 'when user is logged in as editor' do
+      before { sign_in_as_editor }
 
       it 'deletes the post' do
         expect {
@@ -163,10 +270,26 @@ describe PostsController do
       post :publish, { id: subject.id }.merge(params)
     end
 
-    it_behaves_like 'an admin only action'
+    it_behaves_like 'an admin or editor only action'
 
-    context 'when user is logged in as an admin' do
+    context 'when user is logged in as admin' do
       before { sign_in_as_admin }
+
+      it 'publishes the post' do
+        Timecop.freeze do
+          expect {
+            do_request
+          }.to change { subject.reload.published? }.from(false).to(true)
+
+          expect(subject.published_at.to_i).to eq(Time.now.to_i)
+        end
+
+        expect(response).to redirect_to(post_path(subject))
+      end
+    end
+
+    context 'when user is logged in as editor' do
+      before { sign_in_as_editor }
 
       it 'publishes the post' do
         Timecop.freeze do
@@ -190,10 +313,26 @@ describe PostsController do
       post :unpublish, { id: subject.id }.merge(params)
     end
 
-    it_behaves_like 'an admin only action'
+    it_behaves_like 'an admin or editor only action'
 
-    context 'when user is logged in as an admin' do
+    context 'when user is logged in as admin' do
       before { sign_in_as_admin }
+
+      it 'unpublishes the post' do
+        Timecop.freeze do
+          expect {
+            do_request
+          }.to change { subject.reload.published? }.from(true).to(false)
+
+          expect(subject.published_at).to be_nil
+        end
+
+        expect(response).to redirect_to(post_path(subject))
+      end
+    end
+
+    context 'when user is logged in as editor' do
+      before { sign_in_as_editor }
 
       it 'unpublishes the post' do
         Timecop.freeze do
@@ -261,11 +400,66 @@ describe PostsController do
       get :show, slug: subject.slug
     end
 
-    it 'responds with show page' do
-      do_request
-      expect(response).to have_http_status(:success)
-      expect(response).to render_template(:show)
+    context 'when logged in as admin' do
+      before { sign_in_as_admin }
+
+        it 'responds with show page' do
+          do_request
+          expect(response).to have_http_status(:success)
+          expect(response).to render_template(:show)
+
+          expect(response.body).to include("Edit Blog Post")
+          expect(response.body).to_not include("Publish")
+          expect(response.body).to include("Unpublish")
+          expect(response.body).to include("Drafts")
+        end
     end
+
+    context 'when logged in as editor' do
+      before { sign_in_as_editor }
+
+        it 'responds with show page' do
+          do_request
+          expect(response).to have_http_status(:success)
+          expect(response).to render_template(:show)
+
+          expect(response.body).to include("Edit Blog Post")
+          expect(response.body).to_not include("Publish")
+          expect(response.body).to include("Unpublish")
+          expect(response.body).to include("Drafts")
+        end
+    end
+
+    context 'when logged in as regular user' do
+      before { sign_in }
+
+        it 'responds with show page' do
+          do_request
+          expect(response).to have_http_status(:success)
+          expect(response).to render_template(:show)
+
+          expect(response.body).to_not include("Edit Blog Post")
+          expect(response.body).to_not include("Publish")
+          expect(response.body).to_not include("Unpublish")
+          expect(response.body).to_not include("Drafts")
+        end
+    end
+
+    context 'when not logged in' do
+      before { sign_in }
+
+        it 'responds with show page' do
+          do_request
+          expect(response).to have_http_status(:success)
+          expect(response).to render_template(:show)
+
+          expect(response.body).to_not include("Edit Blog Post")
+          expect(response.body).to_not include("Publish")
+          expect(response.body).to_not include("Unpublish")
+          expect(response.body).to_not include("Drafts")
+        end
+    end
+
   end
 
   describe 'POST like' do

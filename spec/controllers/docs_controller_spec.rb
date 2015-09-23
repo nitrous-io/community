@@ -10,10 +10,23 @@ describe DocsController do
       get :new
     end
 
-    it_behaves_like 'an admin only action'
+    it_behaves_like 'an admin or editor only action'
 
     context 'when logged in as admin' do
       before { sign_in_as_admin }
+
+      it 'responds with new page' do
+        do_request
+        expect(response).to have_http_status(:success)
+        expect(response).to render_template(:new)
+        expect(assigns(:content)).to be_a Doc
+        expect(assigns(:content)).to be_new_record
+        expect(assigns(:categories)).to eq([cat2, cat1])
+      end
+    end
+
+    context 'when logged in as editor' do
+      before { sign_in_as_editor }
 
       it 'responds with new page' do
         do_request
@@ -28,13 +41,42 @@ describe DocsController do
 
   describe 'POST create' do
     def do_request(params = {})
-      post :create, { doc: attributes_for(:doc) }.merge(params)
+      post :create, { doc: attributes_for(:doc).merge(doc_category_id: cat1.id) }.merge(params)
     end
 
-    it_behaves_like 'an admin only action'
+    it_behaves_like 'an admin or editor only action'
 
     context 'when logged in as admin' do
       before { sign_in_as_admin }
+
+      it 'creates a doc' do
+        expect {
+          do_request(doc: {
+            title:            'doc title',
+            content_markdown: '# content markdown',
+            tag_list:         'ruby',
+            doc_category_id:  cat1.id
+          })
+        }.to change(Doc, :count).by(1)
+
+        o = Doc.last
+
+        expect(response).to redirect_to(doc_path(o))
+        expect(o.slug).to eq('doc-title')
+        expect(o.title).to eq('doc title')
+        expect(o.content_markdown).to eq('# content markdown')
+        expect(o.content_html).to match('<h1>content markdown</h1>')
+        expect(o.content_text).to match('content markdown')
+        expect(o.tag_list).to eq(['ruby'])
+
+        expect(assigns(:content)).to be_a(Doc)
+        expect(assigns(:content)).to be_persisted
+        expect(assigns(:categories)).to eq([cat2, cat1])
+      end
+    end
+
+    context 'when logged in as editor' do
+      before { sign_in_as_editor }
 
       it 'creates a doc' do
         expect {
@@ -72,10 +114,22 @@ describe DocsController do
       get :edit, id: subject.id
     end
 
-    it_behaves_like 'an admin only action'
+    it_behaves_like 'an admin or editor only action'
 
-    context 'when user is logged in as an admin' do
-      before { sign_in_as_admin }
+    context 'when user is logged in as admin' do
+      before { sign_in_as_editor }
+
+      it 'responds with edit page' do
+        do_request
+        expect(response).to have_http_status(:success)
+        expect(response).to render_template(:edit)
+        expect(assigns(:content)).to eq(subject)
+        expect(assigns(:categories)).to eq([cat2, cat1])
+      end
+    end
+
+    context 'when user is logged in as editor' do
+      before { sign_in_as_editor }
 
       it 'responds with edit page' do
         do_request
@@ -94,10 +148,68 @@ describe DocsController do
       put :update, { id: subject.id, doc: attributes_for(:doc) }.merge(params)
     end
 
-    it_behaves_like 'an admin only action'
+    it_behaves_like 'an admin or editor only action'
 
-    context 'when user is logged in as an admin' do
+    context 'when user is logged in as admin' do
       before { sign_in_as_admin }
+
+      it 'updates the doc' do
+        do_request(id: subject.id, doc: {
+          title: 'updated doc title',
+          content_markdown: '# updated content markdown',
+          tag_list: 'rails',
+          cover_image_url: 'http://example.com/a.jpg'
+        })
+
+        subject.reload
+
+        expect(response).to redirect_to(doc_path(subject))
+        expect(subject.title).to eq('updated doc title')
+        expect(subject.slug).to eq('updated-doc-title')
+        expect(subject.cover_image_url).to eq('http://example.com/a.jpg')
+        expect(subject.content_markdown).to eq('# updated content markdown')
+        expect(subject.content_html).to match('<h1>updated content markdown</h1>')
+        expect(subject.content_text).to match('updated content markdown')
+        expect(subject.tag_list).to eq(['rails'])
+
+        expect(assigns(:content)).to eq(subject)
+        expect(assigns(:categories)).to eq([cat2, cat1])
+      end
+
+      context 'when publish param is true' do
+        it 'updates the doc and publishes the doc' do
+          now = nil
+
+          Timecop.freeze do
+            now = Time.now
+
+            do_request(id: subject.id, doc: {
+              title: 'updated doc title',
+              content_markdown: '# updated content markdown',
+              tag_list: 'rails',
+              cover_image_url: 'http://example.com/a.jpg'
+            }, publish: 'true')
+          end
+
+          subject.reload
+
+          expect(response).to redirect_to(doc_path(subject))
+          expect(subject.title).to eq('updated doc title')
+          expect(subject.slug).to eq('updated-doc-title')
+          expect(subject.cover_image_url).to eq('http://example.com/a.jpg')
+          expect(subject.content_markdown).to eq('# updated content markdown')
+          expect(subject.content_html).to match('<h1>updated content markdown</h1>')
+          expect(subject.content_text).to match('updated content markdown')
+          expect(subject.tag_list).to eq(['rails'])
+
+          expect(subject).to be_published
+          expect(subject.published_at.to_i).to eq(now.to_i)
+        end
+      end
+    end
+
+    context 'when user is logged in as editor' do
+      before { sign_in_as_editor }
 
       it 'updates the doc' do
         do_request(id: subject.id, doc: {
@@ -162,10 +274,22 @@ describe DocsController do
       delete :destroy, { id: subject.id }.merge(params)
     end
 
-    it_behaves_like 'an admin only action'
+    it_behaves_like 'an admin or editor only action'
 
-    context 'when user is logged in as an admin' do
+    context 'when user is logged in as admin' do
       before { sign_in_as_admin }
+
+      it 'deletes the doc' do
+        expect {
+          do_request
+        }.to change{ subject.reload.deleted? }.from(false).to(true)
+
+        expect(response).to redirect_to(docs_path)
+      end
+    end
+
+    context 'when user is logged in as editor' do
+      before { sign_in_as_editor }
 
       it 'deletes the doc' do
         expect {
@@ -184,10 +308,26 @@ describe DocsController do
       post :publish, { id: subject.id }.merge(params)
     end
 
-    it_behaves_like 'an admin only action'
+    it_behaves_like 'an admin or editor only action'
 
-    context 'when user is logged in as an admin' do
+    context 'when user is logged in as admin' do
       before { sign_in_as_admin }
+
+      it 'publishes the doc' do
+        Timecop.freeze do
+          expect {
+            do_request
+          }.to change { subject.reload.published? }.from(false).to(true)
+
+          expect(subject.published_at.to_i).to eq(Time.now.to_i)
+        end
+
+        expect(response).to redirect_to(doc_path(subject))
+      end
+    end
+
+    context 'when user is logged in as editor' do
+      before { sign_in_as_editor }
 
       it 'publishes the doc' do
         Timecop.freeze do
@@ -211,10 +351,26 @@ describe DocsController do
       post :unpublish, { id: subject.id }.merge(params)
     end
 
-    it_behaves_like 'an admin only action'
+    it_behaves_like 'an admin or editor only action'
 
-    context 'when user is logged in as an admin' do
+    context 'when user is logged in as admin' do
       before { sign_in_as_admin }
+
+      it 'unpublishes the doc' do
+        Timecop.freeze do
+          expect {
+            do_request
+          }.to change { subject.reload.published? }.from(true).to(false)
+
+          expect(subject.published_at).to be_nil
+        end
+
+        expect(response).to redirect_to(doc_path(subject))
+      end
+    end
+
+    context 'when user is logged in as editor' do
+      before { sign_in_as_editor }
 
       it 'unpublishes the doc' do
         Timecop.freeze do
@@ -280,16 +436,89 @@ describe DocsController do
         get :show, slug: subject.slug
       end
 
-      it 'responds with show page' do
-        do_request
-        expect(response).to have_http_status(:success)
-        expect(response).to render_template(:show)
-        expect(assigns(:toc)).to eq({
-          cat2 => [cat2_doc2, cat2_doc1, cat2_doc3],
-          cat1 => [cat1_doc2, cat1_doc1, cat1_doc3]
-        })
-        expect(assigns(:content)).to eq(cat1_doc1)
+      context 'when logged in as admin' do
+        before { sign_in_as_admin }
+
+          it 'responds with show page' do
+            do_request
+            expect(response).to have_http_status(:success)
+            expect(response).to render_template(:show)
+
+            expect(response.body).to include("Edit Doc")
+            expect(response.body).to_not include("Publish")
+            expect(response.body).to include("Unpublish")
+            expect(response.body).to include("Drafts")
+
+            expect(assigns(:toc)).to eq({
+              cat2 => [cat2_doc2, cat2_doc1, cat2_doc3],
+              cat1 => [cat1_doc2, cat1_doc1, cat1_doc3]
+            })
+            expect(assigns(:content)).to eq(cat1_doc1)
+          end
       end
+
+      context 'when logged in as editor' do
+        before { sign_in_as_editor }
+
+          it 'responds with show page' do
+            do_request
+            expect(response).to have_http_status(:success)
+            expect(response).to render_template(:show)
+
+            expect(response.body).to include("Edit Doc")
+            expect(response.body).to_not include("Publish")
+            expect(response.body).to include("Unpublish")
+            expect(response.body).to include("Drafts")
+
+            expect(assigns(:toc)).to eq({
+              cat2 => [cat2_doc2, cat2_doc1, cat2_doc3],
+              cat1 => [cat1_doc2, cat1_doc1, cat1_doc3]
+            })
+            expect(assigns(:content)).to eq(cat1_doc1)
+          end
+      end
+
+      context 'when logged in as regular user' do
+        before { sign_in }
+
+          it 'responds with show page' do
+            do_request
+            expect(response).to have_http_status(:success)
+            expect(response).to render_template(:show)
+
+            expect(response.body).to_not include("Edit Doc")
+            expect(response.body).to_not include("Publish")
+            expect(response.body).to_not include("Unpublish")
+            expect(response.body).to_not include("Drafts")
+
+            expect(assigns(:toc)).to eq({
+              cat2 => [cat2_doc2, cat2_doc1, cat2_doc3],
+              cat1 => [cat1_doc2, cat1_doc1, cat1_doc3]
+            })
+            expect(assigns(:content)).to eq(cat1_doc1)
+          end
+      end
+
+      context 'when not logged' do
+
+        it 'responds with show page' do
+          do_request
+          expect(response).to have_http_status(:success)
+          expect(response).to render_template(:show)
+
+          expect(response.body).to_not include("Edit Doc")
+          expect(response.body).to_not include("Publish")
+          expect(response.body).to_not include("Unpublish")
+          expect(response.body).to_not include("Drafts")
+
+          expect(assigns(:toc)).to eq({
+            cat2 => [cat2_doc2, cat2_doc1, cat2_doc3],
+            cat1 => [cat1_doc2, cat1_doc1, cat1_doc3]
+          })
+          expect(assigns(:content)).to eq(cat1_doc1)
+        end
+      end
+
     end
   end
 

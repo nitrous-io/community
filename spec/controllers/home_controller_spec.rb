@@ -39,5 +39,62 @@ describe HomeController do
         cat1 => [cat1_doc2, cat1_doc1, cat1_doc3]
       })
     end
+
+    context 'when logged in as admin' do
+      before { sign_in_as_admin }
+
+        it 'includes links in header to edit content' do
+          do_request
+
+          expect(response.body).to include("New Tutorial")
+          expect(response.body).to include("New Blog Post")
+          expect(response.body).to include("New Doc")
+          expect(response.body).to include("Categories")
+          expect(response.body).to include("Drafts")
+        end
+    end
+
+    context 'when logged in as editor' do
+      before { sign_in_as_editor }
+
+        it 'includes links in header to edit content' do
+          do_request
+
+          expect(response.body).to include("New Tutorial")
+          expect(response.body).to include("New Blog Post")
+          expect(response.body).to include("New Doc")
+          expect(response.body).to include("Categories")
+          expect(response.body).to include("Drafts")
+        end
+    end
+
+    context 'when logged in as regular user' do
+      before { sign_in }
+
+        it 'does not include links in header to edit content' do
+          do_request
+
+          expect(response.body).to_not include("New Tutorial")
+          expect(response.body).to_not include("New Blog Post")
+          expect(response.body).to_not include("New Doc")
+          expect(response.body).to_not include("Categories")
+          expect(response.body).to_not include("Drafts")
+        end
+    end
+
+    context 'when logged in as regular user' do
+      before { sign_in }
+
+        it 'does not include links in header to edit content' do
+          do_request
+
+          expect(response.body).to_not include("New Tutorial")
+          expect(response.body).to_not include("New Blog Post")
+          expect(response.body).to_not include("New Doc")
+          expect(response.body).to_not include("Categories")
+          expect(response.body).to_not include("Drafts")
+        end
+    end
+
   end
 end

@@ -27,7 +27,7 @@
       p.desc
         | Anouncements, product news, use-cases, and more
 
-    section.blog.cards.darker
+    section.blogs.cards.darker
       - @posts.each do |p|
         = render partial: 'partials/post_card', locals: { post: p }
 

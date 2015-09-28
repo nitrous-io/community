@@ -159,7 +159,6 @@ html.home.index, html.docs.index
           position: absolute
           top: -56px
           left: 0
-          background: yellow
 
       &.getting-started h3:after
         background: image_url('docs-getting-started.svg') 0 0 no-repeat
@@ -196,3 +195,9 @@ html.home.index, html.docs.index
       &.additional-resources h3:after
         background: image_url('docs-additional-resources.svg') 0 0 no-repeat
         background-size: 48px 48px
+
+
+      @media screen and (max-width: $break-large)
+        h3:after
+          left: 50%
+          margin-left: -18px

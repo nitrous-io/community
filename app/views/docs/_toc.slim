@@ -2,7 +2,7 @@ section.docs
   - toc = Hash[toc.first(num_categories)] if defined?(num_categories)
   - toc.each do |category, docs|
     - if docs.length > 0
-      .docs-col
+      .docs-col class=classify_string(category.name)
         h3
           = category.name
         ul

@@ -143,3 +143,56 @@ section.docs
 
           &:hover
             color: $blue
+
+html.home.index, html.docs.index
+  .docs
+    .docs-col
+      h3
+        margin-top: 56px
+        position: relative
+
+        &:after
+          content: ""
+          width: 48px
+          height: 48px
+          display: block
+          position: absolute
+          top: -56px
+          left: 0
+          background: yellow
+
+      &.getting-started h3:after
+        background: image_url('docs-getting-started.svg') 0 0 no-repeat
+        background-size: 48px 48px
+
+      &.preview h3:after
+        background: image_url('docs-preview.svg') 0 0 no-repeat
+        background-size: 48px 48px
+
+      &.ssh-keys h3:after
+        background: image_url('docs-ssh-keys.svg') 0 0 no-repeat
+        background-size: 48px 48px
+
+      &.ide-usage h3:after
+        background: image_url('docs-ide-usage.svg') 0 0 no-repeat
+        background-size: 48px 48px
+
+      &.desktop-app h3:after
+        background: image_url('docs-desktop-app.svg') 0 0 no-repeat
+        background-size: 48px 48px
+
+      &.tools-interpreters h3:after
+        background: image_url('docs-tools-interpreters.svg') 0 0 no-repeat
+        background-size: 48px 48px
+
+      &.container-management h3:after
+        background: image_url('docs-container-management.svg') 0 0 no-repeat
+        background-size: 48px 48px
+
+      &.account-help h3:after
+        background: image_url('docs-account-help.svg') 0 0 no-repeat
+        background-size: 48px 48px
+
+      &.additional-resources h3:after
+        background: image_url('docs-additional-resources.svg') 0 0 no-repeat
+        background-size: 48px 48px

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="82px" height="82px" viewBox="0 0 82 82" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.3.3 (12072) - http://www.bohemiancoding.com/sketch -->
+    <title>docs-getting-started</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="docs-getting-started" sketch:type="MSLayerGroup">
+            <g id="181---Idea-(Outline)" transform="translate(1.000000, 11.750000)" sketch:type="MSShapeGroup">
+                <path d="M27,9 C17.058375,9 9,17.058375 9,27 C9,34.975125 14.191875,41.727375 21.375,44.091 L21.375,55.125 L23.625,55.125 L23.625,58.5 L30.375,58.5 L30.375,55.125 L32.625,55.125 L32.625,44.091 C39.808125,41.727375 45,34.975125 45,27 C45,17.058375 36.9405,9 27,9 L27,9 Z" id="Stroke-702" stroke="#0099ED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M21.375,47.25 L32.625,47.25" id="Stroke-704" stroke="#0099ED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M27,0 L27,4.5" id="Stroke-706" stroke="#0099ED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M54,27 L49.5,27" id="Stroke-708" stroke="#0099ED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M4.5,27 L0,27" id="Stroke-710" stroke="#0099ED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M46.092375,7.907625 L42.90975,11.09025" id="Stroke-712" stroke="#0099ED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M11.09025,42.90975 L7.907625,46.092375" id="Stroke-714" stroke="#0099ED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M46.092375,46.092375 L42.90975,42.90975" id="Stroke-716" stroke="#0099ED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M11.09025,11.09025 L7.907625,7.907625" id="Stroke-718" stroke="#0099ED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M14.625,27 C14.625,20.165625 20.165625,14.625 27,14.625" id="Stroke-720" stroke="#0099ED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M21.2102848,44.6896826 C19.5840082,43.8537619 17.1474285,41.8950326 17.1474285,41.8950326 L42.0590027,17.46866 L43.9944936,21.9281741 C43.9944936,21.9281741 44.8168487,25.1490227 45.1239586,26.9705743 C45.4750099,29.0527542 43.9944933,33.4363985 43.9944933,33.4363985 L39.4912338,40.0322455 L33.3300678,44.1753165 C33.3300678,44.1753165 33.5888659,46.9064629 31.8821641,47.1880251 C30.1540649,47.4731175 21.973959,47.1880251 21.973959,47.1880251 C21.973959,47.1880251 22.8011203,45.5073863 21.2102848,44.6896826 Z" id="Path-618" fill-opacity="0.06" fill="#0099ED"></path>
+            </g>
+        </g>
+    </g>
+</svg>

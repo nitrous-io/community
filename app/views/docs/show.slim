@@ -35,11 +35,6 @@
         = @content.content_html.html_safe
 
       .footer
-        /- if @content.tags.present?
-        / .tags
-        /   - @content.tags.each do |tag|
-        /     = link_to tag.name, docs_tagged_path(tag: tag.name)
-
         = render partial: 'partials/heart', locals: { score: @content.score, is_upvoted: @is_upvoted, like_path: like_doc_path(@content.id), unlike_path: unlike_doc_path(@content.id) }
 
         a.status-icon.share href="#share"

@@ -3,9 +3,10 @@
   meta name="twitter:url" content=posts_slugged_url(slug: @content.slug)
   meta name="twitter:title" content=@content.title
   meta name="twitter:description" content=@content.content_text.truncate(100).html_safe
+  meta name="twitter:image" content=image_url("favicon-96x96.png")
   meta name="twitter:site" content="@nitrous"
   meta name="twitter:creator" content="@nitrous"
-  
+
 - content_for :search_field do
   = render partial: 'partials/search', locals: { kind: :doc }
 

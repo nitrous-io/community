@@ -1,3 +1,11 @@
+- content_for :head_meta do
+  meta name="twitter:card" content="summary"
+  meta name="twitter:url" content=posts_slugged_url(slug: @content.slug)
+  meta name="twitter:title" content=@content.title
+  meta name="twitter:description" content=@content.content_text.truncate(100).html_safe
+  meta name="twitter:site" content="@nitrous"
+  meta name="twitter:creator" content="@nitrous"
+
 - content_for :search_field do
   = render partial: 'partials/search', locals: { kind: :tutorial }
 

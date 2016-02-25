@@ -8,8 +8,6 @@ describe TutorialsController do
       get :new
     end
 
-    it_behaves_like 'an admin or editor only action'
-
     context 'when logged in as admin' do
       before { sign_in_as_editor }
 
@@ -27,6 +25,22 @@ describe TutorialsController do
         do_request
         expect(response).to have_http_status(:success)
         expect(response).to render_template(:new)
+      end
+    end
+
+    context 'when logged in as user' do
+      before { sign_in }
+
+      it 'responds with new page' do
+        do_request
+        expect(response).to have_http_status(:redirect)
+      end
+    end
+
+    context 'when not logged in' do
+      it 'redirects to guidelines page' do
+        do_request
+        expect(response).to have_http_status(:redirect)
       end
     end
   end

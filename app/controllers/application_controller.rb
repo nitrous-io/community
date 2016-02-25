@@ -58,6 +58,16 @@ class ApplicationController < ActionController::Base
     render plain: 'Forbidden', status: :forbidden
   end
 
+  def verify_can_edit_new
+    if !current_user.try(:can_edit?)
+      if model_class == Tutorial
+        redirect_to 'https://community.nitrous.io/docs/tutorial-submission-guidelines'
+      else
+        render plain: 'Forbidden', status: :forbidden
+      end
+    end
+  end
+
   def record_not_found
     render file: 'public/404.html', status: :not_found, layout: nil
   end

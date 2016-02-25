@@ -1,6 +1,7 @@
 class ContentController < ApplicationController
   include Pageable
-  before_action :verify_can_edit, except: %i(index show like unlike)
+  before_action :verify_can_edit, except: %i(index show like unlike new)
+  before_action :verify_can_edit_new, only: %i(new)
   before_action :verify_logged_in, only: %i(like unlike)
 
   def new
